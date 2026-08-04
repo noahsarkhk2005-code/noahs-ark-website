@@ -119,3 +119,6 @@ body{
   filter:drop-shadow(0 0 20px rgba(160,160,160,.25))
 }
 .font-normal{font-weight:400}
+
+.scroll-mt-24{scroll-margin-top:6rem}
+html{scroll-behavior:smooth}
