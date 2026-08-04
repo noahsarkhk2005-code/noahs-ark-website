@@ -10,8 +10,19 @@
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
+  <!-- Atmospheric stage background -->
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__rays"></div>
+    <div class="site-bg__horizon"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__scan"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
   <!-- Nav -->
-  <nav class="border-b border-zinc-800/80 bg-black/90 backdrop-blur-md sticky top-0 z-50">
+  <nav class="border-b border-zinc-800/80 bg-black/80 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3">
         <picture>
@@ -40,15 +51,15 @@
   </nav>
 
   <!-- Hero -->
-  <header class="relative overflow-hidden">
+  <header class="relative overflow-hidden hero-stage">
     <div class="absolute inset-0 hero-glow pointer-events-none"></div>
-    <div class="absolute -left-20 top-10 opacity-10 pointer-events-none hidden md:block">
+    <div class="absolute -left-20 top-10 pointer-events-none hidden md:block hero-anchor">
       <picture>
         <source srcset="assets/anchor-red-lg.webp" type="image/webp" />
         <img src="assets/anchor-red-lg.png" alt="" width="560" height="700" class="w-80 rotate-[-15deg]" loading="lazy" decoding="async" />
       </picture>
     </div>
-    <div class="absolute -right-16 bottom-0 opacity-10 pointer-events-none hidden md:block">
+    <div class="absolute -right-16 bottom-0 pointer-events-none hidden md:block hero-anchor" style="opacity:.14!important">
       <picture>
         <source srcset="assets/anchor-grey.webp" type="image/webp" />
         <img src="assets/anchor-grey.png" alt="" width="480" height="600" class="w-72 rotate-[12deg]" loading="lazy" decoding="async" />
@@ -64,7 +75,7 @@
             alt="NOAH'S ARK"
             width="1200"
             height="675"
-            class="w-full max-w-2xl h-auto drop-shadow-[0_0_30px_rgba(185,28,28,0.3)]"
+            class="w-full max-w-2xl h-auto logo-hero-glow"
             fetchpriority="high"
             decoding="async"
             onload="this.classList.add('loaded')"
@@ -359,6 +370,7 @@
       </a>
     </div>
   </footer>
+  </div><!-- /.site-content -->
 
   <script>
     // Language toggle

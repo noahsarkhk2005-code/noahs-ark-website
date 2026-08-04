@@ -9,7 +9,18 @@
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
-  <nav class="border-b border-zinc-800/80 bg-black/90 backdrop-blur-md sticky top-0 z-50">
+  <!-- Atmospheric stage background -->
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__rays"></div>
+    <div class="site-bg__horizon"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__scan"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="border-b border-zinc-800/80 bg-black/80 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3">
         <picture>
@@ -103,5 +114,6 @@
       document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
     }
   </script>
+  </div><!-- /.site-content -->
 </body>
 </html>
