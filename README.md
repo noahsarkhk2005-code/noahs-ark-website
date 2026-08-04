@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/e708e6a7-5592-4403-a036-487e4f8a85d9/deploy-status)](https://app.netlify.com/projects/noahsarkhk2005/deploys)
 
-香港極端金屬活動平台官方網站（靜態版）
+香港現場音樂 / 樂隊文化推廣平台官方網站（靜態版）
 
 **Live:** https://noahsarkhk2005.netlify.app  
 **Repo:** https://github.com/noahsarkhk2005-code/noahs-ark-website
