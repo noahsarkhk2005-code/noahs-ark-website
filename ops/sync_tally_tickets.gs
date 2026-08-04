@@ -57,31 +57,82 @@ function syncTallyTicketsToOrders() {
     return;
   }
 
-  var header = data[0].map(function (h) { return String(h || '').trim(); });
-  var col = indexMap_(header);
+  // 跳過完全空白的表頭列（有時 Tally 第一列不是表頭）
+  var headerRowIdx = 0;
+  while (headerRowIdx < Math.min(5, data.length)) {
+    var probe = data[headerRowIdx].some(function (c) { return String(c || '').trim() !== ''; });
+    if (probe) break;
+    headerRowIdx++;
+  }
+  var header = data[headerRowIdx].map(function (h) { return String(h || '').trim(); });
+  var col = indexMapFlexible_(header);
 
-  // 必要欄
-  requireCols_(col, [
-    'Submission ID',
-    'Submitted at',
-    'Total Amount',
+  // 必要欄（模糊匹配：Submission ID / submission_id / 提交 ID 等）
+  var sidKey = firstExistingFlexible_(col, [
+    'Submission ID', 'submission id', 'submission_id', 'SubmissionID',
+    '提交 ID', '提交ID', '提交編號', 'Response ID', 'response_id',
+  ]);
+  var submittedKey = firstExistingFlexible_(col, [
+    'Submitted at', 'submitted at', 'submitted_at', 'Submitted At',
+    '提交時間', '提交於', 'Created at', 'created_at', 'Timestamp',
+  ]);
+  var totalKey = firstExistingFlexible_(col, [
+    'Total Amount', 'total amount', 'total_amount', 'Total',
+    '總金額', '總價', '應付', 'Amount',
   ]);
 
-  var nameKey = firstExisting_(col, ['💀 Name/稱呼', 'Name/稱呼', 'Name', '稱呼']);
-  var emailKey = firstExisting_(col, ['📩 Email/電郵', 'Email/電郵', 'Email', '電郵']);
-  var telKey = firstExisting_(col, ['☎️ Tel/電話號碼', 'Tel/電話號碼', 'Tel', '電話', '電話號碼']);
-  var passKey = firstExisting_(col, ['Metal Pass 會員編號', 'Metal Pass', 'METAL-PASS']);
-  var ebKey = firstExisting_(col, ['🎫 早鳥門票 HKD300', '早鳥門票 HKD300', '早鳥', 'Early Bird']);
-  var advKey = firstExisting_(col, ['🎫 預售 HKD350', '預售 HKD350', '預售', 'Advanced']);
-  var proofKey = firstExisting_(col, ['Payment Capture / 付款截圖', '付款截圖', 'Payment Capture']);
+  if (sidKey == null) {
+    // 後備：第 1 欄若看起來像 Tally ID（短英數），就當 Submission ID
+    if (header.length > 0 && looksLikeSubmissionIdColumn_(data, headerRowIdx, 0)) {
+      sidKey = 0;
+    } else {
+      throw new Error(
+        '來源分頁找不到 Submission ID 欄。\n' +
+        '實際表頭（第 ' + (headerRowIdx + 1) + ' 列）:\n' +
+        header.filter(Boolean).join(' | ') +
+        '\n\n請確認 Settings.TICKET_SOURCE_TAB_NAME 指向 Tally 寫入的分頁，' +
+        '且第一列包含 Submission ID（或把第一欄改名為 Submission ID）。'
+      );
+    }
+  }
+  if (submittedKey == null) {
+    submittedKey = firstExistingFlexible_(col, ['Date', '日期', '時間']) ;
+  }
+  if (totalKey == null) {
+    // 允許稍後用票價推算
+    totalKey = null;
+  }
+
+  var nameKey = firstExistingFlexible_(col, [
+    '💀 Name/稱呼', 'Name/稱呼', 'Name', '稱呼', '姓名', 'name',
+  ]);
+  var emailKey = firstExistingFlexible_(col, [
+    '📩 Email/電郵', 'Email/電郵', 'Email', '電郵', 'email', 'E-mail',
+  ]);
+  var telKey = firstExistingFlexible_(col, [
+    '☎️ Tel/電話號碼', 'Tel/電話號碼', 'Tel', '電話', '電話號碼', 'Phone', 'phone',
+  ]);
+  var passKey = firstExistingFlexible_(col, [
+    'Metal Pass 會員編號', 'Metal Pass', 'METAL-PASS', 'metal pass', '會員編號',
+  ]);
+  var ebKey = firstExistingFlexible_(col, [
+    '🎫 早鳥門票 HKD300', '早鳥門票 HKD300', '早鳥門票', '早鳥', 'Early Bird', 'EarlyBird',
+  ]);
+  var advKey = firstExistingFlexible_(col, [
+    '🎫 預售 HKD350', '預售 HKD350', '預售門票', '預售', 'Advanced', 'Advsnced',
+  ]);
+  var proofKey = firstExistingFlexible_(col, [
+    'Payment Capture / 付款截圖', '付款截圖', 'Payment Capture', 'payment capture', '截圖',
+  ]);
 
   var added = 0;
   var skipped = 0;
 
-  for (var r = 1; r < data.length; r++) {
+  for (var r = headerRowIdx + 1; r < data.length; r++) {
     var row = data[r];
-    var sid = String(row[col['Submission ID']] || '').trim();
-    if (!sid) { skipped++; continue; }
+    var sid = String(row[sidKey] || '').trim();
+    // 跳過表頭重列或合計列
+    if (!sid || /^submission\s*id$/i.test(sid)) { skipped++; continue; }
     if (done[sid]) { skipped++; continue; }
 
     var name = nameKey != null ? String(row[nameKey] || '').trim() : '';
@@ -90,9 +141,9 @@ function syncTallyTicketsToOrders() {
     var metal = passKey != null ? String(row[passKey] || '').trim() : '';
     var qtyEb = toQty_(ebKey != null ? row[ebKey] : 0);
     var qtyAdv = toQty_(advKey != null ? row[advKey] : 0);
-    var total = toNum_(row[col['Total Amount']]);
+    var total = totalKey != null ? toNum_(row[totalKey]) : 0;
     var proof = proofKey != null ? String(row[proofKey] || '').trim() : '';
-    var submitted = row[col['Submitted at']];
+    var submitted = submittedKey != null ? row[submittedKey] : '';
 
     // 若 Total Amount 空白，用單價推算
     if (!total) {
@@ -183,10 +234,30 @@ function indexMap_(header) {
   return m;
 }
 
-function requireCols_(col, names) {
-  names.forEach(function (n) {
-    if (col[n] == null) throw new Error('來源分頁缺少欄位: ' + n);
+/** 正規化表頭：小寫、去空白／符號，方便模糊比對（Apps Script V8 相容） */
+function normalizeHeader_(s) {
+  var t = String(s || '').toLowerCase();
+  // 去掉常見 emoji 區段（用代理對，避免 \u{} 相容問題）
+  t = t.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '');
+  // 只留 a-z 0-9 與中文
+  t = t.replace(/[^a-z0-9\u4e00-\u9fff]+/g, '');
+  return t;
+}
+
+/**
+ * col 同時保留：
+ *  - 原始表頭 → index
+ *  - 正規化表頭 → index
+ */
+function indexMapFlexible_(header) {
+  var m = {};
+  header.forEach(function (h, i) {
+    var raw = String(h || '').trim();
+    if (!raw) return;
+    m[raw] = i;
+    m[normalizeHeader_(raw)] = i;
   });
+  return m;
 }
 
 function firstExisting_(col, names) {
@@ -194,6 +265,46 @@ function firstExisting_(col, names) {
     if (col[names[i]] != null) return col[names[i]];
   }
   return null;
+}
+
+function firstExistingFlexible_(col, names) {
+  // 1) 精確
+  var hit = firstExisting_(col, names);
+  if (hit != null) return hit;
+  // 2) 正規化後比對
+  for (var i = 0; i < names.length; i++) {
+    var n = normalizeHeader_(names[i]);
+    if (n && col[n] != null) return col[n];
+  }
+  // 3) 包含關係（表頭含關鍵字）
+  var keys = Object.keys(col);
+  for (var j = 0; j < names.length; j++) {
+    var needle = normalizeHeader_(names[j]);
+    if (!needle || needle.length < 2) continue;
+    for (var k = 0; k < keys.length; k++) {
+      var key = keys[k];
+      // 只對正規化 key 做 includes，避免重複
+      if (key !== normalizeHeader_(key)) continue;
+      if (key.indexOf(needle) >= 0 || needle.indexOf(key) >= 0) {
+        return col[key];
+      }
+    }
+  }
+  return null;
+}
+
+/** 抽樣判斷某欄是否像 Tally Submission ID（短英數混合） */
+function looksLikeSubmissionIdColumn_(data, headerRowIdx, colIdx) {
+  var samples = 0;
+  var hits = 0;
+  for (var r = headerRowIdx + 1; r < data.length && samples < 8; r++) {
+    var v = String(data[r][colIdx] || '').trim();
+    if (!v) continue;
+    samples++;
+    // Tally ID 常見：6–12 位英數，如 WJDZ4Kj / PR80LgP
+    if (/^[A-Za-z0-9_-]{5,16}$/.test(v) && !/^submission/i.test(v)) hits++;
+  }
+  return samples > 0 && hits >= Math.ceil(samples * 0.6);
 }
 
 function toQty_(v) {
