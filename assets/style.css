@@ -115,7 +115,7 @@ body{
 .page-logo--red{
   filter:drop-shadow(0 0 24px rgba(185,28,28,.45))
 }
-.page-logo--white{
-  filter:drop-shadow(0 0 20px rgba(255,255,255,.18))
+.page-logo--grey{
+  filter:drop-shadow(0 0 20px rgba(160,160,160,.25))
 }
 .font-normal{font-weight:400}
