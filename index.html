@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noah's Ark | 挪亞方舟</title>
+  <meta name="description" content="Noah's Ark - Hong Kong Extreme Metal Events. Noah's Ark 2.5 on 20 Nov 2026. Official Instagram @noahs_ark_hk · YouTube @noahsark_2005" />
+  <link rel="preload" as="image" href="assets/logo-wide.webp" type="image/webp" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+
+  <!-- Nav -->
+  <nav class="border-b border-zinc-800/80 bg-black/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav.png" alt="Noah's Ark" width="213" height="120" class="h-10 w-auto" decoding="async" />
+        </picture>
+      </a>
+      <div class="flex items-center gap-5 text-sm font-medium">
+        <a href="tickets-noah-2-5.html" class="hover:text-red-500 transition">
+          <span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span>
+        </a>
+        <a href="merch.html" class="hover:text-red-500 transition">
+          <span class="lang-zh">商品</span><span class="lang-en lang-hidden">Merch</span>
+        </a>
+        <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="Instagram">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="YouTube">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <button onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="absolute -left-20 top-10 opacity-10 pointer-events-none hidden md:block">
+      <picture>
+        <source srcset="assets/anchor-red-lg.webp" type="image/webp" />
+        <img src="assets/anchor-red-lg.png" alt="" width="560" height="700" class="w-80 rotate-[-15deg]" loading="lazy" decoding="async" />
+      </picture>
+    </div>
+    <div class="absolute -right-16 bottom-0 opacity-10 pointer-events-none hidden md:block">
+      <picture>
+        <source srcset="assets/anchor-grey.webp" type="image/webp" />
+        <img src="assets/anchor-grey.png" alt="" width="480" height="600" class="w-72 rotate-[12deg]" loading="lazy" decoding="async" />
+      </picture>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
+      <div class="mb-8 flex justify-center fade-in">
+        <picture>
+          <source srcset="assets/logo-wide.webp" type="image/webp" />
+          <img
+            src="assets/logo-wide.png"
+            alt="NOAH'S ARK"
+            width="1200"
+            height="675"
+            class="w-full max-w-2xl h-auto drop-shadow-[0_0_30px_rgba(185,28,28,0.3)]"
+            fetchpriority="high"
+            decoding="async"
+            onload="this.classList.add('loaded')"
+          />
+        </picture>
+      </div>
+
+      <p class="text-red-600 tracking-[0.35em] text-xs md:text-sm mb-3 uppercase font-semibold fade-in">
+        Hong Kong Extreme Metal
+      </p>
+      <p class="text-lg md:text-xl text-zinc-400 mb-10 max-w-xl mx-auto fade-in">
+        <span class="lang-zh">香港極端金屬活動平台 · 現場演出 · 社群 · Livehouse</span>
+        <span class="lang-en lang-hidden">Hong Kong Extreme Metal Events · Live Shows · Community · Livehouse</span>
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in">
+        <a href="tickets-noah-2-5.html"
+           class="px-8 py-4 bg-red-700 hover:bg-red-600 text-white font-bold rounded-lg transition shadow-lg shadow-red-950/50">
+          <span class="lang-zh">Noah's Ark 2.5 購票</span>
+          <span class="lang-en lang-hidden">Buy Noah's Ark 2.5 Tickets</span>
+        </a>
+        <a href="merch.html"
+           class="px-8 py-4 border border-zinc-600 hover:border-red-600 text-white font-bold rounded-lg transition">
+          <span class="lang-zh">商品 / Merch</span>
+          <span class="lang-en lang-hidden">Merch Store</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Upcoming Event Card -->
+  <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
+    <div class="border border-zinc-800 rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-900 to-black">
+      <div class="md:flex">
+        <div class="md:w-2/5 bg-black flex items-center justify-center p-8 md:p-10 border-b md:border-b-0 md:border-r border-zinc-800">
+          <picture>
+            <source srcset="assets/anchor-red.webp" type="image/webp" />
+            <img src="assets/anchor-red.png" alt="Noah's Ark Anchor" width="480" height="600" class="w-40 md:w-48 opacity-90" loading="lazy" decoding="async" />
+          </picture>
+        </div>
+        <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-center">
+          <div class="text-red-600 text-xs font-bold tracking-[0.25em] mb-2">UPCOMING · 即將舉行</div>
+          <h2 class="text-2xl md:text-3xl font-black mb-1">Noah's Ark 2.5</h2>
+          <p class="text-zinc-400 mb-1">Oathean Live in Hong Kong</p>
+          <p class="text-zinc-500 text-sm mb-4">20 November 2026 · Hong Kong</p>
+          <p class="text-zinc-300 text-sm mb-6">
+            <span class="lang-zh">Vital Degree / Mindrots / 更多藝人待公布</span>
+            <span class="lang-en lang-hidden">Vital Degree / Mindrots / more artists TBA</span>
+          </p>
+          <div>
+            <a href="tickets-noah-2-5.html"
+               class="inline-block px-6 py-3 bg-red-700 hover:bg-red-600 rounded-lg font-semibold text-sm transition">
+              <span class="lang-zh">立即購票 →</span>
+              <span class="lang-en lang-hidden">Get Tickets →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Official Channels Section -->
+  <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
+    <div class="border border-zinc-800 rounded-2xl bg-zinc-900/60 overflow-hidden">
+      <div class="p-6 md:p-8">
+        <div class="flex items-center gap-3 mb-4">
+          <svg class="w-7 h-7 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          <div>
+            <h2 class="text-xl font-bold">
+              <span class="lang-zh">官方頻道</span>
+              <span class="lang-en lang-hidden">Official Channels</span>
+            </h2>
+            <p class="text-zinc-500 text-sm">Instagram · YouTube</p>
+          </div>
+        </div>
+
+        <p class="text-zinc-400 text-sm mb-6">
+          <span class="lang-zh">最新活動消息、Metal Pass 會員資訊、現場花絮、樂隊公佈 — 請關注官方 Instagram 與 YouTube。認準唯一官方帳號，防止假帳。</span>
+          <span class="lang-en lang-hidden">Latest event news, Metal Pass membership, live clips and band announcements — follow the official Instagram and YouTube. Only official accounts.</span>
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-3 mb-6 text-sm">
+          <div class="bg-black/40 border border-zinc-800 rounded-xl p-4">
+            <div class="text-red-500 font-bold mb-1">Metal Pass</div>
+            <p class="text-zinc-500 text-xs">
+              <span class="lang-zh">會員優惠與限量證</span>
+              <span class="lang-en lang-hidden">Member perks & limited pass</span>
+            </p>
+          </div>
+          <div class="bg-black/40 border border-zinc-800 rounded-xl p-4">
+            <div class="text-red-500 font-bold mb-1">
+              <span class="lang-zh">活動更新</span>
+              <span class="lang-en lang-hidden">Event Updates</span>
+            </div>
+            <p class="text-zinc-500 text-xs">
+              <span class="lang-zh">Lineup、場地、早鳥資訊</span>
+              <span class="lang-en lang-hidden">Lineup, venue, early bird</span>
+            </p>
+          </div>
+          <div class="bg-black/40 border border-zinc-800 rounded-xl p-4">
+            <div class="text-red-500 font-bold mb-1">
+              <span class="lang-zh">現場內容</span>
+              <span class="lang-en lang-hidden">Live Content</span>
+            </div>
+            <p class="text-zinc-500 text-xs">
+              <span class="lang-zh">Reels、花絮、採訪</span>
+              <span class="lang-en lang-hidden">Reels, behind-the-scenes</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-lg transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            <span class="lang-zh">Instagram @noahs_ark_hk</span>
+            <span class="lang-en lang-hidden">Instagram @noahs_ark_hk</span>
+          </a>
+          <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 px-6 py-3 bg-red-700 hover:bg-red-600 text-white font-semibold rounded-lg transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span class="lang-zh">YouTube @noahsark_2005</span>
+            <span class="lang-en lang-hidden">YouTube @noahsark_2005</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick links -->
+  <section class="max-w-4xl mx-auto px-4 pb-16 grid sm:grid-cols-2 gap-4 fade-in">
+    <a href="merch.html" class="border border-zinc-800 hover:border-red-800 rounded-xl p-6 bg-zinc-900/50 transition group">
+      <div class="text-red-600 text-xs font-bold tracking-widest mb-2">MERCH</div>
+      <h3 class="text-lg font-bold mb-1 group-hover:text-red-400 transition">
+        <span class="lang-zh">挪亞方舟商品</span>
+        <span class="lang-en lang-hidden">Official Merch</span>
+      </h3>
+      <p class="text-zinc-500 text-sm">
+        <span class="lang-zh">T-Shirt · 毛巾 · 鎖匙扣 · Pack · Tote</span>
+        <span class="lang-en lang-hidden">T-Shirt · Towel · Keychain · Pack · Tote</span>
+      </p>
+    </a>
+    <div class="border border-zinc-800 rounded-xl p-6 bg-zinc-900/50">
+      <div class="text-red-600 text-xs font-bold tracking-widest mb-2">COMING SOON</div>
+      <h3 class="text-lg font-bold mb-1">
+        <span class="lang-zh">更多活動</span>
+        <span class="lang-en lang-hidden">More Events</span>
+      </h3>
+      <p class="text-zinc-500 text-sm">
+        <span class="lang-zh">第二個活動即將公布</span>
+        <span class="lang-en lang-hidden">Second event coming soon</span>
+      </p>
+    </div>
+  </section>
+
+
+  <!-- About / Core Values / Contact -->
+  <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
+    <div class="border border-zinc-800 rounded-2xl bg-zinc-900/60 overflow-hidden">
+      <div class="md:flex">
+        <!-- Left: Mission / Job Statement -->
+        <div class="md:w-3/5 p-6 md:p-8 border-b md:border-b-0 md:border-r border-zinc-800">
+          <div class="text-red-600 text-xs font-bold tracking-[0.25em] mb-3">MISSION</div>
+          <h2 class="text-xl md:text-2xl font-bold mb-3">
+            <span class="lang-zh">公司宗旨</span>
+            <span class="lang-en lang-hidden">Our Mission</span>
+          </h2>
+          <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+            <span class="lang-zh">挪亞方舟有限公司（Noah's Ark Company Limited）是非牟利有限公司，專注活動主辦、社交平台、媒體內容、娛樂發展與文化教育。</span>
+            <span class="lang-en lang-hidden">Noah's Ark Company Limited is a non-profit limited company focused on event production, social platforms, media content, entertainment development and cultural education.</span>
+          </p>
+
+          <ul class="space-y-4 text-sm text-zinc-300">
+            <li class="flex gap-3">
+              <span class="text-red-500 font-bold shrink-0">01</span>
+              <span>
+                <span class="lang-zh font-medium">主辦多元表演藝術活動</span>
+                <span class="lang-en lang-hidden font-medium">Present diverse performing arts</span>
+                <br/>
+                <span class="text-zinc-500 text-xs lang-zh">策劃本地與海外樂隊現場演出、音樂節及相關表演，為音樂人提供專業舞台。</span>
+                <span class="text-zinc-500 text-xs lang-en lang-hidden">Produce live shows and festivals with local and international bands, giving artists a professional stage.</span>
+              </span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-red-500 font-bold shrink-0">02</span>
+              <span>
+                <span class="lang-zh font-medium">營運社交平台與媒體內容</span>
+                <span class="lang-en lang-hidden font-medium">Run platforms & media content</span>
+                <br/>
+                <span class="text-zinc-500 text-xs lang-zh">透過社交媒體及自有渠道，製作、發佈與推廣音樂及表演藝術內容。</span>
+                <span class="text-zinc-500 text-xs lang-en lang-hidden">Create and promote music and performing arts content through social and owned media channels.</span>
+              </span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-red-500 font-bold shrink-0">03</span>
+              <span>
+                <span class="lang-zh font-medium">推動娛樂發展與產業連結</span>
+                <span class="lang-en lang-hidden font-medium">Connect the entertainment industry</span>
+                <br/>
+                <span class="text-zinc-500 text-xs lang-zh">促進音樂人、觀眾與產業交流合作，支持娛樂多元發展。</span>
+                <span class="text-zinc-500 text-xs lang-en lang-hidden">Foster exchange between artists, audiences and industry partners to support a diverse entertainment scene.</span>
+              </span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-red-500 font-bold shrink-0">04</span>
+              <span>
+                <span class="lang-zh font-medium">文化教育與觀眾拓展</span>
+                <span class="lang-en lang-hidden font-medium">Cultural education & audience growth</span>
+                <br/>
+                <span class="text-zinc-500 text-xs lang-zh">舉辦工作坊、講座與推廣活動，提升公眾認識與參與，培育新一代觀眾與音樂人才。</span>
+                <span class="text-zinc-500 text-xs lang-en lang-hidden">Host workshops, talks and outreach to deepen public appreciation and nurture the next generation of audiences and musicians.</span>
+              </span>
+            </li>
+          </ul>
+
+          <p class="text-zinc-500 text-xs leading-relaxed mt-6 pt-4 border-t border-zinc-800">
+            <span class="lang-zh">我們相信，多元現場音樂與表演藝術是城市文化活力的重要組成。挪亞方舟以專業、開放與持續的態度，推動香港表演藝術生態的健康發展。</span>
+            <span class="lang-en lang-hidden">We believe diverse live music and performing arts are vital to a city's cultural energy. Noah's Ark works with professionalism, openness and consistency to support a healthy performing arts ecosystem in Hong Kong.</span>
+          </p>
+        </div>
+
+        <!-- Right: Contact sidebar -->
+        <div class="md:w-2/5 p-6 md:p-8 bg-black/40 flex flex-col justify-between">
+          <div>
+            <div class="text-red-600 text-xs font-bold tracking-[0.25em] mb-3">CONTACT</div>
+            <h3 class="text-lg font-bold mb-4">
+              <span class="lang-zh">聯絡我們</span>
+              <span class="lang-en lang-hidden">Get in touch</span>
+            </h3>
+            <p class="text-zinc-500 text-xs mb-5">
+              <span class="lang-zh">商務合作、樂隊邀請、場地租用、媒體查詢</span>
+              <span class="lang-en lang-hidden">Bookings, band invites, venue hire, press</span>
+            </p>
+
+            <a href="mailto:noahsarkhk2005@gmail.com"
+               class="flex items-center gap-3 mb-4 group">
+              <span class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center group-hover:bg-red-900/50 transition shrink-0">
+                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </span>
+              <div class="min-w-0">
+                <div class="text-xs text-zinc-500">Email</div>
+                <div class="text-sm text-zinc-200 group-hover:text-red-400 transition truncate">noahsarkhk2005@gmail.com</div>
+              </div>
+            </a>
+
+            <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener"
+               class="flex items-center gap-3 mb-4 group">
+              <span class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center group-hover:bg-red-900/50 transition shrink-0">
+                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </span>
+              <div>
+                <div class="text-xs text-zinc-500">Instagram</div>
+                <div class="text-sm text-zinc-200 group-hover:text-red-400 transition">@noahs_ark_hk</div>
+              </div>
+            </a>
+
+            <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener"
+               class="flex items-center gap-3 group">
+              <span class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center group-hover:bg-red-900/50 transition shrink-0">
+                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              </span>
+              <div>
+                <div class="text-xs text-zinc-500">YouTube</div>
+                <div class="text-sm text-zinc-200 group-hover:text-red-400 transition">@noahsark_2005</div>
+              </div>
+            </a>
+          </div>
+
+          <p class="text-zinc-600 text-xs mt-8 pt-4 border-t border-zinc-800">
+            <span class="lang-zh">Noah's Ark Company Limited<br/>香港極端金屬活動主辦</span>
+            <span class="lang-en lang-hidden">Noah's Ark Company Limited<br/>Hong Kong Extreme Metal Organizer</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-zinc-900 py-10 text-center text-sm text-zinc-600">
+    <picture>
+      <source srcset="assets/logo-nav.webp" type="image/webp" />
+      <img src="assets/logo-nav.png" alt="Noah's Ark" width="213" height="120"
+           class="h-8 w-auto mx-auto mb-4 opacity-60 object-contain" loading="lazy" decoding="async" />
+    </picture>
+    <p class="mb-2">© 2026 Noah's Ark Company Limited</p>
+    <div class="flex items-center justify-center gap-4">
+      <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">
+        Instagram @noahs_ark_hk
+      </a>
+      <span class="text-zinc-700">·</span>
+      <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">
+        YouTube @noahsark_2005
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // Language toggle
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => {
+        el.classList.toggle('lang-hidden', currentLang === 'en');
+      });
+      document.querySelectorAll('.lang-en').forEach(el => {
+        el.classList.toggle('lang-hidden', currentLang === 'zh');
+      });
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+
+    // Fade-in on scroll / load
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    // Trigger hero items soon after load
+    setTimeout(() => {
+      document.querySelectorAll('header .fade-in').forEach(el => el.classList.add('visible'));
+    }, 80);
+  </script>
+</body>
+</html>
