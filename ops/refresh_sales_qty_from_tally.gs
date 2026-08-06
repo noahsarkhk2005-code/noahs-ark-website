@@ -1,11 +1,9 @@
 /**
- * Order_Categories「銷售數量」← 由 Tally 訂單彙總
- * 固定顯示在 **K 欄**（第 11 欄）
+ * Order_Categories 由 Tally 訂單彙總：
+ *   K 欄 = 銷售數量
+ *   L 欄 = 單件貨品總收入  (= 銷售數量 × list_price)
  *
- * 資料來源：
- *   NA_Tickets  — 門票類別 + 數量  或 舊欄：各票種數量欄
- *   NA_Merch    — 商品分欄/品名 + 數量  或 舊欄：各商品數量欄
- *
+ * 資料來源：NA_Tickets / NA_Merch
  * 執行：refreshSalesQtyFromTally
  */
 
@@ -14,8 +12,12 @@ var SQ_ = {
   TICKETS: 'NA_Tickets',
   MERCH: 'NA_Merch',
   QTY_COL_NAME: '銷售數量',
-  /** 固定 K 欄 = 第 11 欄（1-based） */
-  QTY_COL_1BASED: 11
+  REVENUE_COL_NAME: '單件貨品總收入',
+  /** K = 11, L = 12（1-based） */
+  QTY_COL_1BASED: 11,
+  REVENUE_COL_1BASED: 12,
+  /** J = list_price 預設第 10 欄 */
+  PRICE_COL_1BASED: 10
 };
 
 function rangeInc_(sh, r1, c1, r2, c2) {
@@ -27,81 +29,97 @@ function refreshSalesQtyFromTally() {
   var cat = ss.getSheetByName(SQ_.CAT_SHEET);
   if (!cat) throw new Error('找不到 Order_Categories');
 
-  var lastCol = Math.max(cat.getLastColumn(), SQ_.QTY_COL_1BASED);
+  var needCols = SQ_.REVENUE_COL_1BASED;
+  var lastCol = Math.max(cat.getLastColumn(), needCols);
   var lastRow = cat.getLastRow();
   if (lastRow < 2) throw new Error('Order_Categories 沒有資料');
 
-  // 若欄位不足 11 欄，補到 K
-  if (cat.getLastColumn() < SQ_.QTY_COL_1BASED) {
-    cat.insertColumnsAfter(cat.getLastColumn() || 1, SQ_.QTY_COL_1BASED - cat.getLastColumn());
-    lastCol = SQ_.QTY_COL_1BASED;
+  if (cat.getLastColumn() < needCols) {
+    cat.insertColumnsAfter(cat.getLastColumn() || 1, needCols - cat.getLastColumn());
+    lastCol = needCols;
   }
 
   var headers = rangeInc_(cat, 1, 1, 1, lastCol).getValues()[0];
   var idx = headerIndexMap_(headers);
 
-  // ★ 固定寫入 K 欄
-  var qtyCol1 = SQ_.QTY_COL_1BASED; // 11
-  var qtyCol0 = qtyCol1 - 1;        // index 10
-
-  // K1 表頭
-  cat.getRange(1, qtyCol1).setValue(SQ_.QTY_COL_NAME);
-  cat.getRange(1, qtyCol1).setFontWeight('bold').setBackground('#d9ead3');
-
-  // level 欄（沒有就當全部是 SKU）
+  var qtyCol1 = SQ_.QTY_COL_1BASED;       // K
+  var revCol1 = SQ_.REVENUE_COL_1BASED;   // L
+  var priceCol0 = idx.list_price != null ? idx.list_price : (SQ_.PRICE_COL_1BASED - 1);
   var levelCol0 = idx.level != null ? idx.level : 2;
 
-  // 從 Tally 彙總
+  // 表頭 K / L
+  cat.getRange(1, qtyCol1).setValue(SQ_.QTY_COL_NAME);
+  cat.getRange(1, qtyCol1).setFontWeight('bold').setBackground('#d9ead3');
+  cat.getRange(1, revCol1).setValue(SQ_.REVENUE_COL_NAME);
+  cat.getRange(1, revCol1).setFontWeight('bold').setBackground('#cfe2f3');
+
+  // 從 Tally 彙總數量
   var sold = {};
   mergeSold_(sold, sumFromTickets_(ss));
   mergeSold_(sold, sumFromMerch_(ss));
 
-  var numRows = lastRow - 1;
   var data = rangeInc_(cat, 2, 1, lastRow, lastCol).getValues();
   var outK = [];
+  var outL = [];
   var updated = 0;
+  var revenueSum = 0;
   var r;
   for (r = 0; r < data.length; r++) {
     var level = Number(data[r][levelCol0]);
     if (level !== 3) {
       outK.push(['']);
+      outL.push(['']);
       continue;
     }
 
     var keys = buildMatchKeys_(data[r], idx);
-    var total = 0;
+    var qty = 0;
     var k;
     for (k = 0; k < keys.length; k++) {
       var key = keys[k];
-      if (key && sold[key] != null) total += sold[key];
+      if (key && sold[key] != null) qty += sold[key];
     }
     if (idx.sku != null) {
       var sku = normKey_(data[r][idx.sku]);
-      if (sku && sold[sku] != null) total += sold[sku];
+      if (sku && sold[sku] != null) qty += sold[sku];
     }
 
-    outK.push([total]);
+    var price = toMoney_(data[r][priceCol0]);
+    var revenue = qty * price;
+
+    outK.push([qty]);
+    outL.push([revenue]);
+    revenueSum += revenue;
     updated++;
   }
 
-  // 只寫 K 欄，不整表覆寫（避免弄亂其他欄）
+  // 只寫 K、L 欄
   rangeInc_(cat, 2, qtyCol1, lastRow, qtyCol1).setValues(outK);
+  rangeInc_(cat, 2, revCol1, lastRow, revCol1).setValues(outL);
 
   var lines = [];
   var keys2 = Object.keys(sold);
   keys2.sort();
   var i;
-  for (i = 0; i < Math.min(keys2.length, 20); i++) {
+  for (i = 0; i < Math.min(keys2.length, 15); i++) {
     lines.push(keys2[i] + ' → ' + sold[keys2[i]]);
   }
 
   SpreadsheetApp.getUi().alert(
-    '銷售數量已寫入 Order_Categories **K 欄**\n' +
-    '表頭 K1 = 銷售數量\n' +
-    'SKU 列更新: ' + updated + '\n' +
-    '彙總 key 數: ' + keys2.length + '\n\n' +
+    'Order_Categories 已更新\n' +
+    'K 欄 = 銷售數量（Tally 加總）\n' +
+    'L 欄 = 單件貨品總收入（數量 × 售價）\n' +
+    'SKU 列: ' + updated + '\n' +
+    '總收入合計: HK$' + revenueSum + '\n\n' +
     (lines.length ? lines.join('\n') : '（尚無 Tally 銷售資料）')
   );
+}
+
+function toMoney_(v) {
+  if (v === '' || v == null) return 0;
+  if (typeof v === 'number') return isFinite(v) ? v : 0;
+  var n = Number(String(v).replace(/[^0-9.\-]/g, ''));
+  return isFinite(n) ? n : 0;
 }
 
 /* ========== 彙總 NA_Tickets ========== */

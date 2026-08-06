@@ -12,7 +12,8 @@
 | 票務 / 商品分流 | `channel` = `ticket` \| `merch` |
 | 商品細分類 | `sub_category` / `sub_category_zh` |
 | 價錢 | `list_price` |
-| 銷售數量 | **K 欄** `銷售數量` ← Tally 訂單彙總（`NA_Tickets` + `NA_Merch`） |
+| 銷售數量 | **K 欄** ← Tally 訂單該品項數量加總 |
+| 單件貨品總收入 | **L 欄** = 銷售數量 × list_price（J 欄售價） |
 | Tally 對欄 | `tally_source_tab` + `tally_column_hint` / `form_option_label` |
 | AppSheet 分組 | `appsheet_group` = 票務 / 商品 |
 | 庫存 | `track_inventory` + 對應 `Products` / `Inventory` 的 `sku` |
@@ -49,7 +50,14 @@ level 3  SKU      真正可賣的品項（有 sku + 價錢）
 | sub_category_zh | 中文細類 |
 | sku | 對齊 Products.sku |
 | list_price | 售價 |
-| 銷售數量（**K 欄**） | 已售數量 = Σ Tally 訂單該品項數量；腳本固定寫入 **K 欄** |
+| 銷售數量（**K 欄**） | Σ Tally 該品項數量 |
+| 單件貨品總收入（**L 欄**） | 銷售數量 × list_price |
+
+```
+J list_price（售價）
+K 銷售數量     ← NA_Tickets / NA_Merch 數量
+L 單件貨品總收入 ← K × J
+```
 
 ### 銷售數量怎麼算
 
