@@ -5,14 +5,29 @@
 AppSheet 圖表若 **Chart columns 全選**，會出現 `_RowNumber`，Pie 無法正確分類。  
 圖表專用表只有 **5 個欄位**，請**只勾 2 個**。
 
-## 四張表
+## 表一覽
 
 | 分頁 | 用途 | 主鍵 |
 |------|------|------|
-| **AS_TicketOrders** | 票務訂單明細（一單一列） | `order_key` |
-| **AS_MerchOrders** | 商品訂單明細 | `order_key` |
-| **AS_Chart_Tickets** | 票務 Pie（極簡） | `chart_key` |
-| **AS_Chart_Merch** | 商品 Pie（極簡） | `chart_key` |
+| **AS_Pie_Tickets** | 票務**每張訂單**一列 + **payment_proof_url** | `row_id` |
+| **AS_Pie_Merch** | 商品**每張訂單**一列 + **payment_proof_url** | `row_id` |
+| **AS_Chart_Tickets** | 票務 Pie 彙總（label / sales_qty / revenue） | `chart_key` |
+| **AS_Chart_Merch** | 商品 Pie 彙總 | `chart_key` |
+
+### AS_Pie_Tickets / AS_Pie_Merch 欄位
+
+| 欄位 | 說明 |
+|------|------|
+| `row_id` | 主鍵 |
+| `submission_id` | Tally Submission ID |
+| `chart_label` / `tally_column_hint` | 分類顯示名 |
+| `sales_qty` | 本單數量 |
+| `unit_price` | 單價 |
+| `revenue` | 本單小計 |
+| **`payment_proof_url`** | **該訂單付款截圖 URL** |
+| customer_name / email / phone… | 顧客資料 |
+
+AppSheet：`payment_proof_url` 設為 **Image** 或 **URL** 可預覽截圖。
 
 ## 圖表表結構（重要）
 
