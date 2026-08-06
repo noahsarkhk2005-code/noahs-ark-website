@@ -12,7 +12,7 @@
 | 票務 / 商品分流 | `channel` = `ticket` \| `merch` |
 | 商品細分類 | `sub_category` / `sub_category_zh` |
 | 價錢 | `list_price` |
-| 銷售數量 | `銷售數量`（累計已售／統計用，預設 0） |
+| 銷售數量 | `銷售數量` ← **Tally 訂單彙總**（`NA_Tickets` + `NA_Merch` 的數量） |
 | Tally 對欄 | `tally_source_tab` + `tally_column_hint` / `form_option_label` |
 | AppSheet 分組 | `appsheet_group` = 票務 / 商品 |
 | 庫存 | `track_inventory` + 對應 `Products` / `Inventory` 的 `sku` |
@@ -49,7 +49,19 @@ level 3  SKU      真正可賣的品項（有 sku + 價錢）
 | sub_category_zh | 中文細類 |
 | sku | 對齊 Products.sku |
 | list_price | 售價 |
-| 銷售數量 | 已售數量（統計；非會員價） |
+| 銷售數量 | 已售數量 = Σ Tally 訂單該品項數量（腳本 `refreshSalesQtyFromTally`） |
+
+### 銷售數量怎麼算
+
+```
+NA_Tickets：門票類別 + 數量  → 對 form_option_label / tally_column_hint
+NA_Merch  ：商品分欄或各商品欄 + 數量 → 同上
+         ↓
+Order_Categories.銷售數量（每個 SKU）
+```
+
+執行：Apps Script → **`refreshSalesQtyFromTally`**  
+（虛擬測試單 `TEST-*` 也會計入，方便驗證；正式統計可先 `clearTallyVirtualOrders`）
 | form_option_label | Tally 選項全文 |
 | tally_source_tab | NA_Tickets 或 NA_Merch |
 | tally_column_hint | Tally 寫入 Sheet 的欄名 |
