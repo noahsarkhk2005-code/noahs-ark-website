@@ -11,29 +11,33 @@ NA_Merch    ──┘         ↑
 
 ## 三張表（給 AppSheet）
 
-### 1. `AS_Pie_Tickets` — 票務（按**門票類型**）
+### 分類名稱來源
+
+**`chart_label` = Order_Categories.`tally_column_hint`**
+
+（例：`🎫 早鳥門票 HKD300`、`Ark T-Shirt HKD280`）
+
+### 1. `AS_Pie_Tickets` — 票務
 
 | 欄位 | 用途 |
 |------|------|
-| `ticket_type` / `chart_label` | 圓餅分類（早鳥／預售／會員…） |
-| `sales_qty` | 總銷量 |
-| `revenue` | 總銷售額（數量×單價） |
+| `tally_column_hint` / `chart_label` | 圓餅分類名稱 |
+| `sales_qty` | 總銷量（Tally） |
+| `revenue` | 總銷售額 = 銷量 × list_price |
 
-**Pie 建議**
-- 銷售額：Category = `chart_label`，Value = `revenue`
-- 銷量：Category = `chart_label`，Value = `sales_qty`
+**Pie**
+- 銷售額：Label = `chart_label`，Value = `revenue`
+- 銷量：Label = `chart_label`，Value = `sales_qty`
 
-### 2. `AS_Pie_Merch` — 商品（按**單個貨品／分欄**）
+### 2. `AS_Pie_Merch` — 商品
 
 | 欄位 | 用途 |
 |------|------|
-| `product_label` / `chart_label` | 圓餅分類（Tee／毛巾／服飾…） |
+| `tally_column_hint` / `chart_label` | 圓餅分類名稱 |
 | `sales_qty` | 該貨品總銷量 |
 | `revenue` | 該貨品總銷售額 |
 
-**Pie 建議**
-- 銷售額：Category = `chart_label`，Value = `revenue`
-- 銷量：Category = `chart_label`，Value = `sales_qty`
+**Pie** 同上
 
 ### 3. `AS_Pie_All` — 合併（票務+商品）
 
