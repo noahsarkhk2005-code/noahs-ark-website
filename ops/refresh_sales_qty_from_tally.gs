@@ -1,12 +1,10 @@
 /**
  * Order_Categories「銷售數量」← 由 Tally 訂單彙總
+ * 固定顯示在 **K 欄**（第 11 欄）
  *
  * 資料來源：
- *   NA_Tickets  — 門票類別(I) + 數量(J)  或 舊欄：各票種數量欄
- *   NA_Merch    — 商品分欄/品名 + 數量    或 舊欄：各商品數量欄
- *
- * 對應方式（Order_Categories level=3 SKU）：
- *   form_option_label / tally_column_hint / name_zh / sku
+ *   NA_Tickets  — 門票類別 + 數量  或 舊欄：各票種數量欄
+ *   NA_Merch    — 商品分欄/品名 + 數量  或 舊欄：各商品數量欄
  *
  * 執行：refreshSalesQtyFromTally
  */
@@ -15,7 +13,9 @@ var SQ_ = {
   CAT_SHEET: 'Order_Categories',
   TICKETS: 'NA_Tickets',
   MERCH: 'NA_Merch',
-  QTY_COL_NAME: '銷售數量'
+  QTY_COL_NAME: '銷售數量',
+  /** 固定 K 欄 = 第 11 欄（1-based） */
+  QTY_COL_1BASED: 11
 };
 
 function rangeInc_(sh, r1, c1, r2, c2) {
@@ -27,35 +27,44 @@ function refreshSalesQtyFromTally() {
   var cat = ss.getSheetByName(SQ_.CAT_SHEET);
   if (!cat) throw new Error('找不到 Order_Categories');
 
-  var lastCol = cat.getLastColumn();
+  var lastCol = Math.max(cat.getLastColumn(), SQ_.QTY_COL_1BASED);
   var lastRow = cat.getLastRow();
   if (lastRow < 2) throw new Error('Order_Categories 沒有資料');
+
+  // 若欄位不足 11 欄，補到 K
+  if (cat.getLastColumn() < SQ_.QTY_COL_1BASED) {
+    cat.insertColumnsAfter(cat.getLastColumn() || 1, SQ_.QTY_COL_1BASED - cat.getLastColumn());
+    lastCol = SQ_.QTY_COL_1BASED;
+  }
 
   var headers = rangeInc_(cat, 1, 1, 1, lastCol).getValues()[0];
   var idx = headerIndexMap_(headers);
 
-  var qtyCol = idx[SQ_.QTY_COL_NAME];
-  if (qtyCol == null) qtyCol = idx.member_price;
-  if (qtyCol == null) {
-    throw new Error('找不到「銷售數量」欄。表頭: ' + headers.join(' | '));
-  }
+  // ★ 固定寫入 K 欄
+  var qtyCol1 = SQ_.QTY_COL_1BASED; // 11
+  var qtyCol0 = qtyCol1 - 1;        // index 10
 
-  // 確保表頭是「銷售數量」
-  cat.getRange(1, qtyCol + 1).setValue(SQ_.QTY_COL_NAME);
+  // K1 表頭
+  cat.getRange(1, qtyCol1).setValue(SQ_.QTY_COL_NAME);
+  cat.getRange(1, qtyCol1).setFontWeight('bold').setBackground('#d9ead3');
 
-  // 從 Tally 彙總 skuKey → qty
+  // level 欄（沒有就當全部是 SKU）
+  var levelCol0 = idx.level != null ? idx.level : 2;
+
+  // 從 Tally 彙總
   var sold = {};
   mergeSold_(sold, sumFromTickets_(ss));
   mergeSold_(sold, sumFromMerch_(ss));
 
-  // 寫回 Order_Categories
+  var numRows = lastRow - 1;
   var data = rangeInc_(cat, 2, 1, lastRow, lastCol).getValues();
+  var outK = [];
   var updated = 0;
   var r;
   for (r = 0; r < data.length; r++) {
-    var level = Number(data[r][idx.level]);
+    var level = Number(data[r][levelCol0]);
     if (level !== 3) {
-      data[r][qtyCol] = '';
+      outK.push(['']);
       continue;
     }
 
@@ -66,17 +75,18 @@ function refreshSalesQtyFromTally() {
       var key = keys[k];
       if (key && sold[key] != null) total += sold[key];
     }
-    // 也試 sku 本身
-    var sku = normKey_(data[r][idx.sku]);
-    if (sku && sold[sku] != null) total += sold[sku];
+    if (idx.sku != null) {
+      var sku = normKey_(data[r][idx.sku]);
+      if (sku && sold[sku] != null) total += sold[sku];
+    }
 
-    data[r][qtyCol] = total;
+    outK.push([total]);
     updated++;
   }
 
-  rangeInc_(cat, 2, 1, lastRow, lastCol).setValues(data);
+  // 只寫 K 欄，不整表覆寫（避免弄亂其他欄）
+  rangeInc_(cat, 2, qtyCol1, lastRow, qtyCol1).setValues(outK);
 
-  // 摘要
   var lines = [];
   var keys2 = Object.keys(sold);
   keys2.sort();
@@ -86,7 +96,8 @@ function refreshSalesQtyFromTally() {
   }
 
   SpreadsheetApp.getUi().alert(
-    '銷售數量已從 Tally 訂單重算\n' +
+    '銷售數量已寫入 Order_Categories **K 欄**\n' +
+    '表頭 K1 = 銷售數量\n' +
     'SKU 列更新: ' + updated + '\n' +
     '彙總 key 數: ' + keys2.length + '\n\n' +
     (lines.length ? lines.join('\n') : '（尚無 Tally 銷售資料）')
