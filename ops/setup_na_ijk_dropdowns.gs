@@ -1,18 +1,10 @@
 /**
  * NA_Tickets / NA_Merch：I·J·K 改為下拉分類（欄位數量不變）
  *
- * NA_Tickets（12 欄不變）
- *   I 門票類別  ← 下拉（會員特級優惠 / 早鳥 / 預售）
- *   J 數量
- *   K 單價（選類別後可手填或由腳本帶入）
+ * 注意：Sheet.getRange(row, column, numRows, numColumns)
+ * 第三、四參數是「列數、欄數」，不是結束列/結束欄。
  *
- * NA_Merch（欄位數不變）
- *   I 商品分欄  ← 下拉（服飾 / 配件 / 毛巾 / Pack / 袋類 或 商品名）
- *   J 數量
- *   K 單價
- *
- * 用法：Apps Script 貼上 → 執行 setupNaIjkDropdowns
- * 會嘗試把舊「各品項數量」欄的資料遷移到新 I/J/K
+ * 用法：貼上 → 執行 setupNaIjkDropdowns
  */
 
 var TICKET_TYPES_ = [
@@ -27,7 +19,6 @@ var TICKET_PRICES_ = {
   '🎫 預售 HKD350': 350
 };
 
-// 商品分欄（細類）— 對齊 Order_Categories
 var MERCH_CATEGORIES_ = [
   '服飾',
   '配件',
@@ -36,7 +27,6 @@ var MERCH_CATEGORIES_ = [
   '袋類'
 ];
 
-// 舊 merch I/J/K 品名 → 分欄
 var MERCH_OLD_TO_CAT_ = {
   'Ark T-Shirt HKD280': '服飾',
   'Ark Tower/毛巾 HKD80': '毛巾',
@@ -54,13 +44,21 @@ var MERCH_PRICES_ = {
   '袋類': 120
 };
 
+/** 含首尾的範圍：r1,c1 到 r2,c2（1-based） */
+function rangeInclusive_(sh, r1, c1, r2, c2) {
+  var numRows = r2 - r1 + 1;
+  var numCols = c2 - c1 + 1;
+  if (numRows < 1 || numCols < 1) {
+    throw new Error('rangeInclusive_ 無效: ' + r1 + ',' + c1 + ' → ' + r2 + ',' + c2);
+  }
+  return sh.getRange(r1, c1, numRows, numCols);
+}
+
 function setupNaIjkDropdowns() {
   var ss = SpreadsheetApp.getActive();
   var report = [];
-
   report.push(setupTicketsIjk_(ss));
   report.push(setupMerchIjk_(ss));
-
   SpreadsheetApp.getUi().alert(report.join('\n\n'));
 }
 
@@ -70,36 +68,32 @@ function setupTicketsIjk_(ss) {
 
   var lastCol = Math.max(sh.getLastColumn(), 12);
   var lastRow = Math.max(sh.getLastRow(), 1);
-  var headers = sh.getRange(1, 1, 1, lastCol).getValues()[0];
 
-  // 確保至少 12 欄
-  if (lastCol < 12) {
-    sh.getRange(1, lastCol + 1, 1, 12 - lastCol).setValues([
-      new Array(12 - lastCol).fill('')
-    ]);
+  // 補足至少 12 欄
+  if (sh.getLastColumn() < 12) {
+    var need = 12 - sh.getLastColumn();
+    sh.insertColumnsAfter(sh.getLastColumn() || 1, need);
     lastCol = 12;
-    headers = sh.getRange(1, 1, 1, lastCol).getValues()[0];
   }
 
-  // 記住舊 IJK 表頭（遷移用）
+  var headers = rangeInclusive_(sh, 1, 1, 1, lastCol).getValues()[0];
   var oldI = String(headers[8] || '').trim();
   var oldJ = String(headers[9] || '').trim();
   var oldK = String(headers[10] || '').trim();
 
-  // 新表頭（欄位數不變：仍是 I J K）
-  sh.getRange(1, 9).setValue('門票類別');   // I
-  sh.getRange(1, 10).setValue('數量');      // J
-  sh.getRange(1, 11).setValue('單價');      // K
+  // 新表頭 I J K
+  sh.getRange(1, 9).setValue('門票類別');
+  sh.getRange(1, 10).setValue('數量');
+  sh.getRange(1, 11).setValue('單價');
 
-  // 若 A1 空白，補 Submission ID
   if (!String(headers[0] || '').trim()) {
     sh.getRange(1, 1).setValue('Submission ID');
   }
 
-  // 遷移資料列
   var migrated = 0;
   if (lastRow >= 2) {
-    var data = sh.getRange(2, 1, lastRow, lastCol).getValues();
+    var numDataRows = lastRow - 1;
+    var data = rangeInclusive_(sh, 2, 1, lastRow, lastCol).getValues();
     var outI = [];
     var outJ = [];
     var outK = [];
@@ -112,14 +106,12 @@ function setupTicketsIjk_(ss) {
       var qty = 0;
       var price = '';
 
-      // 已是新格式？I 已是文字類別
       var iVal = data[r][8];
       if (iVal !== '' && iVal != null && isNaN(Number(iVal)) && String(iVal).indexOf('http') < 0) {
         type = String(iVal);
         qty = toNum_(data[r][9]) || 1;
         price = toNum_(data[r][10]) || (TICKET_PRICES_[type] || '');
       } else {
-        // 舊：三欄數量 → 取第一個有數量的票種
         if (qtyI > 0) {
           type = oldI || TICKET_TYPES_[0];
           qty = qtyI;
@@ -131,7 +123,6 @@ function setupTicketsIjk_(ss) {
           qty = qtyK;
         }
         if (type) {
-          // 對齊標準名稱
           type = matchTicketType_(type);
           price = TICKET_PRICES_[type] || '';
           migrated++;
@@ -142,21 +133,22 @@ function setupTicketsIjk_(ss) {
       outJ.push([qty || '']);
       outK.push([price || '']);
     }
-    sh.getRange(2, 9, lastRow, 9).setValues(outI);
-    sh.getRange(2, 10, lastRow, 10).setValues(outJ);
-    sh.getRange(2, 11, lastRow, 11).setValues(outK);
+
+    // 單欄寫入：numRows = data 列數，numColumns = 1
+    rangeInclusive_(sh, 2, 9, lastRow, 9).setValues(outI);
+    rangeInclusive_(sh, 2, 10, lastRow, 10).setValues(outJ);
+    rangeInclusive_(sh, 2, 11, lastRow, 11).setValues(outK);
   }
 
-  // 下拉：門票類別（I 欄，預留 500 列）
+  // 下拉：I 欄 500 列
   var rule = SpreadsheetApp.newDataValidation()
     .requireValueInList(TICKET_TYPES_, true)
     .setAllowInvalid(true)
     .setHelpText('選擇門票類別')
     .build();
-  sh.getRange(2, 9, 500, 9).setDataValidation(rule);
+  rangeInclusive_(sh, 2, 9, 501, 9).setDataValidation(rule);
 
-  // 表頭樣式
-  sh.getRange(1, 9, 1, 3).setFontWeight('bold').setBackground('#fce8e6');
+  rangeInclusive_(sh, 1, 9, 1, 11).setFontWeight('bold').setBackground('#fce8e6');
 
   return 'NA_Tickets: I=門票類別 J=數量 K=單價（下拉已設，遷移 ' + migrated + ' 列）';
 }
@@ -167,20 +159,19 @@ function setupMerchIjk_(ss) {
 
   var lastCol = Math.max(sh.getLastColumn(), 15);
   var lastRow = Math.max(sh.getLastRow(), 1);
-  var headers = sh.getRange(1, 1, 1, lastCol).getValues()[0];
+  var headers = rangeInclusive_(sh, 1, 1, 1, lastCol).getValues()[0];
 
   var oldI = String(headers[8] || '').trim();
   var oldJ = String(headers[9] || '').trim();
   var oldK = String(headers[10] || '').trim();
 
-  // 新表頭 — 欄位數不變（L 以後原樣保留）
-  sh.getRange(1, 9).setValue('商品分欄');  // I
-  sh.getRange(1, 10).setValue('數量');     // J
-  sh.getRange(1, 11).setValue('單價');     // K
+  sh.getRange(1, 9).setValue('商品分欄');
+  sh.getRange(1, 10).setValue('數量');
+  sh.getRange(1, 11).setValue('單價');
 
   var migrated = 0;
   if (lastRow >= 2) {
-    var data = sh.getRange(2, 1, lastRow, lastCol).getValues();
+    var data = rangeInclusive_(sh, 2, 1, lastRow, lastCol).getValues();
     var outI = [];
     var outJ = [];
     var outK = [];
@@ -212,7 +203,6 @@ function setupMerchIjk_(ss) {
           qty = qtyK;
           price = guessMerchPrice_(oldK);
         }
-        // 若 IJK 都空，但 L/M/N 有量，不搬（保持 L+ 原欄）
         if (cat) migrated++;
       }
 
@@ -220,9 +210,10 @@ function setupMerchIjk_(ss) {
       outJ.push([qty || '']);
       outK.push([price || '']);
     }
-    sh.getRange(2, 9, lastRow, 9).setValues(outI);
-    sh.getRange(2, 10, lastRow, 10).setValues(outJ);
-    sh.getRange(2, 11, lastRow, 11).setValues(outK);
+
+    rangeInclusive_(sh, 2, 9, lastRow, 9).setValues(outI);
+    rangeInclusive_(sh, 2, 10, lastRow, 10).setValues(outJ);
+    rangeInclusive_(sh, 2, 11, lastRow, 11).setValues(outK);
   }
 
   var rule = SpreadsheetApp.newDataValidation()
@@ -230,9 +221,9 @@ function setupMerchIjk_(ss) {
     .setAllowInvalid(true)
     .setHelpText('選擇商品分欄')
     .build();
-  sh.getRange(2, 9, 500, 9).setDataValidation(rule);
+  rangeInclusive_(sh, 2, 9, 501, 9).setDataValidation(rule);
 
-  sh.getRange(1, 9, 1, 3).setFontWeight('bold').setBackground('#e6f4ea');
+  rangeInclusive_(sh, 1, 9, 1, 11).setFontWeight('bold').setBackground('#e6f4ea');
 
   return 'NA_Merch: I=商品分欄 J=數量 K=單價（下拉已設，遷移 ' + migrated + ' 列；L 起原商品欄保留）';
 }
@@ -259,12 +250,4 @@ function toNum_(v) {
   if (typeof v === 'number') return isFinite(v) ? v : 0;
   var n = Number(String(v).replace(/[^0-9.\-]/g, ''));
   return isFinite(n) ? n : 0;
-}
-
-/** 選單 */
-function onOpen_NaDropdowns() {
-  SpreadsheetApp.getUi()
-    .createMenu('NOAHSARK-欄位')
-    .addItem('設定 NA IJK 下拉（門票類別／商品分欄）', 'setupNaIjkDropdowns')
-    .addToUi();
 }
