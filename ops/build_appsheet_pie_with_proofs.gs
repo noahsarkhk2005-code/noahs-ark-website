@@ -118,47 +118,61 @@ function registerLabel_(byKey, label, price, channel) {
   }
 }
 
+/**
+ * 永遠回傳 { label, price, channel }，不會是 null
+ */
 function resolveLabel_(raw, catalog, preferChannel) {
   var s = String(raw || '').trim();
-  if (!s) return null;
+  var fallback = {
+    label: s || '(未分類)',
+    price: guessPrice_(s),
+    channel: preferChannel || ''
+  };
+  if (!s) return fallback;
+  if (!catalog || !catalog.byKey) return fallback;
+
   var k = normKey_(s);
   var k2 = normKey_(stripEmoji_(s));
   var hit = catalog.byKey[k] || catalog.byKey[k2];
-  if (hit) return hit;
+  if (hit && hit.label) return hit;
 
   var keys = Object.keys(catalog.byKey);
   var i;
   for (i = 0; i < keys.length; i++) {
     var ck = keys[i];
     var item = catalog.byKey[ck];
+    if (!item || !item.label) continue;
     if (preferChannel && item.channel && item.channel !== preferChannel) continue;
-    if (k.indexOf(ck) >= 0 || ck.indexOf(k) >= 0 || k2.indexOf(ck) >= 0 || ck.indexOf(k2) >= 0) {
+    if (k && ck && (k.indexOf(ck) >= 0 || ck.indexOf(k) >= 0 || k2.indexOf(ck) >= 0 || ck.indexOf(k2) >= 0)) {
       return item;
     }
   }
-  // 關鍵字
-  if (/早鳥|early/i.test(s)) return findByRegex_(catalog, /早鳥|early/i, preferChannel);
-  if (/預售|advanced|presale/i.test(s)) return findByRegex_(catalog, /預售|advanced|presale/i, preferChannel);
-  if (/會員|metal\s*pass|特級/i.test(s)) return findByRegex_(catalog, /會員|metal|特級/i, preferChannel);
-  if (/tee|t-shirt|服飾/i.test(s)) return findByRegex_(catalog, /tee|t-shirt|服飾|T-Shirt/i, preferChannel);
-  if (/towel|毛巾|tower/i.test(s)) return findByRegex_(catalog, /towel|毛巾|tower/i, preferChannel);
-  if (/keychain|鎖匙|配件/i.test(s)) return findByRegex_(catalog, /keychain|鎖匙/i, preferChannel);
-  if (/tote|袋/i.test(s)) return findByRegex_(catalog, /tote|袋/i, preferChannel);
-  if (/bigpack|big pack/i.test(s)) return findByRegex_(catalog, /bigpack|BigPack/i, preferChannel);
-  if (/tinypack|tiny pack/i.test(s)) return findByRegex_(catalog, /tinypack|TinyPack/i, preferChannel);
 
-  return {
-    label: s,
-    price: guessPrice_(s),
-    channel: preferChannel || ''
-  };
+  // 關鍵字（findByRegex 可能找不到 → 必須 fallback）
+  var reHit = null;
+  if (/早鳥|early/i.test(s)) reHit = findByRegex_(catalog, /早鳥|early/i, preferChannel);
+  else if (/預售|advanced|presale/i.test(s)) reHit = findByRegex_(catalog, /預售|advanced|presale/i, preferChannel);
+  else if (/會員|metal\s*pass|特級/i.test(s)) reHit = findByRegex_(catalog, /會員|metal|特級/i, preferChannel);
+  else if (/tee|t-shirt|服飾/i.test(s)) reHit = findByRegex_(catalog, /tee|t-shirt|服飾|T-Shirt/i, preferChannel);
+  else if (/towel|毛巾|tower/i.test(s)) reHit = findByRegex_(catalog, /towel|毛巾|tower/i, preferChannel);
+  else if (/keychain|鎖匙/i.test(s)) reHit = findByRegex_(catalog, /keychain|鎖匙/i, preferChannel);
+  else if (/配件/i.test(s)) reHit = findByRegex_(catalog, /配件|keychain|鎖匙|patch|布章/i, preferChannel);
+  else if (/tote|袋/i.test(s)) reHit = findByRegex_(catalog, /tote|袋/i, preferChannel);
+  else if (/bigpack|big pack/i.test(s)) reHit = findByRegex_(catalog, /bigpack|BigPack/i, preferChannel);
+  else if (/tinypack|tiny pack/i.test(s)) reHit = findByRegex_(catalog, /tinypack|TinyPack/i, preferChannel);
+  else if (/pack/i.test(s)) reHit = findByRegex_(catalog, /pack|Pack/i, preferChannel);
+
+  if (reHit && reHit.label) return reHit;
+  return fallback;
 }
 
 function findByRegex_(catalog, re, preferChannel) {
+  if (!catalog || !catalog.byKey) return null;
   var keys = Object.keys(catalog.byKey);
   var i;
   for (i = 0; i < keys.length; i++) {
     var item = catalog.byKey[keys[i]];
+    if (!item || !item.label) continue;
     if (preferChannel && item.channel && item.channel !== preferChannel) continue;
     if (re.test(item.label)) return item;
   }
@@ -201,9 +215,9 @@ function buildTicketOrderDetail_(ss, catalog) {
       if (!type || qty <= 0) continue;
       var sid = cSid != null ? String(data[r][cSid] || '').trim() : '';
       if (!sid) sid = 'R' + (r + 2);
-      var hit = resolveLabel_(type, catalog, 'ticket');
+      var hit = resolveLabel_(type, catalog, 'ticket') || { label: type, price: guessPrice_(type) };
       var unit = cPrice != null ? toMoney_(data[r][cPrice]) : 0;
-      if (!unit || unit > 10000) unit = hit.price; // 避免日期序號當單價
+      if (!unit || unit > 10000) unit = hit.price || 0; // 避免日期序號當單價
       if (!unit) unit = guessPrice_(type);
       var proof = normalizeProofUrl_(cProof != null ? data[r][cProof] : '');
       seq++;
@@ -215,8 +229,8 @@ function buildTicketOrderDetail_(ss, catalog) {
         email: cEmail != null ? data[r][cEmail] : '',
         phone: cTel != null ? data[r][cTel] : '',
         metal_pass: cPass != null ? data[r][cPass] : '',
-        chart_label: hit.label,
-        tally_column_hint: hit.label,
+        chart_label: hit.label || type,
+        tally_column_hint: hit.label || type,
         sales_qty: qty,
         unit_price: unit,
         revenue: qty * unit,
@@ -237,8 +251,9 @@ function buildTicketOrderDetail_(ss, catalog) {
       var q = toQty_(data[r][c]);
       if (q <= 0) continue;
       var sid2 = cSid != null ? String(data[r][cSid] || '').trim() : ('R' + (r + 2));
-      var hit2 = resolveLabel_(hh, catalog, 'ticket');
+      var hit2 = resolveLabel_(hh, catalog, 'ticket') || { label: hh, price: guessPrice_(hh) };
       var proof2 = normalizeProofUrl_(cProof != null ? data[r][cProof] : '');
+      var p2 = hit2.price || guessPrice_(hh) || 0;
       seq++;
       out.push(makeOrderObj_({
         row_id: 'TKT-' + sid2 + '-' + seq,
@@ -248,11 +263,11 @@ function buildTicketOrderDetail_(ss, catalog) {
         email: cEmail != null ? data[r][cEmail] : '',
         phone: cTel != null ? data[r][cTel] : '',
         metal_pass: cPass != null ? data[r][cPass] : '',
-        chart_label: hit2.label,
-        tally_column_hint: hit2.label,
+        chart_label: hit2.label || hh,
+        tally_column_hint: hit2.label || hh,
         sales_qty: q,
-        unit_price: hit2.price || guessPrice_(hh),
-        revenue: q * (hit2.price || guessPrice_(hh)),
+        unit_price: p2,
+        revenue: q * p2,
         payment_proof_url: proof2,
         total_amount: cTotal != null ? toMoney_(data[r][cTotal]) : 0,
         channel: 'ticket',
@@ -301,12 +316,13 @@ function buildMerchOrderDetail_(ss, catalog) {
       if (!cat || qty <= 0) continue;
       var sid = cSid != null ? String(data[r][cSid] || '').trim() : '';
       if (!sid) sid = 'R' + (r + 2);
-      var hit = resolveLabel_(cat, catalog, 'merch');
+      var hit = resolveLabel_(cat, catalog, 'merch') || { label: cat, price: guessPrice_(cat) };
       var unit = cPrice != null ? toMoney_(data[r][cPrice]) : 0;
-      if (!unit || unit > 10000) unit = hit.price;
+      if (!unit || unit > 10000) unit = hit.price || 0;
       if (!unit) unit = guessPrice_(cat);
+      var lab = hit.label || cat || '(未分類)';
       var proof = normalizeProofUrl_(cProof != null ? data[r][cProof] : '');
-      var uk = sid + '|' + hit.label + '|' + qty + '|ijk';
+      var uk = sid + '|' + lab + '|' + qty + '|ijk';
       if (seen[uk]) continue;
       seen[uk] = true;
       seq++;
@@ -318,8 +334,8 @@ function buildMerchOrderDetail_(ss, catalog) {
         email: cEmail != null ? data[r][cEmail] : '',
         phone: cTel != null ? data[r][cTel] : '',
         metal_pass: cPass != null ? data[r][cPass] : '',
-        chart_label: hit.label,
-        tally_column_hint: hit.label,
+        chart_label: lab,
+        tally_column_hint: lab,
         sales_qty: qty,
         unit_price: unit,
         revenue: qty * unit,
@@ -340,11 +356,13 @@ function buildMerchOrderDetail_(ss, catalog) {
       var q = toQty_(data[r][c]);
       if (q <= 0) continue;
       var sid2 = cSid != null ? String(data[r][cSid] || '').trim() : ('R' + (r + 2));
-      var hit2 = resolveLabel_(hh, catalog, 'merch');
+      var hit2 = resolveLabel_(hh, catalog, 'merch') || { label: hh, price: guessPrice_(hh) };
+      var lab2 = hit2.label || hh || '(未分類)';
+      var p2 = hit2.price || guessPrice_(hh) || 0;
       var proof2 = normalizeProofUrl_(cProof != null ? data[r][cProof] : '');
-      var uk2 = sid2 + '|' + hit2.label + '|' + q + '|col';
+      var uk2 = sid2 + '|' + lab2 + '|' + q + '|col';
       // 若同一 sid 已用 IJK 寫過同 label，跳過舊欄避免重複
-      var ukIjk = sid2 + '|' + hit2.label + '|' + q + '|ijk';
+      var ukIjk = sid2 + '|' + lab2 + '|' + q + '|ijk';
       if (seen[ukIjk] || seen[uk2]) continue;
       seen[uk2] = true;
       seq++;
@@ -356,11 +374,11 @@ function buildMerchOrderDetail_(ss, catalog) {
         email: cEmail != null ? data[r][cEmail] : '',
         phone: cTel != null ? data[r][cTel] : '',
         metal_pass: cPass != null ? data[r][cPass] : '',
-        chart_label: hit2.label,
-        tally_column_hint: hit2.label,
+        chart_label: lab2,
+        tally_column_hint: lab2,
         sales_qty: q,
-        unit_price: hit2.price || guessPrice_(hh),
-        revenue: q * (hit2.price || guessPrice_(hh)),
+        unit_price: p2,
+        revenue: q * p2,
         payment_proof_url: proof2,
         total_amount: cTotal != null ? toMoney_(data[r][cTotal]) : 0,
         channel: 'merch',
