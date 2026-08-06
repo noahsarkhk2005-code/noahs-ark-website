@@ -1,18 +1,11 @@
 /**
- * 從 NA_Tickets / NA_Merch 整理 AppSheet 圓餅圖資料庫
+ * 從 NA_Tickets / NA_Merch 整理 AppSheet 圓餅圖資料
+ * 已優化：避免 clear 整表逾時、分表寫入、單次 setValues
  *
- * 產出分頁：
- *   AS_Pie_Tickets  — 票務：門票類型 / 總銷量 / 總銷售額
- *   AS_Pie_Merch    — 商品：貨品／分欄 / 總銷量 / 總銷售額
- *   AS_Pie_All      — 合併（可選：全部 SKU 一表）
- *
- * AppSheet 用法：
- *   Pie（票務·銷售額）:  label=ticket_type, value=revenue
- *   Pie（票務·銷量）:    label=ticket_type, value=sales_qty
- *   Pie（商品·銷售額）:  label=product_label, value=revenue
- *   Pie（商品·銷量）:    label=product_label, value=sales_qty
- *
- * 執行：buildAppSheetPieData
+ * 執行：
+ *   buildAppSheetPieData     — 三表一次（建議）
+ *   buildPieTicketsOnly      — 只寫票務（逾時可分段跑）
+ *   buildPieMerchOnly        — 只寫商品
  */
 
 var PIE_ = {
@@ -22,7 +15,6 @@ var PIE_ = {
   OUT_TICKETS: 'AS_Pie_Tickets',
   OUT_MERCH: 'AS_Pie_Merch',
   OUT_ALL: 'AS_Pie_All',
-  // 後備單價（Order_Categories 對不到時）
   TICKET_PRICES: {
     '會員特級優惠 HKD300': 300,
     '🎫 早鳥門票 HKD300': 300,
@@ -45,8 +37,9 @@ var PIE_ = {
   }
 };
 
-function rangeInc_(sh, r1, c1, r2, c2) {
-  return sh.getRange(r1, c1, r2 - r1 + 1, c2 - c1 + 1);
+/** row, col, numRows, numCols — Apps Script 正確用法 */
+function rg_(sh, r, c, nR, nC) {
+  return sh.getRange(r, c, nR, nC);
 }
 
 function buildAppSheetPieData() {
@@ -54,34 +47,58 @@ function buildAppSheetPieData() {
   var priceMap = loadPriceMapFromCategories_(ss);
 
   var ticketAgg = aggregateTickets_(ss, priceMap);
-  var merchAgg = aggregateMerch_(ss, priceMap);
-
+  SpreadsheetApp.flush();
   writePieTickets_(ss, ticketAgg);
+  SpreadsheetApp.flush();
+
+  var merchAgg = aggregateMerch_(ss, priceMap);
+  SpreadsheetApp.flush();
   writePieMerch_(ss, merchAgg);
+  SpreadsheetApp.flush();
+
   writePieAll_(ss, ticketAgg, merchAgg);
+  SpreadsheetApp.flush();
 
   SpreadsheetApp.getUi().alert(
     'AppSheet 圓餅圖資料已更新\n\n' +
-    'AS_Pie_Tickets（票務）: ' + ticketAgg.length + ' 種門票\n' +
-    'AS_Pie_Merch（商品）: ' + merchAgg.length + ' 項\n' +
-    'AS_Pie_All（合併）: ' + (ticketAgg.length + merchAgg.length) + ' 列\n\n' +
-    'AppSheet → Data → 加入這三表 → Sync\n' +
-    'Pie Chart：Category = *_label / ticket_type / product_label\n' +
-    '          Value = revenue 或 sales_qty'
+    'AS_Pie_Tickets: ' + ticketAgg.length + ' 種\n' +
+    'AS_Pie_Merch: ' + merchAgg.length + ' 項\n' +
+    'AS_Pie_All: ' + (ticketAgg.length + merchAgg.length) + ' 列\n\n' +
+    '若再逾時請改跑 buildPieTicketsOnly / buildPieMerchOnly'
   );
 }
 
-/* ========== 彙總 ========== */
+function buildPieTicketsOnly() {
+  var ss = SpreadsheetApp.getActive();
+  var priceMap = loadPriceMapFromCategories_(ss);
+  var rows = aggregateTickets_(ss, priceMap);
+  writePieTickets_(ss, rows);
+  SpreadsheetApp.getUi().alert('AS_Pie_Tickets 完成：' + rows.length + ' 種門票');
+}
+
+function buildPieMerchOnly() {
+  var ss = SpreadsheetApp.getActive();
+  var priceMap = loadPriceMapFromCategories_(ss);
+  var rows = aggregateMerch_(ss, priceMap);
+  writePieMerch_(ss, rows);
+  SpreadsheetApp.getUi().alert('AS_Pie_Merch 完成：' + rows.length + ' 項商品');
+}
+
+/* ========== 彙總（只讀需要的列欄，跳過空列） ========== */
 
 function aggregateTickets_(ss, priceMap) {
   var sh = ss.getSheetByName(PIE_.TICKETS_SRC);
-  var map = {}; // label -> {qty, revenue}
-  if (!sh || sh.getLastRow() < 2) return [];
-
-  var lastCol = sh.getLastColumn();
+  var map = {};
+  if (!sh) return [];
   var lastRow = sh.getLastRow();
-  var headers = rangeInc_(sh, 1, 1, 1, lastCol).getValues()[0];
-  var data = rangeInc_(sh, 2, 1, lastRow, lastCol).getValues();
+  var lastCol = sh.getLastColumn();
+  if (lastRow < 2 || lastCol < 1) return [];
+
+  // 限制最大欄，避免讀到過寬範圍
+  lastCol = Math.min(lastCol, 20);
+  var headers = rg_(sh, 1, 1, 1, lastCol).getValues()[0];
+  var numData = lastRow - 1;
+  var data = rg_(sh, 2, 1, numData, lastCol).getValues();
   var hmap = headerIndexMap_(headers);
 
   var typeCol = firstCol_(hmap, ['門票類別', '票種', 'Ticket Type']);
@@ -92,14 +109,14 @@ function aggregateTickets_(ss, priceMap) {
   if (typeCol != null && qtyCol != null) {
     for (r = 0; r < data.length; r++) {
       var type = String(data[r][typeCol] || '').trim();
+      if (!type) continue;
       var qty = toQty_(data[r][qtyCol]);
-      if (!type || qty <= 0) continue;
+      if (qty <= 0) continue;
       var unit = priceCol != null ? toMoney_(data[r][priceCol]) : 0;
       if (!unit) unit = lookupPrice_(type, priceMap, PIE_.TICKET_PRICES);
       addAgg_(map, type, qty, unit * qty);
     }
   } else {
-    // 舊：每票種一欄
     for (c = 0; c < headers.length; c++) {
       var h = String(headers[c] || '').trim();
       if (!isTicketHeader_(h)) continue;
@@ -111,18 +128,21 @@ function aggregateTickets_(ss, priceMap) {
       }
     }
   }
-  return mapToRows_(map, 'ticket');
+  return mapToRows_(map);
 }
 
 function aggregateMerch_(ss, priceMap) {
   var sh = ss.getSheetByName(PIE_.MERCH_SRC);
   var map = {};
-  if (!sh || sh.getLastRow() < 2) return [];
-
-  var lastCol = sh.getLastColumn();
+  if (!sh) return [];
   var lastRow = sh.getLastRow();
-  var headers = rangeInc_(sh, 1, 1, 1, lastCol).getValues()[0];
-  var data = rangeInc_(sh, 2, 1, lastRow, lastCol).getValues();
+  var lastCol = sh.getLastColumn();
+  if (lastRow < 2 || lastCol < 1) return [];
+
+  lastCol = Math.min(lastCol, 25);
+  var headers = rg_(sh, 1, 1, 1, lastCol).getValues()[0];
+  var numData = lastRow - 1;
+  var data = rg_(sh, 2, 1, numData, lastCol).getValues();
   var hmap = headerIndexMap_(headers);
 
   var catCol = firstCol_(hmap, ['商品分欄', '商品類別', 'Merch Category']);
@@ -130,37 +150,40 @@ function aggregateMerch_(ss, priceMap) {
   var priceCol = firstCol_(hmap, ['單價', 'Price', 'list_price']);
 
   var r, c;
-  // 新格式 IJK
   if (catCol != null && qtyCol != null) {
     for (r = 0; r < data.length; r++) {
       var cat = String(data[r][catCol] || '').trim();
+      if (!cat) continue;
       var qty = toQty_(data[r][qtyCol]);
-      if (!cat || qty <= 0) continue;
+      if (qty <= 0) continue;
       var unit = priceCol != null ? toMoney_(data[r][priceCol]) : 0;
       if (!unit) unit = lookupPrice_(cat, priceMap, PIE_.MERCH_PRICES);
       addAgg_(map, cat, qty, unit * qty);
     }
   }
 
-  // 舊／並存：各商品數量欄
+  // 舊商品欄：只掃一次 headers 中的商品欄
+  var productCols = [];
   for (c = 0; c < headers.length; c++) {
-    var h = String(headers[c] || '').trim();
-    if (!h) continue;
     if (c === catCol || c === qtyCol || c === priceCol) continue;
-    if (!isMerchProductHeader_(h)) continue;
-    for (r = 0; r < data.length; r++) {
-      var q = toQty_(data[r][c]);
+    var hh = String(headers[c] || '').trim();
+    if (isMerchProductHeader_(hh)) productCols.push({ c: c, h: hh });
+  }
+  for (r = 0; r < data.length; r++) {
+    for (c = 0; c < productCols.length; c++) {
+      var pc = productCols[c];
+      var q = toQty_(data[r][pc.c]);
       if (q <= 0) continue;
-      var u = lookupPrice_(h, priceMap, PIE_.MERCH_PRICES);
-      if (!u) u = guessPriceFromHeader_(h);
-      addAgg_(map, h, q, u * q);
+      var u = lookupPrice_(pc.h, priceMap, PIE_.MERCH_PRICES);
+      if (!u) u = guessPriceFromHeader_(pc.h);
+      addAgg_(map, pc.h, q, u * q);
     }
   }
 
-  return mapToRows_(map, 'merch');
+  return mapToRows_(map);
 }
 
-/* ========== 寫出分頁 ========== */
+/* ========== 寫出（避免 timeout） ========== */
 
 function writePieTickets_(ss, rows) {
   var headers = [
@@ -173,17 +196,11 @@ function writePieTickets_(ss, rows) {
     var x = rows[i];
     var avg = x.qty > 0 ? Math.round((x.revenue / x.qty) * 100) / 100 : 0;
     body.push([
-      'TKT-' + (i + 1),
-      'ticket',
-      x.label,
-      x.label,
-      x.qty,
-      x.revenue,
-      avg,
-      new Date()
+      'TKT-' + (i + 1), 'ticket', x.label, x.label,
+      x.qty, x.revenue, avg, new Date()
     ]);
   }
-  writeSheet_(ss, PIE_.OUT_TICKETS, headers, body, '#fce8e6');
+  writeSheetFast_(ss, PIE_.OUT_TICKETS, headers, body, '#fce8e6');
 }
 
 function writePieMerch_(ss, rows) {
@@ -197,17 +214,11 @@ function writePieMerch_(ss, rows) {
     var x = rows[i];
     var avg = x.qty > 0 ? Math.round((x.revenue / x.qty) * 100) / 100 : 0;
     body.push([
-      'MRC-' + (i + 1),
-      'merch',
-      x.label,
-      x.label,
-      x.qty,
-      x.revenue,
-      avg,
-      new Date()
+      'MRC-' + (i + 1), 'merch', x.label, x.label,
+      x.qty, x.revenue, avg, new Date()
     ]);
   }
-  writeSheet_(ss, PIE_.OUT_MERCH, headers, body, '#e6f4ea');
+  writeSheetFast_(ss, PIE_.OUT_MERCH, headers, body, '#e6f4ea');
 }
 
 function writePieAll_(ss, tickets, merch) {
@@ -233,27 +244,59 @@ function writePieAll_(ss, tickets, merch) {
       m.qty, m.revenue, avgM, new Date()
     ]);
   }
-  writeSheet_(ss, PIE_.OUT_ALL, headers, body, '#fff2cc');
+  writeSheetFast_(ss, PIE_.OUT_ALL, headers, body, '#fff2cc');
 }
 
-function writeSheet_(ss, name, headers, body, headerColor) {
+/**
+ * 快速寫入：不清空整張超大表
+ * - 只 clearContent 實際用到的範圍
+ * - 一次 setValues 寫入 header+body
+ * - 不刪除分頁（保留 AppSheet sheet id）
+ */
+function writeSheetFast_(ss, name, headers, body, headerColor) {
   var sh = ss.getSheetByName(name);
-  if (!sh) sh = ss.insertSheet(name);
-  sh.clear();
-  sh.getRange(1, 1, 1, headers.length).setValues([headers]);
-  sh.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground(headerColor);
-  sh.setFrozenRows(1);
-  if (body.length) {
-    sh.getRange(2, 1, body.length, headers.length).setValues(body);
+  if (!sh) {
+    sh = ss.insertSheet(name);
   }
-  // 數字格式
-  var revCol = headers.indexOf('revenue') + 1;
-  var qtyCol = headers.indexOf('sales_qty') + 1;
-  if (body.length && revCol > 0) {
-    sh.getRange(2, revCol, body.length, 1).setNumberFormat('"$"#,##0');
+
+  var cols = headers.length;
+  var rows = 1 + body.length; // header + data
+  // 至少寫 1 列表頭
+  if (rows < 1) rows = 1;
+
+  // 確保有足夠列/欄（必要時擴充，但不要亂刪）
+  var needExtraRows = rows - sh.getMaxRows();
+  if (needExtraRows > 0) sh.insertRowsAfter(sh.getMaxRows(), needExtraRows);
+  var needExtraCols = cols - sh.getMaxColumns();
+  if (needExtraCols > 0) sh.insertColumnsAfter(sh.getMaxColumns(), needExtraCols);
+
+  // 只清舊資料區（最多清到「舊 lastRow」與「新 rows」的較大者，且封頂 200 列）
+  var oldLast = Math.min(Math.max(sh.getLastRow(), rows), 200);
+  var oldCols = Math.min(Math.max(sh.getLastColumn(), cols), 20);
+  if (oldLast >= 1 && oldCols >= 1) {
+    try {
+      rg_(sh, 1, 1, oldLast, oldCols).clearContent();
+    } catch (e) {
+      // 若 clear 仍 timeout，改直接覆寫
+    }
   }
-  if (body.length && qtyCol > 0) {
-    sh.getRange(2, qtyCol, body.length, 1).setNumberFormat('#,##0');
+
+  // 組完整二維陣列：第一列 header
+  var all = [headers];
+  var i;
+  for (i = 0; i < body.length; i++) {
+    all.push(body[i]);
+  }
+
+  // 一次寫入（小資料量：pie 通常 < 50 列）
+  rg_(sh, 1, 1, all.length, cols).setValues(all);
+
+  // 輕量格式（只表頭）
+  try {
+    rg_(sh, 1, 1, 1, cols).setFontWeight('bold').setBackground(headerColor);
+    sh.setFrozenRows(1);
+  } catch (e2) {
+    // ignore format errors
   }
 }
 
@@ -262,12 +305,16 @@ function writeSheet_(ss, name, headers, body, headerColor) {
 function loadPriceMapFromCategories_(ss) {
   var map = {};
   var sh = ss.getSheetByName(PIE_.CAT);
-  if (!sh || sh.getLastRow() < 2) return map;
-  var lastCol = sh.getLastColumn();
+  if (!sh) return map;
   var lastRow = sh.getLastRow();
-  var headers = rangeInc_(sh, 1, 1, 1, lastCol).getValues()[0];
+  var lastCol = Math.min(sh.getLastColumn(), 20);
+  if (lastRow < 2 || lastCol < 1) return map;
+
+  var headers = rg_(sh, 1, 1, 1, lastCol).getValues()[0];
   var idx = headerIndexMap_(headers);
-  var data = rangeInc_(sh, 2, 1, lastRow, lastCol).getValues();
+  if (idx.level == null || idx.list_price == null) return map;
+
+  var data = rg_(sh, 2, 1, lastRow - 1, lastCol).getValues();
   var r;
   for (r = 0; r < data.length; r++) {
     if (Number(data[r][idx.level]) !== 3) continue;
@@ -288,7 +335,6 @@ function loadPriceMapFromCategories_(ss) {
 function lookupPrice_(label, priceMap, fallback) {
   var k = normKey_(label);
   if (priceMap[k] != null) return priceMap[k];
-  // fallback exact
   if (fallback[label] != null) return fallback[label];
   var keys = Object.keys(fallback);
   var i;
@@ -306,15 +352,11 @@ function addAgg_(map, label, qty, revenue) {
   map[L].revenue += revenue;
 }
 
-function mapToRows_(map, channel) {
+function mapToRows_(map) {
   var keys = Object.keys(map);
-  keys.sort();
   var out = [];
   var i;
-  for (i = 0; i < keys.length; i++) {
-    out.push(map[keys[i]]);
-  }
-  // 銷售額高 → 前
+  for (i = 0; i < keys.length; i++) out.push(map[keys[i]]);
   out.sort(function (a, b) { return b.revenue - a.revenue; });
   return out;
 }
