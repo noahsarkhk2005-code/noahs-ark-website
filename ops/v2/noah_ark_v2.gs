@@ -15,17 +15,18 @@
  *   v2_Products  可售品項
  *   v2_Chart     Pie 圖（label / sales_qty / revenue）
  *
- * 首次安裝：
+ * 首次安裝（大試算表易逾時 → 務必分步）：
  *   1) 貼上本檔 → 儲存
- *   2) 執行 installNoahArkV2
- *   3) 部署 → 新部署 → 網頁應用程式（執行身分：我 / 存取：任何人）
- *   4) 把部署 URL 貼回 Settings.V2_SCAN_WEBAPP_URL
- *   5) AppSheet 依 V2_APPSHEET_GUIDE.md 綁表
+ *   2) 執行 installNoahArkV2SheetsOnly   ← 只建空表+表頭（快）
+ *   3) 執行 syncProductsFromCategories_
+ *   4) 執行 syncTallyToV2Orders
+ *   5) 執行 refreshV2StatsAndChart
+ *   6) 部署 Web App → Settings.V2_SCAN_WEBAPP_URL
  *
- * 日常：
- *   NOAHSARK-V2 → 同步 Tally → v2_Orders
- *   在 AppSheet 按「通過」→ 出票
- *   現場用 Scan 表或 Web App 掃 QR
+ * 若出現「試算表服務逾時」：
+ *   - 關掉其他分頁／AppSheet 同步
+ *   - 不要跑 installNoahArkV2（太重），改跑分步
+ *   - 每次只跑一個函式
  */
 
 var V2 = {
@@ -42,6 +43,33 @@ var V2 = {
   EVENT_CODE: 'NA2026'
 };
 
+/**
+ * 讀取 sheet 資料（不含表頭）— 一律用 A1，避免 4 參數 getRange 混淆
+ * Apps Script: getRange(row,col,numRows,numCols) ≠ (start,end)
+ */
+function v2ReadRows_(sh, maxCols) {
+  if (!sh) return { headers: [], rows: [] };
+  var lastRow = sh.getLastRow();
+  var lastCol = Math.min(sh.getLastColumn() || 1, maxCols || 30);
+  if (lastRow < 1 || lastCol < 1) return { headers: [], rows: [] };
+  var endCol = v2ColA1_(lastCol);
+  var headers = sh.getRange('A1:' + endCol + '1').getValues()[0];
+  if (lastRow < 2) return { headers: headers, rows: [] };
+  var rows = sh.getRange('A2:' + endCol + lastRow).getValues();
+  return { headers: headers, rows: rows };
+}
+
+function v2ColA1_(col1based) {
+  var n = col1based;
+  var s = '';
+  while (n > 0) {
+    var m = (n - 1) % 26;
+    s = String.fromCharCode(65 + m) + s;
+    n = Math.floor((n - 1) / 26);
+  }
+  return s;
+}
+
 /* ════════════════════════════════════════
  *  安裝 / 選單
  * ════════════════════════════════════════ */
@@ -49,47 +77,71 @@ var V2 = {
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('NOAHSARK-V2')
-    .addItem('① 安裝／重建 v2 資料表', 'installNoahArkV2')
+    .addItem('① 只建 v2 空表（推薦首次）', 'installNoahArkV2SheetsOnly')
+    .addItem('①b 安裝+同步（較慢，易逾時）', 'installNoahArkV2')
     .addItem('② 同步 Tally → v2_Orders', 'syncTallyToV2Orders')
+    .addItem('②b 同步產品主檔', 'syncProductsFromCategories_')
     .addItem('③ 處理 as_action（審核／出票／寄信）', 'processV2Actions')
     .addItem('④ 刷新統計 + 圖表', 'refreshV2StatsAndChart')
-    .addItem('⑤ 一鍵：同步+處理+統計', 'v2DailyRun')
     .addSeparator()
     .addItem('顯示掃碼 Web App 說明', 'showV2ScanDeployHelp')
     .addToUi();
 }
 
-function installNoahArkV2() {
+/** 只建表頭（無 alert，供其他函式呼叫） */
+function createV2SheetsCore_() {
   var ss = SpreadsheetApp.getActive();
   ensureSheetHeaders_(ss, V2.ORDERS, v2OrderHeaders_());
+  SpreadsheetApp.flush();
   ensureSheetHeaders_(ss, V2.TICKETS, v2TicketHeaders_());
+  SpreadsheetApp.flush();
   ensureSheetHeaders_(ss, V2.SCANLOG, v2ScanLogHeaders_());
+  SpreadsheetApp.flush();
   ensureSheetHeaders_(ss, V2.STATS, v2StatsHeaders_());
+  SpreadsheetApp.flush();
   ensureSheetHeaders_(ss, V2.PRODUCTS, v2ProductHeaders_());
+  SpreadsheetApp.flush();
   ensureSheetHeaders_(ss, V2.CHART, v2ChartHeaders_());
+  SpreadsheetApp.flush();
+  try {
+    upsertSetting_(ss, 'V2_ENABLED', 'TRUE');
+    upsertSetting_(ss, 'V2_EVENT_CODE', V2.EVENT_CODE);
+    upsertSetting_(ss, 'V2_EMAIL_FROM_NAME', "Noah's Ark");
+  } catch (e) {}
+  return ss;
+}
 
-  upsertSetting_(ss, 'V2_ENABLED', 'TRUE');
-  upsertSetting_(ss, 'V2_EVENT_CODE', V2.EVENT_CODE);
-  upsertSetting_(ss, 'V2_EMAIL_FROM_NAME', "Noah's Ark");
-
-  // 同步產品主檔
-  syncProductsFromCategories_(ss);
-  syncTallyToV2Orders();
-  refreshV2StatsAndChart();
-
+/** 輕量安裝：只建 6 張空表 + 表頭（推薦） */
+function installNoahArkV2SheetsOnly() {
+  createV2SheetsCore_();
   SpreadsheetApp.getUi().alert(
-    'Noah\'s Ark 2.0 已安裝\n\n' +
-    '分頁：v2_Orders / v2_Tickets / v2_ScanLog / v2_Stats / v2_Products / v2_Chart\n\n' +
-    '下一步：\n' +
-    '1) 部署 Web App（掃碼入場）— 見選單「顯示掃碼 Web App 說明」\n' +
-    '2) 用 AppSheet 連這 6 張表（見 ops/v2/V2_APPSHEET_GUIDE.md）\n' +
-    '3) 手機審核：改 v2_Orders.as_action = 通過／拒絕／寄出郵件／出票'
+    'v2 空表已建立（輕量安裝完成）\n\n' +
+    '請依序再執行（每次一個，避免逾時）：\n' +
+    '1) syncProductsFromCategories_\n' +
+    '2) syncTallyToV2Orders\n' +
+    '3) refreshV2StatsAndChart'
   );
 }
 
+/** 完整安裝（較慢；逾時請改用分步） */
+function installNoahArkV2() {
+  createV2SheetsCore_();
+  SpreadsheetApp.getUi().alert(
+    '表頭已建好。\n因檔案很大，請手動依序執行：\n' +
+    'syncProductsFromCategories_ → syncTallyToV2Orders → refreshV2StatsAndChart'
+  );
+}
+
+function ssOrActive_() {
+  return SpreadsheetApp.getActive();
+}
+
 function v2DailyRun() {
+  // 分步 + flush，降低一次鎖死整份檔
   syncTallyToV2Orders();
+  SpreadsheetApp.flush();
   processV2Actions();
+  SpreadsheetApp.flush();
   refreshV2StatsAndChart();
   SpreadsheetApp.getUi().alert('V2 一鍵完成：同步 + 動作 + 統計');
 }
@@ -324,15 +376,21 @@ function syncTallyToV2Orders() {
     added++;
   }
 
-  refreshV2StatsAndChart();
-  SpreadsheetApp.getUi().alert('同步完成\n新增訂單：' + added + '\n票源列：' + ticketLines.length + ' · 商品列：' + merchLines.length);
+  // 不在同步後自動刷新統計（易逾時）；請另跑 refreshV2StatsAndChart
+  SpreadsheetApp.getUi().alert(
+    '同步完成\n新增訂單：' + added +
+    '\n票源列：' + ticketLines.length + ' · 商品列：' + merchLines.length +
+    '\n\n請再執行：refreshV2StatsAndChart（可選）'
+  );
 }
 
 function loadExistingOrderKeys_(ss) {
   var sh = ss.getSheetByName(V2.ORDERS);
   var map = {};
   if (!sh || sh.getLastRow() < 2) return map;
-  var vals = sh.getRange(2, 1, sh.getLastRow() - 1, 1).getValues();
+  // 只讀 A 欄 order_id（A2:A lastRow）— 用 A1 避免誤讀超大範圍
+  var lastRow = sh.getLastRow();
+  var vals = sh.getRange('A2:A' + lastRow).getValues();
   var i;
   for (i = 0; i < vals.length; i++) {
     var id = String(vals[i][0] || '').trim();
@@ -365,13 +423,18 @@ function processV2Actions() {
   }
   ensureSheetHeaders_(ss, V2.TICKETS, v2TicketHeaders_());
 
-  var headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  var packed = v2ReadRows_(sh, 30);
+  var headers = packed.headers;
   var idx = headerIndexMap_(headers);
-  var lastRow = sh.getLastRow();
-  var data = sh.getRange(2, 1, lastRow - 1, headers.length).getValues();
+  var data = packed.rows;
   var processed = 0;
   var messages = [];
   var r;
+
+  if (idx.as_action == null) {
+    SpreadsheetApp.getUi().alert('v2_Orders 缺少 as_action 欄');
+    return;
+  }
 
   for (r = 0; r < data.length; r++) {
     var action = String(data[r][idx.as_action] || '').trim();
@@ -466,7 +529,8 @@ function v2IssueTickets_(ss, order) {
   var tSh = ss.getSheetByName(V2.TICKETS);
   var existing = {};
   if (tSh.getLastRow() >= 2) {
-    var ids = tSh.getRange(2, 1, tSh.getLastRow() - 1, 2).getValues();
+    var lastT = tSh.getLastRow();
+    var ids = tSh.getRange(2, 1, lastT, 2).getValues(); // A2:B last — 含 end row
     var i;
     for (i = 0; i < ids.length; i++) {
       if (String(ids[i][1]) === String(order.order_id)) existing[String(ids[i][0])] = true;
@@ -644,13 +708,14 @@ function syncProductsFromCategories_(ss) {
   ensureSheetHeaders_(ss, V2.PRODUCTS, v2ProductHeaders_());
   var cat = ss.getSheetByName(V2.CAT);
   if (!cat || cat.getLastRow() < 2) return;
-  var headers = cat.getRange(1, 1, 1, cat.getLastColumn()).getValues()[0];
+  var packedCat = v2ReadRows_(cat, 25);
+  var headers = packedCat.headers;
   var idx = headerIndexMap_(headers);
-  var data = cat.getRange(2, 1, cat.getLastRow() - 1, headers.length).getValues();
+  var data = packedCat.rows;
   var rows = [];
   var r;
   for (r = 0; r < data.length; r++) {
-    if (Number(data[r][idx.level]) !== 3) continue;
+    if (idx.level != null && Number(data[r][idx.level]) !== 3) continue;
     var hint = cell_(data[r], idx, 'tally_column_hint') || cell_(data[r], idx, 'form_option_label') || cell_(data[r], idx, 'name_zh');
     var sku = cell_(data[r], idx, 'sku') || ('SKU-' + (r + 1));
     rows.push([
@@ -743,9 +808,10 @@ function processScanPayload_(payload, scannedBy) {
     return base;
   }
 
-  var headers = tSh.getRange(1, 1, 1, tSh.getLastColumn()).getValues()[0];
+  var packedT = v2ReadRows_(tSh, 20);
+  var headers = packedT.headers;
   var idx = headerIndexMap_(headers);
-  var data = tSh.getRange(2, 1, tSh.getLastRow() - 1, headers.length).getValues();
+  var data = packedT.rows;
   var r;
   var found = -1;
   for (r = 0; r < data.length; r++) {
@@ -817,10 +883,11 @@ function processV2TicketGateActions() {
   var ss = SpreadsheetApp.getActive();
   var sh = ss.getSheetByName(V2.TICKETS);
   if (!sh || sh.getLastRow() < 2) return;
-  var headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  var packedG = v2ReadRows_(sh, 20);
+  var headers = packedG.headers;
   var idx = headerIndexMap_(headers);
   if (idx.as_action == null) return;
-  var data = sh.getRange(2, 1, sh.getLastRow() - 1, headers.length).getValues();
+  var data = packedG.rows;
   var r;
   for (r = 0; r < data.length; r++) {
     var action = String(data[r][idx.as_action] || '').trim();
@@ -841,9 +908,9 @@ function readNaTickets_(ss) {
   var sh = ss.getSheetByName(V2.NA_TICKETS);
   var out = [];
   if (!sh || sh.getLastRow() < 2) return out;
-  var lastCol = Math.min(sh.getLastColumn(), 16);
-  var headers = sh.getRange(1, 1, 1, lastCol).getValues()[0];
-  var data = sh.getRange(2, 1, sh.getLastRow() - 1, lastCol).getValues();
+  var packed = v2ReadRows_(sh, 16);
+  var headers = packed.headers;
+  var data = packed.rows;
   var h = headerIndexMap_(headers);
   var cSid = firstCol_(h, ['Submission ID']);
   var cAt = firstCol_(h, ['Submitted at']);
@@ -906,9 +973,9 @@ function readNaMerch_(ss) {
   var sh = ss.getSheetByName(V2.NA_MERCH);
   var out = [];
   if (!sh || sh.getLastRow() < 2) return out;
-  var lastCol = Math.min(sh.getLastColumn(), 25);
-  var headers = sh.getRange(1, 1, 1, lastCol).getValues()[0];
-  var data = sh.getRange(2, 1, sh.getLastRow() - 1, lastCol).getValues();
+  var packed = v2ReadRows_(sh, 20);
+  var headers = packed.headers;
+  var data = packed.rows;
   var h = headerIndexMap_(headers);
   var cSid = firstCol_(h, ['Submission ID']);
   var cAt = firstCol_(h, ['Submitted at']);
@@ -989,9 +1056,10 @@ function loadCatalogMap_(ss) {
   var map = {};
   var sh = ss.getSheetByName(V2.CAT);
   if (!sh || sh.getLastRow() < 2) return map;
-  var headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  var packed = v2ReadRows_(sh, 25);
+  var headers = packed.headers;
   var idx = headerIndexMap_(headers);
-  var data = sh.getRange(2, 1, sh.getLastRow() - 1, headers.length).getValues();
+  var data = packed.rows;
   var r;
   for (r = 0; r < data.length; r++) {
     if (idx.level != null && Number(data[r][idx.level]) !== 3) continue;
@@ -1051,21 +1119,22 @@ function resolveProduct_(raw, map, preferChannel) {
 
 function ensureSheetHeaders_(ss, name, headers) {
   var sh = ss.getSheetByName(name);
-  if (!sh) sh = ss.insertSheet(name);
-  if (sh.getLastRow() < 1 || String(sh.getRange(1, 1).getValue() || '') === '') {
+  if (!sh) {
+    sh = ss.insertSheet(name);
+  }
+  // 只在空白表寫表頭；已有資料不 insertRows（防逾時）
+  var a1 = '';
+  try {
+    a1 = String(sh.getRange('A1').getValue() || '');
+  } catch (e) {
+    a1 = '';
+  }
+  if (!a1) {
     sh.getRange(1, 1, 1, headers.length).setValues([headers]);
-    sh.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#cfe2f3');
-    sh.setFrozenRows(1);
-  } else {
-    // 確保表頭一致（不強制 wipe 資料）
-    var existing = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), headers.length)).getValues()[0];
-    if (String(existing[0]) !== headers[0]) {
-      // 新表覆寫表頭
-      sh.insertRows(1);
-      sh.getRange(1, 1, 1, headers.length).setValues([headers]);
+    try {
       sh.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#cfe2f3');
       sh.setFrozenRows(1);
-    }
+    } catch (e2) {}
   }
   return sh;
 }
@@ -1073,33 +1142,37 @@ function ensureSheetHeaders_(ss, name, headers) {
 function writeSheetReplace_(ss, name, headers, body, color) {
   var sh = ensureSheetHeaders_(ss, name, headers);
   var cols = headers.length;
-  var nBody = body.length;
-  var total = 1 + Math.max(nBody, 0);
-  if (total + 2 > sh.getMaxRows()) sh.insertRowsAfter(sh.getMaxRows(), total - sh.getMaxRows() + 5);
-  if (cols + 1 > sh.getMaxColumns()) sh.insertColumnsAfter(sh.getMaxColumns(), cols - sh.getMaxColumns() + 2);
+  var nBody = body ? body.length : 0;
+  var total = 1 + nBody;
 
-  var clearR = Math.min(Math.max(sh.getLastRow(), total), 1000);
-  var clearC = Math.min(Math.max(sh.getLastColumn(), cols), 30);
+  // 小表寫入：只清「新資料需要的列數 + 少量舊列」，最多 120 列（防逾時）
+  var oldLast = sh.getLastRow();
+  var clearTo = Math.min(Math.max(oldLast, total), total + 20, 120);
+  var clearCols = Math.min(Math.max(sh.getLastColumn(), cols), cols + 2, 20);
   try {
-    sh.getRange(1, 1, clearR, clearC).clearContent();
-    sh.getRange(1, 1, clearR, clearC).setNumberFormat('General');
+    if (clearTo >= 1 && clearCols >= 1) {
+      sh.getRange(1, 1, clearTo, clearCols).clearContent();
+    }
   } catch (e) {}
 
   var all = [headers];
   var i;
   for (i = 0; i < nBody; i++) all.push(body[i]);
+  // setValues：起點 (1,1)，列數 all.length，欄數 cols
   sh.getRange(1, 1, all.length, cols).setValues(all);
-  sh.getRange(1, 1, 1, cols).setFontWeight('bold').setBackground(color || '#cfe2f3');
-  sh.setFrozenRows(1);
+  try {
+    sh.getRange(1, 1, 1, cols).setFontWeight('bold').setBackground(color || '#cfe2f3');
+    sh.setFrozenRows(1);
+  } catch (e2) {}
 
-  // 數字欄
-  var hi = headerIndexMap_(headers);
   if (nBody > 0) {
+    var hi = headerIndexMap_(headers);
     ['sales_qty', 'value', 'unit_price', 'revenue', 'seq', 'qty_total', 'sort_order'].forEach(function (colName) {
       if (hi[colName] != null) {
         try {
+          // 數字格式：從第2列、該欄，nBody 列 × 1 欄
           sh.getRange(2, hi[colName] + 1, nBody, 1).setNumberFormat('0');
-        } catch (e2) {}
+        } catch (e3) {}
       }
     });
   }
@@ -1108,8 +1181,9 @@ function writeSheetReplace_(ss, name, headers, body, color) {
 function readSheetObjects_(ss, name) {
   var sh = ss.getSheetByName(name);
   if (!sh || sh.getLastRow() < 2) return [];
-  var headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
-  var data = sh.getRange(2, 1, sh.getLastRow() - 1, headers.length).getValues();
+  var packed = v2ReadRows_(sh, 30);
+  var headers = packed.headers;
+  var data = packed.rows;
   var out = [];
   var r;
   for (r = 0; r < data.length; r++) {
@@ -1160,7 +1234,9 @@ function cell_(row, idx, name) {
 function upsertSetting_(ss, key, value) {
   var sh = ss.getSheetByName(V2.SETTINGS);
   if (!sh) return;
-  var vals = sh.getDataRange().getValues();
+  // 只讀 A:B，避免 getDataRange 掃到整份超大區域
+  var lastRow = Math.min(sh.getLastRow() || 1, 80);
+  var vals = sh.getRange(1, 1, lastRow, 2).getValues();
   var i;
   for (i = 1; i < vals.length; i++) {
     if (String(vals[i][0] || '').trim() === key) {
@@ -1174,7 +1250,8 @@ function upsertSetting_(ss, key, value) {
 function getSetting_(ss, key) {
   var sh = ss.getSheetByName(V2.SETTINGS);
   if (!sh) return '';
-  var vals = sh.getDataRange().getValues();
+  var lastRow = Math.min(sh.getLastRow() || 1, 80);
+  var vals = sh.getRange(1, 1, lastRow, 2).getValues();
   var i;
   for (i = 1; i < vals.length; i++) {
     if (String(vals[i][0] || '').trim() === key) return vals[i][1];
