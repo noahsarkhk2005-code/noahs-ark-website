@@ -70,6 +70,12 @@ function v2ColA1_(col1based) {
   return s;
 }
 
+/** 選單執行時沒有 ss 參數 → 自動取 active spreadsheet */
+function v2Ss_(ss) {
+  if (ss && typeof ss.getSheetByName === 'function') return ss;
+  return SpreadsheetApp.getActiveSpreadsheet() || SpreadsheetApp.getActive();
+}
+
 /* ════════════════════════════════════════
  *  安裝 / 選單
  * ════════════════════════════════════════ */
@@ -90,7 +96,7 @@ function onOpen() {
 
 /** 只建表頭（無 alert，供其他函式呼叫） */
 function createV2SheetsCore_() {
-  var ss = SpreadsheetApp.getActive();
+  var ss = v2Ss_();
   ensureSheetHeaders_(ss, V2.ORDERS, v2OrderHeaders_());
   SpreadsheetApp.flush();
   ensureSheetHeaders_(ss, V2.TICKETS, v2TicketHeaders_());
@@ -279,7 +285,7 @@ function v2ChartHeaders_() {
  * ════════════════════════════════════════ */
 
 function syncTallyToV2Orders() {
-  var ss = SpreadsheetApp.getActive();
+  var ss = v2Ss_();
   ensureSheetHeaders_(ss, V2.ORDERS, v2OrderHeaders_());
   var catalog = loadCatalogMap_(ss);
   var existing = loadExistingOrderKeys_(ss);
@@ -385,6 +391,7 @@ function syncTallyToV2Orders() {
 }
 
 function loadExistingOrderKeys_(ss) {
+  ss = v2Ss_(ss);
   var sh = ss.getSheetByName(V2.ORDERS);
   var map = {};
   if (!sh || sh.getLastRow() < 2) return map;
@@ -415,7 +422,7 @@ function appendOrderRow_(sh, o) {
  * ════════════════════════════════════════ */
 
 function processV2Actions() {
-  var ss = SpreadsheetApp.getActive();
+  var ss = v2Ss_();
   var sh = ss.getSheetByName(V2.ORDERS);
   if (!sh || sh.getLastRow() < 2) {
     SpreadsheetApp.getUi().alert('v2_Orders 無資料');
@@ -479,6 +486,7 @@ function processV2Actions() {
 }
 
 function v2ApproveOrder_(ss, order) {
+  ss = v2Ss_(ss);
   var patch = {
     order_status: '已通過',
     payment_status: '已付',
@@ -501,6 +509,7 @@ function v2ApproveOrder_(ss, order) {
 }
 
 function v2RejectOrder_(ss, order) {
+  ss = v2Ss_(ss);
   return {
     ok: true,
     message: '已拒絕',
@@ -515,6 +524,7 @@ function v2RejectOrder_(ss, order) {
 }
 
 function v2MarkPaid_(ss, order) {
+  ss = v2Ss_(ss);
   return {
     ok: true,
     message: '已標已付',
@@ -523,6 +533,7 @@ function v2MarkPaid_(ss, order) {
 }
 
 function v2IssueTickets_(ss, order) {
+  ss = v2Ss_(ss);
   ensureSheetHeaders_(ss, V2.TICKETS, v2TicketHeaders_());
   var qty = Math.max(1, toQty_(order.sales_qty));
   var eventCode = getSetting_(ss, 'V2_EVENT_CODE') || V2.EVENT_CODE;
@@ -591,6 +602,7 @@ function v2IssueTickets_(ss, order) {
 }
 
 function v2SendEmail_(ss, order) {
+  ss = v2Ss_(ss);
   var email = String(order.email || '').trim();
   if (!email || email.indexOf('@') < 0) {
     return { ok: false, message: '無效 email' };
@@ -629,7 +641,7 @@ function v2SendEmail_(ss, order) {
  * ════════════════════════════════════════ */
 
 function refreshV2StatsAndChart() {
-  var ss = SpreadsheetApp.getActive();
+  var ss = v2Ss_();
   ensureSheetHeaders_(ss, V2.STATS, v2StatsHeaders_());
   ensureSheetHeaders_(ss, V2.CHART, v2ChartHeaders_());
   syncProductsFromCategories_(ss);
@@ -705,6 +717,7 @@ function refreshV2StatsAndChart() {
 }
 
 function syncProductsFromCategories_(ss) {
+  ss = v2Ss_(ss);
   ensureSheetHeaders_(ss, V2.PRODUCTS, v2ProductHeaders_());
   var cat = ss.getSheetByName(V2.CAT);
   if (!cat || cat.getLastRow() < 2) return;
@@ -767,7 +780,7 @@ function handleScan_(e) {
 }
 
 function processScanPayload_(payload, scannedBy) {
-  var ss = SpreadsheetApp.getActive();
+  var ss = v2Ss_();
   ensureSheetHeaders_(ss, V2.SCANLOG, v2ScanLogHeaders_());
   ensureSheetHeaders_(ss, V2.TICKETS, v2TicketHeaders_());
 
@@ -866,6 +879,7 @@ function processScanPayload_(payload, scannedBy) {
 }
 
 function appendScanLog_(ss, o) {
+  ss = v2Ss_(ss);
   var sh = ss.getSheetByName(V2.SCANLOG);
   var headers = v2ScanLogHeaders_();
   var row = [];
@@ -880,7 +894,7 @@ function appendScanLog_(ss, o) {
  * AppSheet 也可呼叫：在 v2_Tickets 設 as_action=入場
  */
 function processV2TicketGateActions() {
-  var ss = SpreadsheetApp.getActive();
+  var ss = v2Ss_();
   var sh = ss.getSheetByName(V2.TICKETS);
   if (!sh || sh.getLastRow() < 2) return;
   var packedG = v2ReadRows_(sh, 20);
@@ -905,6 +919,7 @@ function processV2TicketGateActions() {
  * ════════════════════════════════════════ */
 
 function readNaTickets_(ss) {
+  ss = v2Ss_(ss);
   var sh = ss.getSheetByName(V2.NA_TICKETS);
   var out = [];
   if (!sh || sh.getLastRow() < 2) return out;
@@ -970,6 +985,7 @@ function readNaTickets_(ss) {
 }
 
 function readNaMerch_(ss) {
+  ss = v2Ss_(ss);
   var sh = ss.getSheetByName(V2.NA_MERCH);
   var out = [];
   if (!sh || sh.getLastRow() < 2) return out;
@@ -1053,6 +1069,7 @@ function readNaMerch_(ss) {
  * ════════════════════════════════════════ */
 
 function loadCatalogMap_(ss) {
+  ss = v2Ss_(ss);
   var map = {};
   var sh = ss.getSheetByName(V2.CAT);
   if (!sh || sh.getLastRow() < 2) return map;
@@ -1118,6 +1135,7 @@ function resolveProduct_(raw, map, preferChannel) {
 }
 
 function ensureSheetHeaders_(ss, name, headers) {
+  ss = v2Ss_(ss);
   var sh = ss.getSheetByName(name);
   if (!sh) {
     sh = ss.insertSheet(name);
@@ -1140,6 +1158,7 @@ function ensureSheetHeaders_(ss, name, headers) {
 }
 
 function writeSheetReplace_(ss, name, headers, body, color) {
+  ss = v2Ss_(ss);
   var sh = ensureSheetHeaders_(ss, name, headers);
   var cols = headers.length;
   var nBody = body ? body.length : 0;
@@ -1179,6 +1198,7 @@ function writeSheetReplace_(ss, name, headers, body, color) {
 }
 
 function readSheetObjects_(ss, name) {
+  ss = v2Ss_(ss);
   var sh = ss.getSheetByName(name);
   if (!sh || sh.getLastRow() < 2) return [];
   var packed = v2ReadRows_(sh, 30);
@@ -1232,6 +1252,7 @@ function cell_(row, idx, name) {
 }
 
 function upsertSetting_(ss, key, value) {
+  ss = v2Ss_(ss);
   var sh = ss.getSheetByName(V2.SETTINGS);
   if (!sh) return;
   // 只讀 A:B，避免 getDataRange 掃到整份超大區域
@@ -1248,6 +1269,7 @@ function upsertSetting_(ss, key, value) {
 }
 
 function getSetting_(ss, key) {
+  ss = v2Ss_(ss);
   var sh = ss.getSheetByName(V2.SETTINGS);
   if (!sh) return '';
   var lastRow = Math.min(sh.getLastRow() || 1, 80);
