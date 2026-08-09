@@ -10,13 +10,19 @@
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
-  <!-- Atmospheric stage background -->
-  <div class="site-bg" aria-hidden="true">
-    <div class="site-bg__glow"></div>
-    <div class="site-bg__rays"></div>
-    <div class="site-bg__horizon"></div>
+  <!-- YouTube cinematic background -->
+  <div class="site-bg site-bg--video" aria-hidden="true">
+    <div class="site-bg__video">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/cl42-wtbnow?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=cl42-wtbnow&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0"
+        title="Background video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+        loading="eager"
+      ></iframe>
+    </div>
+    <div class="site-bg__video-shade"></div>
     <div class="site-bg__grain"></div>
-    <div class="site-bg__scan"></div>
     <div class="site-bg__vignette"></div>
   </div>
 
