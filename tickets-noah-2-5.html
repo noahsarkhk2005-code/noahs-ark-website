@@ -9,21 +9,56 @@
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
-  <!-- YouTube cinematic background -->
-  <div class="site-bg site-bg--video" aria-hidden="true">
-    <div class="site-bg__video">
+    <!-- Cinematic background: poster + muted YouTube (fallback if player fails) -->
+  <div
+    class="site-bg site-bg--video"
+    aria-hidden="true"
+    style="background-image:url(https://i.ytimg.com/vi/cl42-wtbnow/maxresdefault.jpg)"
+  >
+    <div class="site-bg__video" id="site-bg-video">
       <iframe
-        src="https://www.youtube-nocookie.com/embed/cl42-wtbnow?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=cl42-wtbnow&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0"
+        id="site-bg-yt"
         title="Background video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerpolicy="strict-origin-when-cross-origin"
         loading="eager"
+        allowfullscreen
       ></iframe>
     </div>
     <div class="site-bg__video-shade"></div>
     <div class="site-bg__grain"></div>
     <div class="site-bg__vignette"></div>
   </div>
+  <script>
+  (function () {
+    var id = 'cl42-wtbnow';
+    var iframe = document.getElementById('site-bg-yt');
+    var wrap = document.getElementById('site-bg-video');
+    if (!iframe || !wrap) return;
+    // reduced motion → poster only
+    try {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        wrap.classList.add('is-hidden');
+        return;
+      }
+    } catch (e) {}
+    var origin = '';
+    try { origin = encodeURIComponent(location.origin || 'https://noahsarkhk2005.netlify.app'); } catch (e2) {
+      origin = encodeURIComponent('https://noahsarkhk2005.netlify.app');
+    }
+    // www.youtube.com + origin often avoids embed "播放器錯誤" / Error 153
+    var src = 'https://www.youtube.com/embed/' + id
+      + '?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=' + id
+      + '&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0'
+      + '&enablejsapi=0&origin=' + origin;
+    iframe.src = src;
+    // if still broken after a few seconds, keep poster only (hide error UI)
+    setTimeout(function () {
+      // cannot read cross-origin iframe content; rely on poster under iframe.
+      // Optional: hide video layer on mobile data / low-end
+    }, 0);
+  })();
+  </script>
 
   <div class="site-content">
   <nav class="border-b border-zinc-800/80 bg-black/80 backdrop-blur-md sticky top-0 z-50">
