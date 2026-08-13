@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Noah's Ark | 挪亞方舟</title>
-  <meta name="description" content="Noah's Ark - Hong Kong Band Culture Platform · Live Shows · Community Culture · International Collaboration. Noah's Ark 2.5 on 20 Nov 2026. Instagram @noahs_ark_hk · YouTube @noahsark_2005" />
+  <meta name="description" content="Noah's Ark - Hong Kong Band Culture Platform. Noah's Ark 2.5 Protoss 20th Anniversary — 05/12/2025 Hong Kong. Instagram @noahs_ark_hk · YouTube @noahsark_2005" />
   <link rel="preload" as="image" href="assets/logo-wide.webp" type="image/webp" />
-  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/style.css?v=20260813-bg" />
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
@@ -47,17 +47,21 @@
     try { origin = encodeURIComponent(location.origin || 'https://noahsarkhk2005.netlify.app'); } catch (e2) {
       origin = encodeURIComponent('https://noahsarkhk2005.netlify.app');
     }
-    // www.youtube.com + origin often avoids embed "播放器錯誤" / Error 153
+    // Centered cover embed; www + mute + loop; origin helps Error 153
     var src = 'https://www.youtube.com/embed/' + id
       + '?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=' + id
       + '&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0'
-      + '&enablejsapi=0&origin=' + origin;
-    iframe.src = src;
-    // if still broken after a few seconds, keep poster only (hide error UI)
+      + '&enablejsapi=0&start=0&origin=' + origin;
+    iframe.setAttribute('src', src);
+    // If embed fails, keep poster; hide broken chrome after timeout
     setTimeout(function () {
-      // cannot read cross-origin iframe content; rely on poster under iframe.
-      // Optional: hide video layer on mobile data / low-end
-    }, 0);
+      try {
+        // still show poster under iframe; optional low-power hide
+        if (navigator.connection && navigator.connection.saveData) {
+          wrap.classList.add('is-hidden');
+        }
+      } catch (e3) {}
+    }, 4000);
   })();
   </script>
 
@@ -127,10 +131,10 @@
         </picture>
       </div>
 
-      <p class="text-red-600 tracking-[0.35em] text-xs md:text-sm mb-3 uppercase font-semibold fade-in">
+      <p class="text-red-500 tracking-[0.35em] text-xs md:text-sm mb-3 uppercase font-semibold fade-in hero-readability">
         HONG KONG LIVE MUSIC
       </p>
-      <p class="text-lg md:text-xl text-zinc-400 mb-10 max-w-xl mx-auto fade-in">
+      <p class="text-lg md:text-xl text-zinc-100 mb-10 max-w-xl mx-auto fade-in hero-readability-strong">
         <span class="lang-zh">香港樂隊文化推廣平台 · 現場演出 · 社區文化 · 國際合作</span>
         <span class="lang-en lang-hidden">Hong Kong Band Culture Platform · Live Shows · Community Culture · International Collaboration</span>
       </p>
@@ -148,28 +152,28 @@
     </div>
   </header>
 
-  <!-- Upcoming Event Card -->
+  <!-- Upcoming Event Card — aligned with tickets-noah-2-5 (Protoss) -->
   <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
-    <div class="border border-zinc-800 rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-900 to-black">
+    <div class="upcoming-card border border-zinc-700 rounded-2xl overflow-hidden">
       <div class="md:flex">
-        <div class="md:w-2/5 bg-black flex items-center justify-center p-8 md:p-10 border-b md:border-b-0 md:border-r border-zinc-800">
+        <div class="md:w-2/5 bg-black/90 flex items-center justify-center p-8 md:p-10 border-b md:border-b-0 md:border-r border-zinc-700">
           <picture>
             <source srcset="assets/anchor-red.webp" type="image/webp" />
-            <img src="assets/anchor-red.png" alt="Noah's Ark Anchor" width="480" height="600" class="w-40 md:w-48 opacity-90" loading="lazy" decoding="async" />
+            <img src="assets/anchor-red.png" alt="Noah's Ark Anchor" width="480" height="600" class="w-40 md:w-48 opacity-95" loading="lazy" decoding="async" />
           </picture>
         </div>
         <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-center">
-          <div class="text-red-600 text-xs font-bold tracking-[0.25em] mb-2">UPCOMING · 即將舉行</div>
+          <div class="text-red-500 text-xs font-bold tracking-[0.25em] mb-2">UPCOMING · 即將舉行</div>
           <h2 class="text-2xl md:text-3xl font-black mb-1">Noah's Ark 2.5</h2>
-          <p class="text-zinc-400 mb-1">Oathean Live in Hong Kong</p>
-          <p class="text-zinc-500 text-sm mb-4">20 November 2026 · Hong Kong</p>
-          <p class="text-zinc-300 text-sm mb-6">
-            <span class="lang-zh">Vital Degree / Mindrots / 更多藝人待公布</span>
-            <span class="lang-en lang-hidden">Vital Degree / Mindrots / more artists TBA</span>
+          <p class="upcoming-sub text-lg font-semibold mb-1">Protoss 20th Anniversary</p>
+          <p class="upcoming-meta text-sm mb-4">05/12/2025 · Hong Kong</p>
+          <p class="upcoming-lineup text-sm mb-6">
+            <span class="lang-zh">票價：Metal Pass 會員 HKD280 · 早鳥 HKD300 · 預售 HKD350</span>
+            <span class="lang-en lang-hidden">Prices: Metal Pass HKD280 · Early bird HKD300 · Advanced HKD350</span>
           </p>
           <div>
             <a href="tickets-noah-2-5.html"
-               class="inline-block px-6 py-3 bg-red-700 hover:bg-red-600 rounded-lg font-semibold text-sm transition">
+               class="inline-block px-6 py-3 bg-red-700 hover:bg-red-600 text-white rounded-lg font-semibold text-sm transition shadow-lg shadow-red-950/40">
               立即購票 Get Tickets →
             </a>
           </div>
