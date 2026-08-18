@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Noah's Ark — Hong Kong's Extreme 2005 | 過往活動</title>
   <meta name="description" content="Noah's Ark Hong Kong's Extreme 2005 — Live in Hong Kong. The first Noah's Ark extreme metal event." />
-  <link rel="stylesheet" href="assets/style.css?v=20260818-events" />
+  <link rel="stylesheet" href="assets/style.css?v=20260818-gallery" />
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
   <div class="site-bg" aria-hidden="true">
@@ -91,7 +91,40 @@
         </p>
       </div>
     </div>
+
+    <section class="mt-12">
+      <h2 class="text-xs tracking-[0.25em] font-bold text-red-500 mb-4">GALLERY · 現場</h2>
+      <div class="event-gallery">
+        <a href="assets/gallery-2005-1.jpg" data-full="assets/gallery-2005-1.jpg">
+          <picture>
+            <source srcset="assets/gallery-2005-1.webp" type="image/webp" />
+            <img src="assets/gallery-2005-1.jpg" alt="Noah's Ark 2005 live 1" width="1600" height="2352" loading="lazy" decoding="async" />
+          </picture>
+        </a>
+        <a href="assets/gallery-2005-2.jpg" data-full="assets/gallery-2005-2.jpg">
+          <picture>
+            <source srcset="assets/gallery-2005-2.webp" type="image/webp" />
+            <img src="assets/gallery-2005-2.jpg" alt="Noah's Ark 2005 live 2" width="1600" height="2373" loading="lazy" decoding="async" />
+          </picture>
+        </a>
+        <a href="assets/gallery-2005-3.jpg" data-full="assets/gallery-2005-3.jpg">
+          <picture>
+            <source srcset="assets/gallery-2005-3.webp" type="image/webp" />
+            <img src="assets/gallery-2005-3.jpg" alt="Noah's Ark 2005 live 3" width="1600" height="2473" loading="lazy" decoding="async" />
+          </picture>
+        </a>
+        <a href="assets/gallery-2005-4.jpg" data-full="assets/gallery-2005-4.jpg">
+          <picture>
+            <source srcset="assets/gallery-2005-4.webp" type="image/webp" />
+            <img src="assets/gallery-2005-4.jpg" alt="Noah's Ark 2005 live 4" width="1600" height="2131" loading="lazy" decoding="async" />
+          </picture>
+        </a>
+      </div>
+    </section>
   </main>
+  <div class="event-lightbox" id="gallery-lb" role="dialog" aria-modal="true">
+    <img id="gallery-lb-img" alt="" />
+  </div>
 
   <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
     <p>© 2026 Noah's Ark Culture Communication Company Limited</p>
@@ -117,6 +150,22 @@
       if (nav) nav.classList.remove('is-open');
       if (btn) btn.setAttribute('aria-expanded', 'false');
     }
+    (function () {
+      var lb = document.getElementById('gallery-lb');
+      var img = document.getElementById('gallery-lb-img');
+      if (!lb || !img) return;
+      document.querySelectorAll('.event-gallery a').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          img.src = a.getAttribute('data-full') || a.getAttribute('href');
+          lb.classList.add('is-on');
+        });
+      });
+      lb.addEventListener('click', function () {
+        lb.classList.remove('is-on');
+        img.src = '';
+      });
+    })();
   </script>
   </div>
 </body>
