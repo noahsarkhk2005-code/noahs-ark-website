@@ -394,6 +394,16 @@ html{background:#030303}
   display:block
 }
 .event-tile__meta{padding:1rem 1.1rem 1.15rem}
+.event-page{
+  max-width:72rem;
+  margin:0 auto;
+  padding:1rem 1rem 3rem
+}
+.event-page__head{margin-bottom:1rem}
+.event-page__layout{
+  display:grid;
+  gap:1.25rem
+}
 .event-detail{
   display:grid;
   gap:1.5rem
@@ -408,9 +418,16 @@ html{background:#030303}
   background:#050505
 }
 .event-detail__poster img{width:100%;height:auto;display:block}
+.event-page__poster{
+  border:1px solid rgba(63,63,70,.9);
+  border-radius:.85rem;
+  overflow:hidden;
+  background:#050505;
+  max-width:14rem
+}
+.event-page__poster img{width:100%;height:auto;display:block}
 .event-album{
   position:relative;
-  margin-top:.25rem;
   border:1px solid rgba(63,63,70,.9);
   border-radius:1rem;
   overflow:hidden;
@@ -419,14 +436,13 @@ html{background:#030303}
 .event-album__stage{
   position:relative;
   aspect-ratio:3/4;
-  max-height:min(78vh,46rem);
   background:#050505
 }
 .event-album__slide{
   position:absolute;
   inset:0;
   opacity:0;
-  transition:opacity .55s ease
+  transition:opacity .5s ease
 }
 .event-album__slide.is-on{opacity:1;z-index:1}
 .event-album__slide img{
@@ -434,39 +450,41 @@ html{background:#030303}
   height:100%;
   object-fit:cover;
   object-position:center;
-  display:block
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none
 }
 .event-album__nav{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
   z-index:3;
-  width:2.5rem;
-  height:2.5rem;
+  width:2.85rem;
+  height:2.85rem;
   border-radius:999px;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.5);
   color:#fff;
-  font-size:1.35rem;
+  font-size:1.5rem;
   line-height:1;
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer
 }
-.event-album__nav:hover{background:rgba(185,28,28,.75);border-color:rgba(248,113,113,.7)}
-.event-album__prev{left:.7rem}
-.event-album__next{right:.7rem}
+.event-album__nav:hover{background:rgba(185,28,28,.8);border-color:rgba(248,113,113,.7)}
+.event-album__prev{left:.65rem}
+.event-album__next{right:.65rem}
 .event-album__bar{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:.75rem;
-  padding:.7rem .9rem;
-  background:rgba(8,8,10,.92);
+  gap:.6rem;
+  padding:.65rem .8rem;
+  background:rgba(8,8,10,.94);
   border-top:1px solid rgba(63,63,70,.8)
 }
-.event-album__dots{display:flex;gap:.4rem;flex-wrap:wrap}
+.event-album__dots{display:flex;gap:.38rem;flex-wrap:wrap;flex:1}
 .event-album__dot{
   width:.55rem;
   height:.55rem;
@@ -478,18 +496,66 @@ html{background:#030303}
 }
 .event-album__dot.is-on{background:#ef4444;box-shadow:0 0 0 3px rgba(185,28,28,.28)}
 .event-album__play{
-  font-size:.7rem;
+  font-size:.68rem;
   letter-spacing:.08em;
   text-transform:uppercase;
   border:1px solid #3f3f46;
   background:transparent;
   color:#d4d4d8;
   border-radius:.4rem;
-  padding:.28rem .55rem;
-  cursor:pointer
+  padding:.32rem .55rem;
+  cursor:pointer;
+  white-space:nowrap
 }
 .event-album__play:hover{border-color:#b91c1c;color:#fff}
-.event-album__count{color:#71717a;font-size:.75rem}
+.event-album__count{color:#a1a1aa;font-size:.75rem;white-space:nowrap}
+.event-album__thumbs{
+  display:flex;
+  gap:.4rem;
+  overflow-x:auto;
+  padding:.55rem .65rem .7rem;
+  background:#070708;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin
+}
+.event-album__thumbs button{
+  flex:0 0 3.4rem;
+  height:4.4rem;
+  padding:0;
+  border:2px solid transparent;
+  border-radius:.35rem;
+  overflow:hidden;
+  background:#111;
+  cursor:pointer
+}
+.event-album__thumbs button.is-on{border-color:#ef4444}
+.event-album__thumbs img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+@media (max-width:767px){
+  .event-page{padding:0 0 2.5rem}
+  .event-page__head,.event-page__copy{padding:0 1rem}
+  .event-page__poster{max-width:100%;margin:0 1rem}
+  .event-album{border-radius:0;border-left:0;border-right:0}
+  .event-album__stage{aspect-ratio:3/4;max-height:none}
+  .event-album__nav{width:3rem;height:3rem}
+}
+@media (min-width:768px){
+  .event-page{padding:1.75rem 1.25rem 4rem}
+  .event-page__layout{
+    grid-template-columns:minmax(0,1.4fr) minmax(17rem,.8fr);
+    gap:1.75rem;
+    align-items:start
+  }
+  .event-album__stage{
+    aspect-ratio:4/5;
+    max-height:min(80vh,44rem)
+  }
+  .event-album__slide img{object-fit:contain}
+}
 @media (prefers-reduced-motion:reduce){
   .site-bg__video{display:none}
   .site-bg--video{
