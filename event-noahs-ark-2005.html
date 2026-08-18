@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Noah's Ark — Hong Kong's Extreme 2005 | 過往活動</title>
   <meta name="description" content="Noah's Ark Hong Kong's Extreme 2005 — Live in Hong Kong. The first Noah's Ark extreme metal event." />
-  <link rel="stylesheet" href="assets/style.css?v=20260818-evo1" />
+  <link rel="stylesheet" href="assets/style.css?v=20260818-gallery-ui" />
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
   <div class="site-bg" aria-hidden="true">
@@ -105,16 +105,25 @@
           <div class="event-album__slide">
             <picture>
               <source srcset="assets/gallery-2005-4.webp" type="image/webp" />
-              <img src="assets/gallery-2005-4.jpg" alt="2005 lineup" width="1600" height="2473" decoding="async" />
+              <img src="assets/gallery-2005-4.jpg" alt="Line-up" width="1600" height="2473" decoding="async" />
             </picture>
           </div>
-          <button type="button" class="event-album__nav event-album__prev" id="album-prev" aria-label="Previous">‹</button>
-          <button type="button" class="event-album__nav event-album__next" id="album-next" aria-label="Next">›</button>
+          <div class="event-album__caption">
+            <span class="event-album__kicker">2005 · Band</span>
+            <span class="event-album__name" id="album-name">Evocation</span>
+          </div>
+          <div class="event-album__progress" aria-hidden="true"><i id="album-bar"></i></div>
+          <button type="button" class="event-album__nav event-album__prev" id="album-prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button type="button" class="event-album__nav event-album__next" id="album-next" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
         </div>
         <div class="event-album__thumbs" id="album-thumbs" aria-label="Thumbnails"></div>
         <div class="event-album__bar">
           <div class="event-album__dots" id="album-dots"></div>
-          <span class="event-album__count" id="album-count">1 / 7</span>
+          <span class="event-album__count" id="album-count">01 / 07</span>
           <button type="button" class="event-album__play" id="album-play" aria-pressed="true">
             <span class="lang-zh">暫停</span>
             <span class="lang-en lang-hidden">Pause</span>
@@ -195,6 +204,8 @@
       var countEl = document.getElementById('album-count');
       var playBtn = document.getElementById('album-play');
       var stage = document.getElementById('album-stage');
+      var nameEl = document.getElementById('album-name');
+      var bar = document.getElementById('album-bar');
       var n = slides.length;
       var i = 0;
       var timer = null;
@@ -240,22 +251,38 @@
           });
         }
       }
+      function restartBar() {
+        if (!bar) return;
+        bar.style.animation = 'none';
+        void bar.offsetWidth;
+        if (playing) {
+          root.classList.add('is-playing');
+          bar.style.animation = 'albumBar ' + ms + 'ms linear forwards';
+        } else {
+          root.classList.remove('is-playing');
+        }
+      }
       function show(idx) {
         i = (idx + n) % n;
         slides.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
         dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
         thumbs.forEach(function (t, k) { t.classList.toggle('is-on', k === i); });
-        if (countEl) countEl.textContent = (i + 1) + ' / ' + n;
+        var cap = slides[i].querySelector('img');
+        if (nameEl && cap) nameEl.textContent = cap.getAttribute('alt') || '';
+        if (countEl) countEl.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
+        restartBar();
         if (thumbs[i] && thumbsWrap) {
           thumbs[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }
       }
       function stop() {
         if (timer) { clearInterval(timer); timer = null; }
+        root.classList.remove('is-playing');
       }
       function start() {
         stop();
         if (!playing) return;
+        restartBar();
         timer = setInterval(function () { show(i + 1); }, ms);
       }
       function go(idx, fromUser) {
