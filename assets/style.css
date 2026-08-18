@@ -103,6 +103,28 @@ body{
   .site-bg__glow{animation:none}
 }
 
+/* Event lockup: Protoss wordmark + 20th Anniversary */
+.event-logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.35rem;
+  margin:0 auto 1.25rem;
+  width:min(92vw,34rem)
+}
+.event-logo__word{
+  width:100%;
+  height:auto;
+  display:block;
+  filter:drop-shadow(0 0 22px rgba(185,28,28,.45))
+}
+.event-logo__anniv{
+  width:min(58%,16rem);
+  height:auto;
+  display:block;
+  filter:drop-shadow(0 0 18px rgba(140,10,10,.4))
+}
+
 /* Page header logos — identical display size, red vs white variants */
 .page-logo{
   width:7.5rem;
