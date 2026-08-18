@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>過往活動 | Noah's Ark Events</title>
+  <meta name="description" content="Noah's Ark past events — Hong Kong's Extreme 2005 and Noah's Ark II Hong Kong Metal Fest 2026." />
+  <link rel="stylesheet" href="assets/style.css?v=20260818-events" />
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="index.html" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="tickets-noah-2-5.html" class="hover:text-red-500 transition">購票 Tickets</a>
+        <a href="merch.html" class="hover:text-red-500 transition">商品 Merch</a>
+        <a href="events.html" class="text-red-500">過往活動 Events</a>
+        <a href="index.html#mission" class="hover:text-red-500 transition">宗旨 Mission</a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="tickets-noah-2-5.html" onclick="closeNav()">購票 Tickets</a>
+      <a href="merch.html" onclick="closeNav()">商品 Merch</a>
+      <a href="events.html" class="is-active" onclick="closeNav()">過往活動 Events</a>
+      <a href="index.html#mission" onclick="closeNav()">宗旨 Mission</a>
+      <a href="index.html" onclick="closeNav()">首頁 Home</a>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">ARCHIVE · 過往活動</p>
+    <h1 class="text-3xl md:text-4xl font-black mb-2">
+      <span class="lang-zh">過往活動</span>
+      <span class="lang-en lang-hidden">Past Events</span>
+    </h1>
+    <p class="text-zinc-400 text-sm mb-8">
+      <span class="lang-zh">點擊海報進入活動介紹。</span>
+      <span class="lang-en lang-hidden">Tap a poster to open the event page.</span>
+    </p>
+
+    <div class="event-grid">
+      <a href="event-noahs-ark-2005.html" class="event-tile">
+        <div class="event-tile__art">
+          <picture>
+            <source srcset="assets/poster-2005.webp" type="image/webp" />
+            <img src="assets/poster-2005.jpg" alt="Noah's Ark Hong Kong's Extreme 2005" width="1400" height="1932" decoding="async" />
+          </picture>
+        </div>
+        <div class="event-tile__meta">
+          <div class="text-red-500 text-[11px] tracking-[0.2em] font-bold mb-1">2005</div>
+          <div class="font-bold">Noah's Ark — Hong Kong's Extreme</div>
+          <div class="text-zinc-500 text-xs mt-1">Live in Hong Kong</div>
+        </div>
+      </a>
+      <a href="event-noahs-ark-2.html" class="event-tile">
+        <div class="event-tile__art">
+          <picture>
+            <source srcset="assets/poster-noah2.webp" type="image/webp" />
+            <img src="assets/poster-noah2.jpg" alt="Noah's Ark II Hong Kong Metal Fest" width="902" height="1280" decoding="async" />
+          </picture>
+        </div>
+        <div class="event-tile__meta">
+          <div class="text-red-500 text-[11px] tracking-[0.2em] font-bold mb-1">16 MAY 2026</div>
+          <div class="font-bold">Noah's Ark II — Hong Kong Metal Fest</div>
+          <div class="text-zinc-500 text-xs mt-1">Chamame Livehouse · 18:00</div>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p>© 2026 Noah's Ark Culture Communication Company Limited</p>
+  </footer>
+  <script>
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
+      document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  </script>
+  </div>
+</body>
+</html>

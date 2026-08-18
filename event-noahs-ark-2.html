@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noah's Ark II — Hong Kong Metal Fest | 過往活動</title>
+  <meta name="description" content="Noah's Ark II Hong Kong Metal Fest — 16 May 2026, Chamame Livehouse. Evocation, PROTOS, Perish of Empyrean, Chimeras, Cursed Eyes." />
+  <link rel="stylesheet" href="assets/style.css?v=20260818-events" />
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="index.html" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="tickets-noah-2-5.html" class="hover:text-red-500 transition">購票 Tickets</a>
+        <a href="merch.html" class="hover:text-red-500 transition">商品 Merch</a>
+        <a href="events.html" class="text-red-500">過往活動 Events</a>
+        <a href="index.html#mission" class="hover:text-red-500 transition">宗旨 Mission</a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="tickets-noah-2-5.html" onclick="closeNav()">購票 Tickets</a>
+      <a href="merch.html" onclick="closeNav()">商品 Merch</a>
+      <a href="events.html" class="is-active" onclick="closeNav()">過往活動 Events</a>
+      <a href="index.html" onclick="closeNav()">首頁 Home</a>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <p class="text-sm mb-6">
+      <a href="events.html" class="text-red-500 hover:text-red-400">
+        <span class="lang-zh">← 過往活動</span>
+        <span class="lang-en lang-hidden">← Past events</span>
+      </a>
+    </p>
+
+    <div class="event-detail">
+      <div class="event-detail__poster">
+        <picture>
+          <source srcset="assets/poster-noah2.webp" type="image/webp" />
+          <img src="assets/poster-noah2.jpg" alt="Noah's Ark II Hong Kong Metal Fest poster" width="902" height="1280" decoding="async" />
+        </picture>
+      </div>
+      <div>
+        <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">16 MAY 2026</p>
+        <h1 class="text-3xl md:text-4xl font-black mb-2">Noah's Ark II</h1>
+        <p class="text-zinc-200 font-semibold mb-1">Hong Kong Metal Fest</p>
+        <p class="text-zinc-400 text-sm mb-6">Chamame Livehouse · 18:00</p>
+        <div class="text-sm text-zinc-300 space-y-3 leading-relaxed mb-6">
+          <p class="lang-zh">
+            承接 2005 年 Noah's Ark Hong Kong's Extreme，二十年後五支本地金屬樂隊再聚，獻上 Noah's Ark II 香港金屬音樂節。
+          </p>
+          <p class="lang-en lang-hidden">
+            Twenty years after Hong Kong's Extreme 2005, five local metal bands returned for Noah's Ark II Hong Kong Metal Fest.
+          </p>
+        </div>
+        <h2 class="text-xs tracking-[0.2em] font-bold text-red-500 mb-3">LINE-UP</h2>
+        <ul class="text-sm text-zinc-200 space-y-1.5 mb-8">
+          <li>招魂 Evocation</li>
+          <li>PROTOS 神族</li>
+          <li>Perish of Empyrean</li>
+          <li>Chimeras</li>
+          <li>Cursed Eyes</li>
+        </ul>
+        <p>
+          <a href="event-noahs-ark-2005.html" class="text-sm text-red-500 hover:text-red-400">
+            <span class="lang-zh">上一場：Hong Kong's Extreme 2005 →</span>
+            <span class="lang-en lang-hidden">Previous: Hong Kong's Extreme 2005 →</span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p>© 2026 Noah's Ark Culture Communication Company Limited</p>
+  </footer>
+  <script>
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
+      document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  </script>
+  </div>
+</body>
+</html>
