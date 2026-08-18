@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Noah's Ark — Hong Kong's Extreme 2005 | 過往活動</title>
   <meta name="description" content="Noah's Ark Hong Kong's Extreme 2005 — Live in Hong Kong. The first Noah's Ark extreme metal event." />
-  <link rel="stylesheet" href="assets/style.css?v=20260818-gallery" />
+  <link rel="stylesheet" href="assets/style.css?v=20260818-album" />
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
   <div class="site-bg" aria-hidden="true">
@@ -93,38 +93,47 @@
     </div>
 
     <section class="mt-12">
-      <h2 class="text-xs tracking-[0.25em] font-bold text-red-500 mb-4">GALLERY · 現場</h2>
-      <div class="event-gallery">
-        <a href="assets/gallery-2005-1.jpg" data-full="assets/gallery-2005-1.jpg">
-          <picture>
-            <source srcset="assets/gallery-2005-1.webp" type="image/webp" />
-            <img src="assets/gallery-2005-1.jpg" alt="Noah's Ark 2005 live 1" width="1600" height="2352" loading="lazy" decoding="async" />
-          </picture>
-        </a>
-        <a href="assets/gallery-2005-2.jpg" data-full="assets/gallery-2005-2.jpg">
-          <picture>
-            <source srcset="assets/gallery-2005-2.webp" type="image/webp" />
-            <img src="assets/gallery-2005-2.jpg" alt="Noah's Ark 2005 live 2" width="1600" height="2373" loading="lazy" decoding="async" />
-          </picture>
-        </a>
-        <a href="assets/gallery-2005-3.jpg" data-full="assets/gallery-2005-3.jpg">
-          <picture>
-            <source srcset="assets/gallery-2005-3.webp" type="image/webp" />
-            <img src="assets/gallery-2005-3.jpg" alt="Noah's Ark 2005 live 3" width="1600" height="2473" loading="lazy" decoding="async" />
-          </picture>
-        </a>
-        <a href="assets/gallery-2005-4.jpg" data-full="assets/gallery-2005-4.jpg">
-          <picture>
-            <source srcset="assets/gallery-2005-4.webp" type="image/webp" />
-            <img src="assets/gallery-2005-4.jpg" alt="Noah's Ark 2005 live 4" width="1600" height="2131" loading="lazy" decoding="async" />
-          </picture>
-        </a>
+      <h2 class="text-xs tracking-[0.25em] font-bold text-red-500 mb-4">GALLERY · 現場畫冊</h2>
+      <div class="event-album" id="event-album" data-interval="4500">
+        <div class="event-album__stage">
+          <div class="event-album__slide is-on">
+            <picture>
+              <source srcset="assets/gallery-2005-1.webp" type="image/webp" />
+              <img src="assets/gallery-2005-1.jpg" alt="Noah's Ark 2005 live 1" width="1600" height="2352" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="assets/gallery-2005-2.webp" type="image/webp" />
+              <img src="assets/gallery-2005-2.jpg" alt="Noah's Ark 2005 live 2" width="1600" height="2373" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="assets/gallery-2005-3.webp" type="image/webp" />
+              <img src="assets/gallery-2005-3.jpg" alt="Noah's Ark 2005 live 3" width="1600" height="2473" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="assets/gallery-2005-4.webp" type="image/webp" />
+              <img src="assets/gallery-2005-4.jpg" alt="Noah's Ark 2005 live 4" width="1600" height="2131" decoding="async" />
+            </picture>
+          </div>
+          <button type="button" class="event-album__nav event-album__prev" id="album-prev" aria-label="Previous">‹</button>
+          <button type="button" class="event-album__nav event-album__next" id="album-next" aria-label="Next">›</button>
+        </div>
+        <div class="event-album__bar">
+          <div class="event-album__dots" id="album-dots"></div>
+          <span class="event-album__count" id="album-count">1 / 4</span>
+          <button type="button" class="event-album__play" id="album-play" aria-pressed="true">
+            <span class="lang-zh">暫停</span>
+            <span class="lang-en lang-hidden">Pause</span>
+          </button>
+        </div>
       </div>
     </section>
   </main>
-  <div class="event-lightbox" id="gallery-lb" role="dialog" aria-modal="true">
-    <img id="gallery-lb-img" alt="" />
-  </div>
 
   <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
     <p>© 2026 Noah's Ark Culture Communication Company Limited</p>
@@ -151,20 +160,84 @@
       if (btn) btn.setAttribute('aria-expanded', 'false');
     }
     (function () {
-      var lb = document.getElementById('gallery-lb');
-      var img = document.getElementById('gallery-lb-img');
-      if (!lb || !img) return;
-      document.querySelectorAll('.event-gallery a').forEach(function (a) {
-        a.addEventListener('click', function (e) {
-          e.preventDefault();
-          img.src = a.getAttribute('data-full') || a.getAttribute('href');
-          lb.classList.add('is-on');
+      var root = document.getElementById('event-album');
+      if (!root) return;
+      var slides = Array.prototype.slice.call(root.querySelectorAll('.event-album__slide'));
+      var dotsWrap = document.getElementById('album-dots');
+      var countEl = document.getElementById('album-count');
+      var playBtn = document.getElementById('album-play');
+      var n = slides.length;
+      var i = 0;
+      var timer = null;
+      var playing = true;
+      var ms = parseInt(root.getAttribute('data-interval'), 10) || 4500;
+      var reduce = false;
+      try {
+        reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      } catch (e) {}
+      if (reduce) playing = false;
+
+      slides.forEach(function (_, idx) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'event-album__dot' + (idx === 0 ? ' is-on' : '');
+        b.setAttribute('aria-label', 'Photo ' + (idx + 1));
+        b.addEventListener('click', function () { go(idx, true); });
+        dotsWrap.appendChild(b);
+      });
+      var dots = Array.prototype.slice.call(dotsWrap.children);
+
+      function labelPlay() {
+        if (!playBtn) return;
+        playBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+        playBtn.innerHTML = playing
+          ? '<span class="lang-zh">暫停</span><span class="lang-en lang-hidden">Pause</span>'
+          : '<span class="lang-zh">播放</span><span class="lang-en lang-hidden">Play</span>';
+        if (typeof currentLang !== 'undefined') {
+          playBtn.querySelectorAll('.lang-zh').forEach(function (el) {
+            el.classList.toggle('lang-hidden', currentLang === 'en');
+          });
+          playBtn.querySelectorAll('.lang-en').forEach(function (el) {
+            el.classList.toggle('lang-hidden', currentLang === 'zh');
+          });
+        }
+      }
+      function show(idx) {
+        i = (idx + n) % n;
+        slides.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
+        dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
+        if (countEl) countEl.textContent = (i + 1) + ' / ' + n;
+      }
+      function stop() {
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+      function start() {
+        stop();
+        if (!playing) return;
+        timer = setInterval(function () { show(i + 1); }, ms);
+      }
+      function go(idx, fromUser) {
+        show(idx);
+        if (fromUser) start();
+      }
+      document.getElementById('album-prev').addEventListener('click', function () { go(i - 1, true); });
+      document.getElementById('album-next').addEventListener('click', function () { go(i + 1, true); });
+      if (playBtn) {
+        playBtn.addEventListener('click', function () {
+          playing = !playing;
+          labelPlay();
+          if (playing) start(); else stop();
         });
+      }
+      root.addEventListener('mouseenter', stop);
+      root.addEventListener('mouseleave', function () { if (playing) start(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') go(i - 1, true);
+        if (e.key === 'ArrowRight') go(i + 1, true);
       });
-      lb.addEventListener('click', function () {
-        lb.classList.remove('is-on');
-        img.src = '';
-      });
+      labelPlay();
+      show(0);
+      start();
     })();
   </script>
   </div>
