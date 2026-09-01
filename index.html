@@ -7,6 +7,11 @@
   <meta name="description" content="Noah's Ark - Hong Kong Band Culture Platform. Noah's Ark 2.5 Protoss 20th Anniversary — 05/12/2026 MOM Livehouse Hong Kong. Supporting: 門生, 秋紅. Instagram @noahs_ark_hk · YouTube @noahsark_2005" />
   <link rel="preload" as="image" href="assets/logo-hero.webp" type="image/webp" />
   <link rel="stylesheet" href="assets/style.css?v=20260901-logo" />
+  <style>
+    /* Org identity hidden until confirmed. Add class="show-org" on <html> to publish. */
+    html:not(.show-org) .org-public { display: none !important; }
+    html.show-org .hide-when-org { display: none !important; }
+  </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
   <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/og-image.jpg" />
@@ -83,7 +88,7 @@
         <a href="merch.html" class="hover:text-red-500 transition">商品 Merch</a>
         <a href="community-education.html" class="hover:text-red-500 transition">社區教育 Education</a>
         <a href="events.html" class="hover:text-red-500 transition">過往活動 Events</a>
-        <a href="#organisation" class="hover:text-red-500 transition">機構 Organisation</a>
+        <a href="#organisation" class="org-public hover:text-red-500 transition">機構 Organisation</a>
         <a href="#mission" class="hover:text-red-500 transition">宗旨 Mission</a>
         <a href="#contact" class="hover:text-red-500 transition">聯絡 Contact</a>
         <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="Instagram" aria-label="Instagram">
@@ -110,7 +115,7 @@
       <a href="merch.html" onclick="closeNav()">商品 Merch</a>
       <a href="community-education.html" onclick="closeNav()">社區教育 Education</a>
       <a href="events.html" onclick="closeNav()">過往活動 Events</a>
-      <a href="#organisation" onclick="closeNav()">機構 Organisation</a>
+      <a href="#organisation" class="org-public" onclick="closeNav()">機構 Organisation</a>
       <a href="#mission" onclick="closeNav()">宗旨 Mission</a>
       <a href="#contact" onclick="closeNav()">聯絡 Contact</a>
       <div class="site-nav__drawer-row">
@@ -160,7 +165,7 @@
       <p class="text-red-500 tracking-[0.35em] text-xs md:text-sm mb-3 uppercase font-semibold fade-in hero-readability">
         HONG KONG LIVE MUSIC
       </p>
-      <p class="text-zinc-300 text-xs md:text-sm mb-3 max-w-2xl mx-auto fade-in hero-readability">
+      <p class="org-public text-zinc-300 text-xs md:text-sm mb-3 max-w-2xl mx-auto fade-in hero-readability">
         <span class="lang-zh">挪亞方舟文化傳播有限公司 · Noah's Ark Culture Communication Company Limited<br/>非牟利擔保有限公司（籌備中）· 「2005」是活動品牌，不是公司成立年份</span>
         <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited · 挪亞方舟文化傳播有限公司<br/>Non-profit company limited by guarantee (in formation) · “2005” is an event brand, not the year of incorporation</span>
       </p>
@@ -217,7 +222,7 @@
   </section>
 
   <!-- Organisation facts for grant officers / auditors -->
-  <section id="organisation" class="max-w-4xl mx-auto px-4 pb-16 fade-in scroll-mt-24">
+  <section id="organisation" class="org-public max-w-4xl mx-auto px-4 pb-16 fade-in scroll-mt-24">
     <div class="border border-zinc-700 rounded-2xl bg-zinc-900/70 overflow-hidden">
       <div class="px-6 md:px-8 pt-6 md:pt-8">
         <div class="text-red-500 text-xs font-bold tracking-[0.25em] mb-2">ORGANISATION · 機構資料</div>
@@ -447,7 +452,7 @@
             <span class="lang-zh">公司宗旨</span>
             <span class="lang-en lang-hidden">Our Mission</span>
           </h2>
-          <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+          <p class="org-public text-zinc-400 text-sm leading-relaxed mb-6">
             <span class="lang-zh">挪亞方舟文化傳播有限公司（Noah's Ark Culture Communication Company Limited）正籌備成立為非牟利擔保有限公司，不向成員分紅。法定名稱勿寫成「挪亞方舟有限公司」或 Noah's Ark Limited。公司與活動品牌「2005」分開：2005 是現場活動名稱，不是本公司註冊或成立年份。宗旨是現場音樂主辦、亞洲交流、公開教育。</span>
             <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited (挪亞方舟文化傳播有限公司) is being established as a non-profit company limited by guarantee and does not distribute profits to members. Do not use “Noah's Ark Limited” or 挪亞方舟有限公司. The company is separate from the “2005” event brand: 2005 is a live-event name, not the year of incorporation. Our mission is live music presenting, Asia exchange, and public education.</span>
           </p>
@@ -500,8 +505,8 @@
               <span class="lang-en lang-hidden">Get in touch</span>
             </h3>
             <p class="text-zinc-500 text-xs mb-5">
-              <span class="lang-zh">商務合作、樂隊邀請、場地租用、媒體查詢。請電郵或 Instagram DM booking。電話及註冊地址暫未公開，恕不杜撰。</span>
-              <span class="lang-en lang-hidden">Bookings, band invites, venue hire, press — email or Instagram DM. Phone and registered address are not published; we will not invent them.</span>
+              <span class="lang-zh">商務合作、樂隊邀請、場地租用、媒體查詢。請電郵或 Instagram DM booking。<span class="org-public">電話及註冊地址暫未公開，恕不杜撰。</span></span>
+              <span class="lang-en lang-hidden">Bookings, band invites, venue hire, press — email or Instagram DM.<span class="org-public"> Phone and registered address are not published; we will not invent them.</span></span>
             </p>
 
             <a href="mailto:noahsarkhk2005@gmail.com"
@@ -538,7 +543,7 @@
             </a>
           </div>
 
-          <p class="text-zinc-600 text-xs mt-8 pt-4 border-t border-zinc-800">
+          <p class="org-public text-zinc-600 text-xs mt-8 pt-4 border-t border-zinc-800">
             <span class="lang-zh">挪亞方舟文化傳播有限公司<br/>Noah's Ark Culture Communication Company Limited<br/>非牟利擔保有限公司（籌備中）· 香港現場音樂主辦</span>
             <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited<br/>挪亞方舟文化傳播有限公司<br/>Non-profit company limited by guarantee (in formation) · Hong Kong live music presenter</span>
           </p>
@@ -553,8 +558,9 @@
       <img src="assets/logo-nav.png" alt="Noah's Ark" width="213" height="120"
            class="h-8 w-auto mx-auto mb-4 opacity-60 object-contain" loading="lazy" decoding="async" />
     </picture>
-    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
-    <p class="mb-2 text-xs text-zinc-500"><span class="lang-zh">非牟利擔保有限公司 · 不向成員分紅 · 籌備中（2005 為活動品牌）</span><span class="lang-en lang-hidden">Company limited by guarantee · non-profit · in formation (2005 is an event brand)</span></p>
+    <p class="mb-1 org-public">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+    <p class="mb-1 hide-when-org">© 2026 Noah's Ark</p>
+    <p class="mb-2 text-xs text-zinc-500 org-public"><span class="lang-zh">非牟利擔保有限公司 · 不向成員分紅 · 籌備中（2005 為活動品牌）</span><span class="lang-en lang-hidden">Company limited by guarantee · non-profit · in formation (2005 is an event brand)</span></p>
     <div class="flex items-center justify-center gap-4">
       <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">
         Instagram @noahs_ark_hk
