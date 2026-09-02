@@ -17,26 +17,47 @@
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
-    <!-- Cinematic still: Protoss 20 cityscape (no YouTube, no Noah logo) -->
-  <div
-    class="site-bg site-bg--video tickets-art-bg"
-    aria-hidden="true"
-  ></div>
+    <!-- Original Protoss 20 clip as looping background (unedited) -->
+  <div class="site-bg site-bg--video tickets-art-bg" aria-hidden="true">
+    <video
+      class="tickets-art-bg__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="assets/tickets-bg-20-poster.jpg"
+    >
+      <source src="assets/tickets-bg-20.mp4" type="video/mp4" />
+    </video>
+  </div>
   <style>
     .tickets-art-bg{
       background-color:#050203;
-      background-image:image-set(url("assets/tickets-bg-20.webp") type("image/webp"), url("assets/tickets-bg-20.jpg") type("image/jpeg"));
+      background-image:url("assets/tickets-bg-20-poster.jpg");
       background-size:cover;
       background-position:center center;
-      background-repeat:no-repeat;
+    }
+    .tickets-art-bg__video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center center;
     }
     .tickets-art-bg::after{
       content:"";
       position:absolute;
       inset:0;
+      z-index:1;
+      pointer-events:none;
       background:
-        linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.38) 38%,rgba(0,0,0,.72) 100%),
-        radial-gradient(ellipse 80% 70% at 50% 40%,rgba(80,8,8,.18) 0%,transparent 70%);
+        linear-gradient(180deg,rgba(0,0,0,.50) 0%,rgba(0,0,0,.32) 40%,rgba(0,0,0,.68) 100%),
+        radial-gradient(ellipse 80% 70% at 50% 40%,rgba(80,8,8,.16) 0%,transparent 70%);
+    }
+    @media (prefers-reduced-motion: reduce){
+      .tickets-art-bg__video{ display:none; }
     }
   </style>
 
