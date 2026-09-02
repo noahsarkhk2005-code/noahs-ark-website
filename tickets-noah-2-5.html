@@ -17,56 +17,28 @@
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
-    <!-- Cinematic background: poster + muted YouTube (fallback if player fails) -->
+    <!-- Cinematic still: Protoss 20 cityscape (no YouTube, no Noah logo) -->
   <div
-    class="site-bg site-bg--video"
+    class="site-bg site-bg--video tickets-art-bg"
     aria-hidden="true"
-    style="background-image:url(https://i.ytimg.com/vi/cl42-wtbnow/maxresdefault.jpg)"
-  >
-    <div class="site-bg__video" id="site-bg-video">
-      <iframe
-        id="site-bg-yt"
-        title="Background video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        loading="eager"
-        allowfullscreen
-      ></iframe>
-    </div>
-    <div class="site-bg__video-shade"></div>
-    <div class="site-bg__grain"></div>
-    <div class="site-bg__vignette"></div>
-  </div>
-  <script>
-  (function () {
-    var id = 'cl42-wtbnow';
-    var iframe = document.getElementById('site-bg-yt');
-    var wrap = document.getElementById('site-bg-video');
-    if (!iframe || !wrap) return;
-    // reduced motion → poster only
-    try {
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        wrap.classList.add('is-hidden');
-        return;
-      }
-    } catch (e) {}
-    var origin = '';
-    try { origin = encodeURIComponent(location.origin || 'https://noahsarkhk2005.netlify.app'); } catch (e2) {
-      origin = encodeURIComponent('https://noahsarkhk2005.netlify.app');
+  ></div>
+  <style>
+    .tickets-art-bg{
+      background-color:#050203;
+      background-image:image-set(url("assets/tickets-bg-20.webp") type("image/webp"), url("assets/tickets-bg-20.jpg") type("image/jpeg"));
+      background-size:cover;
+      background-position:center 42%;
+      background-repeat:no-repeat;
     }
-    // www.youtube.com + origin often avoids embed "播放器錯誤" / Error 153
-    var src = 'https://www.youtube.com/embed/' + id
-      + '?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=' + id
-      + '&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0'
-      + '&enablejsapi=0&origin=' + origin;
-    iframe.src = src;
-    // if still broken after a few seconds, keep poster only (hide error UI)
-    setTimeout(function () {
-      // cannot read cross-origin iframe content; rely on poster under iframe.
-      // Optional: hide video layer on mobile data / low-end
-    }, 0);
-  })();
-  </script>
+    .tickets-art-bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.38) 38%,rgba(0,0,0,.72) 100%),
+        radial-gradient(ellipse 80% 70% at 50% 40%,rgba(80,8,8,.18) 0%,transparent 70%);
+    }
+  </style>
 
   <div class="site-content">
   <nav class="site-nav" id="site-nav">
@@ -121,10 +93,7 @@
 
   <main class="max-w-3xl mx-auto px-4 py-10">
     <div class="mb-8 text-center">
-      <div class="flex justify-center mb-4">
-          <img src="assets/logo-hero.png" alt="Noah's Ark" width="365" height="640" class="h-28 md:h-36 w-auto" decoding="async" />
-          </div>
-          <div class="event-logo">
+      <div class="event-logo">
         <img src="assets/protoss-wordmark.png" alt="PROTOSS" width="1360" height="686" class="event-logo__word" decoding="async" />
         <img src="assets/protoss-20th.png" alt="20th Anniversary" width="859" height="770" class="event-logo__anniv" decoding="async" />
       </div>
