@@ -85,6 +85,41 @@
     }
   </style>
 
+  <style id="logo-shatter-css">
+    .logo-shatter{
+      position:relative;
+      width:auto;
+      height:9rem; /* ~h-36 */
+      aspect-ratio:365/640;
+      filter: drop-shadow(0 0 28px rgba(185,28,28,.45));
+      will-change: contents;
+    }
+    @media (min-width:768px){
+      .logo-shatter{ height:13rem; } /* ~h-52 */
+    }
+    .logo-shatter__fallback{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+      opacity:0; pointer-events:none;
+    }
+    .logo-shatter__piece{
+      position:absolute;
+      margin:0; padding:0;
+      display:block;
+      transform: translate3d(0,0,0) rotate(0deg);
+      transform-origin: center center;
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+    .logo-shatter__piece img{
+      display:block; width:100%; height:100%; object-fit:fill;
+      pointer-events:none; user-select:none;
+    }
+    @media (prefers-reduced-motion: reduce){
+      .logo-shatter__piece{ transform:none !important; }
+    }
+  </style>
+
+
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
   <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/og-image.jpg" />
@@ -219,19 +254,41 @@
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
       <div class="mb-8 flex justify-center fade-in">
-        <picture>
-          <source srcset="assets/logo-hero.webp" type="image/webp" />
+        <div class="logo-shatter" id="logo-shatter" aria-label="NOAH'S ARK">
           <img
+            class="logo-shatter__fallback"
             src="assets/logo-hero.png"
             alt="NOAH'S ARK"
             width="365"
             height="640"
-            class="h-36 md:h-52 w-auto logo-hero-glow"
             fetchpriority="high"
             decoding="async"
-            onload="this.classList.add('loaded')"
           />
+        <picture class="logo-shatter__piece" data-dx="-28" data-dy="-36" data-rot="-14" style="left:0.0%;top:0.0%;width:51.781%;height:38.125%;">
+          <source srcset="assets/logo-parts/logo-part-a.webp" type="image/webp" />
+          <img src="assets/logo-parts/logo-part-a.png" alt="" width="189" height="244" decoding="async" draggable="false" />
         </picture>
+        <picture class="logo-shatter__piece" data-dx="30" data-dy="-40" data-rot="16" style="left:41.918%;top:10.0%;width:57.534%;height:30.156%;">
+          <source srcset="assets/logo-parts/logo-part-b.webp" type="image/webp" />
+          <img src="assets/logo-parts/logo-part-b.png" alt="" width="210" height="193" decoding="async" draggable="false" />
+        </picture>
+        <picture class="logo-shatter__piece" data-dx="-38" data-dy="8" data-rot="-10" style="left:0.0%;top:34.219%;width:42.192%;height:32.344%;">
+          <source srcset="assets/logo-parts/logo-part-c.webp" type="image/webp" />
+          <img src="assets/logo-parts/logo-part-c.png" alt="" width="154" height="207" decoding="async" draggable="false" />
+        </picture>
+        <picture class="logo-shatter__piece" data-dx="36" data-dy="12" data-rot="12" style="left:37.808%;top:37.656%;width:62.192%;height:29.531%;">
+          <source srcset="assets/logo-parts/logo-part-d.webp" type="image/webp" />
+          <img src="assets/logo-parts/logo-part-d.png" alt="" width="227" height="189" decoding="async" draggable="false" />
+        </picture>
+        <picture class="logo-shatter__piece" data-dx="-22" data-dy="42" data-rot="-8" style="left:0.0%;top:62.031%;width:43.836%;height:21.406%;">
+          <source srcset="assets/logo-parts/logo-part-e.webp" type="image/webp" />
+          <img src="assets/logo-parts/logo-part-e.png" alt="" width="160" height="137" decoding="async" draggable="false" />
+        </picture>
+        <picture class="logo-shatter__piece" data-dx="26" data-dy="46" data-rot="14" style="left:42.192%;top:62.969%;width:57.808%;height:37.031%;">
+          <source srcset="assets/logo-parts/logo-part-f.webp" type="image/webp" />
+          <img src="assets/logo-parts/logo-part-f.png" alt="" width="211" height="237" decoding="async" draggable="false" />
+        </picture>
+        </div>
       </div>
 
       <p class="text-red-500 hf-hero-kicker uppercase font-semibold fade-in hero-readability">
@@ -699,5 +756,51 @@
       document.querySelectorAll('header .fade-in').forEach(el => el.classList.add('visible'));
     }, 80);
   </script>
+
+  <script id="logo-shatter-js">
+  (function () {
+    var root = document.getElementById('logo-shatter');
+    if (!root) return;
+    var pieces = Array.prototype.slice.call(root.querySelectorAll('.logo-shatter__piece'));
+    if (!pieces.length) return;
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    if (reduce) return;
+
+    var ticking = false;
+    function progress() {
+      // 0 at page top / hero start; 1 after scrolling ~55% of hero stage (or 320px)
+      var hero = root.closest('header') || root;
+      var rect = hero.getBoundingClientRect();
+      var start = window.scrollY + rect.top; // page Y of hero top
+      var range = Math.max(rect.height * 0.7, 280);
+      var y = window.scrollY - start;
+      var p = y / range;
+      if (p < 0) p = 0;
+      if (p > 1) p = 1;
+      // ease out cubic for nicer settle
+      var e = 1 - Math.pow(1 - p, 3);
+      for (var i = 0; i < pieces.length; i++) {
+        var el = pieces[i];
+        var dx = parseFloat(el.getAttribute('data-dx') || '0');
+        var dy = parseFloat(el.getAttribute('data-dy') || '0');
+        var rot = parseFloat(el.getAttribute('data-rot') || '0');
+        el.style.transform = 'translate3d(' + (dx * e) + '%,' + (dy * e) + '%,0) rotate(' + (rot * e) + 'deg)';
+      }
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        progress();
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    progress();
+  })();
+  </script>
+
 </body>
 </html>
