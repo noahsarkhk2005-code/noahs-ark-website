@@ -1,0 +1,80 @@
+[
+  {
+    "id": "a",
+    "file": "logo-part-a",
+    "left": 0.0,
+    "top": 0.0,
+    "width": 51.781,
+    "height": 38.125,
+    "bw": 189,
+    "bh": 244,
+    "dx": -28,
+    "dy": -36,
+    "rot": -14
+  },
+  {
+    "id": "b",
+    "file": "logo-part-b",
+    "left": 41.918,
+    "top": 10.0,
+    "width": 57.534,
+    "height": 30.156,
+    "bw": 210,
+    "bh": 193,
+    "dx": 30,
+    "dy": -40,
+    "rot": 16
+  },
+  {
+    "id": "c",
+    "file": "logo-part-c",
+    "left": 0.0,
+    "top": 34.219,
+    "width": 42.192,
+    "height": 32.344,
+    "bw": 154,
+    "bh": 207,
+    "dx": -38,
+    "dy": 8,
+    "rot": -10
+  },
+  {
+    "id": "d",
+    "file": "logo-part-d",
+    "left": 37.808,
+    "top": 37.656,
+    "width": 62.192,
+    "height": 29.531,
+    "bw": 227,
+    "bh": 189,
+    "dx": 36,
+    "dy": 12,
+    "rot": 12
+  },
+  {
+    "id": "e",
+    "file": "logo-part-e",
+    "left": 0.0,
+    "top": 62.031,
+    "width": 43.836,
+    "height": 21.406,
+    "bw": 160,
+    "bh": 137,
+    "dx": -22,
+    "dy": 42,
+    "rot": -8
+  },
+  {
+    "id": "f",
+    "file": "logo-part-f",
+    "left": 42.192,
+    "top": 62.969,
+    "width": 57.808,
+    "height": 37.031,
+    "bw": 211,
+    "bh": 237,
+    "dx": 26,
+    "dy": 46,
+    "rot": 14
+  }
+]
