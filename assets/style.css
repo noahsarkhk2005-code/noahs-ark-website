@@ -638,3 +638,31 @@ html{background:#030303}
       radial-gradient(ellipse 80% 70% at 50% 40%,rgba(100,10,10,.2) 0%,transparent 65%)
   }
 }
+
+
+/* Noah type: Oswald + Inter + Noto Sans TC (paired with NA monogram) */
+:root{
+  --font-display:"Oswald",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Inter","Noto Sans TC",ui-sans-serif,system-ui,sans-serif;
+}
+html,body{
+  font-family:var(--font-body);
+}
+h1,h2,h3,h4,
+.hf-hero-title,
+.hf-cta-primary,
+.hf-stats__num,
+.hf-aftermovie__title,
+.upcoming-card h2,
+.site-nav__desktop a,
+.event-logo{
+  font-family:var(--font-display);
+}
+.hf-hero-kicker,
+.hf-stats__label,
+.hf-aftermovie__label,
+.site-nav__desktop a,
+.uppercase.tracking-widest,
+.font-black.tracking-widest{
+  font-family:var(--font-display);
+}
