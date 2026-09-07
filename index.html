@@ -12,6 +12,79 @@
     html:not(.show-org) .org-public { display: none !important; }
     html.show-org .hide-when-org { display: none !important; }
   </style>
+  <style id="hellfest-pass">
+    /* Hellfest-inspired homepage pass — larger type, stats, clearer CTAs */
+    .hf-hero-kicker{ letter-spacing:.42em; font-size:.7rem; }
+    @media (min-width:768px){ .hf-hero-kicker{ font-size:.8rem; } }
+    .hf-hero-title{
+      font-size: clamp(1.85rem, 4.5vw, 3.25rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      margin: .75rem auto 1rem;
+      max-width: 22ch;
+    }
+    .hf-hero-mission{
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      font-weight: 600;
+      color: #f4f4f5;
+      margin-bottom: 1.75rem;
+    }
+    .hf-cta-primary{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-width: 14rem; padding: 1rem 2rem;
+      background:#b91c1c; color:#fff; font-weight:800; font-size:1rem;
+      border-radius:.6rem; letter-spacing:.04em;
+      box-shadow:0 12px 40px rgba(127,29,29,.45);
+      transition: background .15s;
+    }
+    .hf-cta-primary:hover{ background:#dc2626; }
+    .hf-cta-ghost{
+      display:inline-flex; margin-top:.85rem;
+      color:#a1a1aa; font-size:.9rem; font-weight:600;
+      border-bottom:1px solid transparent;
+    }
+    .hf-cta-ghost:hover{ color:#fff; border-bottom-color:#a1a1aa; }
+    .hf-stats{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+      max-width:56rem; margin:0 auto 3.5rem; padding:0 1rem;
+      border-top:1px solid #3f3f46; border-bottom:1px solid #3f3f46;
+    }
+    .hf-stats__item{
+      text-align:center; padding:1.75rem .75rem;
+      border-right:1px solid #3f3f46;
+    }
+    .hf-stats__item:last-child{ border-right:none; }
+    .hf-stats__num{
+      display:block; font-size:clamp(1.75rem,4vw,2.75rem); font-weight:900;
+      color:#fff; line-height:1; margin-bottom:.4rem;
+    }
+    .hf-stats__label{
+      display:block; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase;
+      color:#a1a1aa; font-weight:700;
+    }
+    .hf-aftermovie{
+      max-width:56rem; margin:0 auto 4rem; padding:0 1rem;
+    }
+    .hf-aftermovie__frame{
+      position:relative; border:1px solid #3f3f46; border-radius:1rem; overflow:hidden;
+      background:#09090b; aspect-ratio:16/9;
+    }
+    .hf-aftermovie__frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .hf-aftermovie__label{
+      color:#ef4444; font-size:.7rem; font-weight:800; letter-spacing:.3em; margin-bottom:.75rem;
+    }
+    .hf-aftermovie__title{
+      font-size:clamp(1.4rem,3vw,2rem); font-weight:900; margin-bottom:.5rem;
+    }
+    @media (max-width:640px){
+      .hf-stats{ grid-template-columns:1fr; }
+      .hf-stats__item{ border-right:none; border-bottom:1px solid #3f3f46; }
+      .hf-stats__item:last-child{ border-bottom:none; }
+    }
+  </style>
+
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
   <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/og-image.jpg" />
@@ -77,20 +150,19 @@
   <!-- Nav: mobile compact · iPad/desktop full -->
   <nav class="site-nav" id="site-nav">
     <div class="site-nav__bar">
-      <a href="index.html" class="site-nav__logo" aria-label="Noah's Ark home">
+      <a aria-label='Noah\'s Ark home' class='site-nav__logo' href='/'>
         <picture>
           <source srcset="assets/logo-nav.webp" type="image/webp" />
           <img src="assets/logo-nav.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
         </picture>
       </a>
       <div class="site-nav__desktop">
-        <a href="tickets-noah-2-5.html" class="hover:text-red-500 transition">購票 Tickets</a>
-        <a href="merch.html" class="hover:text-red-500 transition">商品 Merch</a>
-        <a href="community-education.html" class="hover:text-red-500 transition">社區教育 Education</a>
-        <a href="events.html" class="hover:text-red-500 transition">過往活動 Events</a>
-        <a href="#organisation" class="org-public hover:text-red-500 transition">機構 Organisation</a>
-        <a href="#mission" class="hover:text-red-500 transition">宗旨 Mission</a>
-        <a href="#contact" class="hover:text-red-500 transition">聯絡 Contact</a>
+        <a class='hover:text-red-500 transition' href='/tickets-noah-2-5'>Tickets</a>
+        <a class='hover:text-red-500 transition' href='/events'>Events</a>
+        <a class='hover:text-red-500 transition' href='/community-education'>Education</a>
+        <a class='hover:text-red-500 transition' href='/merch'>Shop</a>
+        <a href="#mission" class="hover:text-red-500 transition">About</a>
+        <a href="#organisation" class="org-public hover:text-red-500 transition">Organisation</a>
         <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="Instagram" aria-label="Instagram">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         </a>
@@ -111,13 +183,13 @@
       </div>
     </div>
     <div class="site-nav__drawer" id="nav-drawer">
-      <a href="tickets-noah-2-5.html" onclick="closeNav()">購票 Tickets</a>
-      <a href="merch.html" onclick="closeNav()">商品 Merch</a>
-      <a href="community-education.html" onclick="closeNav()">社區教育 Education</a>
-      <a href="events.html" onclick="closeNav()">過往活動 Events</a>
-      <a href="#organisation" class="org-public" onclick="closeNav()">機構 Organisation</a>
-      <a href="#mission" onclick="closeNav()">宗旨 Mission</a>
-      <a href="#contact" onclick="closeNav()">聯絡 Contact</a>
+      <a href='/tickets-noah-2-5' onclick='closeNav()'>Tickets</a>
+      <a href='/events' onclick='closeNav()'>Events</a>
+      <a href='/community-education' onclick='closeNav()'>Education</a>
+      <a href='/merch' onclick='closeNav()'>Shop</a>
+      <a href="#mission" onclick="closeNav()">About</a>
+      <a href="#organisation" class="org-public" onclick="closeNav()">Organisation</a>
+      <a href="#contact" onclick="closeNav()">Contact</a>
       <div class="site-nav__drawer-row">
         <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" aria-label="Instagram" onclick="closeNav()">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -162,36 +234,59 @@
         </picture>
       </div>
 
-      <p class="text-red-500 tracking-[0.35em] text-xs md:text-sm mb-3 uppercase font-semibold fade-in hero-readability">
+      <p class="text-red-500 hf-hero-kicker uppercase font-semibold fade-in hero-readability">
         HONG KONG LIVE MUSIC
       </p>
-      <p class="text-zinc-300 text-xs md:text-sm mb-3 max-w-2xl mx-auto fade-in hero-readability">
-        <span class="lang-zh">挪亞方舟文化傳播有限公司 · Noah's Ark Culture Communication Company Limited</span>
-        <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited · 挪亞方舟文化傳播有限公司</span>
+      <h1 class="hf-hero-title text-white fade-in hero-readability-strong">
+        <span class="lang-zh">05 / 12 / 2026</span>
+        <span class="lang-en lang-hidden">05 / 12 / 2026</span>
+      </h1>
+      <p class="text-zinc-200 text-base md:text-lg font-bold mb-2 fade-in hero-readability-strong">
+        Noah's Ark 2.5 · PROTOSS 20th · MOM Livehouse
       </p>
-      <p class="text-lg md:text-xl text-zinc-100 mb-10 max-w-xl mx-auto fade-in hero-readability-strong">
+      <p class="text-zinc-400 text-xs md:text-sm mb-4 max-w-2xl mx-auto fade-in hero-readability">
+        <span class="lang-zh">挪亞方舟文化傳播有限公司</span>
+        <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited</span>
+      </p>
+      <p class="hf-hero-mission max-w-2xl mx-auto fade-in hero-readability-strong">
         <span class="lang-zh">推廣香港樂隊音樂文化 · 國際文化交流 · 社區教育</span>
-        <span class="lang-en lang-hidden">Promote Hong Kong band culture · International cultural exchange · Community education</span>
+        <span class="lang-en lang-hidden">Hong Kong band culture · International exchange · Community education</span>
       </p>
 
-      <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in">
-        <a href="tickets-noah-2-5.html"
-           class="px-8 py-4 bg-red-700 hover:bg-red-600 text-white font-bold rounded-lg transition shadow-lg shadow-red-950/50">
-          購票 Tickets · Noah's Ark 2.5
+      <div class="flex flex-col items-center fade-in">
+        <a class="hf-cta-primary" href="/tickets-noah-2-5">
+          <span class="lang-zh">購票 TICKETS</span>
+          <span class="lang-en lang-hidden">GET TICKETS</span>
         </a>
-        <a href="community-education.html"
-           class="px-8 py-4 border border-zinc-600 hover:border-red-600 text-white font-bold rounded-lg transition">
-          社區教育 Education
+        <a class="hf-cta-ghost" href="/community-education">
+          <span class="lang-zh">社區教育 Education →</span>
+          <span class="lang-en lang-hidden">Community education →</span>
         </a>
       </div>
     </div>
   </header>
 
+  <!-- Hellfest-style stats (verified facts only) -->
+  <section class="hf-stats fade-in" aria-label="Highlights">
+    <div class="hf-stats__item">
+      <span class="hf-stats__num">1</span>
+      <span class="hf-stats__label"><span class="lang-zh">即將舉行</span><span class="lang-en lang-hidden">Upcoming</span></span>
+    </div>
+    <div class="hf-stats__item">
+      <span class="hf-stats__num">5</span>
+      <span class="hf-stats__label"><span class="lang-zh">本地樂隊 · 茶豆 II</span><span class="lang-en lang-hidden">Local bands · Ark II</span></span>
+    </div>
+    <div class="hf-stats__item">
+      <span class="hf-stats__num">2005</span>
+      <span class="hf-stats__label"><span class="lang-zh">活動品牌起點</span><span class="lang-en lang-hidden">Event brand since</span></span>
+    </div>
+  </section>
+
   <!-- Upcoming Event Card — aligned with tickets-noah-2-5 (Protoss) -->
   <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
     <div class="upcoming-card border border-zinc-700 rounded-2xl overflow-hidden">
       <div class="md:flex">
-        <a href="tickets-noah-2-5.html" class="upcoming-card__poster md:w-2/5 border-b md:border-b-0 md:border-r border-zinc-700">
+        <a class='upcoming-card__poster md:w-2/5 border-b md:border-b-0 md:border-r border-zinc-700' href='/tickets-noah-2-5'>
           <picture>
             <source srcset="assets/protoss-poster.webp" type="image/webp" />
             <img src="assets/protoss-poster.jpg" alt="PROTOSS 20th Anniversary — MOM Livehouse 5 Dec" width="1067" height="1600" loading="lazy" decoding="async" />
@@ -211,8 +306,7 @@
             <span class="lang-en lang-hidden">Prices: Metal Pass HK350 · Presale HKD380 · Walk-in HKD450</span>
           </p>
           <div>
-            <a href="tickets-noah-2-5.html"
-               class="inline-block px-6 py-3 bg-red-700 hover:bg-red-600 text-white rounded-lg font-semibold text-sm transition shadow-lg shadow-red-950/40">
+            <a class='inline-block px-6 py-3 bg-red-700 hover:bg-red-600 text-white rounded-lg font-semibold text-sm transition shadow-lg shadow-red-950/40' href='/tickets-noah-2-5'>
               立即購票 Get Tickets →
             </a>
           </div>
@@ -264,15 +358,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
           <dt class="text-zinc-500"><span class="lang-zh">即將舉行（主辦實績）</span><span class="lang-en lang-hidden">Upcoming (presenting record)</span></dt>
           <dd class="md:col-span-2 text-zinc-200">
-            <span class="lang-zh">2026 年 12 月 5 日 · Noah's Ark 2.5／PROTOSS 20th Anniversary · MOM Livehouse Hong Kong · Supporting：門生、秋紅。<a class="text-red-400 hover:text-red-300" href="tickets-noah-2-5.html">購票／海報</a></span>
-            <span class="lang-en lang-hidden">5 Dec 2026 · Noah's Ark 2.5 / PROTOSS 20th Anniversary · MOM Livehouse Hong Kong · Supporting: 門生, 秋紅. <a class="text-red-400 hover:text-red-300" href="tickets-noah-2-5.html">Tickets / poster</a></span>
+            <span class="lang-zh">2026 年 12 月 5 日 · Noah's Ark 2.5／PROTOSS 20th Anniversary · MOM Livehouse Hong Kong · Supporting：門生、秋紅。<a class='text-red-400 hover:text-red-300' href='/tickets-noah-2-5'>購票／海報</a></span>
+            <span class="lang-en lang-hidden">5 Dec 2026 · Noah's Ark 2.5 / PROTOSS 20th Anniversary · MOM Livehouse Hong Kong · Supporting: 門生, 秋紅. <a class='text-red-400 hover:text-red-300' href='/tickets-noah-2-5'>Tickets / poster</a></span>
           </dd>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
           <dt class="text-zinc-500"><span class="lang-zh">社區教育</span><span class="lang-en lang-hidden">Community education</span></dt>
           <dd class="md:col-span-2 text-zinc-200">
-            <span class="lang-zh">社區教育：面向公眾嘅音樂文化學習同參與；課堂與活動詳情陸續公布。未有社區中心合作文件，不陳述已合作。<a class="text-red-400 hover:text-red-300" href="community-education.html">社區教育頁</a></span>
-            <span class="lang-en lang-hidden">Community education: public learning and participation in music culture; programme details to be announced. No community-centre partnership is claimed. <a class="text-red-400 hover:text-red-300" href="community-education.html">Education page</a></span>
+            <span class="lang-zh">社區教育：面向公眾嘅音樂文化學習同參與；課堂與活動詳情陸續公布。未有社區中心合作文件，不陳述已合作。<a class='text-red-400 hover:text-red-300' href='/community-education'>社區教育頁</a></span>
+            <span class="lang-en lang-hidden">Community education: public learning and participation in music culture; programme details to be announced. No community-centre partnership is claimed. <a class='text-red-400 hover:text-red-300' href='/community-education'>Education page</a></span>
           </dd>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
@@ -315,13 +409,13 @@
           <span class="lang-en lang-hidden">Tap a poster for the event page</span>
         </h2>
       </div>
-      <a href="events.html" class="text-sm text-red-500 hover:text-red-400">
+      <a class='text-sm text-red-500 hover:text-red-400' href='/events'>
         <span class="lang-zh">全部 →</span>
         <span class="lang-en lang-hidden">All →</span>
       </a>
     </div>
     <div class="event-grid">
-      <a href="event-noahs-ark-2005.html" class="event-tile">
+      <a class='event-tile' href='/event-noahs-ark-2005'>
         <div class="event-tile__art">
           <picture>
             <source srcset="assets/poster-2005.webp" type="image/webp" />
@@ -334,7 +428,7 @@
           <div class="text-zinc-500 text-xs mt-1">Live in Hong Kong</div>
         </div>
       </a>
-      <a href="event-noahs-ark-2.html" class="event-tile">
+      <a class='event-tile' href='/event-noahs-ark-2'>
         <div class="event-tile__art">
           <picture>
             <source srcset="assets/poster-noah2.webp" type="image/webp" />
@@ -418,25 +512,27 @@
 
   <!-- Quick links -->
   <section class="max-w-4xl mx-auto px-4 pb-16 grid sm:grid-cols-2 gap-4 fade-in">
-    <a href="merch.html" class="border border-zinc-800 hover:border-red-800 rounded-xl p-6 bg-zinc-900/50 transition group">
-      <div class="text-red-600 text-xs font-bold tracking-widest mb-2">MERCH · 商品</div>
-      <h3 class="text-lg font-bold mb-1 group-hover:text-red-400 transition">
-        挪亞方舟商品 Official Merch
+    <a class='border border-zinc-800 hover:border-red-800 rounded-xl p-6 bg-zinc-900/50 transition group' href='/merch'>
+      <div class="text-red-600 text-xs font-bold tracking-widest mb-2">SHOP · 商品</div>
+      <h3 class="text-xl font-black mb-1 group-hover:text-red-400 transition">
+        Official Merch
       </h3>
-      <p class="text-zinc-500 text-sm">
+      <p class="text-zinc-500 text-sm mb-3">
         T-Shirt · 毛巾 · 鎖匙扣 · Pack · Tote
       </p>
+      <p class="text-red-500 text-xs font-bold tracking-widest">ENTER SHOP →</p>
     </a>
-    <a href="community-education.html" class="border border-zinc-800 hover:border-red-800 rounded-xl p-6 bg-zinc-900/50 transition group">
+    <a class='border border-zinc-800 hover:border-red-800 rounded-xl p-6 bg-zinc-900/50 transition group' href='/community-education'>
       <div class="text-red-600 text-xs font-bold tracking-widest mb-2">EDUCATION · 社區教育</div>
-      <h3 class="text-lg font-bold mb-1 group-hover:text-red-400 transition">
+      <h3 class="text-xl font-black mb-1 group-hover:text-red-400 transition">
         <span class="lang-zh">社區教育</span>
         <span class="lang-en lang-hidden">Community education</span>
       </h3>
-      <p class="text-zinc-500 text-sm">
+      <p class="text-zinc-500 text-sm mb-3">
         <span class="lang-zh">面向公眾嘅音樂文化學習同參與</span>
         <span class="lang-en lang-hidden">Public learning and participation in music culture</span>
       </p>
+      <p class="text-red-500 text-xs font-bold tracking-widest">LEARN MORE →</p>
     </a>
   </section>
 
