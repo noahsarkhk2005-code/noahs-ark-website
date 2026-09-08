@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<title>神族提詞器 · 手機控 / iPad 顯示</title>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin:0; height:100%; background:#0B0B0B; color:#E8E4DC;
+  font-family: -apple-system, "PingFang HK", "Noto Sans CJK HK", sans-serif; overflow:hidden; }
+#boot { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:24px; gap:14px; text-align:center; z-index:20; background:#0B0B0B; }
+#boot h1 { font-size:22px; margin:0 0 8px; color:#E8E4DC; }
+#boot p { color:#8A8A8A; font-size:14px; margin:0 0 8px; line-height:1.5; max-width:340px; }
+#boot input { font-size:28px; letter-spacing:6px; text-align:center; width:180px; padding:12px;
+  border-radius:12px; border:1px solid #333; background:#161616; color:#E8E4DC; }
+#boot .row { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+#boot button, #nav button { font-size:18px; font-weight:700; border:0; border-radius:14px; padding:14px 18px;
+  background:#222; color:#E8E4DC; }
+#boot button.primary, #nav button.primary { background:#C23B3B; color:#fff; }
+#bar { position:fixed; top:0; left:0; right:0; height:52px; display:none; align-items:center;
+  justify-content:space-between; padding:0 14px; background:#111; border-bottom:1px solid #2a2a2a; z-index:5; }
+#bar .ep { font-size:14px; font-weight:700; color:#C23B3B; }
+#bar .meta { font-size:12px; color:#8A8A8A; }
+#status { color:#6a6; }
+#status.bad { color:#C23B3B; }
+#stage { position:fixed; top:52px; bottom:88px; left:0; right:0; padding:28px 32px; overflow:auto; display:none; }
+.who { color:#C23B3B; font-size:28px; font-weight:800; margin:0 0 12px; }
+.paren { color:#8A8A8A; font-size:18px; font-weight:500; }
+.dlg { font-size:40px; font-weight:700; line-height:1.35; white-space:pre-wrap; margin:0; color:#E8E4DC; }
+.note { color:#8A8A8A; font-size:20px; margin-top:18px; line-height:1.4; }
+.stage { color:#b0aba3; font-size:24px; line-height:1.4; }
+.cut { color:#C23B3B; font-size:26px; font-weight:700; text-align:center; margin-top:24px; }
+#nav { position:fixed; bottom:0; left:0; right:0; height:88px; display:none; grid-template-columns:1fr 1.6fr 1fr;
+  gap:10px; padding:12px 14px 18px; background:#111; border-top:1px solid #2a2a2a; }
+.remote-only #stage { bottom: 120px; }
+.remote-only #nav { height:120px; grid-template-columns:1fr 1fr; }
+.remote-only #nav .fs { display:none; }
+.remote-only .dlg { font-size:28px; }
+.display-only #nav { display:none !important; }
+.display-only #stage { bottom: 0; }
+#qr { width:160px; height:160px; background:#fff; border-radius:8px; }
+</style>
+</head>
+<body>
+<div id="boot">
+  <h1>神族提詞器（豪哥版）</h1>
+  <p>iPad 揀「顯示」；手機揀「遙控」。兩部入同一個 4 位房號，同一 Wi‑Fi 較穩。</p>
+  <input id="room" maxlength="4" inputmode="numeric" placeholder="房號" value=""/>
+  <div class="row">
+    <button type="button" class="primary" id="asDisplay">iPad 顯示</button>
+    <button type="button" id="asRemote">手機遙控</button>
+  </div>
+  <p id="bootHint"></p>
+  <canvas id="qr" style="display:none"></canvas>
+</div>
+<div id="bar"><span class="ep" id="ep">—</span><span class="meta"><span id="status">未連線</span> · <span id="counter">1/1</span> · 房 <span id="roomShow"></span></span></div>
+<div id="stage"></div>
+<div id="nav">
+  <button type="button" id="prev">上一頁</button>
+  <button type="button" id="next" class="primary">下一頁</button>
+  <button type="button" id="fs" class="fs">全螢幕</button>
+</div>
+<script>
+const cues = [
+{ep:"第一集《公堂》", who:"Tomy", paren:"背對鏡頭，瘋狂揮棍", dlg:"「Metal啊嗱！屌你！\n乜撚嘢都話自己係Metal啊嗱？！\n聽住Pop著件Metal Tee\n就話自己係Metal佬？！\n打你個偽金屬！」", note:"※ 要真瘋狂，聲要夠大、夠狠"},
+{ep:"第一集《公堂》", who:"魚仔", paren:"低聲", dlg:"「阿大，豪哥搵你。」"},
+{ep:"第一集《公堂》", who:"Tomy", paren:"停一停", dlg:"「魔仔，同我搞掂佢。」"},
+{ep:"第一集《公堂》", who:"Tomy", paren:"摺衫袖，接過電話", dlg:"「點嘛豪哥。」", note:"※ 魚仔同一時間幫 Tomy 著外套；之後把電話遞給魚仔（無對白）", cut:"→ 第二集 切火鍋圓檯"},
+{ep:"第二集《軍師摸底》", who:"魚仔", paren:"推眼鏡 · 翻記事簿", dlg:"「豪哥，我哋方舟依家辦公堂、\n開基金。啲數字嘢，全部都要清清楚楚\n睇你地神族二十年，做嘢嘅兄弟係咁走黎走去，我地好難做架喔」"},
+{ep:"第二集《軍師摸底》", who:"豪哥", paren:"繼續食 · 喝啤酒 · 冷笑", dlg:"「玩 Metal 玩咗二十年，\n大家音樂理念唔同，各走各路，\n好正常啫。」\n「我『神族』兩個字，\nProtoss 嘅核心精神，\n邊個走都變唔到。」"},
+{ep:"第二集《軍師摸底》", who:"Tomy", paren:"拍筷子 · 身體前傾", dlg:"「豪哥，理念唔同？……\n你地換咗咁多人，我地都好擔心，\n我點知你哋入面有冇二五仔。」"},
+{ep:"第二集《軍師摸底》", who:"豪哥", paren:"笑容收斂 · 前傾隔煙對視", dlg:"「二五仔？！好！\n我今日就同你講清講楚！」", note:"※ 開口講舊事前 Cut to Black", cut:"→ Cut to Black"},
+{ep:"第三集《神族戰績》", who:"阿德", paren:"按手臂攔截", dlg:"「兄弟，唔使講咁多，\n20年前嘅事，我親自交代！」"},
+{ep:"第三集《神族戰績》", who:"魚仔", dlg:"「德哥德哥唔使勞氣，20年前香港\n玩Metal邊個唔識你哋呀？\n我第一次睇metal show都係睇你啫……\n我都想問句——\n點解你要離開社團呀？\n話走就走？」"},
+{ep:"第三集《神族戰績》", who:"勝哥", paren:"砸杯企硬", dlg:"「喂，魚仔！乜嘢叫離開社團呀？\n……從來都係齊上齊落！\n……我哋入面絕對唔會有二五仔！\n……神族20周年我哋搞硬！」"},
+{ep:"第三集《神族戰績》", who:"阿德", paren:"真情", dlg:"「勝哥講得啱……\n香港玩band就係咁辛苦㗎啦……\n攰，咪唞吓先囉！\n而家兄弟吹雞話要搞20周年，\n我實撐㗎！」"},
+{ep:"第三集《神族戰績》", who:"豪哥", dlg:"「你哋而家係咪唔知我哋神族嘅戰績 Ah？！」"},
+{ep:"第三集《神族戰績》", who:"Tomy", dlg:"「我　　記　　得　　！」", note:"※ 轉場鑰匙；之後 Deathcore 雙踏切入紀錄片"},
+{ep:"第四集《後生過招》", stage:"露台：Tomy、豪哥、阿德、勝哥（煲煙）\n檯面：魚仔、魔仔、一山、康仔"},
+{ep:"第四集《後生過招》", who:"魚仔", paren:"碰杯 · 友善", dlg:"「其實平時大佬喺度我都唔好意思問……\n點解你哋會加入神族嘅？\n邊個搵你哋入去架？」"},
+{ep:"第四集《後生過招》", who:"一山 & 康仔", stage:"【真聽真答】自由發揮 · 講真實加入心路"},
+{ep:"第四集《後生過招》", who:"魔仔", paren:"面無表情 · 掟手機", dlg:"「聽。」", note:"※ 只一句；手機預載指定後生 Deathcore"},
+{ep:"第四集《後生過招》", who:"魚仔", paren:"指手機", dlg:"「依隊嘢話自己同你哋\n同一範喔，\n你哋點睇？」"},
+{ep:"第四集《後生過招》", who:"一山 & 康仔", stage:"【真聽真答】拆解水平、技術編曲同音樂態度", cut:"→ Cut to Black"},
+{ep:"第五集《傳承與未來》", who:"Tomy", paren:"推門回座", dlg:"「點啊？傾咩咁好傾呀？」"},
+{ep:"第五集《傳承與未來》", who:"魚仔", dlg:"「冇，阿大，我地幾個傾下偈姐。」"},
+{ep:"第五集《傳承與未來》", who:"Tomy", dlg:"「大家坐低食嘢，一齊傾！」"},
+{ep:"第五集《傳承與未來》", who:"魚仔", paren:"問豪哥 & 阿德", dlg:"「豪哥，你哋今次\n搵我哋合作。」\n「一定有番啲驚喜啦。」\n「我都想知，\n你哋仲搵咗邊啲人幫拖？」"},
+{ep:"第五集《傳承與未來》", who:"豪哥", dlg:"「秋紅同門生。」"},
+{ep:"第五集《傳承與未來》", who:"Tomy", dlg:"「咁掂啦，咁多兄弟，\n依劑嘢食滑佢啦。」"},
+{ep:"第五集《傳承與未來》", who:"Tomy", paren:"離場", dlg:"「我有事走先，啲嘢交畀魚仔同你地傾。」", note:"※ 離場背影係句號"},
+{ep:"第六集《閻王殿》", who:"閻羅王", dlg:"「你點落嚟？」"},
+{ep:"第六集《閻王殿》", who:"偽金屬", dlg:"「我……我玩 Metal 㗎……\n俾人打落嚟。」"},
+{ep:"第六集《閻王殿》", who:"閻羅王", dlg:"「著件 Nirvana 就叫 Metal？」"},
+{ep:"第六集《閻王殿》", who:"偽金屬", dlg:"「我真係……」"},
+{ep:"第六集《閻王殿》", who:"閻羅王", dlg:"「呢度唔收你。」"},
+{ep:"第六集《閻王殿》", who:"閻羅王", dlg:"「依家我畀你上去，睇吓 Protoss。」\n「還陽之後，再同我講乜嘢叫 Metal。」", cut:"→ Cut to Black · 片尾 12月5日 MOM｜Protoss 20周年"}
+];
+let i = 0;
+let role = null; // display | remote
+let peer = null;
+let conn = null;
+const roomEl = document.getElementById('room');
+const boot = document.getElementById('boot');
+const stageEl = document.getElementById('stage');
+const epEl = document.getElementById('ep');
+const counterEl = document.getElementById('counter');
+const statusEl = document.getElementById('status');
+const bar = document.getElementById('bar');
+const nav = document.getElementById('nav');
+
+function peerId(room){ return 'noahshoot' + room; }
+function setStatus(ok, text){
+  statusEl.textContent = text;
+  statusEl.className = ok ? '' : 'bad';
+}
+function render(){
+  const c = cues[i];
+  epEl.textContent = c.ep;
+  counterEl.textContent = (i+1) + ' / ' + cues.length;
+  let html = '';
+  if (c.who) html += '<div class="who">' + c.who + (c.paren ? ' <span class="paren">（'+c.paren+'）</span>' : '') + '</div>';
+  if (c.dlg) html += '<p class="dlg">' + c.dlg.replace(/</g,'&lt;') + '</p>';
+  if (c.stage) html += '<p class="stage">' + c.stage.replace(/</g,'&lt;').replace(/\n/g,'<br/>') + '</p>';
+  if (c.note) html += '<p class="note">' + c.note + '</p>';
+  if (c.cut) html += '<p class="cut">' + c.cut + '</p>';
+  stageEl.innerHTML = html;
+  stageEl.scrollTop = 0;
+}
+function go(n, broadcast){
+  i = Math.max(0, Math.min(cues.length-1, n));
+  render();
+  if (broadcast && conn && conn.open) conn.send({type:'goto', i:i});
+}
+function next(){ go(i+1, true); }
+function prev(){ go(i-1, true); }
+
+function enterUI(r){
+  role = r;
+  boot.style.display = 'none';
+  bar.style.display = 'flex';
+  stageEl.style.display = 'block';
+  nav.style.display = 'grid';
+  document.body.classList.add(r === 'remote' ? 'remote-only' : 'display-only');
+  document.getElementById('roomShow').textContent = roomEl.value.trim();
+  render();
+}
+
+function wireConn(c){
+  conn = c;
+  c.on('open', () => setStatus(true, '已連線'));
+  c.on('data', (msg) => {
+    if (!msg || typeof msg !== 'object') return;
+    if (msg.type === 'goto' && typeof msg.i === 'number') go(msg.i, false);
+    if (msg.type === 'hello' && role === 'display') c.send({type:'goto', i:i});
+  });
+  c.on('close', () => setStatus(false, '已斷線'));
+  c.on('error', () => setStatus(false, '連線錯誤'));
+}
+
+function start(roleWanted){
+  let room = (roomEl.value || '').replace(/\D/g,'').slice(0,4);
+  if (room.length !== 4) {
+    room = String(Math.floor(1000 + Math.random()*9000));
+    roomEl.value = room;
+  }
+  const id = peerId(room);
+  document.getElementById('bootHint').textContent = roleWanted === 'display'
+    ? ('顯示端房號 ' + room + ' — 手機開同一頁揀遙控，輸入 ' + room)
+    : ('遙控端連去房號 ' + room);
+  peer = new Peer(roleWanted === 'display' ? id : undefined, { debug: 1 });
+  peer.on('open', (myId) => {
+    enterUI(roleWanted);
+    setStatus(false, '等待連線…');
+    if (roleWanted === 'display') {
+      peer.on('connection', (c) => { wireConn(c); setStatus(true, '手機已連'); });
+    } else {
+      const c = peer.connect(id, { reliable: true });
+      wireConn(c);
+      c.on('open', () => { setStatus(true, '已連 iPad'); c.send({type:'hello'}); });
+    }
+  });
+  peer.on('error', (err) => {
+    setStatus(false, '失敗：' + (err && err.type ? err.type : 'error'));
+    alert('連線失敗（可重試或換房號）。詳情：' + (err && err.type));
+  });
+}
+
+document.getElementById('asDisplay').onclick = () => start('display');
+document.getElementById('asRemote').onclick = () => start('remote');
+document.getElementById('next').onclick = next;
+document.getElementById('prev').onclick = prev;
+document.getElementById('fs').onclick = () => {
+  const el = document.documentElement;
+  if (!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen();
+  else if (document.webkitFullscreenElement === undefined && el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  else if (document.exitFullscreen) document.exitFullscreen();
+};
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') { e.preventDefault(); prev(); }
+});
+// auto room from query
+const qs = new URLSearchParams(location.search);
+if (qs.get('room')) roomEl.value = qs.get('room');
+if (qs.get('role') === 'display') start('display');
+if (qs.get('role') === 'remote') start('remote');
+</script>
+</body>
+</html>
