@@ -127,15 +127,15 @@
     }
   </style>
 
-  <style id="logo-shatter-css">
+    <style id="logo-shatter-css">
     .logo-shatter{
       position:relative;
       width:auto;
-      height:12.5rem; /* larger hero mark */
+      height:12.5rem;
       aspect-ratio:365/640;
       filter: drop-shadow(0 0 22px rgba(185,28,28,.38));
-      will-change: contents;
-      margin-bottom:.35rem;
+      will-change: transform, opacity;
+      margin:0 auto .35rem;
     }
     @media (min-width:768px){
       .logo-shatter{ height:18rem; }
@@ -146,10 +146,6 @@
     .logo-shatter__fallback{
       position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
       opacity:1; pointer-events:none; z-index:2;
-      transition: none;
-    }
-    .logo-shatter.is-shattering .logo-shatter__fallback{
-      /* driven by JS opacity */
     }
     .logo-shatter__piece{
       position:absolute;
@@ -160,79 +156,47 @@
       will-change: transform, opacity;
       backface-visibility: hidden;
       z-index:1;
-      opacity:0; /* hidden under intact logo at rest */
+      opacity:0;
     }
-    .logo-shatter.is-shattering .logo-shatter__piece{
-      opacity:1;
-    }
+    .logo-shatter.is-shattering .logo-shatter__piece{ opacity:1; }
     .logo-shatter__piece img{
       display:block; width:100%; height:100%; object-fit:fill;
       pointer-events:none; user-select:none;
     }
+    /* Centered sticky stage while scroll animation runs */
+    .logo-shatter.is-pinned{
+      position:fixed;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      z-index:40;
+      margin:0;
+      pointer-events:none;
+    }
+    .logo-shatter.is-gone{
+      opacity:0 !important;
+      visibility:hidden;
+      pointer-events:none;
+    }
+    .logo-shatter-slot{
+      display:flex; justify-content:center;
+      min-height:12.5rem;
+    }
+    @media (min-width:768px){
+      .logo-shatter-slot{ min-height:18rem; }
+    }
+    @media (min-width:1024px){
+      .logo-shatter-slot{ min-height:20rem; }
+    }
     @media (prefers-reduced-motion: reduce){
       .logo-shatter__fallback{ opacity:1 !important; }
       .logo-shatter__piece{ opacity:0 !important; transform:none !important; }
-    }
-    .logo-shatter{
-      cursor:pointer;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      outline: none;
-    }
-    .logo-shatter:focus-visible{
-      outline:2px solid rgba(220,38,38,.7);
-      outline-offset:6px;
-      border-radius:8px;
-    }
-    .logo-shatter.is-playing .logo-shatter__piece,
-    .logo-shatter.is-screen .logo-shatter__piece{
-      transition: transform .7s cubic-bezier(.16,1.15,.3,1), opacity .28s ease;
-    }
-    .logo-shatter-backdrop{
-      position:fixed; inset:0; z-index:55;
-      background:radial-gradient(ellipse at center, rgba(0,0,0,.55) 0%, rgba(0,0,0,.82) 70%);
-      opacity:0; pointer-events:none;
-      transition: opacity .35s ease;
-    }
-    .logo-shatter-backdrop.is-on{
-      opacity:1; pointer-events:none;
-    }
-    .logo-shatter.is-screen{
-      position:fixed !important;
-      left:50%; top:50%;
-      transform:translate(-50%,-50%);
-      z-index:60;
-      height:min(72vh, 26rem) !important;
-      margin:0 !important;
-      filter: drop-shadow(0 0 40px rgba(185,28,28,.55));
-    }
-    @media (max-width:767px){
-      .logo-shatter.is-screen{
-        height:min(64vh, 22rem) !important;
-        width:auto;
-      }
-    }
-    @keyframes logo-idle-glow {
-      0%,100%{ filter: drop-shadow(0 0 18px rgba(185,28,28,.32)); }
-      50%{ filter: drop-shadow(0 0 34px rgba(220,38,38,.55)); }
-    }
-    @media (hover:hover) and (prefers-reduced-motion: no-preference){
-      .logo-shatter:not(.is-shattering):not(.is-playing){
-        animation: logo-idle-glow 3.2s ease-in-out infinite;
-      }
-    }
-    @media (hover:none) and (prefers-reduced-motion: no-preference){
-      .logo-shatter:not(.is-shattering):not(.is-playing){
-        animation: logo-idle-glow 2.8s ease-in-out infinite;
-      }
+      .logo-shatter.is-pinned{ position:relative; left:auto; top:auto; transform:none; }
     }
     .logo-shatter__hint{
       display:block; margin-top:.55rem;
       font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
       color:#71717a; font-weight:600;
-    }
-    @media (min-width:768px){
-      .logo-shatter__hint{ font-size:.72rem; }
     }
   </style>
 
@@ -368,8 +332,9 @@
     </div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
-      <div class="mb-8 flex justify-center fade-in">
-        <div class="logo-shatter" id="logo-shatter" role="button" tabindex="0" aria-label="NOAH'S ARK — tap to shatter" data-hint-zh="點一下 · 碎滿全畫面" data-hint-en="Tap · fill the screen">
+      <div class="mb-8 fade-in">
+      <div class="logo-shatter-slot" id="logo-shatter-slot">
+        <div class="logo-shatter" id="logo-shatter" aria-label="NOAH'S ARK">
           <img
             class="logo-shatter__fallback"
             src="assets/logo-hero.png"
@@ -379,23 +344,23 @@
             fetchpriority="high"
             decoding="async"
           />
-                <picture class="logo-shatter__piece" data-dx="-12" data-dy="-14" data-rot="-8" data-fx="-42" data-fy="-36" data-frot="-28" style="left:0.0%;top:0.0%;width:53.151%;height:52.031%;">
+                <picture class="logo-shatter__piece" data-dx="-22" data-dy="-26" data-rot="-10" style="left:0.0%;top:0.0%;width:53.151%;height:52.031%;">
           <source srcset="assets/logo-parts/logo-part-a.webp?v=20260920-clean3" type="image/webp" />
           <img src="assets/logo-parts/logo-part-a.png?v=20260920-clean3" alt="" width="194" height="333" decoding="async" draggable="false" />
         </picture>
-        <picture class="logo-shatter__piece" data-dx="12" data-dy="-14" data-rot="8" data-fx="42" data-fy="-34" data-frot="26" style="left:46.575%;top:0.0%;width:53.425%;height:52.031%;">
+        <picture class="logo-shatter__piece" data-dx="22" data-dy="-24" data-rot="10" style="left:46.575%;top:0.0%;width:53.425%;height:52.031%;">
           <source srcset="assets/logo-parts/logo-part-b.webp?v=20260920-clean3" type="image/webp" />
           <img src="assets/logo-parts/logo-part-b.png?v=20260920-clean3" alt="" width="195" height="333" decoding="async" draggable="false" />
         </picture>
-        <picture class="logo-shatter__piece" data-dx="0" data-dy="12" data-rot="4" data-fx="0" data-fy="40" data-frot="12" style="left:0.0%;top:45.0%;width:100.0%;height:55.0%;">
+        <picture class="logo-shatter__piece" data-dx="0" data-dy="28" data-rot="6" style="left:0.0%;top:45.0%;width:100.0%;height:55.0%;">
           <source srcset="assets/logo-parts/logo-part-c.webp?v=20260920-clean3" type="image/webp" />
           <img src="assets/logo-parts/logo-part-c.png?v=20260920-clean3" alt="" width="365" height="352" decoding="async" draggable="false" />
         </picture>
         </div>
-
+      </div>
       <p class="logo-shatter__hint hero-readability" id="logo-shatter-hint" aria-hidden="true">
-        <span class="lang-zh">點一下 · 碎滿全畫面</span>
-        <span class="lang-en lang-hidden">Tap · fill the screen</span>
+        <span class="lang-zh">向下滑 · 分解</span>
+        <span class="lang-en lang-hidden">Scroll down · break apart</span>
       </p>
       </div>
 
@@ -587,8 +552,8 @@
               <span class="lang-en lang-hidden">Official Channels</span>
             </h2>
             <p class="text-zinc-500 text-sm">Instagram · YouTube</p>
-          </div>
-        </div>
+      </div>
+      </div>
 
         <p class="text-zinc-400 text-sm mb-6">
           <span class="lang-zh">最新活動消息、Metal Pass 會員資訊、現場花絮、樂隊公佈 — 請關注官方 Instagram 與 YouTube。認準唯一官方帳號，防止假帳。</span>
@@ -799,168 +764,105 @@
     }, 80);
   </script>
 
-        <script id="logo-shatter-js">
+          <script id="logo-shatter-js">
   (function () {
     var root = document.getElementById('logo-shatter');
+    var slot = document.getElementById('logo-shatter-slot');
     if (!root) return;
     var pieces = Array.prototype.slice.call(root.querySelectorAll('.logo-shatter__piece'));
     var fallback = root.querySelector('.logo-shatter__fallback');
-    var backdrop = document.getElementById('logo-shatter-backdrop');
-    var home = root.parentElement;
+    var hint = document.getElementById('logo-shatter-hint');
     if (!pieces.length) return;
     var reduce = false;
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
     if (reduce) {
       if (fallback) fallback.style.opacity = '1';
       for (var r = 0; r < pieces.length; r++) pieces[r].style.opacity = '0';
-      var hintR = document.getElementById('logo-shatter-hint');
-      if (hintR) hintR.hidden = true;
+      if (hint) hint.hidden = true;
       return;
     }
 
-    var playBurst = 0;
-    var playTarget = 0;
-    var playRaf = 0;
     var ticking = false;
-    var autoRebuildTimer = 0;
-    var placeholder = null;
+    var dismissed = false;
 
-    function ensureScreenMode(on) {
-      if (on) {
-        if (!root.classList.contains('is-screen')) {
-          if (!placeholder) {
-            placeholder = document.createElement('div');
-            placeholder.style.width = root.offsetWidth + 'px';
-            placeholder.style.height = root.offsetHeight + 'px';
-            placeholder.style.marginBottom = getComputedStyle(root).marginBottom;
-            placeholder.setAttribute('aria-hidden', 'true');
-          }
-          if (home && root.parentElement === home) {
-            home.insertBefore(placeholder, root);
-            document.body.appendChild(root);
-          }
-          root.classList.add('is-screen');
+    function apply() {
+      if (dismissed) {
+        root.classList.add('is-gone');
+        root.classList.remove('is-pinned', 'is-shattering');
+        if (fallback) fallback.style.opacity = '0';
+        for (var d = 0; d < pieces.length; d++) {
+          pieces[d].style.opacity = '0';
         }
-        if (backdrop) backdrop.classList.add('is-on');
-      } else {
-        root.classList.remove('is-screen');
-        if (backdrop) backdrop.classList.remove('is-on');
-        if (placeholder && home && root.parentElement === document.body) {
-          home.insertBefore(root, placeholder);
-          placeholder.remove();
-          placeholder = null;
-        }
-        // clear leftover inline size from fixed mode
-        root.style.transform = '';
+        if (hint) hint.style.opacity = '0';
+        return;
       }
-    }
 
-    function apply(eScroll, ePlay) {
-      var e = eScroll > ePlay ? eScroll : ePlay;
-      if (e > 1) e = 1;
-      // Fullscreen explode when tap-play is strong, or late scroll
-      var screenE = Math.max(ePlay, Math.max(0, (eScroll - 0.45) / 0.55));
-      if (screenE > 1) screenE = 1;
-      var useScreen = screenE > 0.04;
-      ensureScreenMode(useScreen);
+      // Progress tied to page scroll from top:
+      // 0–0.08 intact (centered in hero / pinned once leaving top)
+      // 0.08–0.72 shatter while pinned center
+      // 0.72–1.0 fade out; then stay gone while further down
+      var range = Math.max(window.innerHeight * 1.15, 720);
+      var y = window.scrollY;
+      var p = y / range;
+      if (p < 0) p = 0;
 
-      var shattering = e > 0.001;
-      root.classList.toggle('is-shattering', shattering);
-      root.classList.toggle('is-playing', ePlay > 0.02);
+      if (y < 12) dismissed = false;
+      if (p >= 1) {
+        dismissed = true;
+        apply();
+        return;
+      }
+
+      var hold = 0.08;
+      var shatterEnd = 0.72;
+      var e = 0;
+      if (p > hold && p < shatterEnd) {
+        var u = (p - hold) / (shatterEnd - hold);
+        e = u * u * (3 - 2 * u);
+      } else if (p >= shatterEnd) {
+        e = 1;
+      }
+
+      var fading = p >= shatterEnd ? (p - shatterEnd) / (1 - shatterEnd) : 0;
+      if (fading < 0) fading = 0;
+      if (fading > 1) fading = 1;
+
+      var pin = y > 8 && fading < 1;
+      root.classList.toggle('is-pinned', pin);
+      root.classList.toggle('is-shattering', e > 0.001);
+      root.classList.remove('is-gone');
+      root.style.opacity = String(1 - fading);
+
       if (fallback) {
-        fallback.style.opacity = String(1 - Math.min(1, e * 1.25));
-        fallback.style.transform = '';
+        fallback.style.opacity = String((1 - Math.min(1, e * 1.3)) * (1 - fading));
       }
+      if (hint) {
+        hint.style.opacity = String(Math.max(0, 1 - p * 3));
+      }
+
       for (var i = 0; i < pieces.length; i++) {
         var el = pieces[i];
         var dx = parseFloat(el.getAttribute('data-dx') || '0');
         var dy = parseFloat(el.getAttribute('data-dy') || '0');
         var rot = parseFloat(el.getAttribute('data-rot') || '0');
-        var fx = parseFloat(el.getAttribute('data-fx') || String(dx * 3));
-        var fy = parseFloat(el.getAttribute('data-fy') || String(dy * 3));
-        var frot = parseFloat(el.getAttribute('data-frot') || String(rot * 3));
-        el.style.opacity = shattering ? '1' : '0';
-        if (useScreen) {
-          // From dead center of viewport-sized stage: fly across the whole screen
-          var s = screenE;
-          var scale = 1 + s * 0.35;
-          el.style.transform =
-            'translate3d(' + (fx * s) + 'vw,' + (fy * s) + 'vh,0) rotate(' + (frot * s) + 'deg) scale(' + scale + ')';
-        } else {
-          var boost = 1.55;
-          el.style.transform =
-            'translate3d(' + (dx * e * boost) + '%,' + (dy * e * boost) + '%,0) rotate(' + (rot * e * 1.35) + 'deg)';
-        }
+        el.style.opacity = e > 0.001 ? String(1 - fading) : '0';
+        el.style.transform =
+          'translate3d(' + (dx * e) + '%,' + (dy * e) + '%,0) rotate(' + (rot * e) + 'deg)';
       }
-    }
-
-    function scrollAmount() {
-      var hero = document.querySelector('header') || root;
-      var rect = hero.getBoundingClientRect();
-      var start = window.scrollY + rect.top;
-      var range = Math.max(window.innerHeight * 2.2, rect.height * 2.4, 1400);
-      var y = window.scrollY - start;
-      var p = y / range;
-      if (p < 0) p = 0;
-      if (p > 1) p = 1;
-      var hold = 0.08;
-      if (p <= hold) return 0;
-      var u = (p - hold) / (1 - hold);
-      return u * u * (3 - 2 * u);
-    }
-
-    function playFrame() {
-      var diff = playTarget - playBurst;
-      if (Math.abs(diff) > 0.002) {
-        playBurst += diff * (playTarget > playBurst ? 0.16 : 0.11);
-        apply(scrollAmount(), playBurst);
-        playRaf = requestAnimationFrame(playFrame);
-      } else {
-        playBurst = playTarget;
-        playRaf = 0;
-        apply(scrollAmount(), playBurst);
-      }
-    }
-
-    function kickPlay() {
-      if (!playRaf) playRaf = requestAnimationFrame(playFrame);
     }
 
     function onScroll() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
-        if (!playRaf) apply(scrollAmount(), playBurst);
+        apply();
         ticking = false;
       });
     }
 
-    function togglePlay(ev) {
-      if (ev) ev.preventDefault();
-      if (autoRebuildTimer) {
-        clearTimeout(autoRebuildTimer);
-        autoRebuildTimer = 0;
-      }
-      if (playTarget > 0.5) {
-        playTarget = 0;
-      } else {
-        playTarget = 1;
-        autoRebuildTimer = setTimeout(function () {
-          playTarget = 0;
-          kickPlay();
-        }, 1600);
-      }
-      kickPlay();
-    }
-
-    root.addEventListener('click', togglePlay);
-    root.addEventListener('keydown', function (ev) {
-      if (ev.key === 'Enter' || ev.key === ' ') togglePlay(ev);
-    });
-
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
-    apply(scrollAmount(), 0);
+    apply();
   })();
   </script>
 
