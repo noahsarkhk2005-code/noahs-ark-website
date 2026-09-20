@@ -43,6 +43,45 @@
       transition: background .15s;
     }
     .hf-cta-primary:hover{ background:#dc2626; }
+
+    /* Event countdown (hero) */
+
+    #event-countdown.hf-hero-title{
+      max-width: min(36rem, 100%);
+      text-transform: none;
+    }
+    .hf-countdown{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:.55rem 0.85rem;
+      font-size: clamp(1.65rem, 4.2vw, 3rem);
+      font-weight:900; line-height:1; letter-spacing:.02em;
+      margin:.75rem auto 1rem; max-width:100%;
+    }
+    .hf-countdown__unit{
+      display:flex; flex-direction:column; align-items:center; min-width:3.4rem;
+    }
+    .hf-countdown__num{
+      font-variant-numeric: tabular-nums;
+      color:#fff;
+    }
+    .hf-countdown__label{
+      margin-top:.35rem;
+      font-size:.65rem; font-weight:700; letter-spacing:.28em;
+      text-transform:uppercase; color:#a1a1aa;
+    }
+    .hf-countdown__sep{
+      align-self:flex-start; padding-top:.15em;
+      color:#52525b; font-weight:700; font-size:.85em;
+    }
+    @media (max-width:420px){
+      .hf-countdown{ gap:.4rem .55rem; }
+      .hf-countdown__unit{ min-width:2.75rem; }
+      .hf-countdown__sep{ display:none; }
+    }
+    .hf-countdown-status{
+      font-size: clamp(1.65rem, 4.2vw, 3rem);
+      font-weight:900; letter-spacing:.04em; text-transform:uppercase;
+      margin:.75rem auto 1rem; color:#fff;
+    }
     .hf-cta-ghost{
       display:inline-flex; margin-top:.85rem;
       color:#a1a1aa; font-size:.9rem; font-weight:600;
@@ -295,9 +334,20 @@
       <p class="text-red-500 hf-hero-kicker uppercase font-semibold fade-in hero-readability">
         HONG KONG LIVE MUSIC
       </p>
-      <h1 class="hf-hero-title text-white fade-in hero-readability-strong">
-        <span class="lang-zh">05 / 12 / 2026</span>
-        <span class="lang-en lang-hidden">05 / 12 / 2026</span>
+      <h1 class="hf-hero-title text-white fade-in hero-readability-strong" id="event-countdown" data-target="2026-12-05T20:00:00+08:00" aria-live="polite">
+        <span class="hf-countdown" data-cd-units>
+          <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="d">--</span><span class="hf-countdown__label"><span class="lang-zh">天</span><span class="lang-en lang-hidden">Days</span></span></span>
+          <span class="hf-countdown__sep" aria-hidden="true">:</span>
+          <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="h">--</span><span class="hf-countdown__label"><span class="lang-zh">時</span><span class="lang-en lang-hidden">Hrs</span></span></span>
+          <span class="hf-countdown__sep" aria-hidden="true">:</span>
+          <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="m">--</span><span class="hf-countdown__label"><span class="lang-zh">分</span><span class="lang-en lang-hidden">Min</span></span></span>
+          <span class="hf-countdown__sep" aria-hidden="true">:</span>
+          <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="s">--</span><span class="hf-countdown__label"><span class="lang-zh">秒</span><span class="lang-en lang-hidden">Sec</span></span></span>
+        </span>
+        <span class="hf-countdown-status" data-cd-status hidden>
+          <span class="lang-zh">今日 · 進行中</span>
+          <span class="lang-en lang-hidden">Today · Live</span>
+        </span>
       </h1>
       <p class="text-zinc-200 text-base md:text-lg font-bold mb-2 fade-in hero-readability-strong">
         Noah's Ark 2.5 · PROTOSS 20th · MOM Livehouse
@@ -331,6 +381,10 @@
           <h2 class="text-2xl md:text-3xl font-black mb-1">Noah's Ark 2.5</h2>
           <p class="upcoming-sub text-lg font-semibold mb-1">PROTOSS 20th Anniversary</p>
           <p class="upcoming-meta text-sm mb-2">05/12/2026 · MOM Livehouse Hong Kong</p>
+          <p class="upcoming-meta text-sm mb-2 text-red-400 font-semibold" id="event-countdown-card" data-target="2026-12-05T20:00:00+08:00" aria-live="polite">
+            <span data-cd-card-live><span class="lang-zh">倒數</span><span class="lang-en lang-hidden">Countdown</span> <span data-cd-card-text>--d --h --m --s</span></span>
+            <span data-cd-card-done hidden><span class="lang-zh">今日 · 進行中</span><span class="lang-en lang-hidden">Today · Live</span></span>
+          </p>
           <p class="upcoming-meta text-sm mb-6">
             <span class="lang-zh">票價：Metal Pass 會員 HK350 · 預售 HKD380 · WALK IN HKD450</span>
             <span class="lang-en lang-hidden">Prices: Metal Pass HK350 · Presale HKD380 · Walk-in HKD450</span>
@@ -719,6 +773,68 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     progress();
+  })();
+  </script>
+
+
+  <script>
+  (function () {
+    var TARGET_FALLBACK = '2026-12-05T20:00:00+08:00';
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function parseTarget(el) {
+      var raw = (el && el.getAttribute('data-target')) || TARGET_FALLBACK;
+      var t = Date.parse(raw);
+      return isNaN(t) ? Date.parse(TARGET_FALLBACK) : t;
+    }
+    function parts(ms) {
+      var s = Math.max(0, Math.floor(ms / 1000));
+      var d = Math.floor(s / 86400); s %= 86400;
+      var h = Math.floor(s / 3600); s %= 3600;
+      var m = Math.floor(s / 60); s %= 60;
+      return { d: d, h: h, m: m, s: s };
+    }
+    function tickHero() {
+      var root = document.getElementById('event-countdown');
+      if (!root) return;
+      var units = root.querySelector('[data-cd-units]');
+      var status = root.querySelector('[data-cd-status]');
+      var target = parseTarget(root);
+      var diff = target - Date.now();
+      if (diff <= 0) {
+        if (units) units.hidden = true;
+        if (status) status.hidden = false;
+        return;
+      }
+      if (units) units.hidden = false;
+      if (status) status.hidden = true;
+      var p = parts(diff);
+      var map = { d: String(p.d), h: pad(p.h), m: pad(p.m), s: pad(p.s) };
+      root.querySelectorAll('[data-cd]').forEach(function (node) {
+        var k = node.getAttribute('data-cd');
+        if (map[k] != null) node.textContent = map[k];
+      });
+    }
+    function tickCard() {
+      var root = document.getElementById('event-countdown-card');
+      if (!root) return;
+      var live = root.querySelector('[data-cd-card-live]');
+      var done = root.querySelector('[data-cd-card-done]');
+      var text = root.querySelector('[data-cd-card-text]');
+      var target = parseTarget(root);
+      var diff = target - Date.now();
+      if (diff <= 0) {
+        if (live) live.hidden = true;
+        if (done) done.hidden = false;
+        return;
+      }
+      if (live) live.hidden = false;
+      if (done) done.hidden = true;
+      var p = parts(diff);
+      if (text) text.textContent = p.d + 'd ' + pad(p.h) + 'h ' + pad(p.m) + 'm ' + pad(p.s) + 's';
+    }
+    function tick() { tickHero(); tickCard(); }
+    tick();
+    setInterval(tick, 1000);
   })();
   </script>
 
