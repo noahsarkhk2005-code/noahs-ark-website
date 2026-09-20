@@ -145,7 +145,11 @@
     }
     .logo-shatter__fallback{
       position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
-      opacity:0; pointer-events:none;
+      opacity:1; pointer-events:none; z-index:2;
+      transition: none;
+    }
+    .logo-shatter.is-shattering .logo-shatter__fallback{
+      /* driven by JS opacity */
     }
     .logo-shatter__piece{
       position:absolute;
@@ -153,15 +157,21 @@
       display:block;
       transform: translate3d(0,0,0) rotate(0deg);
       transform-origin: center center;
-      will-change: transform;
+      will-change: transform, opacity;
       backface-visibility: hidden;
+      z-index:1;
+      opacity:0; /* hidden under intact logo at rest */
+    }
+    .logo-shatter.is-shattering .logo-shatter__piece{
+      opacity:1;
     }
     .logo-shatter__piece img{
       display:block; width:100%; height:100%; object-fit:fill;
       pointer-events:none; user-select:none;
     }
     @media (prefers-reduced-motion: reduce){
-      .logo-shatter__piece{ transform:none !important; }
+      .logo-shatter__fallback{ opacity:1 !important; }
+      .logo-shatter__piece{ opacity:0 !important; transform:none !important; }
     }
   </style>
 
@@ -728,30 +738,50 @@
     var root = document.getElementById('logo-shatter');
     if (!root) return;
     var pieces = Array.prototype.slice.call(root.querySelectorAll('.logo-shatter__piece'));
+    var fallback = root.querySelector('.logo-shatter__fallback');
     if (!pieces.length) return;
     var reduce = false;
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-    if (reduce) return;
+    if (reduce) {
+      if (fallback) fallback.style.opacity = '1';
+      for (var r = 0; r < pieces.length; r++) pieces[r].style.opacity = '0';
+      return;
+    }
 
     var ticking = false;
     function progress() {
-      // 0 at page top / hero start; 1 after scrolling ~55% of hero stage (or 320px)
+      // Intact at page top; long scroll-driven disassembly
       var hero = root.closest('header') || root;
       var rect = hero.getBoundingClientRect();
-      var start = window.scrollY + rect.top; // page Y of hero top
-      var range = Math.max(rect.height * 0.7, 280);
+      var start = window.scrollY + rect.top;
+      // Stretch: ~2.2 viewports or at least 1400px of scroll after hero top
+      var range = Math.max(window.innerHeight * 2.2, rect.height * 2.4, 1400);
       var y = window.scrollY - start;
       var p = y / range;
       if (p < 0) p = 0;
       if (p > 1) p = 1;
-      // ease out cubic for nicer settle
-      var e = 1 - Math.pow(1 - p, 3);
+      // Hold fully intact for first ~8% of the range, then smoothstep
+      var hold = 0.08;
+      var e = 0;
+      if (p > hold) {
+        var u = (p - hold) / (1 - hold);
+        e = u * u * (3 - 2 * u); // smoothstep — slow start, long travel
+      }
+      var shattering = e > 0.001;
+      root.classList.toggle('is-shattering', shattering);
+      if (fallback) {
+        // Keep whole logo visible until motion starts; fade across early shatter
+        var fo = 1 - Math.min(1, e * 1.35);
+        fallback.style.opacity = String(fo);
+      }
       for (var i = 0; i < pieces.length; i++) {
         var el = pieces[i];
         var dx = parseFloat(el.getAttribute('data-dx') || '0');
         var dy = parseFloat(el.getAttribute('data-dy') || '0');
         var rot = parseFloat(el.getAttribute('data-rot') || '0');
-        el.style.transform = 'translate3d(' + (dx * e) + '%,' + (dy * e) + '%,0) rotate(' + (rot * e) + 'deg)';
+        // Amplify travel a bit so the long scroll still reads as a clear break-apart
+        el.style.opacity = shattering ? '1' : '0';
+        el.style.transform = 'translate3d(' + (dx * e * 1.55) + '%,' + (dy * e * 1.55) + '%,0) rotate(' + (rot * e * 1.35) + 'deg)';
       }
     }
     function onScroll() {
