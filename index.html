@@ -184,8 +184,33 @@
       outline-offset:6px;
       border-radius:8px;
     }
-    .logo-shatter.is-playing .logo-shatter__piece{
-      transition: transform .55s cubic-bezier(.22,1.2,.36,1), opacity .25s ease;
+    .logo-shatter.is-playing .logo-shatter__piece,
+    .logo-shatter.is-screen .logo-shatter__piece{
+      transition: transform .7s cubic-bezier(.16,1.15,.3,1), opacity .28s ease;
+    }
+    .logo-shatter-backdrop{
+      position:fixed; inset:0; z-index:55;
+      background:radial-gradient(ellipse at center, rgba(0,0,0,.55) 0%, rgba(0,0,0,.82) 70%);
+      opacity:0; pointer-events:none;
+      transition: opacity .35s ease;
+    }
+    .logo-shatter-backdrop.is-on{
+      opacity:1; pointer-events:none;
+    }
+    .logo-shatter.is-screen{
+      position:fixed !important;
+      left:50%; top:50%;
+      transform:translate(-50%,-50%);
+      z-index:60;
+      height:min(72vh, 26rem) !important;
+      margin:0 !important;
+      filter: drop-shadow(0 0 40px rgba(185,28,28,.55));
+    }
+    @media (max-width:767px){
+      .logo-shatter.is-screen{
+        height:min(64vh, 22rem) !important;
+        width:auto;
+      }
     }
     @keyframes logo-idle-glow {
       0%,100%{ filter: drop-shadow(0 0 18px rgba(185,28,28,.32)); }
@@ -344,7 +369,7 @@
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
       <div class="mb-8 flex justify-center fade-in">
-        <div class="logo-shatter" id="logo-shatter" role="button" tabindex="0" aria-label="NOAH'S ARK — tap to shatter" data-hint-zh="點一下拆開 · 再點合返" data-hint-en="Tap to shatter · tap again to rebuild">
+        <div class="logo-shatter" id="logo-shatter" role="button" tabindex="0" aria-label="NOAH'S ARK — tap to shatter" data-hint-zh="點一下 · 碎滿全畫面" data-hint-en="Tap · fill the screen">
           <img
             class="logo-shatter__fallback"
             src="assets/logo-hero.png"
@@ -354,23 +379,23 @@
             fetchpriority="high"
             decoding="async"
           />
-                <picture class="logo-shatter__piece" data-dx="-12" data-dy="-14" data-rot="-5" style="left:0.0%;top:0.0%;width:53.151%;height:52.031%;">
+                <picture class="logo-shatter__piece" data-dx="-12" data-dy="-14" data-rot="-8" data-fx="-42" data-fy="-36" data-frot="-28" style="left:0.0%;top:0.0%;width:53.151%;height:52.031%;">
           <source srcset="assets/logo-parts/logo-part-a.webp?v=20260920-clean3" type="image/webp" />
           <img src="assets/logo-parts/logo-part-a.png?v=20260920-clean3" alt="" width="194" height="333" decoding="async" draggable="false" />
         </picture>
-        <picture class="logo-shatter__piece" data-dx="12" data-dy="-14" data-rot="5" style="left:46.575%;top:0.0%;width:53.425%;height:52.031%;">
+        <picture class="logo-shatter__piece" data-dx="12" data-dy="-14" data-rot="8" data-fx="42" data-fy="-34" data-frot="26" style="left:46.575%;top:0.0%;width:53.425%;height:52.031%;">
           <source srcset="assets/logo-parts/logo-part-b.webp?v=20260920-clean3" type="image/webp" />
           <img src="assets/logo-parts/logo-part-b.png?v=20260920-clean3" alt="" width="195" height="333" decoding="async" draggable="false" />
         </picture>
-        <picture class="logo-shatter__piece" data-dx="0" data-dy="12" data-rot="0" style="left:0.0%;top:45.0%;width:100.0%;height:55.0%;">
+        <picture class="logo-shatter__piece" data-dx="0" data-dy="12" data-rot="4" data-fx="0" data-fy="40" data-frot="12" style="left:0.0%;top:45.0%;width:100.0%;height:55.0%;">
           <source srcset="assets/logo-parts/logo-part-c.webp?v=20260920-clean3" type="image/webp" />
           <img src="assets/logo-parts/logo-part-c.png?v=20260920-clean3" alt="" width="365" height="352" decoding="async" draggable="false" />
         </picture>
         </div>
 
       <p class="logo-shatter__hint hero-readability" id="logo-shatter-hint" aria-hidden="true">
-        <span class="lang-zh">點一下拆開 · 再點合返</span>
-        <span class="lang-en lang-hidden">Tap to shatter · tap again to rebuild</span>
+        <span class="lang-zh">點一下 · 碎滿全畫面</span>
+        <span class="lang-en lang-hidden">Tap · fill the screen</span>
       </p>
       </div>
 
@@ -774,12 +799,14 @@
     }, 80);
   </script>
 
-      <script id="logo-shatter-js">
+        <script id="logo-shatter-js">
   (function () {
     var root = document.getElementById('logo-shatter');
     if (!root) return;
     var pieces = Array.prototype.slice.call(root.querySelectorAll('.logo-shatter__piece'));
     var fallback = root.querySelector('.logo-shatter__fallback');
+    var backdrop = document.getElementById('logo-shatter-backdrop');
+    var home = root.parentElement;
     if (!pieces.length) return;
     var reduce = false;
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
@@ -796,29 +823,79 @@
     var playRaf = 0;
     var ticking = false;
     var autoRebuildTimer = 0;
+    var placeholder = null;
+
+    function ensureScreenMode(on) {
+      if (on) {
+        if (!root.classList.contains('is-screen')) {
+          if (!placeholder) {
+            placeholder = document.createElement('div');
+            placeholder.style.width = root.offsetWidth + 'px';
+            placeholder.style.height = root.offsetHeight + 'px';
+            placeholder.style.marginBottom = getComputedStyle(root).marginBottom;
+            placeholder.setAttribute('aria-hidden', 'true');
+          }
+          if (home && root.parentElement === home) {
+            home.insertBefore(placeholder, root);
+            document.body.appendChild(root);
+          }
+          root.classList.add('is-screen');
+        }
+        if (backdrop) backdrop.classList.add('is-on');
+      } else {
+        root.classList.remove('is-screen');
+        if (backdrop) backdrop.classList.remove('is-on');
+        if (placeholder && home && root.parentElement === document.body) {
+          home.insertBefore(root, placeholder);
+          placeholder.remove();
+          placeholder = null;
+        }
+        // clear leftover inline size from fixed mode
+        root.style.transform = '';
+      }
+    }
 
     function apply(eScroll, ePlay) {
       var e = eScroll > ePlay ? eScroll : ePlay;
       if (e > 1) e = 1;
+      // Fullscreen explode when tap-play is strong, or late scroll
+      var screenE = Math.max(ePlay, Math.max(0, (eScroll - 0.45) / 0.55));
+      if (screenE > 1) screenE = 1;
+      var useScreen = screenE > 0.04;
+      ensureScreenMode(useScreen);
+
       var shattering = e > 0.001;
       root.classList.toggle('is-shattering', shattering);
       root.classList.toggle('is-playing', ePlay > 0.02);
       if (fallback) {
-        fallback.style.opacity = String(1 - Math.min(1, e * 1.35));
+        fallback.style.opacity = String(1 - Math.min(1, e * 1.25));
+        fallback.style.transform = '';
       }
       for (var i = 0; i < pieces.length; i++) {
         var el = pieces[i];
         var dx = parseFloat(el.getAttribute('data-dx') || '0');
         var dy = parseFloat(el.getAttribute('data-dy') || '0');
         var rot = parseFloat(el.getAttribute('data-rot') || '0');
-        var boost = 1.55 + ePlay * 1.1;
+        var fx = parseFloat(el.getAttribute('data-fx') || String(dx * 3));
+        var fy = parseFloat(el.getAttribute('data-fy') || String(dy * 3));
+        var frot = parseFloat(el.getAttribute('data-frot') || String(rot * 3));
         el.style.opacity = shattering ? '1' : '0';
-        el.style.transform = 'translate3d(' + (dx * e * boost) + '%,' + (dy * e * boost) + '%,0) rotate(' + (rot * e * (1.35 + ePlay * 0.6)) + 'deg)';
+        if (useScreen) {
+          // From dead center of viewport-sized stage: fly across the whole screen
+          var s = screenE;
+          var scale = 1 + s * 0.35;
+          el.style.transform =
+            'translate3d(' + (fx * s) + 'vw,' + (fy * s) + 'vh,0) rotate(' + (frot * s) + 'deg) scale(' + scale + ')';
+        } else {
+          var boost = 1.55;
+          el.style.transform =
+            'translate3d(' + (dx * e * boost) + '%,' + (dy * e * boost) + '%,0) rotate(' + (rot * e * 1.35) + 'deg)';
+        }
       }
     }
 
     function scrollAmount() {
-      var hero = root.closest('header') || root;
+      var hero = document.querySelector('header') || root;
       var rect = hero.getBoundingClientRect();
       var start = window.scrollY + rect.top;
       var range = Math.max(window.innerHeight * 2.2, rect.height * 2.4, 1400);
@@ -835,7 +912,7 @@
     function playFrame() {
       var diff = playTarget - playBurst;
       if (Math.abs(diff) > 0.002) {
-        playBurst += diff * (playTarget > playBurst ? 0.18 : 0.12);
+        playBurst += diff * (playTarget > playBurst ? 0.16 : 0.11);
         apply(scrollAmount(), playBurst);
         playRaf = requestAnimationFrame(playFrame);
       } else {
@@ -859,9 +936,7 @@
     }
 
     function togglePlay(ev) {
-      if (ev) {
-        ev.preventDefault();
-      }
+      if (ev) ev.preventDefault();
       if (autoRebuildTimer) {
         clearTimeout(autoRebuildTimer);
         autoRebuildTimer = 0;
@@ -870,11 +945,10 @@
         playTarget = 0;
       } else {
         playTarget = 1;
-        // Auto reassemble so one-tap feels like a fun pop on phones
         autoRebuildTimer = setTimeout(function () {
           playTarget = 0;
           kickPlay();
-        }, 1100);
+        }, 1600);
       }
       kickPlay();
     }
@@ -883,25 +957,6 @@
     root.addEventListener('keydown', function (ev) {
       if (ev.key === 'Enter' || ev.key === ' ') togglePlay(ev);
     });
-
-    // Light parallax tilt on phones while intact
-    var tiltPending = false;
-    function onOrient(ev) {
-      if (scrollAmount() > 0.04 || playBurst > 0.04 || !fallback) return;
-      if (tiltPending) return;
-      tiltPending = true;
-      requestAnimationFrame(function () {
-        tiltPending = false;
-        var g = ev.gamma || 0;
-        var b = ev.beta || 0;
-        fallback.style.transform = 'translate3d(' + (g * 0.1) + 'px,' + ((b - 50) * 0.06) + 'px,0) rotate(' + (g * 0.05) + 'deg)';
-      });
-    }
-    try {
-      if (window.DeviceOrientationEvent && 'ontouchstart' in window) {
-        window.addEventListener('deviceorientation', onOrient, { passive: true });
-      }
-    } catch (err) {}
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
