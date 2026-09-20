@@ -173,6 +173,42 @@
       .logo-shatter__fallback{ opacity:1 !important; }
       .logo-shatter__piece{ opacity:0 !important; transform:none !important; }
     }
+    .logo-shatter{
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      outline: none;
+    }
+    .logo-shatter:focus-visible{
+      outline:2px solid rgba(220,38,38,.7);
+      outline-offset:6px;
+      border-radius:8px;
+    }
+    .logo-shatter.is-playing .logo-shatter__piece{
+      transition: transform .55s cubic-bezier(.22,1.2,.36,1), opacity .25s ease;
+    }
+    @keyframes logo-idle-glow {
+      0%,100%{ filter: drop-shadow(0 0 18px rgba(185,28,28,.32)); }
+      50%{ filter: drop-shadow(0 0 34px rgba(220,38,38,.55)); }
+    }
+    @media (hover:hover) and (prefers-reduced-motion: no-preference){
+      .logo-shatter:not(.is-shattering):not(.is-playing){
+        animation: logo-idle-glow 3.2s ease-in-out infinite;
+      }
+    }
+    @media (hover:none) and (prefers-reduced-motion: no-preference){
+      .logo-shatter:not(.is-shattering):not(.is-playing){
+        animation: logo-idle-glow 2.8s ease-in-out infinite;
+      }
+    }
+    .logo-shatter__hint{
+      display:block; margin-top:.55rem;
+      font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+      color:#71717a; font-weight:600;
+    }
+    @media (min-width:768px){
+      .logo-shatter__hint{ font-size:.72rem; }
+    }
   </style>
 
 
@@ -308,7 +344,7 @@
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
       <div class="mb-8 flex justify-center fade-in">
-        <div class="logo-shatter" id="logo-shatter" aria-label="NOAH'S ARK">
+        <div class="logo-shatter" id="logo-shatter" role="button" tabindex="0" aria-label="NOAH'S ARK — tap to shatter" data-hint-zh="點一下拆開 · 再點合返" data-hint-en="Tap to shatter · tap again to rebuild">
           <img
             class="logo-shatter__fallback"
             src="assets/logo-hero.png"
@@ -331,6 +367,11 @@
           <img src="assets/logo-parts/logo-part-c.png?v=20260920-clean3" alt="" width="365" height="352" decoding="async" draggable="false" />
         </picture>
         </div>
+
+      <p class="logo-shatter__hint hero-readability" id="logo-shatter-hint" aria-hidden="true">
+        <span class="lang-zh">點一下拆開 · 再點合返</span>
+        <span class="lang-en lang-hidden">Tap to shatter · tap again to rebuild</span>
+      </p>
       </div>
 
       <p class="text-red-500 hf-hero-kicker uppercase font-semibold fade-in hero-readability">
@@ -733,7 +774,7 @@
     }, 80);
   </script>
 
-  <script id="logo-shatter-js">
+      <script id="logo-shatter-js">
   (function () {
     var root = document.getElementById('logo-shatter');
     if (!root) return;
@@ -745,56 +786,126 @@
     if (reduce) {
       if (fallback) fallback.style.opacity = '1';
       for (var r = 0; r < pieces.length; r++) pieces[r].style.opacity = '0';
+      var hintR = document.getElementById('logo-shatter-hint');
+      if (hintR) hintR.hidden = true;
       return;
     }
 
+    var playBurst = 0;
+    var playTarget = 0;
+    var playRaf = 0;
     var ticking = false;
-    function progress() {
-      // Intact at page top; long scroll-driven disassembly
-      var hero = root.closest('header') || root;
-      var rect = hero.getBoundingClientRect();
-      var start = window.scrollY + rect.top;
-      // Stretch: ~2.2 viewports or at least 1400px of scroll after hero top
-      var range = Math.max(window.innerHeight * 2.2, rect.height * 2.4, 1400);
-      var y = window.scrollY - start;
-      var p = y / range;
-      if (p < 0) p = 0;
-      if (p > 1) p = 1;
-      // Hold fully intact for first ~8% of the range, then smoothstep
-      var hold = 0.08;
-      var e = 0;
-      if (p > hold) {
-        var u = (p - hold) / (1 - hold);
-        e = u * u * (3 - 2 * u); // smoothstep — slow start, long travel
-      }
+    var autoRebuildTimer = 0;
+
+    function apply(eScroll, ePlay) {
+      var e = eScroll > ePlay ? eScroll : ePlay;
+      if (e > 1) e = 1;
       var shattering = e > 0.001;
       root.classList.toggle('is-shattering', shattering);
+      root.classList.toggle('is-playing', ePlay > 0.02);
       if (fallback) {
-        // Keep whole logo visible until motion starts; fade across early shatter
-        var fo = 1 - Math.min(1, e * 1.35);
-        fallback.style.opacity = String(fo);
+        fallback.style.opacity = String(1 - Math.min(1, e * 1.35));
       }
       for (var i = 0; i < pieces.length; i++) {
         var el = pieces[i];
         var dx = parseFloat(el.getAttribute('data-dx') || '0');
         var dy = parseFloat(el.getAttribute('data-dy') || '0');
         var rot = parseFloat(el.getAttribute('data-rot') || '0');
-        // Amplify travel a bit so the long scroll still reads as a clear break-apart
+        var boost = 1.55 + ePlay * 1.1;
         el.style.opacity = shattering ? '1' : '0';
-        el.style.transform = 'translate3d(' + (dx * e * 1.55) + '%,' + (dy * e * 1.55) + '%,0) rotate(' + (rot * e * 1.35) + 'deg)';
+        el.style.transform = 'translate3d(' + (dx * e * boost) + '%,' + (dy * e * boost) + '%,0) rotate(' + (rot * e * (1.35 + ePlay * 0.6)) + 'deg)';
       }
     }
+
+    function scrollAmount() {
+      var hero = root.closest('header') || root;
+      var rect = hero.getBoundingClientRect();
+      var start = window.scrollY + rect.top;
+      var range = Math.max(window.innerHeight * 2.2, rect.height * 2.4, 1400);
+      var y = window.scrollY - start;
+      var p = y / range;
+      if (p < 0) p = 0;
+      if (p > 1) p = 1;
+      var hold = 0.08;
+      if (p <= hold) return 0;
+      var u = (p - hold) / (1 - hold);
+      return u * u * (3 - 2 * u);
+    }
+
+    function playFrame() {
+      var diff = playTarget - playBurst;
+      if (Math.abs(diff) > 0.002) {
+        playBurst += diff * (playTarget > playBurst ? 0.18 : 0.12);
+        apply(scrollAmount(), playBurst);
+        playRaf = requestAnimationFrame(playFrame);
+      } else {
+        playBurst = playTarget;
+        playRaf = 0;
+        apply(scrollAmount(), playBurst);
+      }
+    }
+
+    function kickPlay() {
+      if (!playRaf) playRaf = requestAnimationFrame(playFrame);
+    }
+
     function onScroll() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
-        progress();
+        if (!playRaf) apply(scrollAmount(), playBurst);
         ticking = false;
       });
     }
+
+    function togglePlay(ev) {
+      if (ev) {
+        ev.preventDefault();
+      }
+      if (autoRebuildTimer) {
+        clearTimeout(autoRebuildTimer);
+        autoRebuildTimer = 0;
+      }
+      if (playTarget > 0.5) {
+        playTarget = 0;
+      } else {
+        playTarget = 1;
+        // Auto reassemble so one-tap feels like a fun pop on phones
+        autoRebuildTimer = setTimeout(function () {
+          playTarget = 0;
+          kickPlay();
+        }, 1100);
+      }
+      kickPlay();
+    }
+
+    root.addEventListener('click', togglePlay);
+    root.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter' || ev.key === ' ') togglePlay(ev);
+    });
+
+    // Light parallax tilt on phones while intact
+    var tiltPending = false;
+    function onOrient(ev) {
+      if (scrollAmount() > 0.04 || playBurst > 0.04 || !fallback) return;
+      if (tiltPending) return;
+      tiltPending = true;
+      requestAnimationFrame(function () {
+        tiltPending = false;
+        var g = ev.gamma || 0;
+        var b = ev.beta || 0;
+        fallback.style.transform = 'translate3d(' + (g * 0.1) + 'px,' + ((b - 50) * 0.06) + 'px,0) rotate(' + (g * 0.05) + 'deg)';
+      });
+    }
+    try {
+      if (window.DeviceOrientationEvent && 'ontouchstart' in window) {
+        window.addEventListener('deviceorientation', onOrient, { passive: true });
+      }
+    } catch (err) {}
+
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
-    progress();
+    apply(scrollAmount(), 0);
   })();
   </script>
 
