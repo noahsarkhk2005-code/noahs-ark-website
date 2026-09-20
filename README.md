@@ -16,7 +16,7 @@
 
 ## 頁面
 - `index.html` — 首頁
-- `tickets-noah-2-5.html` — Noah's Ark 2.5 購票
+- `tickets-noah-2-5.html` — Noah's Ark 購票
 - `merch.html` — 商品頁
 
 ## 本地預覽
