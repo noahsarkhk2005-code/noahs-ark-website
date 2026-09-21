@@ -186,18 +186,22 @@
     </p>
 
     <div id="payme" class="bg-zinc-900/80 border border-zinc-700 rounded-xl p-5 mb-8 text-sm space-y-3 scroll-mt-24">
-      <p class="text-xs tracking-[0.2em] font-bold text-red-500">PAYME</p>
+      <p class="text-xs tracking-[0.2em] font-bold text-red-500">PAYMENT · 付款</p>
       <p class="text-zinc-100 font-semibold">Noahsark Metal</p>
       <p class="text-zinc-400">
-        <span class="lang-zh">用 PayMe 付款請撳下面按鈕。帳戶顯示名：Noahsark Metal。</span>
-        <span class="lang-en lang-hidden">Pay with PayMe via the button below. Account display name: Noahsark Metal.</span>
+        <span class="lang-zh">可用 PayMe 或 FPS（轉數快）付款。PayMe 帳戶顯示名：Noahsark Metal；FPS 為恒生 ID <span class="text-zinc-200 font-mono">164005613</span>。</span>
+        <span class="lang-en lang-hidden">Pay via PayMe or FPS. PayMe display name: Noahsark Metal; Hang Seng FPS ID <span class="text-zinc-200 font-mono">164005613</span>.</span>
       </p>
-      <p>
+      <div class="flex flex-wrap gap-3">
         <a href="https://payme.hsbc/noahsark2005" target="_blank" rel="noopener" class="inline-block px-4 py-2 bg-red-700 hover:bg-red-600 text-white rounded-lg font-semibold text-sm transition">
           <span class="lang-zh">付款</span>
           <span class="lang-en lang-hidden">Pay</span>
         </a>
-      </p>
+        <button type="button" id="fps-copy-btn" data-fps-id="164005613" class="inline-block px-4 py-2 border border-zinc-500 hover:border-red-500 text-zinc-100 hover:text-white rounded-lg font-semibold text-sm transition bg-zinc-900/60">
+          FPS
+        </button>
+      </div>
+      <p id="fps-copy-status" class="text-zinc-500 text-xs min-h-[1rem]" aria-live="polite"></p>
       <p class="text-zinc-500 text-xs break-all">https://payme.hsbc/noahsark2005</p>
     </div>
 
@@ -236,6 +240,35 @@
       if (nav) nav.classList.remove('is-open');
       if (btn) btn.setAttribute('aria-expanded', 'false');
     }
+
+    (function () {
+      var btn = document.getElementById('fps-copy-btn');
+      var status = document.getElementById('fps-copy-status');
+      if (!btn) return;
+      function msg(zh, en) {
+        if (!status) return;
+        var lang = (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'en' : 'zh';
+        status.textContent = lang === 'en' ? en : zh;
+      }
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-fps-id') || '164005613';
+        function ok() { msg('已複製 FPS ID：' + id, 'Copied FPS ID: ' + id); }
+        function fail() { msg('請手動輸入 FPS ID：' + id, 'Please enter FPS ID: ' + id); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(id).then(ok).catch(fail);
+        } else {
+          try {
+            var ta = document.createElement('textarea');
+            ta.value = id;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            ok();
+          } catch (e) { fail(); }
+        }
+      });
+    })();
   </script>
   </div><!-- /.site-content -->
 
