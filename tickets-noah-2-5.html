@@ -37,6 +37,20 @@
     @media (min-width:768px){
       .tickets-jump-payme{right:1.5rem;bottom:1.75rem;font-size:.85rem;padding:.75rem 1.15rem}
     }
+  
+    .fps-btn{
+      background:#16a34a;
+      color:#fff;
+      border:1px solid #15803d;
+    }
+    .fps-btn:hover{background:#22c55e;border-color:#16a34a}
+    .fps-btn.is-copied,
+    .fps-btn:disabled{
+      background:#52525b;
+      border-color:#3f3f46;
+      color:#e4e4e7;
+      cursor:default;
+    }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -197,7 +211,7 @@
           <span class="lang-zh">付款</span>
           <span class="lang-en lang-hidden">Pay</span>
         </a>
-        <button type="button" id="fps-copy-btn" data-fps-id="164005613" class="inline-block px-4 py-2 border border-zinc-500 hover:border-red-500 text-zinc-100 hover:text-white rounded-lg font-semibold text-sm transition bg-zinc-900/60">
+        <button type="button" id="fps-copy-btn" data-fps-id="164005613" class="fps-btn inline-block px-4 py-2 rounded-lg font-semibold text-sm transition">
           FPS
         </button>
       </div>
@@ -252,7 +266,7 @@
       }
       btn.addEventListener('click', function () {
         var id = btn.getAttribute('data-fps-id') || '164005613';
-        function ok() { msg('已複製 FPS ID：' + id, 'Copied FPS ID: ' + id); }
+        function ok() { msg('已複製 FPS ID：' + id, 'Copied FPS ID: ' + id); btn.classList.add('is-copied'); btn.setAttribute('aria-pressed','true'); }
         function fail() { msg('請手動輸入 FPS ID：' + id, 'Please enter FPS ID: ' + id); }
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(id).then(ok).catch(fail);
