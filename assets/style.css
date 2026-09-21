@@ -476,6 +476,8 @@ html{background:#030303}
   aspect-ratio:3/4;
   background:#030303
 }
+.event-album--landscape .event-album__stage{aspect-ratio:3/2;max-height:min(70vh,36rem)}
+
 .event-album__stage:after{
   content:"";
   position:absolute;
