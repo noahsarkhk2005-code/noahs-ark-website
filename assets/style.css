@@ -192,6 +192,26 @@ html{scroll-behavior:smooth}
   flex-wrap:nowrap
 }
 .site-nav__desktop a{white-space:nowrap}
+/* Mobile mid-bar quick links (between logo and EN/burger) */
+.site-nav__quick{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.55rem;
+  flex:1 1 auto;
+  min-width:0;
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  overflow:hidden
+}
+.site-nav__quick a{
+  color:#e4e4e7;
+  white-space:nowrap;
+  transition:color .15s ease
+}
+.site-nav__quick a:hover,
+.site-nav__quick a.is-active{color:#f87171}
 .site-nav__mobile-actions{
   display:flex;
   align-items:center;
@@ -260,6 +280,7 @@ html{scroll-behavior:smooth}
     max-width:10rem
   }
   .site-nav__desktop{display:flex}
+  .site-nav__quick{display:none}
   .site-nav__mobile-actions{display:none}
   .site-nav__drawer,
   .site-nav.is-open .site-nav__drawer{display:none!important}
