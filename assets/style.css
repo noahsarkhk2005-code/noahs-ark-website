@@ -192,26 +192,32 @@ html{scroll-behavior:smooth}
   flex-wrap:nowrap
 }
 .site-nav__desktop a{white-space:nowrap}
-/* Mobile mid-bar quick links (between logo and EN/burger) */
+/* Mobile mid-bar event title (between logo and EN/burger) */
 .site-nav__quick{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:.55rem;
   flex:1 1 auto;
   min-width:0;
-  font-size:.78rem;
-  font-weight:600;
-  letter-spacing:.04em;
-  overflow:hidden
+  overflow:hidden;
+  padding:0 .15rem
 }
-.site-nav__quick a{
+.site-nav__quick-title,
+.site-nav__quick a.site-nav__quick-title{
+  display:block;
+  max-width:100%;
   color:#e4e4e7;
+  font-size:clamp(.62rem,2.7vw,.78rem);
+  font-weight:600;
+  letter-spacing:.02em;
+  line-height:1.2;
+  text-align:center;
   white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
   transition:color .15s ease
 }
-.site-nav__quick a:hover,
-.site-nav__quick a.is-active{color:#f87171}
+.site-nav__quick a.site-nav__quick-title:hover{color:#f87171}
 .site-nav__mobile-actions{
   display:flex;
   align-items:center;
