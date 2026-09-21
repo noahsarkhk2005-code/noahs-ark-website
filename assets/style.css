@@ -165,7 +165,8 @@ html{scroll-behavior:smooth}
   align-items:center;
   justify-content:space-between;
   gap:.75rem;
-  min-height:3.25rem
+  min-height:3.25rem;
+  position:relative
 }
 .site-nav__logo{
   display:flex;
@@ -192,32 +193,42 @@ html{scroll-behavior:smooth}
   flex-wrap:nowrap
 }
 .site-nav__desktop a{white-space:nowrap}
-/* Mobile mid-bar event title (between logo and EN/burger) */
+/* Mobile mid-bar event title — larger, true screen-center */
 .site-nav__quick{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
   display:flex;
   align-items:center;
   justify-content:center;
-  flex:1 1 auto;
-  min-width:0;
-  overflow:hidden;
-  padding:0 .15rem
+  max-width:min(72vw,18.5rem);
+  padding:0 .25rem;
+  pointer-events:none;
+  z-index:1
 }
 .site-nav__quick-title,
 .site-nav__quick a.site-nav__quick-title{
   display:block;
   max-width:100%;
-  color:#e4e4e7;
-  font-size:clamp(.62rem,2.7vw,.78rem);
-  font-weight:600;
-  letter-spacing:.02em;
-  line-height:1.2;
+  color:#f4f4f5;
+  font-size:clamp(.82rem,3.6vw,1rem);
+  font-weight:700;
+  letter-spacing:.015em;
+  line-height:1.15;
   text-align:center;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
+  pointer-events:auto;
   transition:color .15s ease
 }
 .site-nav__quick a.site-nav__quick-title:hover{color:#f87171}
+.site-nav__logo,
+.site-nav__mobile-actions{
+  position:relative;
+  z-index:2
+}
 .site-nav__mobile-actions{
   display:flex;
   align-items:center;
