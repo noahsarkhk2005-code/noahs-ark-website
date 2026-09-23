@@ -193,26 +193,23 @@ html{scroll-behavior:smooth}
   flex-wrap:nowrap
 }
 .site-nav__desktop a{white-space:nowrap}
-/* Mobile mid-bar event title — larger, true screen-center */
+/* Mobile mid-bar event title — flex slot between logo and actions (never overlaps lang) */
 .site-nav__quick{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
   display:flex;
   align-items:center;
   justify-content:center;
-  max-width:min(72vw,18.5rem);
-  padding:0 .25rem;
-  pointer-events:none;
-  z-index:1
+  flex:1 1 auto;
+  min-width:0;
+  padding:0 .35rem;
+  pointer-events:none
 }
 .site-nav__quick-title,
 .site-nav__quick a.site-nav__quick-title{
   display:block;
   max-width:100%;
+  min-width:0;
   color:#f4f4f5;
-  font-size:clamp(.82rem,3.6vw,1rem);
+  font-size:clamp(.75rem,3.2vw,.95rem);
   font-weight:700;
   letter-spacing:.015em;
   line-height:1.15;
@@ -224,10 +221,16 @@ html{scroll-behavior:smooth}
   transition:color .15s ease
 }
 .site-nav__quick a.site-nav__quick-title:hover{color:#f87171}
+.site-nav__quick-short{display:none}
+@media (max-width:390px){
+  .site-nav__quick-full{display:none}
+  .site-nav__quick-short{display:inline}
+}
 .site-nav__logo,
 .site-nav__mobile-actions{
   position:relative;
-  z-index:2
+  z-index:2;
+  flex-shrink:0
 }
 .site-nav__mobile-actions{
   display:flex;
