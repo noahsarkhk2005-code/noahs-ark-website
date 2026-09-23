@@ -39,6 +39,8 @@ AS_Tickets（出票 + QR）
 | `TICKET_SOURCE_SPREADSHEET_ID` | `1DgB01yyo8cdSB6IdsIv2lzYtYGlNkPd1WwclgQc07Bg` |
 
 舊值 `挪亞方舟2.5 - PROTOSS 20週年` 已失效，不改則同步不到新單。
+> 網站購票頁已改為 `/tickets`（`tickets.html`）；舊 `/tickets-noah-2-5` 以 301 導向。
+
 
 ## 必改 Products 價錢（與 Tally 一致）
 

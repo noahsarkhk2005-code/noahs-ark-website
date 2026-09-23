@@ -16,7 +16,7 @@
 
 ## 頁面
 - `index.html` — 首頁
-- `tickets-noah-2-5.html` — Noah's Ark 購票
+- `tickets.html` — `/tickets` · Noah's Ark X Protoss 20th Anniversary 購票 (舊 `/tickets-noah-2-5` 301 → `/tickets`)
 - `merch.html` — 商品頁
 
 ## 本地預覽
