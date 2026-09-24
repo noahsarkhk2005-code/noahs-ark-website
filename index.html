@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/style.css?v=20260924-storyscroll" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-tidyprices" />
   <style>
     /* Org identity hidden until confirmed. Add class="show-org" on <html> to publish gated bits. */
     html:not(.show-org) .org-public { display: none !important; }
@@ -18,19 +18,22 @@
     /* ===== Story scroll (mobile-first ~390) ===== */
     .story{
       --story-pad-top: 3.5rem;
-      --peek: 2.75rem;
+      --peek: 0;
     }
     .story-screen{
       position:relative;
-      min-height: calc(100svh - var(--peek));
+      /* Content-sized — never force full viewport (black-gap fix) */
+      min-height: 0 !important;
+      height: auto;
       display:flex;
       flex-direction:column;
-      justify-content:center;
-      padding: 1.25rem 1rem calc(var(--peek) + .5rem);
+      justify-content:flex-start;
+      padding: 1.1rem 1rem .85rem;
       scroll-margin-top: 3.5rem;
     }
     .story-screen--hero{
-      min-height: 100svh;
+      /* Strong hero, but height comes from .open-hero only */
+      min-height: 0 !important;
       padding: 0;
       justify-content: flex-end;
       overflow: hidden;
@@ -69,7 +72,9 @@
     .open-hero{
       position:relative;
       width:100%;
+      /* Fill one screen; content pinned to bottom so 「本場」 follows immediately */
       min-height:100svh;
+      max-height:100svh;
       display:flex;
       flex-direction:column;
       justify-content:flex-end;
@@ -90,7 +95,7 @@
     }
     .open-hero__content{
       position:relative; z-index:2;
-      padding: 5.5rem 1.1rem 2.4rem;
+      padding: 5.5rem 1.1rem 1rem;
       text-align:center;
       max-width:28rem;
       margin:0 auto;
@@ -151,33 +156,56 @@
     }
     .cta-ghost:hover{ color:#fff; border-color:#71717a; }
 
-    /* Price cards horizontal scroll */
+    /* Price cards — equal width/height, tidy rail (~390) */
     .price-rail{
-      display:flex; gap:.75rem;
+      display:flex; gap:.65rem;
       overflow-x:auto; -webkit-overflow-scrolling:touch;
       scroll-snap-type:x mandatory;
-      padding: .25rem .15rem 1rem;
-      margin: 0 -.15rem;
+      scroll-padding-left:0;
+      padding: .1rem 0 .7rem;
+      margin: 0;
     }
-    .price-rail::-webkit-scrollbar{ height:4px; }
+    .price-rail::-webkit-scrollbar{ height:3px; }
     .price-rail::-webkit-scrollbar-thumb{ background:#3f3f46; border-radius:4px; }
     .price-card{
-      flex:0 0 72%;
-      max-width:14.5rem;
+      box-sizing:border-box;
+      flex:0 0 10rem;
+      width:10rem;
+      min-width:10rem;
+      max-width:10rem;
+      min-height:8.5rem;
       scroll-snap-align:start;
       border:1px solid #3f3f46;
-      border-radius:1rem;
+      border-radius:.9rem;
       background:rgba(24,24,27,.85);
-      padding:1.1rem 1rem;
+      padding:.9rem .85rem .85rem;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
     }
     @media (min-width:640px){
-      .price-rail{ overflow:visible; }
-      .price-card{ flex:1 1 0; max-width:none; }
+      .price-rail{ overflow:visible; gap:.75rem; }
+      .price-card{
+        flex:1 1 0;
+        width:auto; min-width:0; max-width:none;
+        min-height:8.75rem;
+      }
     }
-    .price-card__label{ color:#ef4444; font-size:.68rem; font-weight:800; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
-    .price-card__name{ font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:.5rem; line-height:1.25; }
-    .price-card__amt{ font-size:1.75rem; font-weight:900; color:#fff; font-variant-numeric:tabular-nums; }
-    .price-card__amt span{ font-size:.85rem; color:#a1a1aa; font-weight:700; margin-right:.2rem; }
+    .price-card__label{
+      color:#ef4444; font-size:.65rem; font-weight:800; letter-spacing:.16em;
+      text-transform:uppercase; margin:0 0 .4rem; min-height:1rem; line-height:1;
+    }
+    .price-card__name{
+      font-weight:800; color:#fff; font-size:.95rem; margin:0;
+      line-height:1.25; min-height:2.5rem;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .price-card__amt{
+      margin-top:auto; padding-top:.55rem;
+      font-size:1.65rem; font-weight:900; color:#fff;
+      font-variant-numeric:tabular-nums; line-height:1;
+    }
+    .price-card__amt span{ font-size:.78rem; color:#a1a1aa; font-weight:700; margin-right:.15rem; }
 
     /* Why-go promo clip */
     .promo-frame{
@@ -221,8 +249,6 @@
     .vid-card__tag{ color:#ef4444; font-size:.62rem; font-weight:800; letter-spacing:.2em; margin-bottom:.3rem; }
     .vid-card__title{ font-weight:800; color:#fff; font-size:.95rem; line-height:1.3; }
     .vid-card__meta{ color:#71717a; font-size:.75rem; margin-top:.35rem; }
-    .vid-card--soon{ opacity:.85; }
-    .vid-card--soon .vid-card__thumb{ background:linear-gradient(135deg,#1c1917,#27272a); }
 
     /* Channel pills */
     .channel-grid{ display:grid; gap:.65rem; }
@@ -261,7 +287,7 @@
       display:block; text-decoration:none; color:inherit;
       border:1px solid #3f3f46; border-radius:1.1rem;
       background:rgba(24,24,27,.72);
-      padding:1rem 1rem 1.1rem;
+      padding:.8rem .85rem .85rem;
       transition:border-color .2s, transform .2s;
     }
     a.album-entry:active{ transform:scale(.99); }
@@ -293,19 +319,16 @@
     }
     body.has-sticky-bar{ padding-bottom:3.4rem; }
 
-    .story-peek{
-      position:absolute; left:0; right:0; bottom:.35rem;
-      text-align:center; color:#52525b; font-size:.65rem; letter-spacing:.2em;
-      pointer-events:none; text-transform:uppercase; font-weight:700;
-    }
-
     @media (min-width:768px){
       .story-screen{ max-width:40rem; margin-left:auto; margin-right:auto; }
       .story-screen--hero{ max-width:none; }
-      .open-hero__content{ max-width:32rem; padding-bottom:3rem; }
+      .open-hero__content{ max-width:32rem; padding-bottom:1.25rem; }
       .vid-rail{ overflow:visible; flex-wrap:wrap; }
       .vid-card{ flex:1 1 calc(50% - .75rem); max-width:none; }
     }
+    /* Avoid black voids from opacity:0 fade-in before IO fires */
+    .fade-in{ opacity:1; transform:none; }
+    .fade-in.visible{ opacity:1; transform:none; }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -404,8 +427,7 @@
           <a class="cta-ghost" href="#show"><span class="lang-zh">睇詳情</span><span class="lang-en lang-hidden">Details</span></a>
         </div>
       </div>
-      <div class="story-peek" aria-hidden="true">↓</div>
-    </div>
+</div>
   </section>
 
   <!-- 2. This show -->
@@ -437,8 +459,7 @@
     <div class="cta-row" style="margin-top:.5rem">
       <a class="cta-primary" href="/tickets"><span class="lang-zh">立即購票</span><span class="lang-en lang-hidden">Get tickets</span></a>
     </div>
-    <div class="story-peek" aria-hidden="true">↓</div>
-  </section>
+</section>
 
   <!-- 3. Why go / LIVE album entry → /album -->
   <section class="story-screen fade-in" id="why" aria-label="LIVE album">
@@ -462,8 +483,7 @@
       </div>
       <span class="album-entry__cta"><span class="lang-zh">進入相冊 →</span><span class="lang-en lang-hidden">Open album →</span></span>
     </a>
-    <div class="story-peek" aria-hidden="true">↓</div>
-  </section>
+</section>
 
   <!-- 4. Video strip -->
   <section class="story-screen fade-in" id="videos-strip">
@@ -501,17 +521,8 @@
           <div class="vid-card__meta">Protoss 20th</div>
         </div>
       </a>
-      <a class="vid-card vid-card--soon" href="/videos#interviews">
-        <div class="vid-card__thumb"></div>
-        <div class="vid-card__body">
-          <div class="vid-card__tag">INTERVIEWS</div>
-          <div class="vid-card__title"><span class="lang-zh">訪問特輯</span><span class="lang-en lang-hidden">Interviews</span></div>
-          <div class="vid-card__meta"><span class="lang-zh">即將更新</span><span class="lang-en lang-hidden">Coming soon</span></div>
-        </div>
-      </a>
-    </div>
-    <div class="story-peek" aria-hidden="true">↓</div>
-  </section>
+</div>
+</section>
 
   <!-- 5. Official channels -->
   <section class="story-screen fade-in" id="channels">
@@ -528,12 +539,7 @@
         <span>YouTube @noahsark_2005<small><span class="lang-zh">微電影 · 現場 · 宣傳</span><span class="lang-en lang-hidden">Films · live · promos</span></small></span>
       </a>
     </div>
-    <p class="story-sub" style="margin-top:1rem;margin-bottom:0;font-size:.75rem">
-      <span class="lang-zh">精選 Reel 外連：暫未掛出（Soundman 系列已下架）。最新請直接開 Instagram。</span>
-      <span class="lang-en lang-hidden">Featured Reel outbound links: not listed (Soundman series removed). Open Instagram for the latest.</span>
-    </p>
-    <div class="story-peek" aria-hidden="true">↓</div>
-  </section>
+</section>
 
   <!-- 6. Who we are -->
   <section class="story-screen fade-in" id="who">
@@ -547,8 +553,7 @@
       <span class="lang-zh">挪亞方舟文化傳播有限公司 — 擬以擔保有限公司（company limited by guarantee）性質成立；公司註冊證明書未簽發前，不作註冊完成陳述。「2005」為活動品牌，非成立年份。</span>
       <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited — intended as a company limited by guarantee; not stated as registration-complete before a Certificate of Incorporation is held. “2005” is an event brand, not the year of incorporation.</span>
     </p>
-    <div class="story-peek" aria-hidden="true">↓</div>
-  </section>
+</section>
 
   <!-- 7. Actions -->
   <section class="story-screen fade-in" id="actions">
@@ -566,8 +571,7 @@
       <span class="lang-zh">公開網站只提供電郵同 IG DM；電話暫不公開</span>
       <span class="lang-en lang-hidden">Public site: email and IG DM only; phone is not published.</span>
     </p>
-    <div class="story-peek" aria-hidden="true">↓</div>
-  </section>
+</section>
 
   <p style="margin:0 auto 2rem;text-align:center;max-width:28rem;padding:0 1rem">
       <a href="/events" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">過往活動 →</span><span class="lang-en lang-hidden">Past events →</span></a>
@@ -637,10 +641,10 @@
         if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.12 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    setTimeout(() => {
-      document.querySelectorAll('#open .fade-in').forEach(el => el.classList.add('visible'));
-    }, 60);
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.classList.add('visible'); /* show immediately — avoid invisible black gaps */
+      observer.observe(el);
+    });
   </script>
 
   <script>
