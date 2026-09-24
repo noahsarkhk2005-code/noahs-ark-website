@@ -78,7 +78,8 @@ window.NOAHS_TICKET_SALE = (function () {
 
   function buildEmbedSrc(selectedKey, now) {
     var n = now || getNow();
-    var base = 'https://tally.so/embed/' + getTallyFormId(n) + '?' + TALLY_EMBED_QS;
+    var phase = isPresaleOpen(n) ? 'post' : 'pre';
+    var base = 'https://tally.so/embed/' + getTallyFormId(n) + '?' + TALLY_EMBED_QS + '&phase=' + phase;
     var qs = buildQtyParams(selectedKey, n);
     return qs ? base + '&' + qs : base;
   }
