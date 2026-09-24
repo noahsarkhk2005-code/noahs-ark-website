@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>會員中心 Member | Noah's Ark</title>
+  <meta name="description" content="Metal Pass members — register as an e-member with your NA member number." />
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-storyscroll" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-512.png" />
+  <style>
+    html:not(.show-org) .org-public { display: none !important; }
+    .member-shell{ max-width:28rem; margin:0 auto; }
+    .member-intro{
+      color:#a1a1aa; font-size:.92rem; line-height:1.55; margin:0 0 1.25rem; text-align:center;
+    }
+    .member-form{
+      display:grid; gap:.9rem;
+      border:1px solid #3f3f46; border-radius:1rem;
+      background:rgba(24,24,27,.88); padding:1.1rem 1rem 1.15rem;
+    }
+    .member-field{ display:grid; gap:.35rem; }
+    .member-field label{
+      font-size:.72rem; font-weight:800; letter-spacing:.06em;
+      text-transform:uppercase; color:#e4e4e7;
+    }
+    .member-field input[type="text"],
+    .member-field input[type="tel"],
+    .member-field input[type="email"]{
+      width:100%; box-sizing:border-box;
+      background:#09090b; color:#fafafa;
+      border:1px solid #52525b; border-radius:.55rem;
+      padding:.7rem .75rem; font-size:1rem; line-height:1.3;
+    }
+    .member-field input:focus{
+      outline:2px solid #ef4444; outline-offset:1px; border-color:#ef4444;
+    }
+    .member-field input.is-invalid{ border-color:#f87171; }
+    .member-hint{ font-size:.72rem; color:#71717a; margin:0; }
+    .member-consent{
+      display:flex; gap:.65rem; align-items:flex-start;
+      font-size:.8rem; color:#a1a1aa; line-height:1.45;
+    }
+    .member-consent input{ margin-top:.2rem; flex-shrink:0; width:1rem; height:1rem; }
+    .member-submit{
+      width:100%; border:0; border-radius:.65rem;
+      background:#b91c1c; color:#fff; font-weight:800;
+      padding:.85rem 1rem; font-size:.95rem; cursor:pointer;
+      letter-spacing:.02em;
+    }
+    .member-submit:hover{ background:#dc2626; }
+    .member-submit:disabled{ opacity:.55; cursor:not-allowed; }
+    .member-result{
+      margin-top:1rem; border-radius:.85rem; padding:.9rem 1rem;
+      font-size:.9rem; line-height:1.45; display:none;
+    }
+    .member-result.is-on{ display:block; }
+    .member-result.is-success{ background:rgba(22,101,52,.35); border:1px solid #16a34a; color:#bbf7d0; }
+    .member-result.is-pending{ background:rgba(113,63,18,.35); border:1px solid #ca8a04; color:#fde68a; }
+    .member-result.is-invalid{ background:rgba(127,29,29,.4); border:1px solid #ef4444; color:#fecaca; }
+    .member-result.is-soon{ background:rgba(39,39,42,.9); border:1px solid #52525b; color:#d4d4d8; }
+    .member-contact{
+      margin-top:1.5rem; text-align:center; font-size:.78rem; color:#71717a;
+    }
+    .member-contact a{ color:#a1a1aa; text-decoration:underline; }
+  </style>
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="/" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="/tickets" class="hover:text-red-500 transition"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a href="/member" class="text-red-500"><span class="lang-zh">會員</span><span class="lang-en lang-hidden">Member</span></a>
+        <a href="/videos" class="hover:text-red-500 transition"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a href="/merch" class="hover:text-red-500 transition"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Merch</span></a>
+        <a href="/events" class="hover:text-red-500 transition"><span class="lang-zh">過往活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a href="/#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Current event"><a class="site-nav__quick-title" href="/tickets" title="Noah's Ark X Protoss 20th Anniversary"><span class="site-nav__quick-full">Noah's Ark X Protoss 20th Anniversary</span><span class="site-nav__quick-short" aria-hidden="true">Noah's Ark × Protoss</span></a></nav>
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/member" class="is-active" onclick="closeNav()"><span class="lang-zh">會員</span><span class="lang-en lang-hidden">Member</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Merch</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">過往活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/" onclick="closeNav()"><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+    </div>
+  </nav>
+
+  <main class="member-shell px-4 py-10">
+    <div class="mb-6 text-center">
+      <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">MEMBER · 會員</p>
+      <h1 class="text-2xl md:text-3xl font-black mb-3">
+        <span class="lang-zh">電子會員登記</span>
+        <span class="lang-en lang-hidden">E-member registration</span>
+      </h1>
+      <p class="member-intro">
+        <span class="lang-zh">持 Metal Pass 嘅舊會員，輸入 NA 開頭嘅會員號碼登記電子會員，就可以買會員價飛。</span>
+        <span class="lang-en lang-hidden">Holding an old Metal Pass? Enter your member number starting with NA to register as an e-member and unlock member-price tickets.</span>
+      </p>
+    </div>
+
+    <form class="member-form" id="member-form" novalidate>
+      <div class="member-field">
+        <label for="member-no">
+          <span class="lang-zh">會員號碼</span>
+          <span class="lang-en lang-hidden">Member no.</span>
+        </label>
+        <input id="member-no" name="memberNo" type="text" autocomplete="off" inputmode="text"
+          placeholder="NA…" required aria-describedby="member-no-hint" />
+        <p class="member-hint" id="member-no-hint">
+          <span class="lang-zh">請輸入 NA 開頭嘅會員號碼</span>
+          <span class="lang-en lang-hidden">Member number starting with NA</span>
+        </p>
+      </div>
+
+      <div class="member-field">
+        <label for="member-name">
+          <span class="lang-zh">名稱</span>
+          <span class="lang-en lang-hidden">Name</span>
+        </label>
+        <input id="member-name" name="name" type="text" autocomplete="name" required />
+      </div>
+
+      <div class="member-field">
+        <label for="member-phone">
+          <span class="lang-zh">電話</span>
+          <span class="lang-en lang-hidden">Phone</span>
+        </label>
+        <input id="member-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
+          maxlength="8" pattern="[0-9]{8}" placeholder="8 digits" required />
+      </div>
+
+      <div class="member-field">
+        <label for="member-email">
+          <span class="lang-zh">電郵</span>
+          <span class="lang-en lang-hidden">Email</span>
+        </label>
+        <input id="member-email" name="email" type="email" autocomplete="email" required />
+      </div>
+
+      <label class="member-consent">
+        <input id="member-consent" name="consent" type="checkbox" required />
+        <span>
+          <span class="lang-zh">我同意提供以上資料，只用於會員核實同購票相關聯絡。</span>
+          <span class="lang-en lang-hidden">I agree to provide the above details for membership verification and ticketing contact only.</span>
+        </span>
+      </label>
+
+      <button type="submit" class="member-submit" id="member-submit">
+        <span class="lang-zh">提交登記</span>
+        <span class="lang-en lang-hidden">Submit registration</span>
+      </button>
+    </form>
+
+    <div class="member-result" id="member-result" role="status" aria-live="polite"></div>
+
+    <p class="member-contact">
+      <span class="lang-zh">查詢：</span><span class="lang-en lang-hidden">Contact: </span>
+      <a href="mailto:noahsarkhk2005@gmail.com">noahsarkhk2005@gmail.com</a>
+      ·
+      <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener">IG @noahs_ark_hk</a>
+    </p>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+  </footer>
+  </div>
+
+  <script>
+  (function () {
+    /* ===== IT狗 config — fill when backend is ready =====
+       POST MEMBER_ENDPOINT with JSON:
+         { memberNo, name, phone, email, consent: true }
+       Expected JSON response:
+         { status: 'success' | 'pending' | 'invalid' }
+       Alternatively set MEMBER_TALLY_ID to a Tally form id and we can
+       swap the form body for an embed (same page shell).
+    */
+    var MEMBER_ENDPOINT = null;
+    var MEMBER_TALLY_ID = null;
+
+    /* Exact member-number pattern — IT狗 will confirm the real format. */
+    var MEMBER_NO_PATTERN = /^NA[A-Z0-9]{4,}$/;
+
+    var form = document.getElementById('member-form');
+    var resultEl = document.getElementById('member-result');
+    var memberNoInput = document.getElementById('member-no');
+    var phoneInput = document.getElementById('member-phone');
+
+    var MESSAGES = {
+      success: {
+        zh: '登記成功，請查閱電郵',
+        en: 'Registered — please check your email',
+        cls: 'is-success'
+      },
+      pending: {
+        zh: '已收到，我哋會人手核對',
+        en: "Received — we'll verify it manually",
+        cls: 'is-pending'
+      },
+      invalid: {
+        zh: '號碼格式唔啱',
+        en: "Member number format isn't right",
+        cls: 'is-invalid'
+      },
+      soon: {
+        zh: '登記即將開放，請稍後再試。',
+        en: 'Registration opens soon — please check back later.',
+        cls: 'is-soon'
+      },
+      phone: {
+        zh: '電話請輸入 8 位數字',
+        en: 'Phone must be exactly 8 digits',
+        cls: 'is-invalid'
+      },
+      consent: {
+        zh: '請先勾選同意私隱說明',
+        en: 'Please tick the privacy consent',
+        cls: 'is-invalid'
+      }
+    };
+
+    function showState(key) {
+      var msg = MESSAGES[key] || MESSAGES.soon;
+      resultEl.className = 'member-result is-on ' + msg.cls;
+      resultEl.innerHTML =
+        '<span class="lang-zh">' + msg.zh + '</span>' +
+        '<span class="lang-en lang-hidden">' + msg.en + '</span>';
+      syncLangIn(resultEl);
+    }
+
+    function syncLangIn(root) {
+      var lang = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+      root.querySelectorAll('.lang-zh').forEach(function (el) {
+        el.classList.toggle('lang-hidden', lang === 'en');
+      });
+      root.querySelectorAll('.lang-en').forEach(function (el) {
+        el.classList.toggle('lang-hidden', lang === 'zh');
+      });
+    }
+
+    function normalizeMemberNo(v) {
+      return String(v || '').replace(/\s+/g, '').toUpperCase();
+    }
+
+    memberNoInput.addEventListener('input', function () {
+      var start = memberNoInput.selectionStart;
+      var before = memberNoInput.value;
+      memberNoInput.value = normalizeMemberNo(before);
+      if (typeof start === 'number') {
+        try { memberNoInput.setSelectionRange(start, start); } catch (e) {}
+      }
+    });
+
+    phoneInput.addEventListener('input', function () {
+      phoneInput.value = phoneInput.value.replace(/\D+/g, '').slice(0, 8);
+    });
+
+    function clientValidate() {
+      var no = normalizeMemberNo(memberNoInput.value);
+      memberNoInput.value = no;
+      memberNoInput.classList.remove('is-invalid');
+      phoneInput.classList.remove('is-invalid');
+
+      if (!MEMBER_NO_PATTERN.test(no)) {
+        memberNoInput.classList.add('is-invalid');
+        showState('invalid');
+        return null;
+      }
+      var phone = phoneInput.value.trim();
+      if (!/^\d{8}$/.test(phone)) {
+        phoneInput.classList.add('is-invalid');
+        showState('phone');
+        return null;
+      }
+      if (!document.getElementById('member-consent').checked) {
+        showState('consent');
+        return null;
+      }
+      var name = document.getElementById('member-name').value.trim();
+      var email = document.getElementById('member-email').value.trim();
+      if (!name || !email) return null;
+      return { memberNo: no, name: name, phone: phone, email: email, consent: true };
+    }
+
+    async function submitToEndpoint(payload) {
+      var res = await fetch(MEMBER_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      var data = {};
+      try { data = await res.json(); } catch (e) { data = {}; }
+      var status = data && data.status;
+      if (status === 'success' || status === 'pending' || status === 'invalid') {
+        showState(status);
+      } else if (!res.ok) {
+        showState('pending');
+      } else {
+        showState('pending');
+      }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var payload = clientValidate();
+      if (!payload) return;
+
+      if (!MEMBER_ENDPOINT && !MEMBER_TALLY_ID) {
+        showState('soon');
+        return;
+      }
+      if (MEMBER_ENDPOINT) {
+        var btn = document.getElementById('member-submit');
+        btn.disabled = true;
+        submitToEndpoint(payload).finally(function () { btn.disabled = false; });
+        return;
+      }
+      /* MEMBER_TALLY_ID set: placeholder — swap to Tally embed or redirect when IT狗 provides ID */
+      showState('soon');
+    });
+
+    /* Preview states: ?state=success|pending|invalid */
+    var preview = new URLSearchParams(location.search).get('state');
+    if (preview && MESSAGES[preview]) showState(preview);
+
+    /* Expose for debugging / future wiring */
+    window.NOAHS_MEMBER = {
+      MEMBER_ENDPOINT: MEMBER_ENDPOINT,
+      MEMBER_TALLY_ID: MEMBER_TALLY_ID,
+      MEMBER_NO_PATTERN: MEMBER_NO_PATTERN,
+      showState: showState
+    };
+  })();
+
+  let currentLang = 'zh';
+  function toggleLang() {
+    currentLang = currentLang === 'zh' ? 'en' : 'zh';
+    document.querySelectorAll('.lang-zh').forEach(function (el) {
+      el.classList.toggle('lang-hidden', currentLang === 'en');
+    });
+    document.querySelectorAll('.lang-en').forEach(function (el) {
+      el.classList.toggle('lang-hidden', currentLang === 'zh');
+    });
+    document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+  }
+  function toggleNav() {
+    var nav = document.getElementById('site-nav');
+    var btn = document.getElementById('nav-toggle');
+    if (!nav) return;
+    var open = nav.classList.toggle('is-open');
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  function closeNav() {
+    var nav = document.getElementById('site-nav');
+    var btn = document.getElementById('nav-toggle');
+    if (nav) nav.classList.remove('is-open');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+  </script>
+</body>
+</html>

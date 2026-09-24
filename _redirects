@@ -23,3 +23,6 @@
 /bands/protos              /bands/protoss                  301
 /album               /live  301!
 /album.html          /live  301!
+
+/member               /member.html             200
+/member/              /member.html             200
