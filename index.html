@@ -191,17 +191,6 @@
     .promo-frame video{
       width:100%; height:100%; object-fit:cover; display:block;
     }
-    .promo-unmute{
-      position:absolute; right:.65rem; bottom:.65rem; z-index:2;
-      display:inline-flex; align-items:center; gap:.35rem;
-      padding:.45rem .7rem;
-      border-radius:999px;
-      background:rgba(0,0,0,.72);
-      border:1px solid #52525b;
-      color:#fff; font-size:.72rem; font-weight:700;
-      backdrop-filter:blur(6px);
-    }
-
     /* Video category strip */
     .vid-rail{
       display:flex; gap:.75rem;
@@ -267,31 +256,21 @@
     .action-stack a.cta-primary,
     .action-stack a.cta-ghost{ width:100%; max-width:none; }
 
-    /* Funding accordion — always reachable; verbatim org facts */
-    .fund-acc{
-      border:1px solid #3f3f46;
-      border-radius:1rem;
-      background:rgba(24,24,27,.75);
-      overflow:hidden;
+    /* Album entry card (why / LIVE) */
+    a.album-entry{
+      display:block; text-decoration:none; color:inherit;
+      border:1px solid #3f3f46; border-radius:1.1rem;
+      background:rgba(24,24,27,.72);
+      padding:1rem 1rem 1.1rem;
+      transition:border-color .2s, transform .2s;
     }
-    .fund-acc > summary{
-      list-style:none;
-      cursor:pointer;
-      padding:1rem 1.1rem;
-      font-weight:800;
-      color:#fff;
-      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    a.album-entry:active{ transform:scale(.99); }
+    a.album-entry:hover{ border-color:#7f1d1d; }
+    a.album-entry .promo-frame{ margin:.75rem 0 1rem; pointer-events:none; }
+    a.album-entry .album-entry__cta{
+      display:inline-flex; align-items:center; gap:.35rem;
+      color:#f87171; font-size:.85rem; font-weight:800;
     }
-    .fund-acc > summary::-webkit-details-marker{ display:none; }
-    .fund-acc > summary::after{
-      content:"+";
-      color:#ef4444; font-size:1.25rem; font-weight:700; line-height:1;
-    }
-    .fund-acc[open] > summary::after{ content:"–"; }
-    .fund-acc__body{ padding:0 1.1rem 1.1rem; }
-    .fund-acc dl{ font-size:.82rem; }
-    .fund-acc dt{ color:#71717a; margin-top:.85rem; }
-    .fund-acc dd{ color:#e4e4e7; margin-top:.2rem; line-height:1.45; }
 
     /* Sticky thin bar after hero */
     .sticky-bar{
@@ -349,8 +328,8 @@
         <a class="hover:text-red-500 transition" href="/videos"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
         <a class="hover:text-red-500 transition" href="/events"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
         <a class="hover:text-red-500 transition" href="/merch"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="/album" class="hover:text-red-500 transition"><span class="lang-zh">相冊</span><span class="lang-en lang-hidden">Album</span></a>
         <a href="#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
-        <a href="#funding" class="hover:text-red-500 transition"><span class="lang-zh">機構</span><span class="lang-en lang-hidden">Organisation</span></a>
         <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="Instagram" aria-label="Instagram">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         </a>
@@ -377,8 +356,8 @@
       <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
       <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
       <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/album" onclick="closeNav()"><span class="lang-zh">相冊</span><span class="lang-en lang-hidden">Album</span></a>
       <a href="#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
-      <a href="#funding" onclick="closeNav()"><span class="lang-zh">機構／資助查閱</span><span class="lang-en lang-hidden">Org / funding</span></a>
       <a href="#actions" onclick="closeNav()"><span class="lang-zh">聯絡</span><span class="lang-en lang-hidden">Contact</span></a>
       <div class="site-nav__drawer-row">
         <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" aria-label="Instagram" onclick="closeNav()">
@@ -461,28 +440,28 @@
     <div class="story-peek" aria-hidden="true">↓</div>
   </section>
 
-  <!-- 3. Why go — mute autoplay promo -->
-  <section class="story-screen fade-in" id="why">
-    <p class="story-kicker"><span class="lang-zh">點解去</span><span class="lang-en lang-hidden">Why go</span></p>
-    <h2 class="story-title"><span class="lang-zh">現場感覺</span><span class="lang-en lang-hidden">The live feel</span></h2>
-    <p class="story-sub"><span class="lang-zh">靜音自動播放 · 輕按開聲</span><span class="lang-en lang-hidden">Muted autoplay · tap for sound</span></p>
-    <div class="promo-frame" id="promo-frame">
-      <video
-        id="promo-video"
-        poster="assets/tickets-bg-20-poster.jpg"
-        playsinline
-        muted
-        loop
-        autoplay
-        preload="metadata"
-        aria-label="Protoss / Noah's Ark promo"
-      >
-        <source src="assets/tickets-bg-20.mp4" type="video/mp4" />
-      </video>
-      <button type="button" class="promo-unmute" id="promo-unmute" aria-pressed="false">
-        <span class="lang-zh">輕按開聲</span><span class="lang-en lang-hidden">Tap for sound</span>
-      </button>
-    </div>
+  <!-- 3. Why go / LIVE album entry → /album -->
+  <section class="story-screen fade-in" id="why" aria-label="LIVE album">
+    <a class="album-entry" href="/album">
+      <p class="story-kicker" style="margin-bottom:.35rem"><span class="lang-zh">現場／LIVE</span><span class="lang-en lang-hidden">LIVE</span></p>
+      <h2 class="story-title" style="margin-bottom:.35rem">Noah's Ark 2 活動相冊</h2>
+      <p class="story-sub" style="margin-bottom:0"><span class="lang-zh">點解去 · 現場感覺 · 睇相冊</span><span class="lang-en lang-hidden">Why go · the live feel · open album</span></p>
+      <div class="promo-frame" id="promo-frame">
+        <video
+          id="promo-video"
+          poster="assets/gallery-noah2-1.jpg"
+          playsinline
+          muted
+          loop
+          autoplay
+          preload="metadata"
+          aria-hidden="true"
+        >
+          <source src="assets/tickets-bg-20.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <span class="album-entry__cta"><span class="lang-zh">進入相冊 →</span><span class="lang-en lang-hidden">Open album →</span></span>
+    </a>
     <div class="story-peek" aria-hidden="true">↓</div>
   </section>
 
@@ -584,86 +563,20 @@
       <a class="cta-ghost" href="mailto:noahsarkhk2005@gmail.com">noahsarkhk2005@gmail.com</a>
     </div>
     <p class="story-sub" style="margin-top:1rem;font-size:.75rem">
-      <span class="lang-zh">公開網站只提供電郵同 IG DM。電話僅用於資助表格，不在此刊登。</span>
-      <span class="lang-en lang-hidden">Public site: email and IG DM only. Phone is for grant forms, not published here.</span>
+      <span class="lang-zh">公開網站只提供電郵同 IG DM；電話暫不公開</span>
+      <span class="lang-en lang-hidden">Public site: email and IG DM only; phone is not published.</span>
     </p>
     <div class="story-peek" aria-hidden="true">↓</div>
   </section>
 
-  <!-- 8. Funding / audit — accordion, verbatim org facts (moved out of mid-story) -->
-  <section class="story-screen fade-in" id="funding" style="min-height:auto;padding-bottom:2.5rem">
-    <p class="story-kicker">ORGANISATION</p>
-    <h2 class="story-title" style="font-size:1.25rem">
-      <span class="lang-zh">供資助審批及核數查閱</span>
-      <span class="lang-en lang-hidden">For grant officers and auditors</span>
-    </h2>
-    <details class="fund-acc" id="organisation">
-      <summary>
-        <span>
-          <span class="lang-zh">機構資料（點開查閱）</span>
-          <span class="lang-en lang-hidden">Organisation facts (expand)</span>
-        </span>
-      </summary>
-      <div class="fund-acc__body">
-        <p class="text-zinc-500 text-xs mb-3" style="color:#71717a;font-size:.75rem;line-height:1.45;margin:.35rem 0 0">
-          <span class="lang-zh">以下只列出已核對資料。未持有公司註冊證明書或商業登記前，不以註冊完成形式陳述。電話、註冊地址、公司註冊編號未有真資料，故留空，絕不杜撰。本站不陳述任何已獲政府資助。</span>
-          <span class="lang-en lang-hidden">Only verified facts are listed. We do not present the company as registration-complete before a Certificate of Incorporation or Business Registration is held. Phone, registered office and company number are omitted because they are not yet available — they will not be invented. This site does not claim any government grant has been awarded.</span>
-        </p>
-        <dl>
-          <div>
-            <dt><span class="lang-zh">法定名稱</span><span class="lang-en lang-hidden">Legal name</span></dt>
-            <dd>挪亞方舟文化傳播有限公司<br/>Noah's Ark Culture Communication Company Limited<br/><span style="color:#71717a;font-size:.72rem" class="lang-zh">勿用「挪亞方舟有限公司」或 Noah's Ark Limited</span><span style="color:#71717a;font-size:.72rem" class="lang-en lang-hidden">Do not use 挪亞方舟有限公司 or Noah's Ark Limited</span></dd>
-          </div>
-          <div>
-            <dt><span class="lang-zh">活動品牌</span><span class="lang-en lang-hidden">Event brand</span></dt>
-            <dd>
-              <span class="lang-zh">「Noah's Ark／2005」是現場活動品牌，與公司主體分開。2005 不是公司成立或註冊年份，不能理解為公司年資。</span>
-              <span class="lang-en lang-hidden">“Noah's Ark / 2005” is a live-event brand, separate from the company. 2005 is not the year of incorporation and must not be read as organisational seniority.</span>
-            </dd>
-          </div>
-          <div>
-            <dt><span class="lang-zh">即將舉行（主辦實績）</span><span class="lang-en lang-hidden">Upcoming (presenting record)</span></dt>
-            <dd>
-              <span class="lang-zh">2026 年 12 月 5 日 · Noah's Ark X Protoss 20th Anniversary · MOM Livehouse Hong Kong。<a class="text-red-400 hover:text-red-300" href="/tickets">購票／海報</a></span>
-              <span class="lang-en lang-hidden">5 Dec 2026 · Noah's Ark X Protoss 20th Anniversary · MOM Livehouse Hong Kong. <a class="text-red-400 hover:text-red-300" href="/tickets">Tickets / poster</a></span>
-            </dd>
-          </div>
-          <div>
-            <dt><span class="lang-zh">電郵</span><span class="lang-en lang-hidden">Email</span></dt>
-            <dd><a class="hover:text-red-400" href="mailto:noahsarkhk2005@gmail.com">noahsarkhk2005@gmail.com</a></dd>
-          </div>
-          <div>
-            <dt>Booking</dt>
-            <dd><a class="hover:text-red-400" href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener">Instagram DM @noahs_ark_hk</a></dd>
-          </div>
-          <div>
-            <dt><span class="lang-zh">電話</span><span class="lang-en lang-hidden">Phone</span></dt>
-            <dd style="color:#71717a"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
-          </div>
-          <div>
-            <dt><span class="lang-zh">註冊地址</span><span class="lang-en lang-hidden">Registered office</span></dt>
-            <dd style="color:#71717a"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
-          </div>
-          <div>
-            <dt><span class="lang-zh">公司註冊編號</span><span class="lang-en lang-hidden">Company number</span></dt>
-            <dd style="color:#71717a"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
-          </div>
-          <div>
-            <dt><span class="lang-zh">政府資助</span><span class="lang-en lang-hidden">Government grants</span></dt>
-            <dd style="color:#71717a">
-              <span class="lang-zh">不陳述任何已獲資助。未批核草案（包括深水埗社區參與計劃等）不在本站刊登為已獲資助項目。</span>
-              <span class="lang-en lang-hidden">No awarded grant is claimed. Unapproved drafts are not published as funded programmes.</span>
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </details>
-    <p style="margin-top:1.25rem;text-align:center">
+  <p style="margin:0 auto 2rem;text-align:center;max-width:28rem;padding:0 1rem">
       <a href="/events" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">過往活動 →</span><span class="lang-en lang-hidden">Past events →</span></a>
       <span style="color:#3f3f46;margin:0 .5rem">·</span>
       <a href="/merch" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">商品 →</span><span class="lang-en lang-hidden">Shop →</span></a>
+      <span style="color:#3f3f46;margin:0 .5rem">·</span>
+      <a href="/album" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">相冊 →</span><span class="lang-en lang-hidden">Album →</span></a>
     </p>
-  </section>
+
 
   <footer class="border-t border-zinc-900 py-10 text-center text-sm text-zinc-600">
     <picture>
@@ -733,40 +646,10 @@
   <script>
   (function () {
     var video = document.getElementById('promo-video');
-    var btn = document.getElementById('promo-unmute');
-    if (!video || !btn) return;
-    function tryPlay() {
-      var p = video.play();
-      if (p && p.catch) p.catch(function () {});
-    }
-    tryPlay();
-    btn.addEventListener('click', function () {
-      if (video.muted) {
-        video.muted = false;
-        tryPlay();
-        btn.setAttribute('aria-pressed', 'true');
-        btn.innerHTML = '<span class="lang-zh">靜音</span><span class="lang-en' + (currentLang === 'zh' ? ' lang-hidden' : '') + '">Mute</span>';
-        // re-apply lang visibility
-        if (typeof currentLang !== 'undefined') {
-          document.querySelectorAll('.lang-zh').forEach(function (el) {
-            el.classList.toggle('lang-hidden', currentLang === 'en');
-          });
-          document.querySelectorAll('.lang-en').forEach(function (el) {
-            el.classList.toggle('lang-hidden', currentLang === 'zh');
-          });
-        }
-      } else {
-        video.muted = true;
-        btn.setAttribute('aria-pressed', 'false');
-        btn.innerHTML = '<span class="lang-zh">輕按開聲</span><span class="lang-en lang-hidden">Tap for sound</span>';
-        if (typeof currentLang !== 'undefined' && currentLang === 'en') {
-          btn.querySelector('.lang-zh').classList.add('lang-hidden');
-          btn.querySelector('.lang-en').classList.remove('lang-hidden');
-        }
-      }
-    });
-    // also tap video
-    video.addEventListener('click', function () { btn.click(); });
+    if (!video) return;
+    video.muted = true;
+    var p = video.play();
+    if (p && p.catch) p.catch(function () {});
   })();
   </script>
 

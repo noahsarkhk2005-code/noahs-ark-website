@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noah's Ark 2 活動相冊｜LIVE</title>
+  <meta name="description" content="Noah's Ark 2 活動相冊｜LIVE — Noah's Ark II live photo album." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-album" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-512.png" />
+  <meta property="og:title" content="Noah's Ark 2 活動相冊｜LIVE" />
+  <meta property="og:description" content="Noah's Ark II live photo album." />
+  <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/gallery-noah2-1.jpg" />
+  <style>
+    .album-hero{ padding:1.25rem 0 1rem; }
+    .album-hero__kicker{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin-bottom:.4rem; }
+    .album-hero h1{ font-size:1.55rem; font-weight:900; line-height:1.2; margin:0 0 .4rem; color:#fff; }
+    @media (min-width:640px){ .album-hero h1{ font-size:2rem; } }
+    .album-hero__sub{ color:#a1a1aa; font-size:.85rem; line-height:1.45; margin:0; }
+    .album-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:.45rem;
+      margin:1rem 0 2.5rem;
+    }
+    @media (min-width:640px){ .album-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.65rem; } }
+    @media (min-width:960px){ .album-grid{ grid-template-columns:repeat(4, minmax(0, 1fr)); gap:.75rem; } }
+    .album-grid__item{
+      display:block; overflow:hidden; border-radius:.75rem;
+      border:1px solid #3f3f46; background:#18181b;
+      aspect-ratio:3/2;
+    }
+    .album-grid__item img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      transition:transform .35s ease;
+    }
+    .album-grid__item:active img,
+    .album-grid__item:hover img{ transform:scale(1.04); }
+  </style>
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="/" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="/tickets" class="hover:text-red-500 transition"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a href="/videos" class="hover:text-red-500 transition"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a href="/album" class="text-red-500"><span class="lang-zh">相冊</span><span class="lang-en lang-hidden">Album</span></a>
+        <a href="/events" class="hover:text-red-500 transition"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a href="/merch" class="hover:text-red-500 transition"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="/#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Current event"><a class="site-nav__quick-title" href="/tickets" title="Noah's Ark X Protoss 20th Anniversary"><span class="site-nav__quick-full">Noah's Ark X Protoss 20th Anniversary</span><span class="site-nav__quick-short" aria-hidden="true">Noah's Ark × Protoss</span></a></nav>
+
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/album" class="is-active" onclick="closeNav()"><span class="lang-zh">相冊</span><span class="lang-en lang-hidden">Album</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+      <a href="/" onclick="closeNav()"><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-4 pb-10">
+    <header class="album-hero">
+      <p class="album-hero__kicker"><span class="lang-zh">現場／LIVE</span><span class="lang-en lang-hidden">LIVE</span></p>
+      <h1>Noah's Ark 2 活動相冊｜LIVE</h1>
+      <p class="album-hero__sub">
+        <span class="lang-zh">Noah's Ark II · 現場相冊。點相可開大圖。</span>
+        <span class="lang-en lang-hidden">Noah's Ark II · live album. Tap a photo to open full size.</span>
+      </p>
+    </header>
+
+    <div class="album-grid" id="album-grid" aria-label="Noah's Ark 2 album">
+      <a class="album-grid__item" href="assets/gallery-noah2-1.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-1.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-1.jpg" alt="Noahs Ark 2 LIVE 1" width="1600" height="1066" loading="eager" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-2.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-2.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-2.jpg" alt="Noahs Ark 2 LIVE 2" width="1600" height="1066" loading="eager" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-3.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-3.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-3.jpg" alt="Noahs Ark 2 LIVE 3" width="1600" height="1066" loading="eager" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-4.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-4.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-4.jpg" alt="Noahs Ark 2 LIVE 4" width="1600" height="1066" loading="eager" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-5.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-5.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-5.jpg" alt="Noahs Ark 2 LIVE 5" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-6.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-6.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-6.jpg" alt="Noahs Ark 2 LIVE 6" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-7.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-7.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-7.jpg" alt="Noahs Ark 2 LIVE 7" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-8.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-8.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-8.jpg" alt="Noahs Ark 2 LIVE 8" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-9.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-9.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-9.jpg" alt="Noahs Ark 2 LIVE 9" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-10.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-10.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-10.jpg" alt="Noahs Ark 2 LIVE 10" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-11.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-11.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-11.jpg" alt="Noahs Ark 2 LIVE 11" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-12.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-12.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-12.jpg" alt="Noahs Ark 2 LIVE 12" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-13.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-13.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-13.jpg" alt="Noahs Ark 2 LIVE 13" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-14.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-14.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-14.jpg" alt="Noahs Ark 2 LIVE 14" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-15.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-15.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-15.jpg" alt="Noahs Ark 2 LIVE 15" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-16.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-16.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-16.jpg" alt="Noahs Ark 2 LIVE 16" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="album-grid__item" href="assets/gallery-noah2-17.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="assets/gallery-noah2-17.webp" type="image/webp" />
+          <img src="assets/gallery-noah2-17.jpg" alt="Noahs Ark 2 LIVE 17" width="1600" height="1066" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+    </div>
+
+    <p class="text-center text-zinc-600 text-xs mb-6">
+      <span class="lang-zh">未來相片可放入 assets/album-noah2/</span>
+      <span class="lang-en lang-hidden">Future photos: assets/album-noah2/</span>
+    </p>
+
+    <p class="text-center">
+      <a href="/event-noahs-ark-2.html" class="text-sm text-red-500 hover:text-red-400 font-semibold">
+        <span class="lang-zh">活動介紹 →</span>
+        <span class="lang-en lang-hidden">Event page →</span>
+      </a>
+      <span class="text-zinc-700 mx-2">·</span>
+      <a href="/videos" class="text-sm text-zinc-500 hover:text-red-400 font-semibold">
+        <span class="lang-zh">影音 →</span>
+        <span class="lang-en lang-hidden">Media →</span>
+      </a>
+    </p>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+    <div class="flex items-center justify-center gap-4 mt-2">
+      <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">Instagram @noahs_ark_hk</a>
+      <span class="text-zinc-700">·</span>
+      <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">YouTube @noahsark_2005</a>
+    </div>
+  </footer>
+
+  <script>
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
+      document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  </script>
+  </div>
+</body>
+</html>
