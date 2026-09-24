@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/style.css?v=20260924-storyscroll" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-videos-hero" />
   <style>
     html:not(.show-org) .org-public { display: none !important; }
     html.show-org .hide-when-org { display: none !important; }
@@ -21,47 +21,78 @@
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
-  <div
-    class="site-bg site-bg--video"
-    aria-hidden="true"
-    style="background-image:url(https://i.ytimg.com/vi/cl42-wtbnow/maxresdefault.jpg)"
-  >
-    <div class="site-bg__video" id="site-bg-video">
-      <iframe
-        id="site-bg-yt"
-        title="Background video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        loading="eager"
-        allowfullscreen
-      ></iframe>
-    </div>
-    <div class="site-bg__video-shade"></div>
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
     <div class="site-bg__grain"></div>
     <div class="site-bg__vignette"></div>
   </div>
-  <script>
-  (function () {
-    var id = 'cl42-wtbnow';
-    var iframe = document.getElementById('site-bg-yt');
-    var wrap = document.getElementById('site-bg-video');
-    if (!iframe || !wrap) return;
-    try {
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        wrap.classList.add('is-hidden');
-        return;
-      }
-    } catch (e) {}
-    var origin = '';
-    try { origin = encodeURIComponent(location.origin || 'https://noahsarkhk2005.netlify.app'); } catch (e2) {
-      origin = encodeURIComponent('https://noahsarkhk2005.netlify.app');
+  <style>
+    /* Hero-only bg video — sections below stay on clean static site-bg */
+    .videos-page-hero{
+      position:relative;
+      isolation:isolate;
+      overflow:hidden;
+      margin:0 0 1.25rem;
+      border-radius:0 0 1.25rem 1.25rem;
+      min-height:min(72vh,36rem);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background-color:#050203;
+      background-image:url("assets/videos-page-bg.webp");
+      background-size:cover;
+      background-position:center 28%;
     }
-    iframe.src = 'https://www.youtube.com/embed/' + id
-      + '?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=' + id
-      + '&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0'
-      + '&enablejsapi=0&origin=' + origin;
-  })();
-  </script>
+    .videos-page-hero__media{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .videos-page-hero__video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center 28%;
+      filter:brightness(.55) saturate(.85);
+    }
+    .videos-page-hero__overlay{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      /* ~62–82% darkness so titles stay high-contrast */
+      background:
+        linear-gradient(180deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.62) 42%,rgba(0,0,0,.82) 100%),
+        radial-gradient(ellipse 85% 70% at 50% 35%,rgba(60,8,8,.22) 0%,transparent 68%);
+    }
+    .videos-page-hero__content{
+      position:relative;
+      z-index:2;
+      width:100%;
+      max-width:48rem;
+      margin:0 auto;
+      padding:2.5rem 1rem 2.75rem;
+      text-align:center;
+      text-shadow:0 1px 2px rgba(0,0,0,.95),0 6px 28px rgba(0,0,0,.75);
+    }
+    .videos-page-hero__content .text-zinc-400{color:#d4d4d8!important}
+    .videos-page-hero.is-static .videos-page-hero__video{display:none}
+    @media (prefers-reduced-motion:reduce){
+      .videos-page-hero__video{display:none}
+    }
+    @media (min-width:768px){
+      .videos-page-hero{
+        min-height:min(58vh,32rem);
+        border-radius:0 0 1.5rem 1.5rem;
+        background-position:center 22%;
+      }
+      .videos-page-hero__video{object-position:center 22%}
+    }
+  </style>
 
 <div class="site-content">
   <nav class="site-nav" id="site-nav">
@@ -116,13 +147,28 @@
     </div>
   </nav>
 
-  <main class="max-w-6xl mx-auto px-4 py-10">
-    <div class="mb-6 text-center">
+  <header class="videos-page-hero" id="videos-page-hero">
+    <div class="videos-page-hero__media" aria-hidden="true">
+      <video
+        id="videos-page-bg-video"
+        class="videos-page-hero__video"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="assets/videos-page-bg-poster.jpg"
+      >
+        <source src="assets/videos-page-bg.webm" type="video/webm" />
+        <source src="assets/videos-page-bg.mp4" type="video/mp4" />
+      </video>
+      <div class="videos-page-hero__overlay"></div>
+    </div>
+    <div class="videos-page-hero__content">
       <div class="flex justify-center mb-5">
-        <img src="assets/logo-hero.png" alt="Noah's Ark" width="365" height="640" class="h-36 md:h-44 w-auto mx-auto" loading="lazy" decoding="async" />
+        <img src="assets/logo-hero.png" alt="Noah's Ark" width="365" height="640" class="h-36 md:h-44 w-auto mx-auto" decoding="async" />
       </div>
-      <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">MEDIA · 影音媒體</p>
-      <h1 class="text-3xl md:text-4xl font-black mb-3">
+      <p class="text-red-500 text-xs tracking-[0.3em] font-bold mb-2">MEDIA · 影音媒體</p>
+      <h1 class="text-3xl md:text-4xl font-black mb-3 text-zinc-50">
         <span class="lang-zh">影音媒體</span>
         <span class="lang-en lang-hidden">Noah's Ark Media</span>
       </h1>
@@ -143,7 +189,9 @@
         </a>
       </div>
     </div>
+  </header>
 
+  <main class="max-w-6xl mx-auto px-4 pt-4 pb-10">
     <nav class="video-toc" aria-label="Media sections">
       <a href="#short-films"><span class="lang-zh">微電影</span><span class="lang-en lang-hidden">Short Films</span></a>
       <a href="#live"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
@@ -366,6 +414,41 @@
       if (nav) nav.classList.remove('is-open');
       if (btn) btn.setAttribute('aria-expanded', 'false');
     }
+    (function () {
+      var hero = document.getElementById('videos-page-hero');
+      var video = document.getElementById('videos-page-bg-video');
+      if (!hero || !video) return;
+      var reduce = false;
+      try {
+        reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      } catch (e) {}
+      var saveData = false;
+      try {
+        saveData = !!(navigator.connection && navigator.connection.saveData);
+      } catch (e2) {}
+      if (reduce || saveData) {
+        hero.classList.add('is-static');
+        try { video.pause(); video.removeAttribute('autoplay'); } catch (e3) {}
+        return;
+      }
+      var playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(function () { hero.classList.add('is-static'); });
+      }
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var p = video.play();
+              if (p && typeof p.catch === 'function') p.catch(function () {});
+            } else {
+              try { video.pause(); } catch (e4) {}
+            }
+          });
+        }, { threshold: 0.15 });
+        io.observe(hero);
+      }
+    })();
   </script>
   </div><!-- /.site-content -->
 </body>
