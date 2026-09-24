@@ -8,6 +8,11 @@
 /media               /videos.html            200
 /live                /live.html              200
 /live/2005           /live/2005.html         200
+/live/2005/bereavement  /live/2005/bereavement.html  200
+/live/2005/deathguy  /live/2005/deathguy.html  200
+/live/2005/departing-cross  /live/2005/departing-cross.html  200
+/live/2005/cadaver  /live/2005/cadaver.html  200
+/live/2005/hermetic-silence  /live/2005/hermetic-silence.html  200
 /live/noahs-ark-2005 /live/2005              301
 /bands               /bands.html             200
 /bands/perish-of-empyrean  /bands/perish-of-empyrean.html  200

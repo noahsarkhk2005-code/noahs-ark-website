@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Noah's Ark 2005｜相冊 · Noah's Live</title>
-  <meta name="description" content="Noah's Ark 2005 live photo gallery — photos coming soon." />
+  <title>Departing Cross｜Noah's Ark 2005 · Noah's Live</title>
+  <meta name="description" content="Departing Cross｜Noah's Ark 2005 live photo gallery." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/style.css?v=20260924-live" />
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
-  <link rel="apple-touch-icon" href="../assets/favicon-512.png" />
+  <link rel="stylesheet" href="../../assets/style.css?v=20260924-live" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon-512.png" />
   <meta property="og:title" content="Noah's Ark 2005｜相冊" />
   <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/live-cover-2005.jpg" />
   <style>
@@ -18,37 +18,28 @@
     .live-hero__kicker{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin-bottom:.4rem; }
     .live-hero h1{ font-size:1.55rem; font-weight:900; line-height:1.2; margin:0 0 .4rem; color:#fff; }
     @media (min-width:640px){ .live-hero h1{ font-size:2rem; } }
-    .live-hero__sub{ color:#a1a1aa; font-size:.85rem; line-height:1.55; margin:0; max-width:36rem; }
     .live-back{ display:inline-block; color:#a1a1aa; font-size:.8rem; font-weight:600; margin-bottom:.75rem; }
     .live-back:hover{ color:#f87171; }
-    .band-grid{
-      display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:.65rem; margin:1.25rem 0 2.5rem;
-    }
-    @media (min-width:640px){ .band-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:.85rem; } }
-    @media (min-width:960px){ .band-grid{ grid-template-columns:repeat(5,minmax(0,1fr)); } }
-    a.band-card{
-      display:flex; flex-direction:column; border-radius:.9rem; overflow:hidden;
-      border:1px solid #3f3f46; background:#121214; color:inherit;
-      text-decoration:none; transition:border-color .2s ease,transform .15s ease;
+    .band-detail{ margin:1.25rem 0 2.5rem; }
+    .band-detail__photo{
+      position:relative; overflow:hidden; border:1px solid #3f3f46;
+      border-radius:.9rem; background:#0a0a0a; aspect-ratio:3/4;
       -webkit-user-select:none; user-select:none;
     }
-    a.band-card:hover,a.band-card:focus-visible{ border-color:#7f1d1d; }
-    a.band-card:active{ transform:scale(.99); }
-    .band-card__logo{
-      aspect-ratio:3/4; background:#0a0a0a; position:relative; overflow:hidden;
-    }
-    .band-card__logo .photo-bg{
+    .band-detail__photo .photo-bg{
       position:absolute; inset:0; background:#0a0a0a center/contain no-repeat;
-      transition:transform .35s ease;
-    }
-    a.band-card:hover .photo-bg,a.band-card:active .photo-bg{ transform:scale(1.04); }
-    .band-card__name{
-      padding:.65rem .7rem .75rem; border-top:1px solid #27272a;
-      font-size:.78rem; font-weight:700; color:#f4f4f5; letter-spacing:.02em;
-      text-align:center; line-height:1.3;
     }
     .photo-shield{ position:absolute; inset:0; z-index:2; background:transparent; }
+    .band-detail__video{ margin-top:1.5rem; }
+    .band-detail__video h2{
+      color:#ef4444; font-size:.7rem; letter-spacing:.28em;
+      font-weight:800; margin:0 0 .65rem;
+    }
+    .video-slot{
+      border:1px dashed #3f3f46; border-radius:.75rem; background:rgba(24,24,27,.55);
+      color:#a1a1aa; font-size:.85rem; line-height:1.5; padding:1.25rem;
+      text-align:center;
+    }
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -63,8 +54,8 @@
     <div class="site-nav__bar">
       <a href="/" class="site-nav__logo" aria-label="Noah's Ark home">
         <picture>
-          <source srcset="../assets/logo-nav.webp" type="image/webp" />
-          <img src="../assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+          <source srcset="../../assets/logo-nav.webp" type="image/webp" />
+          <img src="../../assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
         </picture>
       </a>
       <div class="site-nav__desktop">
@@ -102,53 +93,25 @@
   </nav>
 
   <main class="max-w-5xl mx-auto px-4 pb-10">
-    <header class="live-hero">
-      <a class="live-back" href="/live"><span class="lang-zh">← 現場</span><span class="lang-en lang-hidden">← Live</span></a>
+    <a class="live-back" href="/live/2005"><span class="lang-zh">← Noah's Ark 2005</span><span class="lang-en lang-hidden">← Noah's Ark 2005</span></a>
+    <header class="live-hero" style="padding-top:.5rem">
       <p class="live-hero__kicker">2005 · LIVE</p>
-      <h1>Noah's Ark 2005</h1>
-      <p class="live-hero__sub">
-        <span class="lang-zh">Hong Kong's Extreme 2005 — Live in Hong Kong. 相冊殼頁；相片即將上載。</span>
-        <span class="lang-en lang-hidden">Hong Kong's Extreme 2005 — Live in Hong Kong. Gallery shell; photos coming soon.</span>
-      </p>
+      <h1>Departing Cross</h1>
     </header>
 
-    <div class="band-grid" aria-label="Noah's Ark 2005 bands">
-      <a class="band-card" href="/live/2005/bereavement">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/bereavement.webp)" role="img" aria-label="Bereavement"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
+    <section class="band-detail" aria-label="Departing Cross">
+      <div class="band-detail__photo photo-protect">
+        <div class="photo-bg" style="background-image:url(../../assets/live-2005/departing-cross.webp)" role="img" aria-label="Departing Cross"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="band-detail__video">
+        <h2><span class="lang-zh">視頻</span><span class="lang-en lang-hidden">Video</span></h2>
+        <div class="video-slot" data-youtube="">
+          <span class="lang-zh">YouTube 連結稍後補上</span>
+          <span class="lang-en lang-hidden">Video link coming soon</span>
         </div>
-        <div class="band-card__name">Bereavement</div>
-      </a>
-      <a class="band-card" href="/live/2005/deathguy">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/deathguy.webp)" role="img" aria-label="Deathguy"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Deathguy</div>
-      </a>
-      <a class="band-card" href="/live/2005/departing-cross">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/departing-cross.webp)" role="img" aria-label="Departing Cross"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Departing Cross</div>
-      </a>
-      <a class="band-card" href="/live/2005/cadaver">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/cadaver.webp)" role="img" aria-label="Cadaver"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Cadaver</div>
-      </a>
-      <a class="band-card" href="/live/2005/hermetic-silence">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/hermetic-silence.webp)" role="img" aria-label="Hermetic Silence"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Hermetic Silence</div>
-      </a>
-    </div>
+      </div>
+    </section>
   </main>
 
   <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
