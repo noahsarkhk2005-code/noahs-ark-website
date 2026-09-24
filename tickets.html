@@ -151,6 +151,19 @@
       line-height:1.25;
     }
     .ticket-pick__card.is-disabled .ticket-pick__status{ color:#a1a1aa; }
+
+    .ticket-pick__member-note{
+      text-align:center; color:#d4d4d8; font-size:.68rem; margin:0 0 .65rem; line-height:1.35;
+    }
+    .ticket-pick__elig{
+      margin-top:.28rem;
+      font-size:.52rem;
+      font-weight:700;
+      color:#a1a1aa;
+      line-height:1.2;
+      width:100%;
+      word-break:break-word;
+    }
     #order-form{ scroll-margin-top:5.5rem; }
     @media (min-width:480px){
       .ticket-pick__rail{ gap:.7rem; }
@@ -287,6 +300,10 @@
         <span class="lang-zh">撳選票種 → 自動選 1 張並跳到訂單表單</span>
         <span class="lang-en lang-hidden">Tap to select → sets qty 1 and jumps to the order form</span>
       </p>
+      <p class="ticket-pick__member-note">
+        <span class="lang-zh">會員價只限持 Metal Pass 嘅舊會員</span>
+        <span class="lang-en lang-hidden">Member price is for existing Metal Pass holders only</span>
+      </p>
       <p class="ticket-pick__hint" style="margin-top:-.35rem">
         <a href="/member" style="color:#f87171;font-size:.72rem;font-weight:700;text-decoration:underline">
           <span class="lang-zh">Metal Pass 會員？去登記電子會員</span>
@@ -304,6 +321,10 @@
             <span class="lang-zh">Metal Pass 會員 Member</span><span class="lang-en lang-hidden">Metal Pass Member</span>
           </div>
           <div class="ticket-pick__amt"><span>HK$</span>350</div>
+          <div class="ticket-pick__elig">
+            <span class="lang-zh">只限舊 Metal Pass</span>
+            <span class="lang-en lang-hidden">Existing Metal Pass only</span>
+          </div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
           data-ticket="earlybird" data-qty-param="qty_earlybird"
@@ -326,6 +347,10 @@
             <span class="lang-zh">Metal Pass 會員最後優惠 Member Last Call</span><span class="lang-en lang-hidden">Metal Pass Member Last Call</span>
           </div>
           <div class="ticket-pick__amt"><span>HK$</span>420</div>
+          <div class="ticket-pick__elig">
+            <span class="lang-zh">只限舊 Metal Pass</span>
+            <span class="lang-en lang-hidden">Existing Metal Pass only</span>
+          </div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
           data-ticket="presale" data-qty-param="qty_presale"
