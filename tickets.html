@@ -38,6 +38,9 @@
       transition:background .15s ease, transform .15s ease;
     }
     .tickets-jump-payme:hover{background:#dc2626;transform:translateY(-1px)}
+    .tickets-jump-payme.is-tucked{
+      opacity:0; pointer-events:none; transform:scale(.85);
+    }
     @media (min-width:768px){
       .tickets-jump-payme{right:1.5rem;bottom:1.75rem;width:4.25rem;height:4.25rem;font-size:.78rem}
     }
@@ -371,7 +374,7 @@
       <span class="lang-en lang-hidden">After submission your order enters our system. You will be notified once verified.</span>
     </p>
 
-    <a id="payme" href="/pay?from=tickets" target="_blank" rel="noopener" class="block bg-zinc-900/80 border border-zinc-700 hover:border-red-800 rounded-xl p-5 mb-8 text-sm space-y-2 scroll-mt-24 transition no-underline text-inherit">
+    <a id="payme" href="/pay?from=tickets" target="_blank" rel="opener" class="block bg-zinc-900/80 border border-zinc-700 hover:border-red-800 rounded-xl p-5 mb-8 text-sm space-y-2 scroll-mt-24 transition no-underline text-inherit">
       <p class="text-xs tracking-[0.2em] font-bold text-red-500">PAYMENT · 付款</p>
       <p class="text-zinc-100 font-semibold">
         <span class="lang-zh">去付款 Pay now →</span>
@@ -498,10 +501,44 @@
       if (btn) btn.setAttribute('aria-expanded', 'false');
     }
 
+    /* Scroll so Tally iframe bottom (proof upload + Submit) sits near viewport bottom.
+       Retries briefly — Tally dynamicHeight may grow the iframe after first paint. */
+    window.naScrollToProof = function () {
+      var jump = document.getElementById('jump-payme');
+      if (jump) jump.classList.add('is-tucked');
+      try { window.focus(); } catch (e) {}
+
+      function place(smooth) {
+        var iframe = document.getElementById('tally-embed');
+        if (!iframe) return;
+        var rect = iframe.getBoundingClientRect();
+        var iframeBottomDoc = rect.bottom + (window.pageYOffset || window.scrollY || 0);
+        var bottomGap = 24; /* iframe bottom ~24px above viewport bottom */
+        var target = iframeBottomDoc - window.innerHeight + bottomGap;
+        if (target < 0) target = 0;
+        try {
+          window.scrollTo({ top: target, behavior: smooth ? 'smooth' : 'auto' });
+        } catch (e2) {
+          window.scrollTo(0, target);
+        }
+      }
+
+      place(true);
+      setTimeout(function () { place(true); }, 200);
+      setTimeout(function () { place(false); }, 600);
+    };
+
+    window.addEventListener('message', function (event) {
+      if (event.origin !== location.origin) return;
+      var data = event.data;
+      if (!data || data.type !== 'na-scroll-proof') return;
+      if (typeof window.naScrollToProof === 'function') window.naScrollToProof();
+    });
+
   </script>
   </div><!-- /.site-content -->
 
-  <a href="/pay?from=tickets" id="jump-payme" class="tickets-jump-payme" target="_blank" rel="noopener" aria-label="Pay">
+  <a href="/pay?from=tickets" id="jump-payme" class="tickets-jump-payme" target="_blank" rel="opener" aria-label="Pay">
     <span class="lang-zh">付款</span>
     <span class="lang-en lang-hidden">Pay</span>
   </a>

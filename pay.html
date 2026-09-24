@@ -307,7 +307,28 @@
       var fallback = document.getElementById('pay-close-fallback');
       if (!closeBtn) return;
       closeBtn.addEventListener('click', function () {
-        try { window.close(); } catch (e) {}
+        /* Ask /tickets (opener or opener.top) to scroll to proof upload. */
+        try {
+          if (window.opener && !window.opener.closed) {
+            try {
+              var topWin = window.opener.top || window.opener;
+              topWin.postMessage({ type: 'na-scroll-proof' }, location.origin);
+            } catch (ePost) {}
+            try {
+              if (window.opener.location && window.opener.location.origin === location.origin
+                  && typeof window.opener.naScrollToProof === 'function') {
+                window.opener.naScrollToProof();
+              }
+            } catch (eDirect) {}
+            try {
+              var focusWin = window.opener.top || window.opener;
+              focusWin.focus();
+            } catch (eFocus) {
+              try { window.opener.focus(); } catch (eFocus2) {}
+            }
+          }
+        } catch (eOp) {}
+        try { window.close(); } catch (eClose) {}
         setTimeout(function () {
           if (!document.hidden && fallback) {
             fallback.classList.add('is-visible');
