@@ -72,15 +72,15 @@
     }
     .ticket-pick__rail{
       display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:.45rem;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:.5rem;
       width:100%;
     }
     .ticket-pick__card{
       box-sizing:border-box;
       width:100%;
       min-width:0;
-      min-height:7.4rem;
+      min-height:7.1rem;
       border:1px solid #3f3f46;
       border-radius:.85rem;
       background:rgba(24,24,27,.88);
@@ -309,6 +309,17 @@
           <div class="ticket-pick__amt"><span>HK$</span>380</div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
+          data-ticket="lastcall" data-qty-param="qty_metal_lastcall"
+          aria-label="Metal Pass 會員最後優惠 Member Last Call HK$420">
+          <div class="ticket-pick__label">
+            <span class="lang-zh">LAST CALL</span><span class="lang-en lang-hidden">LAST CALL</span>
+          </div>
+          <div class="ticket-pick__name">
+            <span class="lang-zh">Metal Pass 會員最後優惠 Member Last Call</span><span class="lang-en lang-hidden">Metal Pass Member Last Call</span>
+          </div>
+          <div class="ticket-pick__amt"><span>HK$</span>420</div>
+        </button>
+        <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
           data-ticket="presale" data-qty-param="qty_presale"
           aria-label="預售 Presale HK$450">
           <div class="ticket-pick__label">
@@ -374,7 +385,7 @@
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
 
-  <script src="assets/ticket-sale.js?v=20260924-sale"></script>
+  <script src="assets/ticket-sale.js?v=20260924-lastcall"></script>
   <script src="https://tally.so/widgets/embed.js"></script>
   <script>
     if (typeof Tally !== 'undefined') {
@@ -387,7 +398,7 @@
 
     (function () {
       var TALLY_BASE = 'https://tally.so/embed/J9b2zY?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
-      /* Prefill param names for Tally hidden fields (IT狗): qty_metal, qty_earlybird, qty_presale.
+      /* Prefill param names for Tally hidden fields (IT狗): qty_metal, qty_earlybird, qty_metal_lastcall, qty_presale.
          Sale window: assets/ticket-sale.js PRESALE_START. Exclusive select among selectable tiers. */
       var sale = window.NOAHS_TICKET_SALE;
       var cards = Array.prototype.slice.call(document.querySelectorAll('.ticket-pick__card'));

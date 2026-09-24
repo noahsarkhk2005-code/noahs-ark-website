@@ -21,15 +21,21 @@ window.NOAHS_TICKET_SALE = (function () {
     return new Date(PRESALE_START);
   }
 
-  /** true once local(HK) clock (or ?now=) reaches PRESALE_START */
+  /** true once clock (or ?now=) reaches PRESALE_START */
   function isPresaleOpen(now) {
     var n = now || getNow();
     return n.getTime() >= getPresaleStart().getTime();
   }
 
-  /** Selectable ticket keys for the current phase */
+  /**
+   * Selectable ticket keys for the current phase.
+   * Before: Metal $350 + 早鳥 $380
+   * After:  Metal Last Call $420 + 預售 $450
+   */
   function selectableKeys(now) {
-    return isPresaleOpen(now) ? ['presale'] : ['metal', 'earlybird'];
+    return isPresaleOpen(now)
+      ? ['lastcall', 'presale']
+      : ['metal', 'earlybird'];
   }
 
   function isSelectable(key, now) {
@@ -45,6 +51,7 @@ window.NOAHS_TICKET_SALE = (function () {
     var map = {
       metal: 'qty_metal',
       earlybird: 'qty_earlybird',
+      lastcall: 'qty_metal_lastcall',
       presale: 'qty_presale'
     };
     var parts = [];
@@ -58,13 +65,13 @@ window.NOAHS_TICKET_SALE = (function () {
   function stickyPricesHtml(now) {
     if (isPresaleOpen(now)) {
       return (
-        '<span class="lang-zh">預售 $450 · Metal／早鳥 已停售</span>' +
-        '<span class="lang-en lang-hidden">Presale $450 · Metal / Early bird sold out</span>'
+        '<span class="lang-zh">會員 $420 · 預售 $450</span>' +
+        '<span class="lang-en lang-hidden">Member $420 · Presale $450</span>'
       );
     }
     return (
-      '<span class="lang-zh">Metal $350 · 早鳥 $380 · 預售 11/21 開售</span>' +
-      '<span class="lang-en lang-hidden">Metal $350 · Early bird $380 · Presale on 21 Nov</span>'
+      '<span class="lang-zh">Metal $350 · 早鳥 $380 · 11/21 再開 $420/$450</span>' +
+      '<span class="lang-en lang-hidden">Metal $350 · Early bird $380 · $420/$450 from 21 Nov</span>'
     );
   }
 
@@ -87,7 +94,7 @@ window.NOAHS_TICKET_SALE = (function () {
 
   /**
    * Apply disabled / primary / status badge state to .ticket-pick__card nodes.
-   * Expects optional .ticket-pick__status element inside each card (created if missing).
+   * Optional .ticket-pick__status created if missing.
    */
   function applyTicketCards(cards, now) {
     var open = isPresaleOpen(now);
