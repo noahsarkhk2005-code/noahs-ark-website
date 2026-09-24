@@ -385,7 +385,7 @@
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
 
-  <script src="assets/ticket-sale.js?v=20260924-stickycopy"></script>
+  <script src="assets/ticket-sale.js?v=20260924-autophase"></script>
   <script src="https://tally.so/widgets/embed.js"></script>
   <script>
     if (typeof Tally !== 'undefined') {
@@ -397,30 +397,50 @@
     }
 
     (function () {
-      var TALLY_BASE = 'https://tally.so/embed/J9b2zY?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
-      /* Prefill param names for Tally hidden fields (IT狗): qty_metal, qty_earlybird, qty_metal_lastcall, qty_presale.
-         Sale window: assets/ticket-sale.js PRESALE_START. Exclusive select among selectable tiers. */
+      /* Prefill params (IT狗): qty_metal, qty_earlybird, qty_metal_lastcall, qty_presale.
+         PRESALE_START + TALLY_FORM_AFTER in assets/ticket-sale.js. */
       var sale = window.NOAHS_TICKET_SALE;
       var cards = Array.prototype.slice.call(document.querySelectorAll('.ticket-pick__card'));
       var iframe = document.getElementById('tally-embed');
       var formWrap = document.getElementById('order-form');
       if (!cards.length || !iframe || !sale) return;
 
-      var now = sale.getNow();
-      sale.applyTicketCards(cards, now);
+      var selectedKey = null;
 
-      function applySelection(ticketKey) {
-        if (!sale.isSelectable(ticketKey, now)) return;
+      function paintSelection() {
         cards.forEach(function (card) {
           var key = card.getAttribute('data-ticket');
-          var on = key === ticketKey && sale.isSelectable(key, now);
+          var on = key === selectedKey && sale.isSelectable(key);
           card.classList.toggle('is-selected', on);
           card.setAttribute('aria-selected', on ? 'true' : 'false');
         });
-        var qs = sale.buildQtyParams(ticketKey, now);
-        var src = TALLY_BASE + (qs ? '&' + qs : '');
+      }
+
+      function reloadEmbed() {
+        var src = sale.buildEmbedSrc(selectedKey);
         iframe.setAttribute('data-tally-src', src);
         iframe.src = src;
+      }
+
+      function refreshUi(opts) {
+        opts = opts || {};
+        sale.applyTicketCards(cards);
+        if (selectedKey && !sale.isSelectable(selectedKey)) {
+          selectedKey = null;
+        }
+        paintSelection();
+        if (opts.reloadEmbed !== false) reloadEmbed();
+      }
+
+      refreshUi({ reloadEmbed: false });
+      /* Initial src from data-tally-src / Tally.loadEmbeds; sync once so qty params match phase. */
+      reloadEmbed();
+
+      function applySelection(ticketKey) {
+        if (!sale.isSelectable(ticketKey)) return;
+        selectedKey = ticketKey;
+        paintSelection();
+        reloadEmbed();
         if (formWrap && formWrap.scrollIntoView) {
           formWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -433,6 +453,10 @@
         });
       });
 
+      sale.startWatching(function (ev) {
+        if (!ev.phaseChanged) return;
+        refreshUi({ reloadEmbed: true });
+      });
     })();
 
     let currentLang = 'zh';

@@ -1,37 +1,46 @@
-/* Ticket sale window — edit ONE constant below (Asia/Hong_Kong wall time). */
+/* Ticket sale window — edit constants below (Asia/Hong_Kong wall time). */
 window.NOAHS_TICKET_SALE = (function () {
+  /* Flip Metal/早鳥 → Last Call/預售 at this instant. */
   var PRESALE_START = '2026-11-21T00:00:00+08:00';
+  /* After the flip, embed this Tally form ID. null = keep current form. */
+  var TALLY_FORM_AFTER = null;
+  var TALLY_FORM_BEFORE = 'J9b2zY';
+  var TALLY_EMBED_QS = 'alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
+  var SAFETY_MS = 60000;
 
-  function parseNowOverride() {
+  /* ?now=ISO starts a simulated clock that advances with real elapsed time,
+     so ?now=…23:59:50+08:00 flips ~10s later without reload. */
+  var nowAnchorMs = null;   /* overridden wall-clock at page load */
+  var realAnchorMs = null;  /* performance/real ms when override was read */
+
+  function initNowOverride() {
     try {
       var raw = new URLSearchParams(window.location.search).get('now');
-      if (!raw) return null;
+      if (!raw) return;
       var d = new Date(raw);
-      return isNaN(d.getTime()) ? null : d;
-    } catch (e) {
-      return null;
-    }
+      if (isNaN(d.getTime())) return;
+      nowAnchorMs = d.getTime();
+      realAnchorMs = Date.now();
+    } catch (e) { /* ignore */ }
   }
+  initNowOverride();
 
   function getNow() {
-    return parseNowOverride() || new Date();
+    if (nowAnchorMs != null && realAnchorMs != null) {
+      return new Date(nowAnchorMs + (Date.now() - realAnchorMs));
+    }
+    return new Date();
   }
 
   function getPresaleStart() {
     return new Date(PRESALE_START);
   }
 
-  /** true once clock (or ?now=) reaches PRESALE_START */
   function isPresaleOpen(now) {
     var n = now || getNow();
     return n.getTime() >= getPresaleStart().getTime();
   }
 
-  /**
-   * Selectable ticket keys for the current phase.
-   * Before: Metal $350 + 早鳥 $380
-   * After:  Metal Last Call $420 + 預售 $450
-   */
   function selectableKeys(now) {
     return isPresaleOpen(now)
       ? ['lastcall', 'presale']
@@ -42,9 +51,15 @@ window.NOAHS_TICKET_SALE = (function () {
     return selectableKeys(now).indexOf(key) !== -1;
   }
 
+  function getTallyFormId(now) {
+    if (isPresaleOpen(now) && TALLY_FORM_AFTER) return TALLY_FORM_AFTER;
+    return TALLY_FORM_BEFORE;
+  }
+
   /**
    * Build Tally qty query. Only currently-selectable types are included;
    * selected key → 1, other selectable → 0. Disabled types omitted.
+   * selectedKey null/undefined → all selectable = 0.
    */
   function buildQtyParams(selectedKey, now) {
     var keys = selectableKeys(now);
@@ -61,7 +76,13 @@ window.NOAHS_TICKET_SALE = (function () {
     return parts.join('&');
   }
 
-  /** Sticky-bar price line HTML (uses .lang-zh / .lang-en) */
+  function buildEmbedSrc(selectedKey, now) {
+    var n = now || getNow();
+    var base = 'https://tally.so/embed/' + getTallyFormId(n) + '?' + TALLY_EMBED_QS;
+    var qs = buildQtyParams(selectedKey, n);
+    return qs ? base + '&' + qs : base;
+  }
+
   function stickyPricesHtml(now) {
     if (isPresaleOpen(now)) {
       return (
@@ -88,19 +109,16 @@ window.NOAHS_TICKET_SALE = (function () {
 
   function applyStickyBar(el, now) {
     if (!el) return;
-    el.innerHTML = stickyPricesHtml(now);
+    el.innerHTML = stickyPricesHtml(now || getNow());
     syncLangVisibility(el);
   }
 
-  /**
-   * Apply disabled / primary / status badge state to .ticket-pick__card nodes.
-   * Optional .ticket-pick__status created if missing.
-   */
   function applyTicketCards(cards, now) {
-    var open = isPresaleOpen(now);
+    var n = now || getNow();
+    var open = isPresaleOpen(n);
     Array.prototype.forEach.call(cards, function (card) {
       var key = card.getAttribute('data-ticket');
-      var on = isSelectable(key, now);
+      var on = isSelectable(key, n);
       card.classList.toggle('is-disabled', !on);
       card.classList.toggle('is-primary', open && key === 'presale');
       card.setAttribute('aria-disabled', on ? 'false' : 'true');
@@ -131,17 +149,104 @@ window.NOAHS_TICKET_SALE = (function () {
     });
   }
 
+  /* ---- live phase watcher ---- */
+  var listeners = [];
+  var lastOpen = null;
+  var flipTimer = null;
+  var safetyTimer = null;
+  var watching = false;
+
+  function notify(phaseChanged) {
+    var now = getNow();
+    var open = isPresaleOpen(now);
+    var payload = { phaseChanged: !!phaseChanged, open: open, now: now };
+    listeners.forEach(function (fn) {
+      try { fn(payload); } catch (e) { /* page handler error */ }
+    });
+  }
+
+  function evaluate() {
+    var open = isPresaleOpen();
+    if (lastOpen === null) {
+      lastOpen = open;
+      return false;
+    }
+    if (open !== lastOpen) {
+      lastOpen = open;
+      notify(true);
+      return true;
+    }
+    return false;
+  }
+
+  function clearFlipTimer() {
+    if (flipTimer != null) {
+      clearTimeout(flipTimer);
+      flipTimer = null;
+    }
+  }
+
+  function scheduleExactFlip() {
+    clearFlipTimer();
+    var ms = getPresaleStart().getTime() - getNow().getTime();
+    if (ms <= 0) {
+      evaluate();
+      return;
+    }
+    /* setTimeout max ~24.8 days; beyond that the 60s safety net covers it. */
+    if (ms > 2147483647) return;
+    flipTimer = setTimeout(function () {
+      flipTimer = null;
+      evaluate();
+      /* if still before (clock skew / sim), reschedule */
+      if (!isPresaleOpen()) scheduleExactFlip();
+    }, ms + 30);
+  }
+
+  function startWatching(onPhaseChange) {
+    if (typeof onPhaseChange === 'function') listeners.push(onPhaseChange);
+    if (watching) {
+      scheduleExactFlip();
+      return;
+    }
+    watching = true;
+    lastOpen = isPresaleOpen();
+    scheduleExactFlip();
+    safetyTimer = setInterval(function () {
+      evaluate();
+      /* keep exact timer honest if ?now= is advancing or tab slept */
+      scheduleExactFlip();
+    }, SAFETY_MS);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        evaluate();
+        scheduleExactFlip();
+      }
+    });
+  }
+
+  /** ms until flip from current getNow() — handy for tests */
+  function msUntilFlip() {
+    return getPresaleStart().getTime() - getNow().getTime();
+  }
+
   return {
     PRESALE_START: PRESALE_START,
+    TALLY_FORM_AFTER: TALLY_FORM_AFTER,
+    TALLY_FORM_BEFORE: TALLY_FORM_BEFORE,
     getNow: getNow,
     getPresaleStart: getPresaleStart,
     isPresaleOpen: isPresaleOpen,
     selectableKeys: selectableKeys,
     isSelectable: isSelectable,
+    getTallyFormId: getTallyFormId,
     buildQtyParams: buildQtyParams,
+    buildEmbedSrc: buildEmbedSrc,
     stickyPricesHtml: stickyPricesHtml,
     applyStickyBar: applyStickyBar,
     applyTicketCards: applyTicketCards,
-    syncLangVisibility: syncLangVisibility
+    syncLangVisibility: syncLangVisibility,
+    startWatching: startWatching,
+    msUntilFlip: msUntilFlip
   };
 })();
