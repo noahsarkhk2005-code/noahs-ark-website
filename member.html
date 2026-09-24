@@ -59,7 +59,7 @@
       font-size:.9rem; line-height:1.45; display:none;
     }
     .member-result.is-on{ display:block; }
-    .member-result.is-success{ background:rgba(22,101,52,.35); border:1px solid #16a34a; color:#bbf7d0; }
+    .member-result.is-locked{ background:rgba(39,39,42,.95); border:1px solid #71717a; color:#e4e4e7; }
     .member-result.is-pending{ background:rgba(113,63,18,.35); border:1px solid #ca8a04; color:#fde68a; }
     .member-result.is-invalid{ background:rgba(127,29,29,.4); border:1px solid #ef4444; color:#fecaca; }
     .member-result.is-soon{ background:rgba(39,39,42,.9); border:1px solid #52525b; color:#d4d4d8; }
@@ -129,11 +129,12 @@
           <span class="lang-zh">會員號碼</span>
           <span class="lang-en lang-hidden">Member no.</span>
         </label>
-        <input id="member-no" name="memberNo" type="text" autocomplete="off" inputmode="text"
-          placeholder="NA…" required aria-describedby="member-no-hint" />
+        <input id="member-no" name="member_no" type="text" autocomplete="off" inputmode="text"
+          data-ph-zh="例如 NA000123" data-ph-en="e.g. NA000123" placeholder="例如 NA000123"
+          required aria-describedby="member-no-hint" />
         <p class="member-hint" id="member-no-hint">
-          <span class="lang-zh">請輸入 NA 開頭嘅會員號碼</span>
-          <span class="lang-en lang-hidden">Member number starting with NA</span>
+          <span class="lang-zh">請輸入 NA 開頭加 6 位數字，例如 NA000123</span>
+          <span class="lang-en lang-hidden">NA followed by 6 digits, e.g. NA000123</span>
         </p>
       </div>
 
@@ -151,7 +152,8 @@
           <span class="lang-en lang-hidden">Phone</span>
         </label>
         <input id="member-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
-          maxlength="8" pattern="[0-9]{8}" placeholder="8 digits" required />
+          maxlength="8" pattern="[0-9]{8}"
+          data-ph-zh="8 位數字" data-ph-en="8 digits" placeholder="8 位數字" required />
       </div>
 
       <div class="member-field">
@@ -193,45 +195,55 @@
 
   <script>
   (function () {
-    /* ===== IT狗 config — fill when backend is ready =====
-       POST MEMBER_ENDPOINT with JSON:
-         { memberNo, name, phone, email, consent: true }
+    /* ===== IT狗 config — fill MEMBER_ENDPOINT when ready =====
+       POST MEMBER_ENDPOINT with:
+         headers: { 'Content-Type': 'text/plain;charset=utf-8' }  // no other headers
+         body: JSON.stringify({
+           member_no, name, phone, email, consent, device_id
+         })
        Expected JSON response:
-         { status: 'success' | 'pending' | 'invalid' }
-       Alternatively set MEMBER_TALLY_ID to a Tally form id and we can
-       swap the form body for an embed (same page shell).
+         { status: 'pending' | 'invalid' | 'locked' }
+       (All registrations are manually approved — there is no success status.)
+       Unknown/failed responses → neutral "try again later" message.
     */
     var MEMBER_ENDPOINT = null;
-    var MEMBER_TALLY_ID = null;
 
-    /* Exact member-number pattern — IT狗 will confirm the real format. */
-    var MEMBER_NO_PATTERN = /^NA[A-Z0-9]{4,}$/;
+    /* Exact member-number pattern (IT狗 confirmed). */
+    var MEMBER_NO_PATTERN = /^NA\d{6}$/;
+
+    var DEVICE_KEY = 'na_device_id';
 
     var form = document.getElementById('member-form');
     var resultEl = document.getElementById('member-result');
     var memberNoInput = document.getElementById('member-no');
     var phoneInput = document.getElementById('member-phone');
+    var submitBtn = document.getElementById('member-submit');
 
     var MESSAGES = {
-      success: {
-        zh: '登記成功，請查閱電郵',
-        en: 'Registered — please check your email',
-        cls: 'is-success'
-      },
       pending: {
         zh: '已收到，我哋會人手核對',
         en: "Received — we'll verify it manually",
         cls: 'is-pending'
       },
       invalid: {
-        zh: '號碼格式唔啱',
-        en: "Member number format isn't right",
+        zh: '號碼格式唔啱，請再填一次',
+        en: "Member number isn't valid, please try again",
         cls: 'is-invalid'
+      },
+      locked: {
+        zh: '請稍後再試',
+        en: 'Please try again later',
+        cls: 'is-locked'
       },
       soon: {
         zh: '登記即將開放，請稍後再試。',
         en: 'Registration opens soon — please check back later.',
         cls: 'is-soon'
+      },
+      error: {
+        zh: '暫時未能提交，請稍後再試',
+        en: 'Unable to submit right now — please try again later',
+        cls: 'is-locked'
       },
       phone: {
         zh: '電話請輸入 8 位數字',
@@ -246,7 +258,7 @@
     };
 
     function showState(key) {
-      var msg = MESSAGES[key] || MESSAGES.soon;
+      var msg = MESSAGES[key] || MESSAGES.error;
       resultEl.className = 'member-result is-on ' + msg.cls;
       resultEl.innerHTML =
         '<span class="lang-zh">' + msg.zh + '</span>' +
@@ -264,14 +276,38 @@
       });
     }
 
+    function applyPlaceholders() {
+      var lang = (document.documentElement.lang === 'en') ? 'en' : 'zh';
+      document.querySelectorAll('[data-ph-zh]').forEach(function (el) {
+        var ph = el.getAttribute(lang === 'en' ? 'data-ph-en' : 'data-ph-zh');
+        if (ph != null) el.setAttribute('placeholder', ph);
+      });
+    }
+
+    function getDeviceId() {
+      try {
+        var id = localStorage.getItem(DEVICE_KEY);
+        if (id && /^[0-9a-fA-F-]{16,}$/.test(id)) return id;
+        if (window.crypto && typeof crypto.randomUUID === 'function') {
+          id = crypto.randomUUID();
+        } else {
+          id = 'na-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+        }
+        localStorage.setItem(DEVICE_KEY, id);
+        return id;
+      } catch (e) {
+        return 'na-anon-' + Date.now().toString(36);
+      }
+    }
+
+    /** Uppercase + strip ALL whitespace before validate/send. */
     function normalizeMemberNo(v) {
       return String(v || '').replace(/\s+/g, '').toUpperCase();
     }
 
     memberNoInput.addEventListener('input', function () {
       var start = memberNoInput.selectionStart;
-      var before = memberNoInput.value;
-      memberNoInput.value = normalizeMemberNo(before);
+      memberNoInput.value = normalizeMemberNo(memberNoInput.value);
       if (typeof start === 'number') {
         try { memberNoInput.setSelectionRange(start, start); } catch (e) {}
       }
@@ -305,24 +341,40 @@
       var name = document.getElementById('member-name').value.trim();
       var email = document.getElementById('member-email').value.trim();
       if (!name || !email) return null;
-      return { memberNo: no, name: name, phone: phone, email: email, consent: true };
+      return {
+        member_no: no,
+        name: name,
+        phone: phone,
+        email: email,
+        consent: true,
+        device_id: getDeviceId()
+      };
     }
 
-    async function submitToEndpoint(payload) {
-      var res = await fetch(MEMBER_ENDPOINT, {
+    function resolveEndpoint() {
+      /* ?endpoint= override ONLY on localhost — disabled in production. */
+      var host = location.hostname;
+      if (host === '127.0.0.1' || host === 'localhost') {
+        var ep = new URLSearchParams(location.search).get('endpoint');
+        if (ep) return ep;
+      }
+      return MEMBER_ENDPOINT;
+    }
+
+    async function submitToEndpoint(url, payload) {
+      var res = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+        redirect: 'follow'
       });
       var data = {};
       try { data = await res.json(); } catch (e) { data = {}; }
       var status = data && data.status;
-      if (status === 'success' || status === 'pending' || status === 'invalid') {
+      if (status === 'pending' || status === 'invalid' || status === 'locked') {
         showState(status);
-      } else if (!res.ok) {
-        showState('pending');
       } else {
-        showState('pending');
+        showState('error');
       }
     }
 
@@ -331,30 +383,30 @@
       var payload = clientValidate();
       if (!payload) return;
 
-      if (!MEMBER_ENDPOINT && !MEMBER_TALLY_ID) {
+      var endpoint = resolveEndpoint();
+      if (!endpoint) {
         showState('soon');
         return;
       }
-      if (MEMBER_ENDPOINT) {
-        var btn = document.getElementById('member-submit');
-        btn.disabled = true;
-        submitToEndpoint(payload).finally(function () { btn.disabled = false; });
-        return;
-      }
-      /* MEMBER_TALLY_ID set: placeholder — swap to Tally embed or redirect when IT狗 provides ID */
-      showState('soon');
+      submitBtn.disabled = true;
+      submitToEndpoint(endpoint, payload).finally(function () {
+        submitBtn.disabled = false;
+      });
     });
 
-    /* Preview states: ?state=success|pending|invalid */
+    /* Preview states: ?state=pending|invalid|locked */
     var preview = new URLSearchParams(location.search).get('state');
+    if (preview === 'success') preview = null; /* success removed — all manual review */
     if (preview && MESSAGES[preview]) showState(preview);
 
-    /* Expose for debugging / future wiring */
+    applyPlaceholders();
+
     window.NOAHS_MEMBER = {
       MEMBER_ENDPOINT: MEMBER_ENDPOINT,
-      MEMBER_TALLY_ID: MEMBER_TALLY_ID,
       MEMBER_NO_PATTERN: MEMBER_NO_PATTERN,
-      showState: showState
+      getDeviceId: getDeviceId,
+      showState: showState,
+      applyPlaceholders: applyPlaceholders
     };
   })();
 
@@ -368,6 +420,9 @@
       el.classList.toggle('lang-hidden', currentLang === 'zh');
     });
     document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    if (window.NOAHS_MEMBER && window.NOAHS_MEMBER.applyPlaceholders) {
+      window.NOAHS_MEMBER.applyPlaceholders();
+    }
   }
   function toggleNav() {
     var nav = document.getElementById('site-nav');
