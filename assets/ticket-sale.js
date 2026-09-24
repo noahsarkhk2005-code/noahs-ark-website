@@ -57,9 +57,13 @@ window.NOAHS_TICKET_SALE = (function () {
   }
 
   /**
-   * Build Tally qty query. Only currently-selectable types are included;
-   * selected key → 1, other selectable → 0. Disabled types omitted.
-   * selectedKey null/undefined → all selectable = 0.
+   * Build Tally qty query for hidden-field prefills.
+   * Only the selected selectable type is included (=1). Other types are
+   * omitted so Tally leaves those number fields empty (not 0).
+   * selectedKey null/undefined → no qty params.
+   * Param names (IT狗 hidden fields): qty_metal, qty_earlybird,
+   * qty_metal_lastcall, qty_presale. Each INPUT_NUMBER must use Default
+   * answer → matching hidden field for URL prefill to work.
    */
   function buildQtyParams(selectedKey, now) {
     var keys = selectableKeys(now);
@@ -69,11 +73,10 @@ window.NOAHS_TICKET_SALE = (function () {
       lastcall: 'qty_metal_lastcall',
       presale: 'qty_presale'
     };
-    var parts = [];
-    keys.forEach(function (k) {
-      parts.push(encodeURIComponent(map[k]) + '=' + (k === selectedKey ? '1' : '0'));
-    });
-    return parts.join('&');
+    if (!selectedKey || keys.indexOf(selectedKey) === -1 || !map[selectedKey]) {
+      return '';
+    }
+    return encodeURIComponent(map[selectedKey]) + '=1';
   }
 
   function buildEmbedSrc(selectedKey, now) {

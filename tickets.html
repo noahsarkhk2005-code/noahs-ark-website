@@ -389,7 +389,7 @@
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
 
-  <script src="assets/ticket-sale.js?v=20260924-phase"></script>
+  <script src="assets/ticket-sale.js?v=20260924-tix-prefill"></script>
   <script src="https://tally.so/widgets/embed.js"></script>
   <script>
     if (typeof Tally !== 'undefined') {
@@ -401,7 +401,8 @@
     }
 
     (function () {
-      /* Prefill params (IT狗): qty_metal, qty_earlybird, qty_metal_lastcall, qty_presale.
+      /* Prefill: selected card → one qty_*=1 (IT狗 hidden fields + Default answer).
+         Names: qty_metal, qty_earlybird, qty_metal_lastcall, qty_presale.
          PRESALE_START + TALLY_FORM_AFTER in assets/ticket-sale.js. */
       var sale = window.NOAHS_TICKET_SALE;
       var cards = Array.prototype.slice.call(document.querySelectorAll('.ticket-pick__card'));
