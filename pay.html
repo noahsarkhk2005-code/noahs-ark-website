@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>付款｜Pay · Noah's Ark</title>
+  <meta name="description" content="Pay via PayMe or Hang Seng FPS for Noah's Ark tickets. Account: Noahsark Metal · FPS 164005613." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-pay" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-512.png" />
+  <meta property="og:title" content="付款｜Pay · Noah's Ark" />
+  <meta property="og:description" content="PayMe / Hang Seng FPS — Noahsark Metal · 164005613" />
+  <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/payme-qr.jpg" />
+  <style>
+    .pay-hero{ padding:1.15rem 0 .85rem; }
+    .pay-hero__kicker{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin-bottom:.35rem; }
+    .pay-hero h1{ font-size:1.45rem; font-weight:900; line-height:1.2; margin:0 0 .35rem; color:#fff; }
+    @media (min-width:640px){ .pay-hero h1{ font-size:1.9rem; } }
+    .pay-hero__sub{ color:#a1a1aa; font-size:.82rem; line-height:1.5; margin:0; max-width:28rem; }
+    .pay-stack{ display:flex; flex-direction:column; gap:.85rem; margin:0 0 1.5rem; }
+    .pay-card{
+      border:1px solid #3f3f46; background:#121214; border-radius:1rem;
+      padding:.95rem .9rem 1.05rem;
+    }
+    .pay-card__label{ color:#ef4444; font-size:.65rem; letter-spacing:.22em; font-weight:800; margin:0 0 .35rem; }
+    .pay-card__name{ color:#fff; font-size:1.05rem; font-weight:800; margin:0 0 .55rem; }
+    .pay-card__meta{ color:#a1a1aa; font-size:.8rem; line-height:1.45; margin:0 0 .7rem; }
+    .pay-card__meta .mono{ color:#e4e4e7; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:700; }
+    .pay-actions{ display:flex; flex-wrap:wrap; gap:.55rem; margin:0 0 .85rem; }
+    .pay-btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-height:2.75rem; padding:.65rem 1.1rem; border-radius:.75rem;
+      font-size:.92rem; font-weight:800; text-decoration:none; border:1px solid transparent;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .pay-btn--payme{ background:#b91c1c; color:#fff; border-color:#991b1b; width:100%; }
+    .pay-btn--payme:hover{ background:#dc2626; }
+    @media (min-width:480px){ .pay-btn--payme{ width:auto; min-width:12rem; } }
+    .fps-btn{
+      background:#16a34a; color:#fff; border:1px solid #15803d;
+      cursor:pointer; font:inherit;
+    }
+    .fps-btn:hover{ background:#22c55e; border-color:#16a34a; }
+    .fps-btn.is-copied, .fps-btn:disabled{
+      background:#52525b; border-color:#3f3f46; color:#e4e4e7; cursor:default;
+    }
+    .pay-status{ color:#a1a1aa; font-size:.72rem; min-height:1rem; margin:0 0 .65rem; }
+    .pay-qr{
+      display:block; width:100%; max-width:16.5rem; margin:0 auto;
+      border-radius:.65rem; background:#fff; padding:.45rem;
+      box-sizing:border-box;
+    }
+    .pay-qr img{ display:block; width:100%; height:auto; border-radius:.35rem; }
+    .pay-hint{
+      border:1px solid #3f3f46; background:rgba(24,24,27,.88); border-radius:.9rem;
+      padding:.85rem .9rem; margin:0 0 1.25rem;
+    }
+    .pay-hint p{ color:#d4d4d8; font-size:.8rem; line-height:1.5; margin:0 0 .7rem; }
+    .pay-back{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:100%; min-height:2.6rem; padding:.55rem 1rem; border-radius:.75rem;
+      background:#27272a; color:#fff; border:1px solid #3f3f46;
+      font-size:.85rem; font-weight:800; text-decoration:none;
+    }
+    .pay-back:hover{ border-color:#7f1d1d; color:#fecaca; }
+  </style>
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="/" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="/tickets" class="hover:text-red-500 transition"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a href="/videos" class="hover:text-red-500 transition"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a href="/live" class="hover:text-red-500 transition"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+        <a href="/bands" class="hover:text-red-500 transition"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+        <a href="/events" class="hover:text-red-500 transition"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a href="/merch" class="hover:text-red-500 transition"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="/#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Current event"><a class="site-nav__quick-title" href="/tickets" title="Noah's Ark X Protoss 20th Anniversary"><span class="site-nav__quick-full">Noah's Ark X Protoss 20th Anniversary</span><span class="site-nav__quick-short" aria-hidden="true">Noah's Ark × Protoss</span></a></nav>
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/live" onclick="closeNav()"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+      <a href="/bands" onclick="closeNav()"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+      <a href="/" onclick="closeNav()"><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+    </div>
+  </nav>
+
+  <main class="max-w-lg mx-auto px-4 pb-10">
+    <header class="pay-hero">
+      <p class="pay-hero__kicker"><span class="lang-zh">付款／PAY</span><span class="lang-en lang-hidden">PAY</span></p>
+      <h1><span class="lang-zh">即刻買飛 · 付款</span><span class="lang-en lang-hidden">Pay for tickets</span></h1>
+      <p class="pay-hero__sub">
+        <span class="lang-zh">用 PayMe 或者恒生 FPS 俾錢。戶口顯示名：Noahsark Metal。</span>
+        <span class="lang-en lang-hidden">Pay with PayMe or Hang Seng FPS. Account display name: Noahsark Metal.</span>
+      </p>
+    </header>
+
+    <div class="pay-stack">
+      <section class="pay-card" aria-labelledby="payme-heading">
+        <p class="pay-card__label">PAYME</p>
+        <h2 id="payme-heading" class="pay-card__name">Noahsark Metal</h2>
+        <p class="pay-card__meta">
+          <span class="lang-zh">撳掣開 PayMe（手機會跳去 App）。</span>
+          <span class="lang-en lang-hidden">Tap to open PayMe (phones hand off to the app).</span>
+        </p>
+        <div class="pay-actions">
+          <a class="pay-btn pay-btn--payme" href="https://payme.hsbc/noahsark2005" target="_blank" rel="noopener">
+            <span class="lang-zh">開 PayMe 付款</span>
+            <span class="lang-en lang-hidden">Open PayMe</span>
+          </a>
+        </div>
+        <div class="pay-qr">
+          <picture>
+            <source srcset="assets/payme-qr.webp" type="image/webp" />
+            <img src="assets/payme-qr.jpg" alt="PayMe QR · Noahsark Metal" width="800" height="900" decoding="async" />
+          </picture>
+        </div>
+      </section>
+
+      <section class="pay-card" aria-labelledby="fps-heading">
+        <p class="pay-card__label">HANG SENG · FPS</p>
+        <h2 id="fps-heading" class="pay-card__name">
+          <span class="lang-zh">轉數快 FPS</span>
+          <span class="lang-en lang-hidden">FPS</span>
+        </h2>
+        <p class="pay-card__meta">
+          <span class="lang-zh">恒生 FPS ID：<span class="mono">164005613</span></span>
+          <span class="lang-en lang-hidden">Hang Seng FPS ID: <span class="mono">164005613</span></span>
+        </p>
+        <div class="pay-actions">
+          <button type="button" id="fps-copy-btn" data-fps-id="164005613" class="pay-btn fps-btn" aria-pressed="false">
+            <span class="lang-zh">複製 FPS ID</span>
+            <span class="lang-en lang-hidden">Copy FPS ID</span>
+          </button>
+        </div>
+        <p id="fps-copy-status" class="pay-status" aria-live="polite"></p>
+        <div class="pay-qr">
+          <img src="assets/fps-qr.png" alt="Hang Seng FPS QR · 164005613" width="512" height="512" decoding="async" />
+        </div>
+      </section>
+    </div>
+
+    <div class="pay-hint">
+      <p>
+        <span class="lang-zh">付完款記得返去購票表格，上載付款證明。</span>
+        <span class="lang-en lang-hidden">After paying, go back to the ticket form and upload your payment proof.</span>
+      </p>
+      <a class="pay-back" href="/tickets">
+        <span class="lang-zh">返回購票表格</span>
+        <span class="lang-en lang-hidden">Back to ticket form</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+    <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-2 px-4">
+      <a href="mailto:noahsarkhk2005@gmail.com" class="text-zinc-500 hover:text-red-500 transition">noahsarkhk2005@gmail.com</a>
+      <span class="text-zinc-700">·</span>
+      <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">Instagram @noahs_ark_hk</a>
+    </div>
+  </footer>
+
+  <script>
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
+      document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+    (function () {
+      var btn = document.getElementById('fps-copy-btn');
+      var status = document.getElementById('fps-copy-status');
+      if (!btn) return;
+      function msg(zh, en) {
+        if (!status) return;
+        status.textContent = currentLang === 'en' ? en : zh;
+      }
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-fps-id') || '164005613';
+        function ok() {
+          msg('已複製 FPS ID：' + id, 'Copied FPS ID: ' + id);
+          btn.classList.add('is-copied');
+          btn.setAttribute('aria-pressed', 'true');
+        }
+        function fail() { msg('請手動輸入 FPS ID：' + id, 'Please enter FPS ID: ' + id); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(id).then(ok).catch(fail);
+        } else {
+          try {
+            var ta = document.createElement('textarea');
+            ta.value = id;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            ok();
+          } catch (e) { fail(); }
+        }
+      });
+    })();
+  </script>
+  </div>
+</body>
+</html>
