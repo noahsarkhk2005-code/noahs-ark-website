@@ -54,18 +54,39 @@
       box-sizing:border-box;
     }
     .pay-qr img{ display:block; width:100%; height:auto; border-radius:.35rem; }
+    .pay-steps{
+      list-style:none; margin:.15rem 0 1rem; padding:.7rem .75rem;
+      border:1px solid #3f3f46; background:rgba(24,24,27,.75); border-radius:.85rem;
+      display:flex; flex-direction:column; gap:.35rem;
+    }
+    .pay-steps li{
+      color:#e4e4e7; font-size:.78rem; line-height:1.35; font-weight:600;
+      display:flex; gap:.45rem; align-items:baseline;
+    }
+    .pay-steps__n{ color:#ef4444; font-weight:900; letter-spacing:.02em; flex:none; }
     .pay-hint{
       border:1px solid #3f3f46; background:rgba(24,24,27,.88); border-radius:.9rem;
       padding:.85rem .9rem; margin:0 0 1.25rem;
     }
-    .pay-hint p{ color:#d4d4d8; font-size:.8rem; line-height:1.5; margin:0 0 .7rem; }
     .pay-back{
       display:inline-flex; align-items:center; justify-content:center;
-      width:100%; min-height:2.6rem; padding:.55rem 1rem; border-radius:.75rem;
-      background:#27272a; color:#fff; border:1px solid #3f3f46;
-      font-size:.85rem; font-weight:800; text-decoration:none;
+      width:100%; min-height:2.75rem; padding:.65rem 1rem; border-radius:.75rem;
+      background:#b91c1c; color:#fff; border:1px solid #991b1b;
+      font-size:.85rem; font-weight:800; text-decoration:none; cursor:pointer;
+      font-family:inherit; -webkit-tap-highlight-color:transparent;
     }
-    .pay-back:hover{ border-color:#7f1d1d; color:#fecaca; }
+    .pay-back:hover{ background:#dc2626; }
+    .pay-close-fallback{
+      display:none; margin:.65rem 0 0; color:#fbbf24; font-size:.78rem; line-height:1.45;
+    }
+    .pay-close-fallback.is-visible{ display:block; }
+    .pay-tickets-link{
+      display:none; margin-top:.75rem; text-align:center;
+      font-size:.78rem; font-weight:700;
+    }
+    .pay-tickets-link.is-visible{ display:block; }
+    .pay-tickets-link a{ color:#a1a1aa; text-decoration:underline; text-underline-offset:2px; }
+    .pay-tickets-link a:hover{ color:#fecaca; }
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -128,6 +149,12 @@
       </p>
     </header>
 
+    <ol class="pay-steps" aria-label="Payment steps">
+      <li><span class="pay-steps__n">①</span><span class="lang-zh">付款</span><span class="lang-en lang-hidden">Pay</span></li>
+      <li><span class="pay-steps__n">②</span><span class="lang-zh">截圖收據</span><span class="lang-en lang-hidden">Screenshot receipt</span></li>
+      <li><span class="pay-steps__n">③</span><span class="lang-zh">返回上載，提交</span><span class="lang-en lang-hidden">Back to upload &amp; submit</span></li>
+    </ol>
+
     <div class="pay-stack">
       <section class="pay-card" aria-labelledby="payme-heading">
         <p class="pay-card__label">PAYME</p>
@@ -174,14 +201,20 @@
     </div>
 
     <div class="pay-hint">
-      <p>
-        <span class="lang-zh">付完款記得返去購票表格，上載付款證明。</span>
-        <span class="lang-en lang-hidden">After paying, go back to the ticket form and upload your payment proof.</span>
+      <button type="button" class="pay-back" id="pay-close-btn">
+        <span class="lang-zh">付完款，返回上載付款證明</span>
+        <span class="lang-en lang-hidden">I've paid — back to upload</span>
+      </button>
+      <p class="pay-close-fallback" id="pay-close-fallback" role="status" aria-live="polite">
+        <span class="lang-zh">請返回之前嘅分頁上載付款證明，唔使重填。</span>
+        <span class="lang-en lang-hidden">Please switch back to your previous tab to upload your payment proof — no need to refill.</span>
       </p>
-      <a class="pay-back" href="/tickets">
-        <span class="lang-zh">返回購票表格</span>
-        <span class="lang-en lang-hidden">Back to ticket form</span>
-      </a>
+      <p class="pay-tickets-link" id="pay-tickets-link">
+        <a href="/tickets">
+          <span class="lang-zh">未填購票表格？去購票頁</span>
+          <span class="lang-en lang-hidden">Haven't filled the form? Go to tickets</span>
+        </a>
+      </p>
     </div>
   </main>
 
@@ -244,6 +277,42 @@
             ok();
           } catch (e) { fail(); }
         }
+      });
+    })();
+
+    (function () {
+      function isFromForm() {
+        try {
+          var ref = document.referrer || '';
+          if (/tally\.so/i.test(ref)) return true;
+          if (/noahsarkhk2005\.netlify\.app\/tickets/i.test(ref)) return true;
+        } catch (e) {}
+        try {
+          var q = new URLSearchParams(window.location.search || '');
+          var from = (q.get('from') || '').toLowerCase();
+          if (from === 'tally' || from === 'tickets') return true;
+        } catch (e2) {}
+        try {
+          if (window.opener) return true;
+        } catch (e3) {}
+        return false;
+      }
+
+      var ticketsLink = document.getElementById('pay-tickets-link');
+      if (ticketsLink && !isFromForm()) {
+        ticketsLink.classList.add('is-visible');
+      }
+
+      var closeBtn = document.getElementById('pay-close-btn');
+      var fallback = document.getElementById('pay-close-fallback');
+      if (!closeBtn) return;
+      closeBtn.addEventListener('click', function () {
+        try { window.close(); } catch (e) {}
+        setTimeout(function () {
+          if (!document.hidden && fallback) {
+            fallback.classList.add('is-visible');
+          }
+        }, 300);
       });
     })();
   </script>
