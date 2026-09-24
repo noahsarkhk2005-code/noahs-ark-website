@@ -28,7 +28,7 @@
     }
     @media (min-width:640px){ .live-grid{ gap:1.5rem; } }
     a.live-card{
-      display:flex; flex-direction:column; min-width:0;
+      display:flex; flex-direction:column; min-width:0; height:100%;
       border-radius:.75rem; overflow:hidden;
       border:1px solid #3f3f46; background:#121214;
       text-decoration:none; color:inherit;
@@ -38,7 +38,7 @@
     a.live-card:hover, a.live-card:focus-visible{ border-color:#7f1d1d; }
     a.live-card:active{ transform:scale(.99); }
     .live-card__cover{
-      position:relative; aspect-ratio:3/4;
+      position:relative; aspect-ratio:3/4; flex:none;
       background:#0a0a0a center/cover no-repeat;
       -webkit-user-select:none; user-select:none;
     }
@@ -51,29 +51,36 @@
       position:absolute; inset:0; z-index:2;
       background:transparent;
     }
-    .live-card__body{ padding:.55rem .55rem .7rem; }
+    .live-card__body{
+      display:flex; flex-direction:column; flex:1; min-height:0;
+      padding:.55rem .55rem .7rem;
+    }
     @media (min-width:640px){ .live-card__body{ padding:.9rem .95rem 1.05rem; } }
     .live-card__year{
-      color:#ef4444; font-size:.55rem; letter-spacing:.18em; font-weight:800; margin-bottom:.2rem;
+      color:#ef4444; font-size:.55rem; letter-spacing:.18em; font-weight:800;
+      margin:0 0 .25rem; line-height:1.2; min-height:1.05em; flex:none;
     }
-    @media (min-width:640px){ .live-card__year{ font-size:.65rem; letter-spacing:.22em; margin-bottom:.3rem; } }
+    @media (min-width:640px){ .live-card__year{ font-size:.65rem; letter-spacing:.22em; margin:0 0 .3rem; } }
     .live-card__title{
-      font-size:clamp(.72rem, 3.2vw, 1.1rem); font-weight:900; color:#fff;
-      margin:0 0 .3rem; line-height:1.25;
-      display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden;
+      font-size:clamp(.68rem, 2.85vw, 1.05rem); font-weight:900; color:#fff;
+      margin:0 0 .35rem; line-height:1.2; flex:none;
+      white-space:nowrap; overflow:hidden;
     }
-    @media (min-width:640px){
-      .live-card__title{ font-size:1.1rem; margin:0 0 .4rem; -webkit-line-clamp:unset; display:block; }
-    }
+    @media (min-width:640px){ .live-card__title{ font-size:1.1rem; margin:0 0 .4rem; } }
     .live-card__intro{
-      color:#a1a1aa; font-size:clamp(.62rem, 2.6vw, .8rem); line-height:1.45; margin:0 0 .5rem;
-      display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; overflow:hidden;
+      color:#a1a1aa; font-size:clamp(.6rem, 2.45vw, .78rem); line-height:1.4;
+      margin:0; flex:none;
+      display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden;
+      min-height:calc(1.4em * 2);
     }
     @media (min-width:640px){
-      .live-card__intro{ font-size:.8rem; line-height:1.5; margin:0 0 .75rem; -webkit-line-clamp:unset; display:block; }
+      .live-card__intro{ font-size:.8rem; line-height:1.45; min-height:calc(1.45em * 2); }
     }
-    .live-card__cta{ color:#f87171; font-size:clamp(.65rem, 2.6vw, .8rem); font-weight:800; }
-    @media (min-width:640px){ .live-card__cta{ font-size:.8rem; } }
+    .live-card__cta{
+      color:#f87171; font-size:clamp(.65rem, 2.6vw, .8rem); font-weight:800;
+      margin-top:auto; padding-top:.55rem; flex:none; line-height:1.2;
+    }
+    @media (min-width:640px){ .live-card__cta{ font-size:.8rem; padding-top:.65rem; } }
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -145,8 +152,8 @@
           <p class="live-card__year">2005</p>
           <h2 class="live-card__title">Noah's Ark 2005</h2>
           <p class="live-card__intro">
-            <span class="lang-zh">Hong Kong's Extreme 2005 — 第一屆挪亞方舟極端金屬現場。簡介與相冊即將上載。</span>
-            <span class="lang-en lang-hidden">Hong Kong's Extreme 2005 — the first Noah's Ark extreme metal live. Intro and photos coming soon.</span>
+            <span class="lang-zh">挪亞方舟極端金屬現場，五隊樂隊相冊同影片。</span>
+            <span class="lang-en lang-hidden">Noah's Ark extreme metal live — five bands, photos and video.</span>
           </p>
           <span class="live-card__cta"><span class="lang-zh">點擊進入 →</span><span class="lang-en lang-hidden">Enter →</span></span>
         </div>
@@ -158,10 +165,10 @@
         </div>
         <div class="live-card__body">
           <p class="live-card__year">2026 · NA2</p>
-          <h2 class="live-card__title">Noah's Ark 2026 / Noah's Ark 2</h2>
+          <h2 class="live-card__title">Noah's Ark 2026</h2>
           <p class="live-card__intro">
-            <span class="lang-zh">Noah's Ark X Protoss 20th · 五隊演出樂隊現場相冊與簡介。</span>
-            <span class="lang-en lang-hidden">Noah's Ark X Protoss 20th — five performing bands, live photos and intros.</span>
+            <span class="lang-zh">Noah's Ark × Protoss 20th，五隊現場相冊同簡介。</span>
+            <span class="lang-en lang-hidden">Noah's Ark × Protoss 20th — five bands, live photos and intros.</span>
           </p>
           <span class="live-card__cta"><span class="lang-zh">點擊進入 →</span><span class="lang-en lang-hidden">Enter →</span></span>
         </div>
