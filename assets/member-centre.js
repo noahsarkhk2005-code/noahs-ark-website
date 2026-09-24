@@ -6,6 +6,7 @@
  *   body: JSON; always include device_id
  *
  * {action:'register', type:'existing'|'new', name, phone, email, consent, device_id
+ *   // phone optional free-form ("" if blank); no 8-digit / +852 normalisation
  *   [, member_no]}  // member_no ONLY for existing; omit entirely for new
  *   → {status:'pending'|'invalid'|'locked'}
  *
@@ -225,11 +226,9 @@
     return String(v || '').replace(/\s+/g, '').toUpperCase();
   }
 
-  function normalizePhone(v) {
-    var s = String(v || '').replace(/[\s\-()]/g, '');
-    if (s.indexOf('+852') === 0) s = s.slice(4);
-    else if (s.indexOf('852') === 0 && s.length > 8) s = s.slice(3);
-    return s.replace(/\D+/g, '').slice(0, 8);
+  /* Phone is optional + free-form (HK / overseas / blank). Trim only. */
+  function trimPhone(v) {
+    return String(v || '').replace(/^\s+|\s+$/g, '');
   }
 
   function readSession() {
@@ -394,12 +393,7 @@
     var el = document.getElementById(id);
     if (!el) return;
     el.addEventListener('blur', function () {
-      el.value = normalizePhone(el.value);
-    });
-    el.addEventListener('input', function () {
-      var cur = el.value;
-      var cleaned = cur.replace(/[\s\-()]/g, '');
-      if (cleaned !== cur) el.value = cleaned;
+      el.value = trimPhone(el.value);
     });
   }
 
@@ -459,11 +453,11 @@
   function buildRegisterPayload(type) {
     var prefix = type === 'new' ? 'new' : 'ex';
     var name = document.getElementById(prefix + '-name').value.trim();
-    var phone = normalizePhone(document.getElementById(prefix + '-phone').value);
+    var phone = trimPhone(document.getElementById(prefix + '-phone').value);
     document.getElementById(prefix + '-phone').value = phone;
     var email = document.getElementById(prefix + '-email').value.trim();
     var consent = document.getElementById(prefix + '-consent').checked;
-    if (!name || !/^\d{8}$/.test(phone) || !email || !consent) {
+    if (!name || !email || !consent) {
       showState('invalid_reg');
       return null;
     }
@@ -796,10 +790,10 @@
     if (!pendingGoogleIdToken) { showState('error'); return; }
     var typeEl = document.querySelector('input[name="g-type"]:checked');
     var type = typeEl ? typeEl.value : 'existing';
-    var phone = normalizePhone(document.getElementById('g-phone').value);
+    var phone = trimPhone(document.getElementById('g-phone').value);
     document.getElementById('g-phone').value = phone;
     var consent = document.getElementById('g-consent').checked;
-    if (!/^\d{8}$/.test(phone) || !consent) { showState('invalid_reg'); return; }
+    if (!consent) { showState('invalid_reg'); return; }
     var payload = {
       action: 'register',
       type: type,

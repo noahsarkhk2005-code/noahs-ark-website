@@ -116,6 +116,11 @@ class H(BaseHTTPRequestHandler):
             })
 
         if action == 'register':
+            # Phone is optional + free-form ("" / overseas / any format). Never reject on phone.
+            phone = data.get('phone', '')
+            if phone is None:
+                phone = ''
+            print('[mock] register phone=%r (accepted as-is)' % (phone,))
             # With id_token: Google registration (name/email from token)
             if data.get('id_token'):
                 parsed = parse_mock_token(data.get('id_token'))
