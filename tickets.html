@@ -126,6 +126,31 @@
       font-variant-numeric:tabular-nums; line-height:1;
     }
     .ticket-pick__amt span{ font-size:.62rem; color:#a1a1aa; font-weight:700; margin-right:.1rem; }
+
+    .ticket-pick__card.is-disabled{
+      opacity:.48;
+      cursor:not-allowed;
+      transform:none !important;
+      pointer-events:none;
+      filter:grayscale(.35);
+    }
+    .ticket-pick__card.is-disabled:hover{
+      border-color:#3f3f46;
+      transform:none;
+    }
+    .ticket-pick__card.is-primary:not(.is-disabled){
+      border-color:#ef4444;
+      box-shadow:0 0 0 1px rgba(239,68,68,.35), 0 8px 22px rgba(127,29,29,.28);
+    }
+    .ticket-pick__status{
+      margin-top:.35rem;
+      font-size:.58rem;
+      font-weight:800;
+      letter-spacing:.04em;
+      color:#fca5a5;
+      line-height:1.25;
+    }
+    .ticket-pick__card.is-disabled .ticket-pick__status{ color:#a1a1aa; }
     #order-form{ scroll-margin-top:5.5rem; }
     @media (min-width:480px){
       .ticket-pick__rail{ gap:.7rem; }
@@ -349,6 +374,7 @@
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
 
+  <script src="assets/ticket-sale.js?v=20260924-sale"></script>
   <script src="https://tally.so/widgets/embed.js"></script>
   <script>
     if (typeof Tally !== 'undefined') {
@@ -361,26 +387,27 @@
 
     (function () {
       var TALLY_BASE = 'https://tally.so/embed/J9b2zY?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
-      /* Prefill param names expected by Tally hidden fields (IT狗 must add):
-         qty_metal, qty_earlybird, qty_presale — then set each number field's
-         Default answer to the matching hidden field. Exclusive select: tapped=1, others=0. */
-      var PARAMS = ['qty_metal', 'qty_earlybird', 'qty_presale'];
+      /* Prefill param names for Tally hidden fields (IT狗): qty_metal, qty_earlybird, qty_presale.
+         Sale window: assets/ticket-sale.js PRESALE_START. Exclusive select among selectable tiers. */
+      var sale = window.NOAHS_TICKET_SALE;
       var cards = Array.prototype.slice.call(document.querySelectorAll('.ticket-pick__card'));
       var iframe = document.getElementById('tally-embed');
       var formWrap = document.getElementById('order-form');
-      if (!cards.length || !iframe) return;
+      if (!cards.length || !iframe || !sale) return;
+
+      var now = sale.getNow();
+      sale.applyTicketCards(cards, now);
 
       function applySelection(ticketKey) {
-        var qs = [];
+        if (!sale.isSelectable(ticketKey, now)) return;
         cards.forEach(function (card) {
           var key = card.getAttribute('data-ticket');
-          var param = card.getAttribute('data-qty-param');
-          var on = key === ticketKey;
+          var on = key === ticketKey && sale.isSelectable(key, now);
           card.classList.toggle('is-selected', on);
           card.setAttribute('aria-selected', on ? 'true' : 'false');
-          qs.push(encodeURIComponent(param) + '=' + (on ? '1' : '0'));
         });
-        var src = TALLY_BASE + '&' + qs.join('&');
+        var qs = sale.buildQtyParams(ticketKey, now);
+        var src = TALLY_BASE + (qs ? '&' + qs : '');
         iframe.setAttribute('data-tally-src', src);
         iframe.src = src;
         if (formWrap && formWrap.scrollIntoView) {
@@ -394,6 +421,7 @@
           applySelection(card.getAttribute('data-ticket'));
         });
       });
+
     })();
 
     let currentLang = 'zh';
@@ -402,6 +430,19 @@
       document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
       document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
       document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+      if (window.NOAHS_TICKET_SALE) {
+        var cards = document.querySelectorAll('.ticket-pick__card');
+        var selected = document.querySelector('.ticket-pick__card.is-selected');
+        var key = selected && selected.getAttribute('data-ticket');
+        window.NOAHS_TICKET_SALE.applyTicketCards(cards, window.NOAHS_TICKET_SALE.getNow());
+        if (key) {
+          var again = document.querySelector('.ticket-pick__card[data-ticket="' + key + '"]');
+          if (again && !again.classList.contains('is-disabled')) {
+            again.classList.add('is-selected');
+            again.setAttribute('aria-selected', 'true');
+          }
+        }
+      }
     }
     function toggleNav() {
       var nav = document.getElementById('site-nav');

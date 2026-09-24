@@ -526,11 +526,12 @@
   <div class="sticky-bar" id="sticky-bar" hidden>
     <div>
       <div class="sticky-bar__cd" id="sticky-cd">--d --h --m</div>
-      <div class="sticky-bar__prices">Metal $350 · 早鳥 $380 · 預售 $450</div>
+      <div class="sticky-bar__prices" id="sticky-prices">Metal $350 · 早鳥 $380 · 預售 11/21 開售</div>
     </div>
     <a class="sticky-bar__btn" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
   </div>
 
+  <script src="assets/ticket-sale.js?v=20260924-sale"></script>
   <script>
     let currentLang = 'zh';
     function toggleLang() {
@@ -542,6 +543,10 @@
         el.classList.toggle('lang-hidden', currentLang === 'zh');
       });
       document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+      if (window.NOAHS_TICKET_SALE) {
+        var prices = document.getElementById('sticky-prices');
+        if (prices) window.NOAHS_TICKET_SALE.applyStickyBar(prices, window.NOAHS_TICKET_SALE.getNow());
+      }
     }
     function toggleNav() {
       var nav = document.getElementById('site-nav');
@@ -676,6 +681,10 @@
 
     var bar = document.getElementById('sticky-bar');
     var hero = document.getElementById('open');
+    var prices = document.getElementById('sticky-prices');
+    if (window.NOAHS_TICKET_SALE && prices) {
+      window.NOAHS_TICKET_SALE.applyStickyBar(prices, window.NOAHS_TICKET_SALE.getNow());
+    }
     function onScroll() {
       if (!bar || !hero) return;
       var past = window.scrollY > (hero.offsetHeight * 0.72);
