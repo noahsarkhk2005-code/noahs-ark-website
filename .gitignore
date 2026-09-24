@@ -5,3 +5,5 @@ node_modules
 *.log
 _screenshots/
 index.html.bak-pre-storyscroll
+_tmp_band_orig/
+_tmp_band_manifest.json

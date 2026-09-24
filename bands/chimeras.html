@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chimeras｜Noah's Ark 2</title>
+  <meta name="description" content="Chimeras — Noah's Ark 2 live photos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/style.css?v=20260924-bands" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/favicon-512.png" />
+  <meta property="og:title" content="Chimeras｜Noah's Ark 2" />
+  <meta property="og:description" content="Chimeras live photos." />
+  <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/bands/chimeras/photos/photo-01.jpg" />
+  <style>
+    .band-hero{ padding:1.25rem 0 1rem; }
+    .band-hero__kicker{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin-bottom:.4rem; }
+    .band-hero h1{ font-size:1.55rem; font-weight:900; line-height:1.2; margin:0 0 .4rem; color:#fff; }
+    @media (min-width:640px){ .band-hero h1{ font-size:2rem; } }
+    .band-hero__sub{ color:#a1a1aa; font-size:.85rem; line-height:1.55; margin:0; max-width:36rem; }
+    .band-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:.65rem;
+      margin:1rem 0 2.5rem;
+    }
+    @media (min-width:640px){ .band-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.85rem; } }
+    @media (min-width:960px){ .band-grid{ grid-template-columns:repeat(5, minmax(0, 1fr)); } }
+    a.band-card{
+      display:flex; flex-direction:column; align-items:stretch;
+      border-radius:.9rem; overflow:hidden;
+      border:1px solid #3f3f46; background:#121214;
+      text-decoration:none; color:inherit;
+      transition:border-color .2s ease, transform .15s ease;
+      min-height:0;
+    }
+    a.band-card:hover, a.band-card:focus-visible{ border-color:#7f1d1d; }
+    a.band-card:active{ transform:scale(.99); }
+    .band-card__logo{
+      aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+      background:#0a0a0a; padding:.9rem; position:relative;
+    }
+    .band-card__logo img{
+      max-width:88%; max-height:88%; width:auto; height:auto;
+      object-fit:contain; display:block;
+    }
+    .band-card__ph{
+      width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+      text-align:center; padding:.75rem;
+      font-family:Oswald, Inter, sans-serif; font-weight:700; font-size:.95rem;
+      letter-spacing:.04em; color:#e4e4e7; line-height:1.25;
+      background:radial-gradient(ellipse at 50% 40%, rgba(127,29,29,.35), transparent 70%), #0a0a0a;
+    }
+    .band-card__name{
+      padding:.65rem .7rem .75rem; border-top:1px solid #27272a;
+      font-size:.78rem; font-weight:700; color:#f4f4f5; letter-spacing:.02em;
+      text-align:center; line-height:1.3;
+    }
+    .photo-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:.45rem; margin:1rem 0 2rem;
+    }
+    @media (min-width:640px){ .photo-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.65rem; } }
+    @media (min-width:960px){ .photo-grid{ grid-template-columns:repeat(4, minmax(0, 1fr)); gap:.75rem; } }
+    .photo-grid__item{
+      display:block; overflow:hidden; border-radius:.75rem;
+      border:1px solid #3f3f46; background:#18181b; aspect-ratio:3/2;
+    }
+    .photo-grid__item img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      transition:transform .35s ease;
+    }
+    .photo-grid__item:hover img, .photo-grid__item:active img{ transform:scale(1.04); }
+    .band-page-logo{
+      width:min(220px, 55vw); margin:0 auto 1rem; display:block;
+    }
+    .band-page-logo img{ width:100%; height:auto; object-fit:contain; display:block; }
+    .band-back{ display:inline-block; color:#a1a1aa; font-size:.8rem; font-weight:600; margin-bottom:.75rem; }
+    .band-back:hover{ color:#f87171; }
+
+  </style>
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="/" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="../assets/logo-nav.webp" type="image/webp" />
+          <img src="../assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="/tickets" class="hover:text-red-500 transition"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a href="/videos" class="hover:text-red-500 transition"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a href="/bands" class="text-red-500"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+        <a href="/events" class="hover:text-red-500 transition"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a href="/merch" class="hover:text-red-500 transition"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="/#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Current event"><a class="site-nav__quick-title" href="/tickets" title="Noah's Ark X Protoss 20th Anniversary"><span class="site-nav__quick-full">Noah's Ark X Protoss 20th Anniversary</span><span class="site-nav__quick-short" aria-hidden="true">Noah's Ark × Protoss</span></a></nav>
+
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/bands" class="is-active" onclick="closeNav()"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+      <a href="/" onclick="closeNav()"><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-4 pb-10">
+    <a class="band-back" href="/bands">← <span class="lang-zh">全部樂隊</span><span class="lang-en lang-hidden">All bands</span></a>
+    <header class="band-hero" style="padding-top:.5rem">
+      <p class="band-hero__kicker"><span class="lang-zh">演出樂隊</span><span class="lang-en lang-hidden">BAND</span></p>
+    <div class="band-page-logo">
+      <picture>
+        <source srcset="../assets/bands/chimeras/logo.webp" type="image/webp" />
+        <img src="../assets/bands/chimeras/logo.jpg" alt="Chimeras" width="640" height="640" decoding="async" />
+      </picture>
+    </div>
+      <h1>Chimeras</h1>
+      <p class="band-hero__sub">
+        <span class="lang-zh">Noah's Ark 2 演出樂隊。簡介稍後更新。</span>
+        <span class="lang-en lang-hidden">Noah's Ark 2 performing band. Intro coming soon.</span>
+      </p>
+    </header>
+
+    <div class="photo-grid" aria-label="Chimeras photos">
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-01.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-01.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-01.jpg" alt="Chimeras LIVE 1" width="1200" height="800" loading="eager" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-02.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-02.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-02.jpg" alt="Chimeras LIVE 2" width="1200" height="800" loading="eager" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-03.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-03.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-03.jpg" alt="Chimeras LIVE 3" width="1200" height="800" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-04.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-04.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-04.jpg" alt="Chimeras LIVE 4" width="1200" height="800" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-05.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-05.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-05.jpg" alt="Chimeras LIVE 5" width="1200" height="800" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-06.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-06.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-06.jpg" alt="Chimeras LIVE 6" width="1200" height="800" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-07.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-07.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-07.jpg" alt="Chimeras LIVE 7" width="1200" height="800" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-08.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-08.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-08.jpg" alt="Chimeras LIVE 8" width="1200" height="800" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-09.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-09.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-09.jpg" alt="Chimeras LIVE 9" width="1200" height="800" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+      <a class="photo-grid__item" href="../assets/bands/chimeras/photos/photo-10.jpg" target="_blank" rel="noopener">
+        <picture>
+          <source srcset="../assets/bands/chimeras/photos/photo-10.webp" type="image/webp" />
+          <img src="../assets/bands/chimeras/photos/photo-10.jpg" alt="Chimeras LIVE 10" width="1200" height="800" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+    </div>
+
+    <p class="text-center text-zinc-600 text-xs mb-6">
+      <span class="lang-zh">未來相片／logo：assets/bands/chimeras/</span>
+      <span class="lang-en lang-hidden">Future assets: assets/bands/chimeras/</span>
+    </p>
+
+    <p class="text-center">
+      <a href="/bands" class="text-sm text-red-500 hover:text-red-400 font-semibold">
+        <span class="lang-zh">← 返回樂隊</span>
+        <span class="lang-en lang-hidden">← Back to bands</span>
+      </a>
+    </p>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+    <div class="flex items-center justify-center gap-4 mt-2">
+      <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">Instagram @noahs_ark_hk</a>
+      <span class="text-zinc-700">·</span>
+      <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">YouTube @noahsark_2005</a>
+    </div>
+  </footer>
+  <script>
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
+      document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  </script>
+  </div>
+</body>
+</html>

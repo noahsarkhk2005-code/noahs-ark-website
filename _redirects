@@ -6,4 +6,12 @@
 /teleprompter  /teleprompter.html  200
 /videos              /videos.html            200
 /media               /videos.html            200
-/album               /album.html             200
+/bands               /bands.html             200
+/bands/perish-of-empyrean  /bands/perish-of-empyrean.html  200
+/bands/cursed-eyes         /bands/cursed-eyes.html         200
+/bands/chimeras            /bands/chimeras.html            200
+/bands/evocation           /bands/evocation.html           200
+/bands/protoss             /bands/protoss.html             200
+/bands/protos              /bands/protoss                  301
+/album               /bands  301
+/album.html          /bands  301
