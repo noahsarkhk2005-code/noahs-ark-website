@@ -33,14 +33,24 @@
  *
  * {action:'logout', token, device_id} → {status:'ok'}
  *
+ * {action:'google_auth', id_token, device_id}
+ *   → {status:'ok', token, must_change_password, profile}
+ *     | {status:'need_register', name, email}
+ *     | {status:'pending'|'invalid'|'locked'}
+ *
+ * {action:'register', ..., id_token?}  // Google path: omit name/email; include id_token
+ *   → {status:'pending'|'invalid'|'locked'}
+ *
  * sessionStorage `na_member`  = {token, profile}
  * sessionStorage `na_prefill` = {member_no?, name, phone, email}  // after register
  * localStorage   `na_device_id`, `na_last_member_no` (number only)
+ * GOOGLE_CLIENT_ID null = no Google button; localhost ?gclient= override
  * ============================================= */
 (function () {
   'use strict';
 
   var MEMBER_ENDPOINT = null;
+  var GOOGLE_CLIENT_ID = null;
   var MEMBER_NO_RE = /^NA\d{6}$/;
   var DEVICE_KEY = 'na_device_id';
   var SESSION_KEY = 'na_member';
@@ -68,6 +78,11 @@
   var panelExisting = document.getElementById('panel-register-existing');
   var panelNew      = document.getElementById('panel-register-new');
   var panelForgot   = document.getElementById('panel-forgot');
+  var panelGoogleReg = document.getElementById('panel-google-register');
+
+  var pendingGoogleIdToken = null;
+  var pendingGoogleProfile = null; /* {name, email} from need_register */
+  var gsiReady = false;
 
   var MSG = {
     pending_reg: {
@@ -260,6 +275,21 @@
     return MEMBER_ENDPOINT;
   }
 
+  function resolveGoogleClientId() {
+    var host = location.hostname;
+    if (host === '127.0.0.1' || host === 'localhost') {
+      var g = params.get('gclient');
+      if (g) return g;
+    }
+    return GOOGLE_CLIENT_ID;
+  }
+
+  function isInAppBrowser() {
+    var ua = navigator.userAgent || '';
+    return /Instagram|FBAN|FBAV|Messenger|Threads/i.test(ua);
+  }
+
+
   function apiPost(payload) {
     var url = resolveEndpoint();
     if (!url) return Promise.resolve({ _noEndpoint: true });
@@ -286,7 +316,7 @@
   }
 
   function setGuestTab(tab) {
-    if (tabsBar) tabsBar.hidden = (tab === 'forgot');
+    if (tabsBar) tabsBar.hidden = (tab === 'forgot' || tab === 'google_reg');
     [tabLogin, tabExisting, tabNew].forEach(function (t) {
       if (!t) return;
       var on = (tab === 'login' && t === tabLogin) ||
@@ -295,14 +325,16 @@
       t.classList.toggle('is-active', on);
       t.setAttribute('aria-selected', on ? 'true' : 'false');
     });
-    [panelLogin, panelExisting, panelNew, panelForgot].forEach(function (p) {
+    [panelLogin, panelExisting, panelNew, panelForgot, panelGoogleReg].forEach(function (p) {
       if (p) p.hidden = true;
     });
     if (tab === 'login' && panelLogin) panelLogin.hidden = false;
     if (tab === 'existing' && panelExisting) panelExisting.hidden = false;
     if (tab === 'new' && panelNew) panelNew.hidden = false;
     if (tab === 'forgot' && panelForgot) panelForgot.hidden = false;
+    if (tab === 'google_reg' && panelGoogleReg) panelGoogleReg.hidden = false;
     clearResult();
+    refreshGoogleSlots();
   }
 
   function escapeHtml(s) {
@@ -603,6 +635,280 @@
     });
   }
 
+  function hideAllGoogleButtons() {
+    document.querySelectorAll('[data-google-slot]').forEach(function (slot) {
+      slot.hidden = true;
+      var host = slot.querySelector('[data-google-btn]');
+      if (host) host.innerHTML = '';
+      var div = slot.querySelector('[data-google-divider]');
+      if (div) div.hidden = true;
+      var hint = slot.querySelector('[data-inapp-hint]');
+      if (hint) hint.hidden = true;
+    });
+  }
+
+  function refreshGoogleSlots() {
+    var clientId = resolveGoogleClientId();
+    var slots = document.querySelectorAll('[data-google-slot]');
+    if (!clientId) {
+      hideAllGoogleButtons();
+      return;
+    }
+    if (isInAppBrowser()) {
+      slots.forEach(function (slot) {
+        /* Only show hint on visible guest panels (parent not hidden) */
+        var panel = slot.parentElement;
+        if (panel && panel.hidden) {
+          slot.hidden = true;
+          return;
+        }
+        slot.hidden = false;
+        var host = slot.querySelector('[data-google-btn]');
+        if (host) host.innerHTML = '';
+        var div = slot.querySelector('[data-google-divider]');
+        if (div) div.hidden = true;
+        var hint = slot.querySelector('[data-inapp-hint]');
+        if (hint) {
+          hint.hidden = false;
+          syncLang(hint);
+        }
+      });
+      return;
+    }
+    slots.forEach(function (slot) {
+      var panel = slot.parentElement;
+      if (panel && panel.hidden) {
+        slot.hidden = true;
+        return;
+      }
+      slot.hidden = false;
+      var hint = slot.querySelector('[data-inapp-hint]');
+      if (hint) hint.hidden = true;
+      var div = slot.querySelector('[data-google-divider]');
+      if (div) div.hidden = false;
+      syncLang(slot);
+      var host = slot.querySelector('[data-google-btn]');
+      if (!host) return;
+      host.innerHTML = '';
+      if (gsiReady && window.google && google.accounts && google.accounts.id) {
+        try {
+          google.accounts.id.renderButton(host, {
+            type: 'standard',
+            theme: 'outline',
+            size: 'large',
+            text: 'continue_with',
+            shape: 'rectangular',
+            logo_alignment: 'left',
+            width: Math.min(320, Math.max(240, host.clientWidth || 280)),
+            locale: (document.documentElement.lang === 'en') ? 'en' : 'zh-HK'
+          });
+        } catch (e) {
+          slot.hidden = true;
+        }
+      } else if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        /* Localhost placeholder when GSI script not loaded — for layout/QA only */
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'na-google-placeholder';
+        btn.setAttribute('aria-label', 'Continue with Google');
+        btn.innerHTML = '<span class="na-g-icon" aria-hidden="true">G</span><span class="lang-zh">透過 Google 繼續</span><span class="lang-en lang-hidden">Continue with Google</span>';
+        btn.addEventListener('click', function () {
+          handleGoogleCredential({ credential: 'mock:new-sub:新谷:new@g.co' });
+        });
+        host.appendChild(btn);
+        syncLang(host);
+      }
+    });
+  }
+
+  function handleGoogleCredential(response) {
+    var idToken = response && response.credential;
+    if (!idToken) { showState('error'); return; }
+    if (!resolveEndpoint()) { showState('soon'); return; }
+    apiPost({ action: 'google_auth', id_token: idToken }).then(function (data) {
+      if (data._noEndpoint) { showState('soon'); return; }
+      if (data.status === 'ok') {
+        writeSession(data.token, data.profile);
+        if (data.profile && data.profile.member_no) rememberMemberNo(data.profile.member_no);
+        if (data.profile) {
+          savePrefill({
+            member_no: data.profile.member_no,
+            name: data.profile.name,
+            phone: data.profile.phone,
+            email: data.profile.email
+          });
+        }
+        pendingGoogleIdToken = null;
+        pendingGoogleProfile = null;
+        if (data.must_change_password) {
+          showView(viewChange);
+          clearResult();
+        } else {
+          paintLoggedIn();
+          clearResult();
+        }
+      } else if (data.status === 'need_register') {
+        pendingGoogleIdToken = idToken;
+        pendingGoogleProfile = { name: data.name || '', email: data.email || '' };
+        showGoogleRegisterForm();
+      } else if (data.status === 'pending') {
+        showState('pending_login');
+      } else if (data.status === 'locked') {
+        showState('locked');
+      } else if (data.status === 'invalid') {
+        showState('invalid_login');
+      } else {
+        showState('error');
+      }
+    }).catch(function () { showState('error'); });
+  }
+
+  function showGoogleRegisterForm() {
+    showView(viewGuest);
+    setGuestTab('google_reg');
+    document.getElementById('g-reg-name').textContent = (pendingGoogleProfile && pendingGoogleProfile.name) || '';
+    document.getElementById('g-reg-email').textContent = (pendingGoogleProfile && pendingGoogleProfile.email) || '';
+    document.getElementById('g-member-no').value = '';
+    document.getElementById('g-phone').value = '';
+    document.getElementById('g-consent').checked = false;
+    setGoogleRegType('existing');
+    clearResult();
+  }
+
+  function setGoogleRegType(type) {
+    var isNew = type === 'new';
+    var exLabel = document.getElementById('g-choice-existing');
+    var newLabel = document.getElementById('g-choice-new');
+    if (exLabel) exLabel.classList.toggle('is-on', !isNew);
+    if (newLabel) newLabel.classList.toggle('is-on', isNew);
+    var exRadio = document.querySelector('input[name="g-type"][value="existing"]');
+    var newRadio = document.querySelector('input[name="g-type"][value="new"]');
+    if (exRadio) exRadio.checked = !isNew;
+    if (newRadio) newRadio.checked = isNew;
+    var field = document.getElementById('g-field-member-no');
+    if (field) field.hidden = isNew;
+    var input = document.getElementById('g-member-no');
+    if (input) input.required = !isNew;
+  }
+
+  function onGoogleRegisterSubmit(e) {
+    e.preventDefault();
+    if (!pendingGoogleIdToken) { showState('error'); return; }
+    var typeEl = document.querySelector('input[name="g-type"]:checked');
+    var type = typeEl ? typeEl.value : 'existing';
+    var phone = normalizePhone(document.getElementById('g-phone').value);
+    document.getElementById('g-phone').value = phone;
+    var consent = document.getElementById('g-consent').checked;
+    if (!/^\d{8}$/.test(phone) || !consent) { showState('invalid_reg'); return; }
+    var payload = {
+      action: 'register',
+      type: type,
+      phone: phone,
+      consent: true,
+      id_token: pendingGoogleIdToken
+    };
+    if (type === 'existing') {
+      var no = normalizeMemberNo(document.getElementById('g-member-no').value);
+      document.getElementById('g-member-no').value = no;
+      if (!MEMBER_NO_RE.test(no)) { showState('invalid_reg'); return; }
+      payload.member_no = no;
+    }
+    if (!resolveEndpoint()) {
+      /* preview: treat as pending with prefill from Google profile */
+      var pref = {
+        name: (pendingGoogleProfile && pendingGoogleProfile.name) || '',
+        email: (pendingGoogleProfile && pendingGoogleProfile.email) || '',
+        phone: phone
+      };
+      if (payload.member_no) pref.member_no = payload.member_no;
+      savePrefill(pref);
+      showState('pending_reg');
+      showPostRegCta();
+      return;
+    }
+    var btn = document.getElementById('g-reg-submit');
+    if (btn) btn.disabled = true;
+    apiPost(payload).then(function (data) {
+      if (data.status === 'pending' || data._noEndpoint) {
+        var pref2 = {
+          name: (pendingGoogleProfile && pendingGoogleProfile.name) || '',
+          email: (pendingGoogleProfile && pendingGoogleProfile.email) || '',
+          phone: phone
+        };
+        if (payload.member_no) pref2.member_no = payload.member_no;
+        savePrefill(pref2);
+        showState('pending_reg');
+        showPostRegCta();
+      } else if (data.status === 'invalid') showState('invalid_reg');
+      else if (data.status === 'locked') showState('locked');
+      else showState('error');
+    }).catch(function () { showState('error'); })
+      .finally(function () { if (btn) btn.disabled = false; });
+  }
+
+  function loadGoogleIdentity() {
+    var clientId = resolveGoogleClientId();
+    if (!clientId) {
+      hideAllGoogleButtons();
+      return;
+    }
+    if (isInAppBrowser()) {
+      refreshGoogleSlots();
+      return;
+    }
+    function initGsi() {
+      try {
+        google.accounts.id.initialize({
+          client_id: clientId,
+          callback: handleGoogleCredential,
+          auto_select: false,
+          cancel_on_tap_outside: true
+        });
+        gsiReady = true;
+        refreshGoogleSlots();
+      } catch (e) {
+        gsiReady = false;
+        hideAllGoogleButtons();
+      }
+    }
+    if (window.google && google.accounts && google.accounts.id) {
+      initGsi();
+      return;
+    }
+    var existing = document.querySelector('script[data-na-gsi]');
+    if (existing) return;
+    var s = document.createElement('script');
+    s.src = 'https://accounts.google.com/gsi/client';
+    s.async = true;
+    s.defer = true;
+    s.setAttribute('data-na-gsi', '1');
+    s.onload = initGsi;
+    s.onerror = function () {
+      gsiReady = false;
+      hideAllGoogleButtons();
+    };
+    document.head.appendChild(s);
+  }
+
+  function maybeMockGoogle() {
+    var host = location.hostname;
+    if (host !== '127.0.0.1' && host !== 'localhost') return;
+    var mock = params.get('mockgoogle');
+    if (!mock) return;
+    /* mock format: linked | new | pending | locked | invalid | mock:<sub>:<name>:<email> */
+    var token = mock;
+    if (mock === 'linked') token = 'mock:linked-sub:阿谷:g@linked.co';
+    else if (mock === 'new') token = 'mock:new-sub:新谷:new@g.co';
+    else if (mock === 'pending') token = 'mock:pending-sub:待核:p@g.co';
+    else if (mock === 'locked') token = 'mock:locked-sub:鎖住:l@g.co';
+    else if (mock === 'invalid') token = 'mock:bad';
+    /* Defer until endpoint override is usable */
+    setTimeout(function () {
+      handleGoogleCredential({ credential: token });
+    }, 200);
+  }
+
+
   function bind() {
     document.getElementById('form-login').addEventListener('submit', onLoginSubmit);
     document.getElementById('form-register-existing').addEventListener('submit', function (e) {
@@ -641,6 +947,41 @@
       else { showView(viewGuest); setGuestTab('login'); }
     });
 
+
+    document.getElementById('form-google-register').addEventListener('submit', onGoogleRegisterSubmit);
+    document.getElementById('g-reg-cancel').addEventListener('click', function () {
+      pendingGoogleIdToken = null;
+      pendingGoogleProfile = null;
+      setGuestTab('login');
+    });
+    document.querySelectorAll('input[name="g-type"]').forEach(function (r) {
+      r.addEventListener('change', function () { setGoogleRegType(r.value); });
+    });
+    var gEx = document.getElementById('g-choice-existing');
+    var gNew = document.getElementById('g-choice-new');
+    if (gEx) gEx.addEventListener('click', function (e) {
+      e.preventDefault();
+      setGoogleRegType('existing');
+    });
+    if (gNew) gNew.addEventListener('click', function (e) {
+      e.preventDefault();
+      setGoogleRegType('new');
+    });
+    document.querySelectorAll('[data-copy-link]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var url = location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).catch(function () {});
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = url; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      });
+    });
+    bindMemberNoInput('g-member-no');
+    bindPhoneInput('g-phone');
     wirePwToggle('login-pw-toggle', 'login-password');
     ['login-member-no', 'ex-member-no', 'forgot-member-no'].forEach(bindMemberNoInput);
     ['ex-phone', 'new-phone'].forEach(bindPhoneInput);
@@ -649,6 +990,7 @@
   function boot() {
     bind();
     applyPlaceholders();
+    loadGoogleIdentity();
 
     var last = loadLastMemberNo();
     var loginNo = document.getElementById('login-member-no');
@@ -705,11 +1047,13 @@
       if (tabParam === 'new') setGuestTab('new');
       else if (tabParam === 'existing' || tabParam === 'register') setGuestTab('existing');
       else setGuestTab('login');
+      maybeMockGoogle();
     });
   }
 
   window.NOAHS_MEMBER = {
     MEMBER_ENDPOINT: MEMBER_ENDPOINT,
+    GOOGLE_CLIENT_ID: GOOGLE_CLIENT_ID,
     MEMBER_NO_RE: MEMBER_NO_RE,
     SESSION_KEY: SESSION_KEY,
     PREFILL_KEY: PREFILL_KEY,
@@ -717,7 +1061,9 @@
     readSession: readSession,
     applyPlaceholders: applyPlaceholders,
     showState: showState,
-    setGuestTab: setGuestTab
+    setGuestTab: setGuestTab,
+    refreshGoogleSlots: refreshGoogleSlots,
+    handleGoogleCredential: handleGoogleCredential
   };
 
   if (document.readyState === 'loading') {

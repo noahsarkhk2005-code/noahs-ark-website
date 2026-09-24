@@ -96,6 +96,7 @@
     .member-intro{ color:#a1a1aa; font-size:.88rem; line-height:1.5; margin:0 0 1rem; }
     .member-form{ display:grid; gap:.85rem; }
     .member-field{ display:grid; gap:.3rem; }
+    .member-field[hidden]{ display:none !important; }
     .member-field label{
       font-size:.72rem; font-weight:800; letter-spacing:.04em; color:#e4e4e7;
     }
@@ -172,6 +173,62 @@
     .member-no-line{ font-size:.95rem; font-weight:700; color:#f87171; margin-top:.2rem; letter-spacing:.04em; }
     .post-reg-cta{ margin:.75rem auto 0; max-width:28rem; }
     html:not(.show-org) .org-public { display: none !important; }
+
+  
+    .google-block{ margin:0 0 1rem; }
+    .google-btn-host{
+      display:flex; justify-content:center; min-height:40px; margin:0 0 .55rem;
+    }
+    .google-btn-host:empty{ display:none; min-height:0; margin:0; }
+    .google-divider{
+      display:flex; align-items:center; gap:.55rem;
+      margin:.15rem 0 .85rem; color:#71717a; font-size:.72rem; font-weight:700;
+    }
+    .google-divider::before, .google-divider::after{
+      content:""; flex:1; height:1px; background:#3f3f46;
+    }
+    .google-block[hidden], .google-divider[hidden], .inapp-google-hint[hidden]{ display:none !important; }
+    .inapp-google-hint{
+      margin:0 0 .85rem; padding:.7rem .8rem; border-radius:.65rem;
+      border:1px solid #52525b; background:rgba(39,39,42,.9);
+      font-size:.78rem; line-height:1.45; color:#d4d4d8; text-align:center;
+    }
+    .inapp-google-hint button{
+      margin-top:.45rem; border:1px solid #71717a; border-radius:.5rem;
+      background:#18181b; color:#fafafa; font-size:.78rem; font-weight:700;
+      padding:.45rem .8rem; cursor:pointer;
+    }
+    .google-reg-choice{
+      display:grid; grid-template-columns:1fr 1fr; gap:.45rem; margin:0 0 .75rem;
+    }
+    .google-reg-choice label{
+      display:block; border:1px solid #52525b; border-radius:.55rem;
+      padding:.55rem .45rem; text-align:center; font-size:.72rem; font-weight:800;
+      color:#a1a1aa; cursor:pointer; background:#09090b;
+    }
+    .google-reg-choice input{ position:absolute; opacity:0; pointer-events:none; }
+    .google-reg-choice label.is-on{
+      background:#fafafa; color:#09090b; border-color:#fafafa;
+    }
+    .google-readonly{
+      font-size:.88rem; color:#e4e4e7; padding:.55rem .7rem;
+      border:1px solid #3f3f46; border-radius:.55rem; background:#09090b;
+      word-break:break-all;
+    }
+
+  
+    .na-google-placeholder{
+      display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+      width:100%; max-width:320px; min-height:40px; box-sizing:border-box;
+      border:1px solid #747775; border-radius:4px; background:#fff; color:#1f1f1f;
+      font-family:Roboto,Arial,sans-serif; font-size:14px; font-weight:500;
+      cursor:pointer; padding:0 12px;
+    }
+    .na-g-icon{
+      display:inline-flex; width:18px; height:18px; border-radius:2px;
+      background:conic-gradient(from 45deg,#ea4335,#fbbc05,#34a853,#4285f4);
+      color:#fff; font-size:11px; font-weight:800; align-items:center; justify-content:center;
+    }
 
   </style>
 </head>
@@ -358,6 +415,22 @@
 
       <!-- LOGIN -->
       <div id="panel-login">
+
+        <div class="google-block" data-google-slot hidden>
+          <div class="inapp-google-hint" data-inapp-hint hidden>
+            <span class="lang-zh">Google 登入請用 Safari 或 Chrome 開啟呢個頁面（應用程式內建瀏覽器唔支援）。</span>
+            <span class="lang-en lang-hidden">Google sign-in needs Safari or Chrome (in-app browsers are not supported).</span>
+            <div><button type="button" data-copy-link>
+              <span class="lang-zh">複製連結</span>
+              <span class="lang-en lang-hidden">Copy link</span>
+            </button></div>
+          </div>
+          <div class="google-btn-host" data-google-btn></div>
+          <div class="google-divider" data-google-divider hidden>
+            <span class="lang-zh">或者用會員號碼</span>
+            <span class="lang-en lang-hidden">or use member number</span>
+          </div>
+        </div>
         <p class="member-intro">
           <span class="lang-zh">用會員號碼同密碼登入。會員價只限持 Metal Pass 嘅舊會員。</span>
           <span class="lang-en lang-hidden">Log in with your member number and password. Member price is for existing Metal Pass holders only.</span>
@@ -397,6 +470,22 @@
 
       <!-- EXISTING REGISTER -->
       <div id="panel-register-existing" hidden>
+
+        <div class="google-block" data-google-slot hidden>
+          <div class="inapp-google-hint" data-inapp-hint hidden>
+            <span class="lang-zh">Google 登入請用 Safari 或 Chrome 開啟呢個頁面（應用程式內建瀏覽器唔支援）。</span>
+            <span class="lang-en lang-hidden">Google sign-in needs Safari or Chrome (in-app browsers are not supported).</span>
+            <div><button type="button" data-copy-link>
+              <span class="lang-zh">複製連結</span>
+              <span class="lang-en lang-hidden">Copy link</span>
+            </button></div>
+          </div>
+          <div class="google-btn-host" data-google-btn></div>
+          <div class="google-divider" data-google-divider hidden>
+            <span class="lang-zh">或者用會員號碼</span>
+            <span class="lang-en lang-hidden">or use member number</span>
+          </div>
+        </div>
         <p class="member-intro">
           <span class="lang-zh">會員價只限持 Metal Pass 嘅舊會員。輸入 NA 開頭加 6 位數字嘅會員號碼，登記電子會員後就可以買會員價飛。</span>
           <span class="lang-en lang-hidden">Member price is for existing Metal Pass holders only. Enter your NA + 6-digit member number to register as an e-member and buy member-price tickets.</span>
@@ -442,6 +531,22 @@
 
       <!-- NEW REGISTER -->
       <div id="panel-register-new" hidden>
+
+        <div class="google-block" data-google-slot hidden>
+          <div class="inapp-google-hint" data-inapp-hint hidden>
+            <span class="lang-zh">Google 登入請用 Safari 或 Chrome 開啟呢個頁面（應用程式內建瀏覽器唔支援）。</span>
+            <span class="lang-en lang-hidden">Google sign-in needs Safari or Chrome (in-app browsers are not supported).</span>
+            <div><button type="button" data-copy-link>
+              <span class="lang-zh">複製連結</span>
+              <span class="lang-en lang-hidden">Copy link</span>
+            </button></div>
+          </div>
+          <div class="google-btn-host" data-google-btn></div>
+          <div class="google-divider" data-google-divider hidden>
+            <span class="lang-zh">或者用會員號碼</span>
+            <span class="lang-en lang-hidden">or use member number</span>
+          </div>
+        </div>
         <p class="member-intro">
           <span class="lang-zh">未有會員號碼？填以下資料登記，批核後我哋會電郵通知你會員號碼。</span>
           <span class="lang-en lang-hidden">No member number yet? Register below — once approved, we'll email you your member number.</span>
@@ -469,6 +574,67 @@
           </label>
           <button type="submit" class="member-submit">
             <span class="lang-zh">提交登記</span><span class="lang-en lang-hidden">Submit registration</span>
+          </button>
+        </form>
+      </div>
+
+
+      <!-- GOOGLE NEED REGISTER -->
+      <div id="panel-google-register" hidden>
+        <p class="member-intro">
+          <span class="lang-zh">用 Google 完成登記。名稱同電郵已經由 Google 帶入。</span>
+          <span class="lang-en lang-hidden">Finish registration with Google. Name and email come from your Google account.</span>
+        </p>
+        <form id="form-google-register" class="member-form" autocomplete="on">
+          <div class="member-field">
+            <label><span class="lang-zh">名稱</span><span class="lang-en lang-hidden">Name</span></label>
+            <div class="google-readonly" id="g-reg-name"></div>
+          </div>
+          <div class="member-field">
+            <label><span class="lang-zh">電郵</span><span class="lang-en lang-hidden">Email</span></label>
+            <div class="google-readonly" id="g-reg-email"></div>
+          </div>
+          <div class="google-reg-choice" role="radiogroup" aria-label="Member type">
+            <label class="is-on" id="g-choice-existing">
+              <input type="radio" name="g-type" value="existing" checked />
+              <span class="lang-zh">我係舊 Metal Pass 會員</span>
+              <span class="lang-en lang-hidden">I'm an existing Metal Pass member</span>
+            </label>
+            <label id="g-choice-new">
+              <input type="radio" name="g-type" value="new" />
+              <span class="lang-zh">新會員</span>
+              <span class="lang-en lang-hidden">New member</span>
+            </label>
+          </div>
+          <div class="member-field" id="g-field-member-no">
+            <label for="g-member-no">
+              <span class="lang-zh">會員號碼</span><span class="lang-en lang-hidden">Member no.</span>
+            </label>
+            <input id="g-member-no" name="username" type="text" autocomplete="username"
+              autocapitalize="characters" spellcheck="false"
+              data-ph-zh="例如 NA000123" data-ph-en="e.g. NA000123" placeholder="例如 NA000123" />
+            <p class="member-hint">
+              <span class="lang-zh">請輸入 NA 開頭加 6 位數字</span>
+              <span class="lang-en lang-hidden">NA followed by 6 digits</span>
+            </p>
+          </div>
+          <div class="member-field">
+            <label for="g-phone"><span class="lang-zh">電話</span><span class="lang-en lang-hidden">Phone</span></label>
+            <input id="g-phone" name="tel" type="tel" inputmode="numeric" autocomplete="tel-national"
+              maxlength="16" data-ph-zh="8 位數字" data-ph-en="8 digits" placeholder="8 位數字" required />
+          </div>
+          <label class="member-consent">
+            <input id="g-consent" name="consent" type="checkbox" required />
+            <span>
+              <span class="lang-zh">我同意提供以上資料，只用於會員核實同購票相關聯絡。</span>
+              <span class="lang-en lang-hidden">I agree to provide the above details for membership verification and ticketing contact only.</span>
+            </span>
+          </label>
+          <button type="submit" class="member-submit" id="g-reg-submit">
+            <span class="lang-zh">提交登記</span><span class="lang-en lang-hidden">Submit registration</span>
+          </button>
+          <button type="button" class="member-linkish" id="g-reg-cancel">
+            <span class="lang-zh">返回</span><span class="lang-en lang-hidden">Back</span>
           </button>
         </form>
       </div>
@@ -522,7 +688,7 @@
   </div>
 
   
-  <script src="assets/member-centre.js?v=20260924-mc1"></script>
+  <script src="assets/member-centre.js?v=20260924-google3"></script>
   <script>
   let currentLang = 'zh';
   function toggleLang() {
@@ -536,6 +702,9 @@
     document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
     if (window.NOAHS_MEMBER && window.NOAHS_MEMBER.applyPlaceholders) {
       window.NOAHS_MEMBER.applyPlaceholders();
+    }
+    if (window.NOAHS_MEMBER && window.NOAHS_MEMBER.refreshGoogleSlots) {
+      window.NOAHS_MEMBER.refreshGoogleSlots();
     }
   }
   function toggleNav() {
