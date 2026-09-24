@@ -70,8 +70,8 @@ window.NOAHS_TICKET_SALE = (function () {
       );
     }
     return (
-      '<span class="lang-zh">Metal $350 · 早鳥 $380 · 11/21 再開 $420/$450</span>' +
-      '<span class="lang-en lang-hidden">Metal $350 · Early bird $380 · $420/$450 from 21 Nov</span>'
+      '<span class="lang-zh">Metal $350 · 早鳥 $380 · 11/21 開售 $420／$450</span>' +
+      '<span class="lang-en lang-hidden">Metal $350 · Early bird $380 · On sale 21 Nov $420/$450</span>'
     );
   }
 
