@@ -3,3 +3,5 @@
 node_modules
 .env
 *.log
+_screenshots/
+index.html.bak-pre-storyscroll

@@ -149,13 +149,16 @@ html{scroll-behavior:smooth}
 
 /* === Site nav: mobile compact · tablet/desktop full === */
 .site-nav{
-  border-bottom:1px solid rgba(39,39,42,.8);
-  background:rgba(0,0,0,.88);
-  -webkit-backdrop-filter:blur(12px);
-  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(39,39,42,.9);
+  /* Solid dark bar — never wash out white NA logo over bright posters */
+  background:#0a0a0a;
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
   position:sticky;
   top:0;
-  z-index:50
+  z-index:200;
+  isolation:isolate;
+  overflow:visible
 }
 .site-nav__bar{
   max-width:72rem;
@@ -164,15 +167,24 @@ html{scroll-behavior:smooth}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:.75rem;
+  gap:.5rem;
   min-height:3.25rem;
-  position:relative
+  position:relative;
+  overflow:visible;
+  background:#0a0a0a
 }
 .site-nav__logo{
   display:flex;
   align-items:center;
+  flex:0 0 auto;
   flex-shrink:0;
-  line-height:0
+  line-height:0;
+  position:relative;
+  z-index:3;
+  opacity:1!important;
+  visibility:visible!important;
+  overflow:visible;
+  min-width:2.75rem
 }
 .site-nav__logo-img{
   display:block;
@@ -181,7 +193,12 @@ html{scroll-behavior:smooth}
   max-height:2.25rem;
   max-width:7rem;
   object-fit:contain;
-  object-position:left center
+  object-position:left center;
+  opacity:1!important;
+  visibility:visible!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  pointer-events:auto
 }
 /* Desktop / iPad (≥768px): full horizontal links */
 .site-nav__desktop{
@@ -225,12 +242,21 @@ html{scroll-behavior:smooth}
 @media (max-width:390px){
   .site-nav__quick-full{display:none}
   .site-nav__quick-short{display:inline}
+  .site-nav__bar{gap:.35rem;padding:.55rem .75rem}
+  .site-nav__logo{min-width:2.5rem}
+  .site-nav__logo-img{height:2rem;max-height:2rem;max-width:3.25rem}
+  .site-nav__quick{padding:0 .15rem;max-width:calc(100% - 7.5rem)}
+  .site-nav__quick-title,
+  .site-nav__quick a.site-nav__quick-title{font-size:.72rem}
 }
 .site-nav__logo,
 .site-nav__mobile-actions{
   position:relative;
-  z-index:2;
+  z-index:3;
   flex-shrink:0
+}
+.site-nav__quick{
+  z-index:1
 }
 .site-nav__mobile-actions{
   display:flex;

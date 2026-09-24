@@ -5,275 +5,352 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Noah's Ark | 挪亞方舟</title>
   <meta name="description" content="Noah's Ark - Hong Kong Band Culture Platform. Noah's Ark X Protoss 20th Anniversary — 05/12/2026 MOM Livehouse Hong Kong. Instagram @noahs_ark_hk · YouTube @noahsark_2005" />
-  <link rel="preload" as="image" href="assets/logo-hero.webp" type="image/webp" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preload" as="image" href="assets/protoss-poster.webp?v=20260924-poster3" type="image/webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/style.css?v=20260923-navflex" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-storyscroll" />
   <style>
-    /* Org identity hidden until confirmed. Add class="show-org" on <html> to publish. */
+    /* Org identity hidden until confirmed. Add class="show-org" on <html> to publish gated bits. */
     html:not(.show-org) .org-public { display: none !important; }
     html.show-org .hide-when-org { display: none !important; }
-  </style>
-  <style id="hellfest-pass">
-    /* Hellfest-inspired homepage pass — larger type, stats, clearer CTAs */
-    .hf-hero-kicker{ letter-spacing:.42em; font-size:.7rem; }
-    @media (min-width:768px){ .hf-hero-kicker{ font-size:.8rem; } }
-    .hf-hero-title{
-      font-size: clamp(1.85rem, 4.5vw, 3.25rem);
-      font-weight: 900;
-      line-height: 1.15;
-      letter-spacing: .02em;
-      text-transform: uppercase;
-      margin: .75rem auto 1rem;
-      max-width: 22ch;
-    }
-    .hf-hero-mission{
-      font-size: clamp(1rem, 2.2vw, 1.35rem);
-      font-weight: 600;
-      color: #f4f4f5;
-      margin-bottom: 1.75rem;
-    }
-    .hf-cta-primary{
-      display:inline-flex; align-items:center; justify-content:center;
-      min-width: 14rem; padding: 1rem 2rem;
-      background:#b91c1c; color:#fff; font-weight:800; font-size:1rem;
-      border-radius:.6rem; letter-spacing:.04em;
-      box-shadow:0 12px 40px rgba(127,29,29,.45);
-      transition: background .15s;
-    }
-    .hf-cta-primary:hover{ background:#dc2626; }
 
-    /* Event countdown (hero) */
+    /* ===== Story scroll (mobile-first ~390) ===== */
+    .story{
+      --story-pad-top: 3.5rem;
+      --peek: 2.75rem;
+    }
+    .story-screen{
+      position:relative;
+      min-height: calc(100svh - var(--peek));
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding: 1.25rem 1rem calc(var(--peek) + .5rem);
+      scroll-margin-top: 3.5rem;
+    }
+    .story-screen--hero{
+      min-height: 100svh;
+      padding: 0;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+    .story-kicker{
+      color:#ef4444;
+      font-size:.68rem;
+      font-weight:800;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      margin-bottom:.55rem;
+    }
+    .story-title{
+      font-size:clamp(1.45rem, 6.2vw, 2rem);
+      font-weight:900;
+      line-height:1.2;
+      color:#fff;
+      margin-bottom:.45rem;
+    }
+    .story-sub{
+      color:#a1a1aa;
+      font-size:.9rem;
+      line-height:1.45;
+      margin-bottom:1rem;
+    }
+    .story-parallel{
+      display:flex; flex-wrap:wrap; gap:.35rem .75rem;
+      align-items:baseline;
+      color:#d4d4d8;
+      font-size:.88rem;
+      margin-bottom:.85rem;
+    }
+    .story-parallel .sep{ color:#52525b; }
 
-    #event-countdown.hf-hero-title{
-      max-width: min(36rem, 100%);
-      text-transform: none;
+    /* Opening hero */
+    .open-hero{
+      position:relative;
+      width:100%;
+      min-height:100svh;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+    }
+    .open-hero__bg{
+      position:absolute; inset:0; z-index:0;
+      background:#050505 center/cover no-repeat;
+    }
+    .open-hero__bg img{
+      width:100%; height:100%; object-fit:cover; object-position:center top;
+    }
+    .open-hero__shade{
+      position:absolute; inset:0; z-index:1;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.15) 35%, rgba(0,0,0,.72) 62%, rgba(0,0,0,.96) 100%),
+        radial-gradient(ellipse 80% 50% at 50% 100%, rgba(127,29,29,.35), transparent 70%);
+      pointer-events:none;
+    }
+    .open-hero__content{
+      position:relative; z-index:2;
+      padding: 5.5rem 1.1rem 2.4rem;
+      text-align:center;
+      max-width:28rem;
+      margin:0 auto;
+      width:100%;
+    }
+    .open-date{
+      font-size:clamp(1.55rem, 7vw, 2.15rem);
+      font-weight:900;
+      letter-spacing:.12em;
+      color:#fff;
+      margin:.35rem 0 .15rem;
+    }
+    .open-venue{
+      color:#e4e4e7;
+      font-weight:700;
+      font-size:.95rem;
+      margin-bottom:.85rem;
     }
     .hf-countdown{
       display:flex; flex-wrap:wrap; justify-content:center; gap:.55rem 0.85rem;
-      font-size: clamp(1.65rem, 4.2vw, 3rem);
+      font-size: clamp(1.45rem, 5.5vw, 2.4rem);
       font-weight:900; line-height:1; letter-spacing:.02em;
-      margin:.75rem auto 1rem; max-width:100%;
+      margin:.35rem auto .9rem; max-width:100%;
     }
-    .hf-countdown__unit{
-      display:flex; flex-direction:column; align-items:center; min-width:3.4rem;
-    }
-    .hf-countdown__num{
-      font-variant-numeric: tabular-nums;
-      color:#fff;
-    }
+    .hf-countdown__unit{ display:flex; flex-direction:column; align-items:center; min-width:3rem; }
+    .hf-countdown__num{ font-variant-numeric: tabular-nums; color:#fff; }
     .hf-countdown__label{
-      margin-top:.35rem;
-      font-size:.65rem; font-weight:700; letter-spacing:.28em;
+      margin-top:.3rem; font-size:.58rem; font-weight:700; letter-spacing:.22em;
       text-transform:uppercase; color:#a1a1aa;
     }
-    .hf-countdown__sep{
-      align-self:flex-start; padding-top:.15em;
-      color:#52525b; font-weight:700; font-size:.85em;
-    }
+    .hf-countdown__sep{ align-self:flex-start; padding-top:.15em; color:#52525b; font-weight:700; font-size:.85em; }
     @media (max-width:420px){
-      .hf-countdown{ gap:.4rem .55rem; }
-      .hf-countdown__unit{ min-width:2.75rem; }
+      .hf-countdown{ gap:.35rem .45rem; }
+      .hf-countdown__unit{ min-width:2.55rem; }
       .hf-countdown__sep{ display:none; }
     }
     .hf-countdown-status{
-      font-size: clamp(1.65rem, 4.2vw, 3rem);
+      font-size: clamp(1.35rem, 5vw, 2.2rem);
       font-weight:900; letter-spacing:.04em; text-transform:uppercase;
-      margin:.75rem auto 1rem; color:#fff;
+      margin:.35rem auto .9rem; color:#fff;
     }
-    .hf-cta-ghost{
-      display:inline-flex; margin-top:.85rem;
-      color:#a1a1aa; font-size:.9rem; font-weight:600;
-      border-bottom:1px solid transparent;
+    .cta-row{
+      display:flex; flex-direction:column; align-items:stretch; gap:.65rem;
+      width:100%; max-width:18rem; margin:0 auto;
     }
-    .hf-cta-ghost:hover{ color:#fff; border-bottom-color:#a1a1aa; }
-    .hf-stats{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:0;
-      max-width:56rem; margin:0 auto 3.5rem; padding:0 1rem;
-      border-top:1px solid #3f3f46; border-bottom:1px solid #3f3f46;
+    .cta-primary{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: .95rem 1.4rem;
+      background:#b91c1c; color:#fff; font-weight:800; font-size:.95rem;
+      border-radius:.65rem; letter-spacing:.04em;
+      box-shadow:0 12px 36px rgba(127,29,29,.45);
     }
-    .hf-stats__item{
-      text-align:center; padding:1.75rem .75rem;
-      border-right:1px solid #3f3f46;
+    .cta-primary:hover{ background:#dc2626; }
+    .cta-ghost{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:.7rem 1rem; color:#d4d4d8; font-size:.88rem; font-weight:600;
+      border:1px solid #3f3f46; border-radius:.65rem;
     }
-    .hf-stats__item:last-child{ border-right:none; }
-    .hf-stats__num{
-      display:block; font-size:clamp(1.75rem,4vw,2.75rem); font-weight:900;
-      color:#fff; line-height:1; margin-bottom:.4rem;
-    }
-    .hf-stats__label{
-      display:block; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase;
-      color:#a1a1aa; font-weight:700;
-    }
-    .hf-aftermovie{
-      max-width:56rem; margin:0 auto 4rem; padding:0 1rem;
-    }
-    .hf-aftermovie__frame{
-      position:relative; border:1px solid #3f3f46; border-radius:1rem; overflow:hidden;
-      background:#09090b; aspect-ratio:16/9;
-    }
-    .hf-aftermovie__frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
-    .hf-aftermovie__label{
-      color:#ef4444; font-size:.7rem; font-weight:800; letter-spacing:.3em; margin-bottom:.75rem;
-    }
-    .hf-aftermovie__title{
-      font-size:clamp(1.4rem,3vw,2rem); font-weight:900; margin-bottom:.5rem;
-    }
-    @media (max-width:640px){
-      .hf-stats{ grid-template-columns:1fr; }
-      .hf-stats__item{ border-right:none; border-bottom:1px solid #3f3f46; }
-      .hf-stats__item:last-child{ border-bottom:none; }
-    }
-  </style>
+    .cta-ghost:hover{ color:#fff; border-color:#71717a; }
 
-    <style id="logo-shatter-css">
-    .logo-shatter{
+    /* Price cards horizontal scroll */
+    .price-rail{
+      display:flex; gap:.75rem;
+      overflow-x:auto; -webkit-overflow-scrolling:touch;
+      scroll-snap-type:x mandatory;
+      padding: .25rem .15rem 1rem;
+      margin: 0 -.15rem;
+    }
+    .price-rail::-webkit-scrollbar{ height:4px; }
+    .price-rail::-webkit-scrollbar-thumb{ background:#3f3f46; border-radius:4px; }
+    .price-card{
+      flex:0 0 72%;
+      max-width:14.5rem;
+      scroll-snap-align:start;
+      border:1px solid #3f3f46;
+      border-radius:1rem;
+      background:rgba(24,24,27,.85);
+      padding:1.1rem 1rem;
+    }
+    @media (min-width:640px){
+      .price-rail{ overflow:visible; }
+      .price-card{ flex:1 1 0; max-width:none; }
+    }
+    .price-card__label{ color:#ef4444; font-size:.68rem; font-weight:800; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
+    .price-card__name{ font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:.5rem; line-height:1.25; }
+    .price-card__amt{ font-size:1.75rem; font-weight:900; color:#fff; font-variant-numeric:tabular-nums; }
+    .price-card__amt span{ font-size:.85rem; color:#a1a1aa; font-weight:700; margin-right:.2rem; }
+
+    /* Why-go promo clip */
+    .promo-frame{
       position:relative;
-      width:auto;
-      height:15.5rem;
-      aspect-ratio:365/640;
-      filter: drop-shadow(0 0 22px rgba(185,28,28,.38));
-      will-change: transform, opacity;
-      margin:0 auto .35rem;
+      border-radius:1rem;
+      overflow:hidden;
+      border:1px solid #3f3f46;
+      background:#09090b;
+      aspect-ratio:16/9;
     }
+    .promo-frame video{
+      width:100%; height:100%; object-fit:cover; display:block;
+    }
+    .promo-unmute{
+      position:absolute; right:.65rem; bottom:.65rem; z-index:2;
+      display:inline-flex; align-items:center; gap:.35rem;
+      padding:.45rem .7rem;
+      border-radius:999px;
+      background:rgba(0,0,0,.72);
+      border:1px solid #52525b;
+      color:#fff; font-size:.72rem; font-weight:700;
+      backdrop-filter:blur(6px);
+    }
+
+    /* Video category strip */
+    .vid-rail{
+      display:flex; gap:.75rem;
+      overflow-x:auto; -webkit-overflow-scrolling:touch;
+      scroll-snap-type:x mandatory;
+      padding-bottom:.85rem;
+    }
+    .vid-card{
+      flex:0 0 78%;
+      max-width:16rem;
+      scroll-snap-align:start;
+      border:1px solid #3f3f46;
+      border-radius:1rem;
+      background:rgba(9,9,11,.9);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+    }
+    .vid-card__thumb{
+      aspect-ratio:16/10;
+      background:#18181b center/cover no-repeat;
+      position:relative;
+    }
+    .vid-card__thumb::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.75));
+    }
+    .vid-card__body{ padding:.85rem .9rem 1rem; }
+    .vid-card__tag{ color:#ef4444; font-size:.62rem; font-weight:800; letter-spacing:.2em; margin-bottom:.3rem; }
+    .vid-card__title{ font-weight:800; color:#fff; font-size:.95rem; line-height:1.3; }
+    .vid-card__meta{ color:#71717a; font-size:.75rem; margin-top:.35rem; }
+    .vid-card--soon{ opacity:.85; }
+    .vid-card--soon .vid-card__thumb{ background:linear-gradient(135deg,#1c1917,#27272a); }
+
+    /* Channel pills */
+    .channel-grid{ display:grid; gap:.65rem; }
+    .channel-btn{
+      display:flex; align-items:center; gap:.75rem;
+      padding:.9rem 1rem;
+      border-radius:.85rem;
+      border:1px solid #3f3f46;
+      background:rgba(24,24,27,.8);
+      color:#fff; font-weight:700; font-size:.9rem;
+    }
+    .channel-btn:hover{ border-color:#b91c1c; }
+    .channel-btn svg{ width:1.35rem; height:1.35rem; flex-shrink:0; color:#ef4444; }
+    .channel-btn small{ display:block; font-weight:500; color:#a1a1aa; font-size:.72rem; margin-top:.15rem; }
+
+    /* Who we are */
+    .who-lines{
+      border-left:2px solid #7f1d1d;
+      padding-left:1rem;
+      margin: .5rem 0 1rem;
+    }
+    .who-lines p{
+      color:#d4d4d8; font-size:.95rem; line-height:1.55; margin-bottom:.55rem; font-weight:600;
+    }
+    .who-legal{
+      color:#71717a; font-size:.78rem; line-height:1.45;
+    }
+
+    /* Actions */
+    .action-stack{ display:grid; gap:.65rem; }
+    .action-stack a.cta-primary,
+    .action-stack a.cta-ghost{ width:100%; max-width:none; }
+
+    /* Funding accordion — always reachable; verbatim org facts */
+    .fund-acc{
+      border:1px solid #3f3f46;
+      border-radius:1rem;
+      background:rgba(24,24,27,.75);
+      overflow:hidden;
+    }
+    .fund-acc > summary{
+      list-style:none;
+      cursor:pointer;
+      padding:1rem 1.1rem;
+      font-weight:800;
+      color:#fff;
+      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    }
+    .fund-acc > summary::-webkit-details-marker{ display:none; }
+    .fund-acc > summary::after{
+      content:"+";
+      color:#ef4444; font-size:1.25rem; font-weight:700; line-height:1;
+    }
+    .fund-acc[open] > summary::after{ content:"–"; }
+    .fund-acc__body{ padding:0 1.1rem 1.1rem; }
+    .fund-acc dl{ font-size:.82rem; }
+    .fund-acc dt{ color:#71717a; margin-top:.85rem; }
+    .fund-acc dd{ color:#e4e4e7; margin-top:.2rem; line-height:1.45; }
+
+    /* Sticky thin bar after hero */
+    .sticky-bar{
+      position:fixed; left:0; right:0; bottom:0; z-index:180;
+      display:none;
+      align-items:center; justify-content:space-between; gap:.75rem;
+      padding:.55rem .85rem calc(.55rem + env(safe-area-inset-bottom,0px));
+      background:rgba(10,10,10,.96);
+      border-top:1px solid #27272a;
+      font-size:.72rem; font-weight:700; color:#e4e4e7;
+    }
+    .sticky-bar.is-on{ display:flex; }
+    .sticky-bar__cd{ font-variant-numeric:tabular-nums; color:#fff; letter-spacing:.02em; }
+    .sticky-bar__prices{ color:#a1a1aa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .sticky-bar__btn{
+      flex-shrink:0;
+      background:#b91c1c; color:#fff;
+      padding:.45rem .75rem; border-radius:.5rem;
+      font-weight:800; font-size:.72rem;
+    }
+    body.has-sticky-bar{ padding-bottom:3.4rem; }
+
+    .story-peek{
+      position:absolute; left:0; right:0; bottom:.35rem;
+      text-align:center; color:#52525b; font-size:.65rem; letter-spacing:.2em;
+      pointer-events:none; text-transform:uppercase; font-weight:700;
+    }
+
     @media (min-width:768px){
-      .logo-shatter{ height:22rem; }
-    }
-    @media (min-width:1024px){
-      .logo-shatter{ height:24rem; }
-    }
-    .logo-shatter__fallback{
-      position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
-      opacity:1; pointer-events:none; z-index:2;
-    }
-    .logo-shatter__piece{
-      position:absolute;
-      margin:0; padding:0;
-      display:block;
-      transform: translate3d(0,0,0) rotate(0deg);
-      transform-origin: center center;
-      will-change: transform, opacity;
-      backface-visibility: hidden;
-      z-index:1;
-      opacity:0;
-    }
-    .logo-shatter.is-shattering .logo-shatter__piece{ opacity:1; }
-    .logo-shatter__piece img{
-      display:block; width:100%; height:100%; object-fit:fill;
-      pointer-events:none; user-select:none;
-    }
-    /* Centered sticky stage while scroll animation runs */
-    .logo-shatter.is-pinned{
-      position:fixed;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%);
-      z-index:40;
-      margin:0;
-      pointer-events:none;
-    }
-    .logo-shatter.is-gone{
-      opacity:0 !important;
-      visibility:hidden;
-      pointer-events:none;
-    }
-    .logo-shatter-slot{
-      display:flex; justify-content:center;
-      min-height:15.5rem;
-    }
-    @media (min-width:768px){
-      .logo-shatter-slot{ min-height:22rem; }
-    }
-    @media (min-width:1024px){
-      .logo-shatter-slot{ min-height:24rem; }
-    }
-    @media (prefers-reduced-motion: reduce){
-      .logo-shatter__fallback{ opacity:1 !important; }
-      .logo-shatter__piece{ opacity:0 !important; transform:none !important; }
-      .logo-shatter.is-pinned{ position:relative; left:auto; top:auto; transform:none; }
+      .story-screen{ max-width:40rem; margin-left:auto; margin-right:auto; }
+      .story-screen--hero{ max-width:none; }
+      .open-hero__content{ max-width:32rem; padding-bottom:3rem; }
+      .vid-rail{ overflow:visible; flex-wrap:wrap; }
+      .vid-card{ flex:1 1 calc(50% - .75rem); max-width:none; }
     }
   </style>
-
-
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
   <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/og-image.jpg" />
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
 
-    <!-- Cinematic background: poster + muted YouTube (fallback if player fails) -->
-  <div
-    class="site-bg site-bg--video"
-    aria-hidden="true"
-    style="background-image:url(https://i.ytimg.com/vi/cl42-wtbnow/maxresdefault.jpg)"
-  >
-    <div class="site-bg__video" id="site-bg-video">
-      <iframe
-        id="site-bg-yt"
-        title="Background video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        loading="eager"
-        allowfullscreen
-      ></iframe>
-    </div>
-    <div class="site-bg__video-shade"></div>
-    <div class="site-bg__grain"></div>
-    <div class="site-bg__vignette"></div>
-  </div>
-  <script>
-  (function () {
-    var id = 'cl42-wtbnow';
-    var iframe = document.getElementById('site-bg-yt');
-    var wrap = document.getElementById('site-bg-video');
-    if (!iframe || !wrap) return;
-    // reduced motion → poster only
-    try {
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        wrap.classList.add('is-hidden');
-        return;
-      }
-    } catch (e) {}
-    var origin = '';
-    try { origin = encodeURIComponent(location.origin || 'https://noahsarkhk2005.netlify.app'); } catch (e2) {
-      origin = encodeURIComponent('https://noahsarkhk2005.netlify.app');
-    }
-    // Centered cover embed; www + mute + loop; origin helps Error 153
-    var src = 'https://www.youtube.com/embed/' + id
-      + '?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=' + id
-      + '&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0'
-      + '&enablejsapi=0&start=0&origin=' + origin;
-    iframe.setAttribute('src', src);
-    // If embed fails, keep poster; hide broken chrome after timeout
-    setTimeout(function () {
-      try {
-        // still show poster under iframe; optional low-power hide
-        if (navigator.connection && navigator.connection.saveData) {
-          wrap.classList.add('is-hidden');
-        }
-      } catch (e3) {}
-    }, 4000);
-  })();
-  </script>
-
-<div class="site-content">
-  <!-- Nav: mobile compact · iPad/desktop full -->
+<div class="site-content story">
+  <!-- Nav: mobile compact · iPad/desktop full — logo always visible (solid bar in style.css) -->
   <nav class="site-nav" id="site-nav">
     <div class="site-nav__bar">
-      <a aria-label='Noah\'s Ark home' class='site-nav__logo' href='/'>
+      <a aria-label="Noah's Ark home" class="site-nav__logo" href="/">
         <picture>
           <source srcset="assets/logo-nav.webp" type="image/webp" />
-          <img src="assets/logo-nav.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+          <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="160" height="160" class="site-nav__logo-img" decoding="async" fetchpriority="high" />
         </picture>
       </a>
       <div class="site-nav__desktop">
-        <a class='hover:text-red-500 transition' href='/tickets'><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
-        <a class='hover:text-red-500 transition' href='/videos'><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
-        <a class='hover:text-red-500 transition' href='/events'><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
-        <a class='hover:text-red-500 transition' href='/merch'><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
-        <a href="#mission" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
-        <a href="#organisation" class="org-public hover:text-red-500 transition"><span class="lang-zh">機構</span><span class="lang-en lang-hidden">Organisation</span></a>
+        <a class="hover:text-red-500 transition" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a class="hover:text-red-500 transition" href="/videos"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a class="hover:text-red-500 transition" href="/events"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a class="hover:text-red-500 transition" href="/merch"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <a href="#funding" class="hover:text-red-500 transition"><span class="lang-zh">機構</span><span class="lang-en lang-hidden">Organisation</span></a>
         <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="Instagram" aria-label="Instagram">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         </a>
@@ -296,13 +373,13 @@
       </div>
     </div>
     <div class="site-nav__drawer" id="nav-drawer">
-      <a href='/tickets' onclick='closeNav()'><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
-      <a href='/videos' onclick='closeNav()'><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
-      <a href='/events' onclick='closeNav()'><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
-      <a href='/merch' onclick='closeNav()'><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
-      <a href="#mission" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
-      <a href="#organisation" class="org-public" onclick="closeNav()"><span class="lang-zh">機構</span><span class="lang-en lang-hidden">Organisation</span></a>
-      <a href="#contact" onclick="closeNav()"><span class="lang-zh">聯絡</span><span class="lang-en lang-hidden">Contact</span></a>
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+      <a href="#funding" onclick="closeNav()"><span class="lang-zh">機構／資助查閱</span><span class="lang-en lang-hidden">Org / funding</span></a>
+      <a href="#actions" onclick="closeNav()"><span class="lang-zh">聯絡</span><span class="lang-en lang-hidden">Contact</span></a>
       <div class="site-nav__drawer-row">
         <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" aria-label="Instagram" onclick="closeNav()">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -314,397 +391,285 @@
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header class="relative overflow-hidden hero-stage">
-    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
-    <div class="absolute -left-20 top-10 pointer-events-none hidden md:block hero-anchor">
-      <picture>
-        <source srcset="assets/anchor-red-lg.webp" type="image/webp" />
-        <img src="assets/anchor-red-lg.png" alt="" width="560" height="700" class="w-80 rotate-[-15deg]" loading="lazy" decoding="async" />
-      </picture>
-    </div>
-    <div class="absolute -right-16 bottom-0 pointer-events-none hidden md:block hero-anchor" style="opacity:.14!important">
-      <picture>
-        <source srcset="assets/anchor-grey.webp" type="image/webp" />
-        <img src="assets/anchor-grey.png" alt="" width="480" height="600" class="w-72 rotate-[12deg]" loading="lazy" decoding="async" />
-      </picture>
-    </div>
-
-    <div class="relative z-10 max-w-4xl mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
-      <div class="mb-8 fade-in">
-      <div class="logo-shatter-slot" id="logo-shatter-slot">
-        <div class="logo-shatter" id="logo-shatter" aria-label="NOAH'S ARK">
-          <img
-            class="logo-shatter__fallback"
-            src="assets/logo-hero.png"
-            alt="NOAH'S ARK"
-            width="365"
-            height="640"
-            fetchpriority="high"
-            decoding="async"
-          />
-                <picture class="logo-shatter__piece" data-dx="-22" data-dy="-26" data-rot="-10" style="left:0.0%;top:0.0%;width:53.151%;height:52.031%;">
-          <source srcset="assets/logo-parts/logo-part-a.webp?v=20260920-clean3" type="image/webp" />
-          <img src="assets/logo-parts/logo-part-a.png?v=20260920-clean3" alt="" width="194" height="333" decoding="async" draggable="false" />
+  <!-- 1. Opening screen -->
+  <section class="story-screen story-screen--hero" id="open" aria-label="Opening">
+    <div class="open-hero">
+      <div class="open-hero__bg" aria-hidden="true">
+        <picture>
+          <source srcset="assets/protoss-poster.webp?v=20260924-poster3" type="image/webp" />
+          <img src="assets/protoss-poster.jpg?v=20260924-poster3" alt="" width="896" height="1344" fetchpriority="high" decoding="async" />
         </picture>
-        <picture class="logo-shatter__piece" data-dx="22" data-dy="-24" data-rot="10" style="left:46.575%;top:0.0%;width:53.425%;height:52.031%;">
-          <source srcset="assets/logo-parts/logo-part-b.webp?v=20260920-clean3" type="image/webp" />
-          <img src="assets/logo-parts/logo-part-b.png?v=20260920-clean3" alt="" width="195" height="333" decoding="async" draggable="false" />
-        </picture>
-        <picture class="logo-shatter__piece" data-dx="0" data-dy="28" data-rot="6" style="left:0.0%;top:45.0%;width:100.0%;height:55.0%;">
-          <source srcset="assets/logo-parts/logo-part-c.webp?v=20260920-clean3" type="image/webp" />
-          <img src="assets/logo-parts/logo-part-c.png?v=20260920-clean3" alt="" width="365" height="352" decoding="async" draggable="false" />
-        </picture>
+      </div>
+      <div class="open-hero__shade" aria-hidden="true"></div>
+      <div class="open-hero__content fade-in">
+        <p class="story-kicker">HONG KONG LIVE</p>
+        <div id="event-countdown" data-target="2026-12-05T20:00:00+08:00" aria-live="polite">
+          <span class="hf-countdown" data-cd-units>
+            <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="d">--</span><span class="hf-countdown__label"><span class="lang-zh">天</span><span class="lang-en lang-hidden">Days</span></span></span>
+            <span class="hf-countdown__sep" aria-hidden="true">:</span>
+            <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="h">--</span><span class="hf-countdown__label"><span class="lang-zh">時</span><span class="lang-en lang-hidden">Hrs</span></span></span>
+            <span class="hf-countdown__sep" aria-hidden="true">:</span>
+            <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="m">--</span><span class="hf-countdown__label"><span class="lang-zh">分</span><span class="lang-en lang-hidden">Min</span></span></span>
+            <span class="hf-countdown__sep" aria-hidden="true">:</span>
+            <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="s">--</span><span class="hf-countdown__label"><span class="lang-zh">秒</span><span class="lang-en lang-hidden">Sec</span></span></span>
+          </span>
+          <span class="hf-countdown-status" data-cd-status hidden>
+            <span class="lang-zh">今日 · 進行中</span>
+            <span class="lang-en lang-hidden">Today · Live</span>
+          </span>
+        </div>
+        <p class="open-date">12.05 · MOM</p>
+        <p class="open-venue">Protoss 20th · MOM Livehouse</p>
+        <div class="cta-row">
+          <a class="cta-primary" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Buy tickets</span></a>
+          <a class="cta-ghost" href="#show"><span class="lang-zh">睇詳情</span><span class="lang-en lang-hidden">Details</span></a>
         </div>
       </div>
-      </div>
-
-      <p class="text-red-500 hf-hero-kicker uppercase font-semibold fade-in hero-readability">
-        HONG KONG LIVE MUSIC
-      </p>
-      <h1 class="hf-hero-title text-white fade-in hero-readability-strong" id="event-countdown" data-target="2026-12-05T20:00:00+08:00" aria-live="polite">
-        <span class="hf-countdown" data-cd-units>
-          <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="d">--</span><span class="hf-countdown__label"><span class="lang-zh">天</span><span class="lang-en lang-hidden">Days</span></span></span>
-          <span class="hf-countdown__sep" aria-hidden="true">:</span>
-          <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="h">--</span><span class="hf-countdown__label"><span class="lang-zh">時</span><span class="lang-en lang-hidden">Hrs</span></span></span>
-          <span class="hf-countdown__sep" aria-hidden="true">:</span>
-          <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="m">--</span><span class="hf-countdown__label"><span class="lang-zh">分</span><span class="lang-en lang-hidden">Min</span></span></span>
-          <span class="hf-countdown__sep" aria-hidden="true">:</span>
-          <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="s">--</span><span class="hf-countdown__label"><span class="lang-zh">秒</span><span class="lang-en lang-hidden">Sec</span></span></span>
-        </span>
-        <span class="hf-countdown-status" data-cd-status hidden>
-          <span class="lang-zh">今日 · 進行中</span>
-          <span class="lang-en lang-hidden">Today · Live</span>
-        </span>
-      </h1>
-      <p class="text-zinc-200 text-base md:text-lg font-bold mb-2 fade-in hero-readability-strong">
-        Noah's Ark X Protoss 20th Anniversary · MOM Livehouse
-      </p>
-      <p class="text-zinc-400 text-xs md:text-sm mb-4 max-w-2xl mx-auto fade-in hero-readability">
-        <span class="lang-zh">挪亞方舟文化傳播有限公司</span>
-        <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited</span>
-      </p>
-<div class="flex flex-col items-center gap-3 fade-in">
-        <a class="hf-cta-primary" href="/tickets">
-          <span class="lang-zh">購票</span>
-          <span class="lang-en lang-hidden">GET TICKETS</span>
-        </a>
-        <a class="hf-cta-ghost" href="/videos">
-          <span class="lang-zh">睇影像</span>
-          <span class="lang-en lang-hidden">Watch</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-
-  <!-- Upcoming Event Card — aligned with /tickets (Protoss) -->
-  <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
-    <div class="upcoming-card border border-zinc-700 rounded-2xl overflow-hidden">
-      <div class="md:flex">
-        <a class='upcoming-card__poster md:w-2/5 border-b md:border-b-0 md:border-r border-zinc-700' href='/tickets'>
-          <picture>
-            <source srcset="assets/protoss-poster.webp?v=20260924-poster3" type="image/webp" />
-            <img src="assets/protoss-poster.jpg?v=20260924-poster3" alt="Noah's Ark X Protoss 20th Anniversary — MOM Livehouse 5 Dec" width="896" height="1344" loading="lazy" decoding="async" />
-          </picture>
-        </a>
-        <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-center">
-          <div class="text-red-500 text-xs font-bold tracking-[0.25em] mb-2"><span class="lang-zh">即將舉行</span><span class="lang-en lang-hidden">UPCOMING</span></div>
-          <h2 class="text-2xl md:text-3xl font-black mb-1">Noah's Ark X Protoss 20th Anniversary</h2>
-          <p class="upcoming-meta text-sm mb-2">05/12/2026 · MOM Livehouse Hong Kong</p>
-          <p class="upcoming-meta text-sm mb-2 text-red-400 font-semibold" id="event-countdown-card" data-target="2026-12-05T20:00:00+08:00" aria-live="polite">
-            <span data-cd-card-live><span class="lang-zh">倒數</span><span class="lang-en lang-hidden">Countdown</span> <span data-cd-card-text>--d --h --m --s</span></span>
-            <span data-cd-card-done hidden><span class="lang-zh">今日 · 進行中</span><span class="lang-en lang-hidden">Today · Live</span></span>
-          </p>
-          <p class="upcoming-meta text-sm mb-6">
-            <span class="lang-zh">票價：Metal Pass 會員 HK350 · 早鳥 HKD380 · 預售 HKD450</span>
-            <span class="lang-en lang-hidden">Prices: Metal Pass HK350 · Early bird HKD380 · Presale HKD450</span>
-          </p>
-          <div>
-            <a class='inline-block px-6 py-3 bg-red-700 hover:bg-red-600 text-white rounded-lg font-semibold text-sm transition shadow-lg shadow-red-950/40' href='/tickets'>
-              立即購票 Get Tickets →
-            </a>
-          </div>
-        </div>
-      </div>
+      <div class="story-peek" aria-hidden="true">↓</div>
     </div>
   </section>
 
-  <!-- Organisation facts for grant officers / auditors -->
-  <section id="organisation" class="org-public max-w-4xl mx-auto px-4 pb-16 fade-in scroll-mt-24">
-    <div class="border border-zinc-700 rounded-2xl bg-zinc-900/70 overflow-hidden">
-      <div class="px-6 md:px-8 pt-6 md:pt-8">
-        <div class="text-red-500 text-xs font-bold tracking-[0.25em] mb-2">ORGANISATION · 機構資料</div>
-        <h2 class="text-xl md:text-2xl font-black mb-2">
-          <span class="lang-zh">供資助審批及核數查閱</span>
-          <span class="lang-en lang-hidden">For grant officers and auditors</span>
-        </h2>
-        <p class="text-zinc-500 text-xs mb-5">
+  <!-- 2. This show -->
+  <section class="story-screen fade-in" id="show">
+    <p class="story-kicker"><span class="lang-zh">本場</span><span class="lang-en lang-hidden">This show</span></p>
+    <h2 class="story-title">Noah's Ark X Protoss 20th Anniversary</h2>
+    <p class="story-parallel">
+      <span>05/12/2026</span>
+      <span class="sep">·</span>
+      <span>MOM Livehouse Hong Kong</span>
+    </p>
+    <div class="price-rail" aria-label="Ticket prices">
+      <div class="price-card">
+        <div class="price-card__label">Metal</div>
+        <div class="price-card__name"><span class="lang-zh">Metal Pass 會員</span><span class="lang-en lang-hidden">Metal Pass</span></div>
+        <div class="price-card__amt"><span>HK$</span>350</div>
+      </div>
+      <div class="price-card">
+        <div class="price-card__label"><span class="lang-zh">早鳥</span><span class="lang-en lang-hidden">Early bird</span></div>
+        <div class="price-card__name"><span class="lang-zh">早鳥</span><span class="lang-en lang-hidden">Early bird</span></div>
+        <div class="price-card__amt"><span>HK$</span>380</div>
+      </div>
+      <div class="price-card">
+        <div class="price-card__label"><span class="lang-zh">預售</span><span class="lang-en lang-hidden">Presale</span></div>
+        <div class="price-card__name"><span class="lang-zh">預售</span><span class="lang-en lang-hidden">Presale</span></div>
+        <div class="price-card__amt"><span>HK$</span>450</div>
+      </div>
+    </div>
+    <div class="cta-row" style="margin-top:.5rem">
+      <a class="cta-primary" href="/tickets"><span class="lang-zh">立即購票</span><span class="lang-en lang-hidden">Get tickets</span></a>
+    </div>
+    <div class="story-peek" aria-hidden="true">↓</div>
+  </section>
+
+  <!-- 3. Why go — mute autoplay promo -->
+  <section class="story-screen fade-in" id="why">
+    <p class="story-kicker"><span class="lang-zh">點解去</span><span class="lang-en lang-hidden">Why go</span></p>
+    <h2 class="story-title"><span class="lang-zh">現場感覺</span><span class="lang-en lang-hidden">The live feel</span></h2>
+    <p class="story-sub"><span class="lang-zh">靜音自動播放 · 輕按開聲</span><span class="lang-en lang-hidden">Muted autoplay · tap for sound</span></p>
+    <div class="promo-frame" id="promo-frame">
+      <video
+        id="promo-video"
+        poster="assets/tickets-bg-20-poster.jpg"
+        playsinline
+        muted
+        loop
+        autoplay
+        preload="metadata"
+        aria-label="Protoss / Noah's Ark promo"
+      >
+        <source src="assets/tickets-bg-20.mp4" type="video/mp4" />
+      </video>
+      <button type="button" class="promo-unmute" id="promo-unmute" aria-pressed="false">
+        <span class="lang-zh">輕按開聲</span><span class="lang-en lang-hidden">Tap for sound</span>
+      </button>
+    </div>
+    <div class="story-peek" aria-hidden="true">↓</div>
+  </section>
+
+  <!-- 4. Video strip -->
+  <section class="story-screen fade-in" id="videos-strip">
+    <div style="display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:.75rem">
+      <div>
+        <p class="story-kicker" style="margin-bottom:.35rem"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></p>
+        <h2 class="story-title" style="margin-bottom:0"><span class="lang-zh">睇片</span><span class="lang-en lang-hidden">Watch</span></h2>
+      </div>
+      <a href="/videos" style="color:#f87171;font-size:.8rem;font-weight:800;white-space:nowrap">
+        <span class="lang-zh">睇全部 →</span><span class="lang-en lang-hidden">All →</span>
+      </a>
+    </div>
+    <div class="vid-rail">
+      <a class="vid-card" href="/videos#short-films">
+        <div class="vid-card__thumb" style="background-image:url(https://i.ytimg.com/vi/AX71rj7W7xY/hqdefault.jpg)"></div>
+        <div class="vid-card__body">
+          <div class="vid-card__tag">SHORT FILM</div>
+          <div class="vid-card__title"><span class="lang-zh">微電影《家法》</span><span class="lang-en lang-hidden">Short film · 家法</span></div>
+          <div class="vid-card__meta"><span class="lang-zh">第一集</span><span class="lang-en lang-hidden">Episode 1</span></div>
+        </div>
+      </a>
+      <a class="vid-card" href="/videos#live">
+        <div class="vid-card__thumb" style="background-image:url(https://i.ytimg.com/vi/cl42-wtbnow/hqdefault.jpg)"></div>
+        <div class="vid-card__body">
+          <div class="vid-card__tag">LIVE</div>
+          <div class="vid-card__title"><span class="lang-zh">現場精華</span><span class="lang-en lang-hidden">Live highlights</span></div>
+          <div class="vid-card__meta">Noah's Ark II</div>
+        </div>
+      </a>
+      <a class="vid-card" href="/videos#promos">
+        <div class="vid-card__thumb" style="background-image:url(https://i.ytimg.com/vi/LgcMVBFgA9Y/hqdefault.jpg)"></div>
+        <div class="vid-card__body">
+          <div class="vid-card__tag">PROMO</div>
+          <div class="vid-card__title"><span class="lang-zh">活動宣傳</span><span class="lang-en lang-hidden">Event promo</span></div>
+          <div class="vid-card__meta">Protoss 20th</div>
+        </div>
+      </a>
+      <a class="vid-card vid-card--soon" href="/videos#interviews">
+        <div class="vid-card__thumb"></div>
+        <div class="vid-card__body">
+          <div class="vid-card__tag">INTERVIEWS</div>
+          <div class="vid-card__title"><span class="lang-zh">訪問特輯</span><span class="lang-en lang-hidden">Interviews</span></div>
+          <div class="vid-card__meta"><span class="lang-zh">即將更新</span><span class="lang-en lang-hidden">Coming soon</span></div>
+        </div>
+      </a>
+    </div>
+    <div class="story-peek" aria-hidden="true">↓</div>
+  </section>
+
+  <!-- 5. Official channels -->
+  <section class="story-screen fade-in" id="channels">
+    <p class="story-kicker"><span class="lang-zh">官方頻道</span><span class="lang-en lang-hidden">Official</span></p>
+    <h2 class="story-title"><span class="lang-zh">跟住我哋</span><span class="lang-en lang-hidden">Follow us</span></h2>
+    <p class="story-sub"><span class="lang-zh">認準唯一官方帳號</span><span class="lang-en lang-hidden">Official accounts only</span></p>
+    <div class="channel-grid">
+      <a class="channel-btn" href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener">
+        <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        <span>Instagram @noahs_ark_hk<small><span class="lang-zh">最新 Reels／花絮</span><span class="lang-en lang-hidden">Latest Reels / BTS</span></small></span>
+      </a>
+      <a class="channel-btn" href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener">
+        <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span>YouTube @noahsark_2005<small><span class="lang-zh">微電影 · 現場 · 宣傳</span><span class="lang-en lang-hidden">Films · live · promos</span></small></span>
+      </a>
+    </div>
+    <p class="story-sub" style="margin-top:1rem;margin-bottom:0;font-size:.75rem">
+      <span class="lang-zh">精選 Reel 外連：暫未掛出（Soundman 系列已下架）。最新請直接開 Instagram。</span>
+      <span class="lang-en lang-hidden">Featured Reel outbound links: not listed (Soundman series removed). Open Instagram for the latest.</span>
+    </p>
+    <div class="story-peek" aria-hidden="true">↓</div>
+  </section>
+
+  <!-- 6. Who we are -->
+  <section class="story-screen fade-in" id="who">
+    <p class="story-kicker"><span class="lang-zh">我哋係邊個</span><span class="lang-en lang-hidden">Who we are</span></p>
+    <h2 class="story-title"><span class="lang-zh">宗旨</span><span class="lang-en lang-hidden">Mission</span></h2>
+    <div class="who-lines">
+      <p><span class="lang-zh">推動香港多元現場音樂與表演藝術。</span><span class="lang-en lang-hidden">Support diverse live music and performing arts in Hong Kong.</span></p>
+      <p><span class="lang-zh">以專業、開放、持續嘅態度，守護表演藝術生態。</span><span class="lang-en lang-hidden">Work with professionalism, openness and consistency.</span></p>
+    </div>
+    <p class="who-legal">
+      <span class="lang-zh">挪亞方舟文化傳播有限公司 — 擬以擔保有限公司（company limited by guarantee）性質成立；公司註冊證明書未簽發前，不作註冊完成陳述。「2005」為活動品牌，非成立年份。</span>
+      <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited — intended as a company limited by guarantee; not stated as registration-complete before a Certificate of Incorporation is held. “2005” is an event brand, not the year of incorporation.</span>
+    </p>
+    <div class="story-peek" aria-hidden="true">↓</div>
+  </section>
+
+  <!-- 7. Actions -->
+  <section class="story-screen fade-in" id="actions">
+    <p class="story-kicker"><span class="lang-zh">行動</span><span class="lang-en lang-hidden">Actions</span></p>
+    <h2 class="story-title"><span class="lang-zh">即刻連結</span><span class="lang-en lang-hidden">Connect</span></h2>
+    <div class="action-stack">
+      <a class="cta-primary" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Buy tickets</span></a>
+      <a class="cta-ghost" href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener">
+        <span class="lang-zh">IG DM booking · @noahs_ark_hk</span>
+        <span class="lang-en lang-hidden">IG DM booking · @noahs_ark_hk</span>
+      </a>
+      <a class="cta-ghost" href="mailto:noahsarkhk2005@gmail.com">noahsarkhk2005@gmail.com</a>
+    </div>
+    <p class="story-sub" style="margin-top:1rem;font-size:.75rem">
+      <span class="lang-zh">公開網站只提供電郵同 IG DM。電話僅用於資助表格，不在此刊登。</span>
+      <span class="lang-en lang-hidden">Public site: email and IG DM only. Phone is for grant forms, not published here.</span>
+    </p>
+    <div class="story-peek" aria-hidden="true">↓</div>
+  </section>
+
+  <!-- 8. Funding / audit — accordion, verbatim org facts (moved out of mid-story) -->
+  <section class="story-screen fade-in" id="funding" style="min-height:auto;padding-bottom:2.5rem">
+    <p class="story-kicker">ORGANISATION</p>
+    <h2 class="story-title" style="font-size:1.25rem">
+      <span class="lang-zh">供資助審批及核數查閱</span>
+      <span class="lang-en lang-hidden">For grant officers and auditors</span>
+    </h2>
+    <details class="fund-acc" id="organisation">
+      <summary>
+        <span>
+          <span class="lang-zh">機構資料（點開查閱）</span>
+          <span class="lang-en lang-hidden">Organisation facts (expand)</span>
+        </span>
+      </summary>
+      <div class="fund-acc__body">
+        <p class="text-zinc-500 text-xs mb-3" style="color:#71717a;font-size:.75rem;line-height:1.45;margin:.35rem 0 0">
           <span class="lang-zh">以下只列出已核對資料。未持有公司註冊證明書或商業登記前，不以註冊完成形式陳述。電話、註冊地址、公司註冊編號未有真資料，故留空，絕不杜撰。本站不陳述任何已獲政府資助。</span>
           <span class="lang-en lang-hidden">Only verified facts are listed. We do not present the company as registration-complete before a Certificate of Incorporation or Business Registration is held. Phone, registered office and company number are omitted because they are not yet available — they will not be invented. This site does not claim any government grant has been awarded.</span>
         </p>
-      </div>
-      <dl class="text-sm divide-y divide-zinc-800">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500"><span class="lang-zh">法定名稱</span><span class="lang-en lang-hidden">Legal name</span></dt>
-          <dd class="md:col-span-2 text-zinc-200">挪亞方舟文化傳播有限公司<br/>Noah's Ark Culture Communication Company Limited<br/><span class="text-zinc-500 text-xs lang-zh">勿用「挪亞方舟有限公司」或 Noah's Ark Limited</span><span class="text-zinc-500 text-xs lang-en lang-hidden">Do not use 挪亞方舟有限公司 or Noah's Ark Limited</span></dd>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500"><span class="lang-zh">活動品牌</span><span class="lang-en lang-hidden">Event brand</span></dt>
-          <dd class="md:col-span-2 text-zinc-200">
-            <span class="lang-zh">「Noah's Ark／2005」是現場活動品牌，與公司主體分開。2005 不是公司成立或註冊年份，不能理解為公司年資。</span>
-            <span class="lang-en lang-hidden">“Noah's Ark / 2005” is a live-event brand, separate from the company. 2005 is not the year of incorporation and must not be read as organisational seniority.</span>
-          </dd>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500"><span class="lang-zh">即將舉行（主辦實績）</span><span class="lang-en lang-hidden">Upcoming (presenting record)</span></dt>
-          <dd class="md:col-span-2 text-zinc-200">
-            <span class="lang-zh">2026 年 12 月 5 日 · Noah's Ark X Protoss 20th Anniversary · MOM Livehouse Hong Kong。<a class='text-red-400 hover:text-red-300' href='/tickets'>購票／海報</a></span>
-            <span class="lang-en lang-hidden">5 Dec 2026 · Noah's Ark X Protoss 20th Anniversary · MOM Livehouse Hong Kong. <a class='text-red-400 hover:text-red-300' href='/tickets'>Tickets / poster</a></span>
-          </dd>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500"><span class="lang-zh">電郵</span><span class="lang-en lang-hidden">Email</span></dt>
-          <dd class="md:col-span-2 text-zinc-200"><a class="hover:text-red-400" href="mailto:noahsarkhk2005@gmail.com">noahsarkhk2005@gmail.com</a></dd>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500">Booking</dt>
-          <dd class="md:col-span-2 text-zinc-200"><a class="hover:text-red-400" href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener">Instagram DM @noahs_ark_hk</a></dd>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500"><span class="lang-zh">電話</span><span class="lang-en lang-hidden">Phone</span></dt>
-          <dd class="md:col-span-2 text-zinc-500"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500"><span class="lang-zh">註冊地址</span><span class="lang-en lang-hidden">Registered office</span></dt>
-          <dd class="md:col-span-2 text-zinc-500"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500"><span class="lang-zh">公司註冊編號</span><span class="lang-en lang-hidden">Company number</span></dt>
-          <dd class="md:col-span-2 text-zinc-500"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 px-6 md:px-8 py-3">
-          <dt class="text-zinc-500"><span class="lang-zh">政府資助</span><span class="lang-en lang-hidden">Government grants</span></dt>
-          <dd class="md:col-span-2 text-zinc-500">
-            <span class="lang-zh">不陳述任何已獲資助。未批核草案（包括深水埗社區參與計劃等）不在本站刊登為已獲資助項目。</span>
-            <span class="lang-en lang-hidden">No awarded grant is claimed. Unapproved drafts are not published as funded programmes.</span>
-          </dd>
-        </div>
-      </dl>
-    </div>
-  </section>
-
-  <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
-    <div class="flex items-end justify-between mb-5">
-      <div>
-        <div class="text-red-500 text-xs font-bold tracking-[0.25em] mb-2">ARCHIVE · 過往活動</div>
-        <h2 class="text-2xl font-black">
-          <span class="lang-zh">點擊海報進入活動介紹</span>
-          <span class="lang-en lang-hidden">Tap a poster for the event page</span>
-        </h2>
-      </div>
-      <a class='text-sm text-red-500 hover:text-red-400' href='/events'>
-        <span class="lang-zh">全部 →</span>
-        <span class="lang-en lang-hidden">All →</span>
-      </a>
-    </div>
-    <div class="event-grid">
-      <a class='event-tile' href='/event-noahs-ark-2005'>
-        <div class="event-tile__art">
-          <picture>
-            <source srcset="assets/poster-2005.webp" type="image/webp" />
-            <img src="assets/poster-2005.jpg" alt="Noah's Ark Hong Kong's Extreme 2005" width="1400" height="1932" loading="lazy" decoding="async" />
-          </picture>
-        </div>
-        <div class="event-tile__meta">
-          <div class="text-red-500 text-[11px] tracking-[0.2em] font-bold mb-1">2005</div>
-          <div class="font-bold">Noah's Ark — Hong Kong's Extreme</div>
-          <div class="text-zinc-500 text-xs mt-1">Live in Hong Kong</div>
-        </div>
-      </a>
-      <a class='event-tile' href='/event-noahs-ark-2'>
-        <div class="event-tile__art">
-          <picture>
-            <source srcset="assets/poster-noah2.webp" type="image/webp" />
-            <img src="assets/poster-noah2.jpg" alt="Noah's Ark II Hong Kong Metal Fest" width="902" height="1280" loading="lazy" decoding="async" />
-          </picture>
-        </div>
-        <div class="event-tile__meta">
-          <div class="text-red-500 text-[11px] tracking-[0.2em] font-bold mb-1">16 MAY 2026</div>
-          <div class="font-bold">Noah's Ark II — Hong Kong Metal Fest</div>
-          <div class="text-zinc-500 text-xs mt-1">Chamame Livehouse</div>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- Official Channels Section -->
-  <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
-    <div class="border border-zinc-800 rounded-2xl bg-zinc-900/60 overflow-hidden">
-      <div class="p-6 md:p-8">
-        <div class="flex items-center gap-3 mb-4">
-          <svg class="w-7 h-7 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        <dl>
           <div>
-            <h2 class="text-xl font-bold">
-              <span class="lang-zh">官方頻道</span>
-              <span class="lang-en lang-hidden">Official Channels</span>
-            </h2>
-            <p class="text-zinc-500 text-sm">Instagram · YouTube</p>
-      </div>
-      </div>
-
-        <p class="text-zinc-400 text-sm mb-6">
-          <span class="lang-zh">最新活動消息、Metal Pass 會員資訊、現場花絮、樂隊公佈 — 請關注官方 Instagram 與 YouTube。認準唯一官方帳號，防止假帳。</span>
-          <span class="lang-en lang-hidden">Latest event news, Metal Pass membership, live clips and band announcements — follow the official Instagram and YouTube. Only official accounts.</span>
-        </p>
-
-        <div class="grid sm:grid-cols-3 gap-3 mb-6 text-sm">
-          <div class="bg-black/40 border border-zinc-800 rounded-xl p-4">
-            <div class="text-red-500 font-bold mb-1">Metal Pass</div>
-            <p class="text-zinc-500 text-xs">
-              <span class="lang-zh">會員優惠與限量證</span>
-              <span class="lang-en lang-hidden">Member perks & limited pass</span>
-            </p>
+            <dt><span class="lang-zh">法定名稱</span><span class="lang-en lang-hidden">Legal name</span></dt>
+            <dd>挪亞方舟文化傳播有限公司<br/>Noah's Ark Culture Communication Company Limited<br/><span style="color:#71717a;font-size:.72rem" class="lang-zh">勿用「挪亞方舟有限公司」或 Noah's Ark Limited</span><span style="color:#71717a;font-size:.72rem" class="lang-en lang-hidden">Do not use 挪亞方舟有限公司 or Noah's Ark Limited</span></dd>
           </div>
-          <div class="bg-black/40 border border-zinc-800 rounded-xl p-4">
-            <div class="text-red-500 font-bold mb-1">
-              <span class="lang-zh">活動更新</span>
-              <span class="lang-en lang-hidden">Event Updates</span>
-            </div>
-            <p class="text-zinc-500 text-xs">
-              <span class="lang-zh">Lineup、場地、早鳥資訊</span>
-              <span class="lang-en lang-hidden">Lineup, venue, early bird</span>
-            </p>
-          </div>
-          <div class="bg-black/40 border border-zinc-800 rounded-xl p-4">
-            <div class="text-red-500 font-bold mb-1">
-              <span class="lang-zh">現場內容</span>
-              <span class="lang-en lang-hidden">Live Content</span>
-            </div>
-            <p class="text-zinc-500 text-xs">
-              <span class="lang-zh">Reels、花絮、採訪</span>
-              <span class="lang-en lang-hidden">Reels, behind-the-scenes</span>
-            </p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener"
-             class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-700 hover:bg-red-600 text-white font-semibold rounded-lg transition">
-            <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            <span>Instagram @noahs_ark_hk</span>
-          </a>
-          <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener"
-             class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-700 hover:bg-red-600 text-white font-semibold rounded-lg transition">
-            <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            <span>YouTube @noahsark_2005</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Quick links -->
-  <section class="max-w-4xl mx-auto px-4 pb-16 grid gap-4 fade-in">
-    <a class='border border-zinc-800 hover:border-red-800 rounded-xl p-6 bg-zinc-900/50 transition group' href='/merch'>
-      <div class="text-red-600 text-xs font-bold tracking-widest mb-2">SHOP · 商品</div>
-      <h3 class="text-xl font-black mb-1 group-hover:text-red-400 transition">
-        Official Merch
-      </h3>
-      <p class="text-zinc-500 text-sm mb-3">
-        T-Shirt · 毛巾 · 鎖匙扣 · Pack · Tote
-      </p>
-      <p class="text-red-500 text-xs font-bold tracking-widest"><span class="lang-zh">進入商店 →</span><span class="lang-en lang-hidden">ENTER SHOP →</span></p>
-    </a>
-  </section>
-
-
-  <!-- About / Core Values / Contact -->
-  <section class="max-w-4xl mx-auto px-4 pb-16 fade-in">
-    <div class="border border-zinc-800 rounded-2xl bg-zinc-900/60 overflow-hidden">
-      <div class="md:flex">
-        <!-- Left: Mission / Job Statement -->
-        <div id="mission" class="md:w-3/5 p-6 md:p-8 border-b md:border-b-0 md:border-r border-zinc-800 scroll-mt-24">
-          <div class="text-red-600 text-xs font-bold tracking-[0.25em] mb-3"><span class="lang-zh">宗旨</span><span class="lang-en lang-hidden">MISSION</span></div>
-          <h2 class="text-xl md:text-2xl font-bold mb-3">
-            <span class="lang-zh">公司宗旨</span>
-            <span class="lang-en lang-hidden">Our Mission</span>
-          </h2>
-                    <p class="text-zinc-400 text-sm leading-relaxed mb-6">
-            <span class="lang-zh">挪亞方舟文化傳播有限公司（Noah's Ark Culture Communication Company Limited）。</span>
-            <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited.</span>
-          </p>
-          <p class="org-public text-zinc-500 text-xs leading-relaxed mb-6">
-            <span class="lang-zh">法定名稱勿寫成「挪亞方舟有限公司」或 Noah's Ark Limited。公司與活動品牌「2005」分開：2005 是現場活動名稱，不是本公司註冊或成立年份。</span>
-            <span class="lang-en lang-hidden">Do not use “Noah's Ark Limited” or 挪亞方舟有限公司. The company is separate from the “2005” event brand.</span>
-          </p>
-          <p class="text-zinc-500 text-xs leading-relaxed mt-6 pt-4 border-t border-zinc-800">
-            <span class="lang-zh">我們相信，多元現場音樂與表演藝術是城市文化活力的重要組成。挪亞方舟以專業、開放與持續的態度，推動香港表演藝術生態的健康發展。</span>
-            <span class="lang-en lang-hidden">We believe diverse live music and performing arts are vital to a city's cultural energy. Noah's Ark works with professionalism, openness and consistency to support a healthy performing arts ecosystem in Hong Kong.</span>
-          </p>
-        </div>
-
-        <!-- Right: Contact sidebar -->
-        <div id="contact" class="md:w-2/5 p-6 md:p-8 bg-black/40 flex flex-col justify-between scroll-mt-24">
           <div>
-            <div class="text-red-600 text-xs font-bold tracking-[0.25em] mb-3"><span class="lang-zh">聯絡</span><span class="lang-en lang-hidden">CONTACT</span></div>
-            <h3 class="text-lg font-bold mb-4">
-              <span class="lang-zh">聯絡我們</span>
-              <span class="lang-en lang-hidden">Get in touch</span>
-            </h3>
-            <p class="text-zinc-500 text-xs mb-5">
-              <span class="lang-zh">商務合作、樂隊邀請、場地租用、媒體查詢。請電郵或 Instagram DM booking。<span class="org-public">電話及註冊地址暫未公開，恕不杜撰。</span></span>
-              <span class="lang-en lang-hidden">Bookings, band invites, venue hire, press — email or Instagram DM.<span class="org-public"> Phone and registered address are not published; we will not invent them.</span></span>
-            </p>
-
-            <a href="mailto:noahsarkhk2005@gmail.com"
-               class="flex items-center gap-3 mb-4 group">
-              <span class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center group-hover:bg-red-900/50 transition shrink-0">
-                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              </span>
-              <div class="min-w-0">
-                <div class="text-xs text-zinc-500">Email</div>
-                <div class="text-sm text-zinc-200 group-hover:text-red-400 transition truncate">noahsarkhk2005@gmail.com</div>
-              </div>
-            </a>
-
-            <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener"
-               class="flex items-center gap-3 mb-4 group">
-              <span class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center group-hover:bg-red-900/50 transition shrink-0">
-                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-              </span>
-              <div>
-                <div class="text-xs text-zinc-500">Booking · Instagram DM</div>
-                <div class="text-sm text-zinc-200 group-hover:text-red-400 transition">@noahs_ark_hk</div>
-              </div>
-            </a>
-
-            <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener"
-               class="flex items-center gap-3 group">
-              <span class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center group-hover:bg-red-900/50 transition shrink-0">
-                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-              </span>
-              <div>
-                <div class="text-xs text-zinc-500">YouTube</div>
-                <div class="text-sm text-zinc-200 group-hover:text-red-400 transition">@noahsark_2005</div>
-              </div>
-            </a>
+            <dt><span class="lang-zh">活動品牌</span><span class="lang-en lang-hidden">Event brand</span></dt>
+            <dd>
+              <span class="lang-zh">「Noah's Ark／2005」是現場活動品牌，與公司主體分開。2005 不是公司成立或註冊年份，不能理解為公司年資。</span>
+              <span class="lang-en lang-hidden">“Noah's Ark / 2005” is a live-event brand, separate from the company. 2005 is not the year of incorporation and must not be read as organisational seniority.</span>
+            </dd>
           </div>
-
-          <p class="text-zinc-600 text-xs mt-8 pt-4 border-t border-zinc-800">
-            <span class="lang-zh">挪亞方舟文化傳播有限公司<br/>Noah's Ark Culture Communication Company Limited<br/>香港樂隊文化推廣</span>
-            <span class="lang-en lang-hidden">Noah's Ark Culture Communication Company Limited<br/>挪亞方舟文化傳播有限公司<br/>Hong Kong band culture</span>
-          </p>
-        </div>
+          <div>
+            <dt><span class="lang-zh">即將舉行（主辦實績）</span><span class="lang-en lang-hidden">Upcoming (presenting record)</span></dt>
+            <dd>
+              <span class="lang-zh">2026 年 12 月 5 日 · Noah's Ark X Protoss 20th Anniversary · MOM Livehouse Hong Kong。<a class="text-red-400 hover:text-red-300" href="/tickets">購票／海報</a></span>
+              <span class="lang-en lang-hidden">5 Dec 2026 · Noah's Ark X Protoss 20th Anniversary · MOM Livehouse Hong Kong. <a class="text-red-400 hover:text-red-300" href="/tickets">Tickets / poster</a></span>
+            </dd>
+          </div>
+          <div>
+            <dt><span class="lang-zh">電郵</span><span class="lang-en lang-hidden">Email</span></dt>
+            <dd><a class="hover:text-red-400" href="mailto:noahsarkhk2005@gmail.com">noahsarkhk2005@gmail.com</a></dd>
+          </div>
+          <div>
+            <dt>Booking</dt>
+            <dd><a class="hover:text-red-400" href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener">Instagram DM @noahs_ark_hk</a></dd>
+          </div>
+          <div>
+            <dt><span class="lang-zh">電話</span><span class="lang-en lang-hidden">Phone</span></dt>
+            <dd style="color:#71717a"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
+          </div>
+          <div>
+            <dt><span class="lang-zh">註冊地址</span><span class="lang-en lang-hidden">Registered office</span></dt>
+            <dd style="color:#71717a"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
+          </div>
+          <div>
+            <dt><span class="lang-zh">公司註冊編號</span><span class="lang-en lang-hidden">Company number</span></dt>
+            <dd style="color:#71717a"><span class="lang-zh">未有，留空</span><span class="lang-en lang-hidden">Not available — left blank</span></dd>
+          </div>
+          <div>
+            <dt><span class="lang-zh">政府資助</span><span class="lang-en lang-hidden">Government grants</span></dt>
+            <dd style="color:#71717a">
+              <span class="lang-zh">不陳述任何已獲資助。未批核草案（包括深水埗社區參與計劃等）不在本站刊登為已獲資助項目。</span>
+              <span class="lang-en lang-hidden">No awarded grant is claimed. Unapproved drafts are not published as funded programmes.</span>
+            </dd>
+          </div>
+        </dl>
       </div>
-    </div>
+    </details>
+    <p style="margin-top:1.25rem;text-align:center">
+      <a href="/events" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">過往活動 →</span><span class="lang-en lang-hidden">Past events →</span></a>
+      <span style="color:#3f3f46;margin:0 .5rem">·</span>
+      <a href="/merch" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">商品 →</span><span class="lang-en lang-hidden">Shop →</span></a>
+    </p>
   </section>
 
   <footer class="border-t border-zinc-900 py-10 text-center text-sm text-zinc-600">
     <picture>
       <source srcset="assets/logo-nav.webp" type="image/webp" />
-      <img src="assets/logo-nav.png" alt="Noah's Ark" width="213" height="120"
-           class="h-8 w-auto mx-auto mb-4 opacity-60 object-contain" loading="lazy" decoding="async" />
+      <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="160" height="160"
+           class="h-8 w-auto mx-auto mb-4 opacity-60 object-contain site-nav__logo-img" loading="lazy" decoding="async" style="opacity:.6!important;margin:0 auto 1rem;height:2rem" />
     </picture>
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
     <div class="flex items-center justify-center gap-4">
@@ -717,10 +682,18 @@
       </a>
     </div>
   </footer>
-  </div><!-- /.site-content -->
+</div><!-- /.site-content -->
+
+  <!-- Sticky bar after hero -->
+  <div class="sticky-bar" id="sticky-bar" hidden>
+    <div>
+      <div class="sticky-bar__cd" id="sticky-cd">--d --h --m</div>
+      <div class="sticky-bar__prices">Metal $350 · 早鳥 $380 · 預售 $450</div>
+    </div>
+    <a class="sticky-bar__btn" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+  </div>
 
   <script>
-    // Language toggle
     let currentLang = 'zh';
     function toggleLang() {
       currentLang = currentLang === 'zh' ? 'en' : 'zh';
@@ -746,118 +719,56 @@
       if (btn) btn.setAttribute('aria-expanded', 'false');
     }
 
-    // Fade-in on scroll / load
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.12 });
-
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    // Trigger hero items soon after load
     setTimeout(() => {
-      document.querySelectorAll('header .fade-in').forEach(el => el.classList.add('visible'));
-    }, 80);
+      document.querySelectorAll('#open .fade-in').forEach(el => el.classList.add('visible'));
+    }, 60);
   </script>
 
-          <script id="logo-shatter-js">
+  <script>
   (function () {
-    var root = document.getElementById('logo-shatter');
-    var slot = document.getElementById('logo-shatter-slot');
-    if (!root) return;
-    var pieces = Array.prototype.slice.call(root.querySelectorAll('.logo-shatter__piece'));
-    var fallback = root.querySelector('.logo-shatter__fallback');
-    if (!pieces.length) return;
-    var reduce = false;
-    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-    if (reduce) {
-      if (fallback) fallback.style.opacity = '1';
-      for (var r = 0; r < pieces.length; r++) pieces[r].style.opacity = '0';
-      return;
+    var video = document.getElementById('promo-video');
+    var btn = document.getElementById('promo-unmute');
+    if (!video || !btn) return;
+    function tryPlay() {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
     }
-
-    var ticking = false;
-    var dismissed = false;
-
-    function apply() {
-      if (dismissed) {
-        root.classList.add('is-gone');
-        root.classList.remove('is-pinned', 'is-shattering');
-        if (fallback) fallback.style.opacity = '0';
-        for (var d = 0; d < pieces.length; d++) {
-          pieces[d].style.opacity = '0';
+    tryPlay();
+    btn.addEventListener('click', function () {
+      if (video.muted) {
+        video.muted = false;
+        tryPlay();
+        btn.setAttribute('aria-pressed', 'true');
+        btn.innerHTML = '<span class="lang-zh">靜音</span><span class="lang-en' + (currentLang === 'zh' ? ' lang-hidden' : '') + '">Mute</span>';
+        // re-apply lang visibility
+        if (typeof currentLang !== 'undefined') {
+          document.querySelectorAll('.lang-zh').forEach(function (el) {
+            el.classList.toggle('lang-hidden', currentLang === 'en');
+          });
+          document.querySelectorAll('.lang-en').forEach(function (el) {
+            el.classList.toggle('lang-hidden', currentLang === 'zh');
+          });
         }
-        return;
+      } else {
+        video.muted = true;
+        btn.setAttribute('aria-pressed', 'false');
+        btn.innerHTML = '<span class="lang-zh">輕按開聲</span><span class="lang-en lang-hidden">Tap for sound</span>';
+        if (typeof currentLang !== 'undefined' && currentLang === 'en') {
+          btn.querySelector('.lang-zh').classList.add('lang-hidden');
+          btn.querySelector('.lang-en').classList.remove('lang-hidden');
+        }
       }
-
-      // Progress tied to page scroll from top:
-      // 0–0.08 intact (centered in hero / pinned once leaving top)
-      // 0.08–0.72 shatter while pinned center
-      // 0.72–1.0 fade out; then stay gone while further down
-      var range = Math.max(window.innerHeight * 1.15, 720);
-      var y = window.scrollY;
-      var p = y / range;
-      if (p < 0) p = 0;
-
-      if (y < 12) dismissed = false;
-      if (p >= 1) {
-        dismissed = true;
-        apply();
-        return;
-      }
-
-      var hold = 0.08;
-      var shatterEnd = 0.72;
-      var e = 0;
-      if (p > hold && p < shatterEnd) {
-        var u = (p - hold) / (shatterEnd - hold);
-        e = u * u * (3 - 2 * u);
-      } else if (p >= shatterEnd) {
-        e = 1;
-      }
-
-      var fading = p >= shatterEnd ? (p - shatterEnd) / (1 - shatterEnd) : 0;
-      if (fading < 0) fading = 0;
-      if (fading > 1) fading = 1;
-
-      var pin = y > 8 && fading < 1;
-      root.classList.toggle('is-pinned', pin);
-      root.classList.toggle('is-shattering', e > 0.001);
-      root.classList.remove('is-gone');
-      root.style.opacity = String(1 - fading);
-
-      if (fallback) {
-        fallback.style.opacity = String((1 - Math.min(1, e * 1.3)) * (1 - fading));
-      }
-
-      for (var i = 0; i < pieces.length; i++) {
-        var el = pieces[i];
-        var dx = parseFloat(el.getAttribute('data-dx') || '0');
-        var dy = parseFloat(el.getAttribute('data-dy') || '0');
-        var rot = parseFloat(el.getAttribute('data-rot') || '0');
-        el.style.opacity = e > 0.001 ? String(1 - fading) : '0';
-        el.style.transform =
-          'translate3d(' + (dx * e) + '%,' + (dy * e) + '%,0) rotate(' + (rot * e) + 'deg)';
-      }
-    }
-
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        apply();
-        ticking = false;
-      });
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    apply();
+    });
+    // also tap video
+    video.addEventListener('click', function () { btn.click(); });
   })();
   </script>
-
 
   <script>
   (function () {
@@ -885,7 +796,7 @@
       if (diff <= 0) {
         if (units) units.hidden = true;
         if (status) status.hidden = false;
-        return;
+        return null;
       }
       if (units) units.hidden = false;
       if (status) status.hidden = true;
@@ -895,28 +806,29 @@
         var k = node.getAttribute('data-cd');
         if (map[k] != null) node.textContent = map[k];
       });
+      return p;
     }
-    function tickCard() {
-      var root = document.getElementById('event-countdown-card');
-      if (!root) return;
-      var live = root.querySelector('[data-cd-card-live]');
-      var done = root.querySelector('[data-cd-card-done]');
-      var text = root.querySelector('[data-cd-card-text]');
-      var target = parseTarget(root);
-      var diff = target - Date.now();
-      if (diff <= 0) {
-        if (live) live.hidden = true;
-        if (done) done.hidden = false;
-        return;
-      }
-      if (live) live.hidden = false;
-      if (done) done.hidden = true;
-      var p = parts(diff);
-      if (text) text.textContent = p.d + 'd ' + pad(p.h) + 'h ' + pad(p.m) + 'm ' + pad(p.s) + 's';
+    function tickSticky(p) {
+      var el = document.getElementById('sticky-cd');
+      if (!el) return;
+      if (!p) { el.textContent = 'LIVE'; return; }
+      el.textContent = p.d + 'd ' + pad(p.h) + 'h ' + pad(p.m) + 'm';
     }
-    function tick() { tickHero(); tickCard(); }
+    function tick() { tickSticky(tickHero()); }
     tick();
     setInterval(tick, 1000);
+
+    var bar = document.getElementById('sticky-bar');
+    var hero = document.getElementById('open');
+    function onScroll() {
+      if (!bar || !hero) return;
+      var past = window.scrollY > (hero.offsetHeight * 0.72);
+      bar.hidden = !past;
+      bar.classList.toggle('is-on', past);
+      document.body.classList.toggle('has-sticky-bar', past);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   })();
   </script>
 
