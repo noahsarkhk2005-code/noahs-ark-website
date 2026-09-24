@@ -76,12 +76,42 @@ window.NOAHS_TICKET_SALE = (function () {
     return parts.join('&');
   }
 
+
+  function readMemberPrefill() {
+    /* Prefer logged-in session; else registration prefill. */
+    try {
+      var raw = sessionStorage.getItem('na_member');
+      if (raw) {
+        var s = JSON.parse(raw);
+        if (s && s.profile) return s.profile;
+      }
+    } catch (e) {}
+    try {
+      var raw2 = sessionStorage.getItem('na_prefill');
+      if (raw2) return JSON.parse(raw2);
+    } catch (e2) {}
+    return null;
+  }
+
+  function appendMemberPrefill(src) {
+    var p = readMemberPrefill();
+    if (!p) return src;
+    var parts = [];
+    if (p.member_no) parts.push('member_no=' + encodeURIComponent(p.member_no));
+    if (p.name) parts.push('name=' + encodeURIComponent(p.name));
+    if (p.phone) parts.push('phone=' + encodeURIComponent(p.phone));
+    if (p.email) parts.push('email=' + encodeURIComponent(p.email));
+    if (!parts.length) return src;
+    return src + (src.indexOf('?') >= 0 ? '&' : '?') + parts.join('&');
+  }
+
   function buildEmbedSrc(selectedKey, now) {
     var n = now || getNow();
     var phase = isPresaleOpen(n) ? 'post' : 'pre';
     var base = 'https://tally.so/embed/' + getTallyFormId(n) + '?' + TALLY_EMBED_QS + '&phase=' + phase;
     var qs = buildQtyParams(selectedKey, n);
-    return qs ? base + '&' + qs : base;
+    var src = qs ? base + '&' + qs : base;
+    return appendMemberPrefill(src);
   }
 
   function stickyPricesHtml(now) {
@@ -243,6 +273,8 @@ window.NOAHS_TICKET_SALE = (function () {
     getTallyFormId: getTallyFormId,
     buildQtyParams: buildQtyParams,
     buildEmbedSrc: buildEmbedSrc,
+    readMemberPrefill: readMemberPrefill,
+    appendMemberPrefill: appendMemberPrefill,
     stickyPricesHtml: stickyPricesHtml,
     applyStickyBar: applyStickyBar,
     applyTicketCards: applyTicketCards,

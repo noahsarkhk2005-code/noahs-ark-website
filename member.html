@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>會員中心 Member | Noah's Ark</title>
-  <meta name="description" content="Register as an e-member: Metal Pass holders use your NA number; new members register without one." />
+  <meta name="description" content="Member centre: log in, register as e-member, set password." />
   <meta name="robots" content="noindex,nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -86,6 +86,93 @@
     .member-intro-panel{ display:none; }
     .member-intro-panel.is-on{ display:block; }
     .member-field.is-hidden{ display:none; }
+  
+    .member-shell{ max-width:28rem; margin:0 auto; }
+    .member-card{
+      border:1px solid #3f3f46; border-radius:1rem;
+      background:rgba(24,24,27,.88); padding:1.1rem 1rem 1.15rem;
+    }
+    .member-card-title{ font-size:1.05rem; font-weight:800; margin:0 0 .75rem; color:#fafafa; }
+    .member-intro{ color:#a1a1aa; font-size:.88rem; line-height:1.5; margin:0 0 1rem; }
+    .member-form{ display:grid; gap:.85rem; }
+    .member-field{ display:grid; gap:.3rem; }
+    .member-field label{
+      font-size:.72rem; font-weight:800; letter-spacing:.04em; color:#e4e4e7;
+    }
+    .member-field input[type="text"],
+    .member-field input[type="tel"],
+    .member-field input[type="email"],
+    .member-field input[type="password"]{
+      width:100%; box-sizing:border-box;
+      background:#09090b; color:#fafafa;
+      border:1px solid #52525b; border-radius:.55rem;
+      padding:.7rem .75rem; font-size:1rem; line-height:1.3;
+    }
+    .member-field input:focus{
+      outline:2px solid #ef4444; outline-offset:1px; border-color:#ef4444;
+    }
+    .member-hint{ font-size:.72rem; color:#71717a; margin:0; }
+    .member-consent{
+      display:flex; gap:.65rem; align-items:flex-start;
+      font-size:.8rem; color:#a1a1aa; line-height:1.45;
+    }
+    .member-consent input{ margin-top:.2rem; flex-shrink:0; width:1rem; height:1rem; }
+    .member-submit{
+      width:100%; border:0; border-radius:.65rem;
+      background:#b91c1c; color:#fff; font-weight:800;
+      padding:.85rem 1rem; font-size:.95rem; cursor:pointer;
+    }
+    .member-submit:hover{ background:#dc2626; }
+    .member-submit:disabled{ opacity:.55; cursor:not-allowed; }
+    .member-secondary{
+      width:100%; border:1px solid #52525b; border-radius:.65rem;
+      background:transparent; color:#e4e4e7; font-weight:700;
+      padding:.75rem 1rem; font-size:.9rem; cursor:pointer;
+    }
+    .member-linkish{
+      display:block; width:100%; border:0; background:transparent;
+      color:#a1a1aa; font-size:.85rem; cursor:pointer; padding:.4rem; text-decoration:underline;
+    }
+    .member-actions{ display:grid; gap:.55rem; }
+    .member-result{
+      margin:0 0 1rem; border-radius:.85rem; padding:.9rem 1rem;
+      font-size:.9rem; line-height:1.45; display:none;
+    }
+    .member-result.is-on{ display:block; }
+    .member-result.is-pending{ background:rgba(113,63,18,.35); border:1px solid #ca8a04; color:#fde68a; }
+    .member-result.is-invalid{ background:rgba(127,29,29,.4); border:1px solid #ef4444; color:#fecaca; }
+    .member-result.is-locked{ background:rgba(39,39,42,.95); border:1px solid #71717a; color:#e4e4e7; }
+    .member-result.is-soon{ background:rgba(39,39,42,.9); border:1px solid #52525b; color:#d4d4d8; }
+    .member-result-extra{ margin-top:.45rem; font-size:.8rem; }
+    .member-result-extra a{ color:#fca5a5; text-decoration:underline; }
+    .member-contact{ margin-top:1.5rem; text-align:center; font-size:.78rem; color:#71717a; }
+    .member-contact a{ color:#a1a1aa; text-decoration:underline; }
+    .member-tabs{
+      display:grid; grid-template-columns:1fr 1fr 1fr; gap:0;
+      border:1px solid #52525b; border-radius:.65rem; overflow:hidden;
+      margin:0 0 1.1rem;
+    }
+    .member-tab{
+      appearance:none; border:0; background:#09090b; color:#a1a1aa;
+      font-weight:800; font-size:.72rem; line-height:1.25;
+      padding:.65rem .35rem; cursor:pointer;
+    }
+    .member-tab + .member-tab{ border-left:1px solid #52525b; }
+    .member-tab.is-active{ background:#fafafa; color:#09090b; }
+    .member-forgot{ text-align:center; margin:.35rem 0 0; font-size:.82rem; }
+    .member-forgot a{ color:#f87171; text-decoration:underline; }
+    .pw-row{ display:flex; gap:.4rem; align-items:center; }
+    .pw-row input{ flex:1; }
+    .pw-toggle{
+      flex-shrink:0; border:1px solid #52525b; border-radius:.5rem;
+      background:#18181b; color:#d4d4d8; font-size:.72rem; font-weight:700;
+      padding:.55rem .55rem; cursor:pointer; white-space:nowrap;
+    }
+    .logged-greet{ font-size:1.15rem; font-weight:800; color:#fafafa; margin-bottom:.35rem; }
+    .member-no-line{ font-size:.95rem; font-weight:700; color:#f87171; margin-top:.2rem; letter-spacing:.04em; }
+    .post-reg-cta{ margin:.75rem auto 0; max-width:28rem; }
+    html:not(.show-org) .org-public { display: none !important; }
+
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -129,21 +216,138 @@
     </div>
   </nav>
 
+  
   <main class="member-shell px-4 py-10">
     <div class="mb-6 text-center">
       <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">MEMBER · 會員</p>
       <h1 class="text-2xl md:text-3xl font-black mb-3">
-        <span class="lang-zh">電子會員登記</span>
-        <span class="lang-en lang-hidden">E-member registration</span>
+        <span class="lang-zh">會員中心</span>
+        <span class="lang-en lang-hidden">Member centre</span>
       </h1>
     </div>
 
-    <form class="member-form" id="member-form" novalidate>
-      <div class="member-tabs" role="tablist" aria-label="Registration type">
-        <button type="button" class="member-tab is-active" role="tab" id="tab-existing"
-          aria-selected="true" data-tab="existing">
-          <span class="lang-zh">舊會員 Metal Pass</span>
-          <span class="lang-en lang-hidden">Metal Pass member</span>
+    <div id="member-result" class="member-result" role="status" aria-live="polite"></div>
+
+    <!-- ===== SETUP PASSWORD (?setup=) ===== -->
+    <section id="view-setup" class="member-card" hidden>
+      <h2 class="member-card-title">
+        <span class="lang-zh">設定密碼</span>
+        <span class="lang-en lang-hidden">Set password</span>
+      </h2>
+      <p class="member-intro">
+        <span class="lang-zh">批核完成。請設定密碼（最少 8 個字元），之後用會員號碼登入。</span>
+        <span class="lang-en lang-hidden">You're approved. Set a password (min. 8 characters), then log in with your member number.</span>
+      </p>
+      <form id="form-setup" class="member-form" autocomplete="on">
+        <div class="member-field">
+          <label for="setup-new">
+            <span class="lang-zh">新密碼</span><span class="lang-en lang-hidden">New password</span>
+          </label>
+          <input id="setup-new" name="new-password" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <div class="member-field">
+          <label for="setup-confirm">
+            <span class="lang-zh">確認新密碼</span><span class="lang-en lang-hidden">Confirm new password</span>
+          </label>
+          <input id="setup-confirm" name="new-password-confirm" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <button type="submit" class="member-submit" id="setup-submit">
+          <span class="lang-zh">設定密碼</span><span class="lang-en lang-hidden">Set password</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ===== RESET PASSWORD (?reset=) ===== -->
+    <section id="view-reset" class="member-card" hidden>
+      <h2 class="member-card-title">
+        <span class="lang-zh">重設密碼</span>
+        <span class="lang-en lang-hidden">Reset password</span>
+      </h2>
+      <form id="form-reset" class="member-form" autocomplete="on">
+        <div class="member-field">
+          <label for="reset-new">
+            <span class="lang-zh">新密碼</span><span class="lang-en lang-hidden">New password</span>
+          </label>
+          <input id="reset-new" name="new-password" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <div class="member-field">
+          <label for="reset-confirm">
+            <span class="lang-zh">確認新密碼</span><span class="lang-en lang-hidden">Confirm new password</span>
+          </label>
+          <input id="reset-confirm" name="new-password-confirm" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <button type="submit" class="member-submit" id="reset-submit">
+          <span class="lang-zh">重設密碼</span><span class="lang-en lang-hidden">Reset password</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ===== CHANGE PASSWORD ===== -->
+    <section id="view-change" class="member-card" hidden>
+      <h2 class="member-card-title">
+        <span class="lang-zh">更改密碼</span>
+        <span class="lang-en lang-hidden">Change password</span>
+      </h2>
+      <form id="form-change" class="member-form" autocomplete="on">
+        <div class="member-field">
+          <label for="change-old">
+            <span class="lang-zh">舊密碼</span><span class="lang-en lang-hidden">Current password</span>
+          </label>
+          <input id="change-old" name="current-password" type="password" autocomplete="current-password" required />
+        </div>
+        <div class="member-field">
+          <label for="change-new">
+            <span class="lang-zh">新密碼</span><span class="lang-en lang-hidden">New password</span>
+          </label>
+          <input id="change-new" name="new-password" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <div class="member-field">
+          <label for="change-confirm">
+            <span class="lang-zh">確認新密碼</span><span class="lang-en lang-hidden">Confirm new password</span>
+          </label>
+          <input id="change-confirm" name="new-password-confirm" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <button type="submit" class="member-submit" id="change-submit">
+          <span class="lang-zh">更新密碼</span><span class="lang-en lang-hidden">Update password</span>
+        </button>
+        <button type="button" class="member-linkish" id="change-cancel">
+          <span class="lang-zh">取消</span><span class="lang-en lang-hidden">Cancel</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ===== LOGGED IN ===== -->
+    <section id="view-logged" class="member-card" hidden>
+      <div id="logged-greet" class="logged-greet"></div>
+      <p class="member-intro">
+        <span class="lang-zh">核實後，電子會員證會連同門票收據一齊電郵寄畀你。會員價只適用於 Metal Pass 持有人。</span>
+        <span class="lang-en lang-hidden">After verification, your e-member card is emailed together with the ticket receipt. Member price applies to Metal Pass holders only.</span>
+      </p>
+      <div class="member-actions">
+        <button type="button" class="member-submit" id="btn-buy">
+          <span class="lang-zh">去購票</span><span class="lang-en lang-hidden">Buy tickets</span>
+        </button>
+        <button type="button" class="member-secondary" id="btn-change-pw">
+          <span class="lang-zh">改密碼</span><span class="lang-en lang-hidden">Change password</span>
+        </button>
+        <button type="button" class="member-linkish" id="btn-logout">
+          <span class="lang-zh">登出</span><span class="lang-en lang-hidden">Log out</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== GUEST (login / register) ===== -->
+    <section id="view-guest" class="member-card" hidden>
+      <div class="member-tabs" id="member-tabs" role="tablist" aria-label="Member mode">
+        <button type="button" class="member-tab is-active" role="tab" id="tab-login"
+          aria-selected="true" data-tab="login">
+          <span class="lang-zh">登入</span>
+          <span class="lang-en lang-hidden">Log in</span>
+        </button>
+        <button type="button" class="member-tab" role="tab" id="tab-existing"
+          aria-selected="false" data-tab="existing">
+          <span class="lang-zh">舊會員登記</span>
+          <span class="lang-en lang-hidden">Existing member</span>
         </button>
         <button type="button" class="member-tab" role="tab" id="tab-new"
           aria-selected="false" data-tab="new">
@@ -152,70 +356,157 @@
         </button>
       </div>
 
-      <p class="member-intro member-intro-panel is-on" id="intro-existing">
-        <span class="lang-zh">會員價只限持 Metal Pass 嘅舊會員。輸入 NA 開頭加 6 位數字嘅會員號碼，登記電子會員後就可以買會員價飛。</span>
-        <span class="lang-en lang-hidden">Member price is for existing Metal Pass holders only. Enter your NA + 6-digit member number to register as an e-member and buy member-price tickets.</span>
-      </p>
-      <p class="member-intro member-intro-panel" id="intro-new">
-        <span class="lang-zh">未有會員號碼？填以下資料登記，批核後我哋會電郵通知你會員號碼。</span>
-        <span class="lang-en lang-hidden">No member number yet? Register below — once approved, we'll email you your member number.</span>
-      </p>
-
-      <div class="member-field" id="field-member-no">
-        <label for="member-no">
-          <span class="lang-zh">會員號碼</span>
-          <span class="lang-en lang-hidden">Member no.</span>
-        </label>
-        <input id="member-no" name="member_no" type="text" autocomplete="off" inputmode="text"
-          data-ph-zh="例如 NA000123" data-ph-en="e.g. NA000123" placeholder="例如 NA000123"
-          aria-describedby="member-no-hint" />
-        <p class="member-hint" id="member-no-hint">
-          <span class="lang-zh">請輸入 NA 開頭加 6 位數字，例如 NA000123</span>
-          <span class="lang-en lang-hidden">NA followed by 6 digits, e.g. NA000123</span>
+      <!-- LOGIN -->
+      <div id="panel-login">
+        <p class="member-intro">
+          <span class="lang-zh">用會員號碼同密碼登入。會員價只限持 Metal Pass 嘅舊會員。</span>
+          <span class="lang-en lang-hidden">Log in with your member number and password. Member price is for existing Metal Pass holders only.</span>
         </p>
+        <form id="form-login" class="member-form" autocomplete="on">
+          <div class="member-field">
+            <label for="login-member-no">
+              <span class="lang-zh">會員號碼</span><span class="lang-en lang-hidden">Member no.</span>
+            </label>
+            <input id="login-member-no" name="username" type="text" autocomplete="username"
+              autocapitalize="characters" spellcheck="false" required
+              data-ph-zh="例如 NA000123" data-ph-en="e.g. NA000123" placeholder="例如 NA000123" />
+          </div>
+          <div class="member-field">
+            <label for="login-password">
+              <span class="lang-zh">密碼</span><span class="lang-en lang-hidden">Password</span>
+            </label>
+            <div class="pw-row">
+              <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+              <button type="button" class="pw-toggle" id="login-pw-toggle" aria-pressed="false">
+                <span data-when="hide"><span class="lang-zh">顯示</span><span class="lang-en lang-hidden">Show</span></span>
+                <span data-when="show" hidden><span class="lang-zh">隱藏</span><span class="lang-en lang-hidden">Hide</span></span>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="member-submit" id="login-submit">
+            <span class="lang-zh">登入</span><span class="lang-en lang-hidden">Log in</span>
+          </button>
+          <p class="member-forgot">
+            <a href="#" id="link-forgot">
+              <span class="lang-zh">忘記密碼？</span>
+              <span class="lang-en lang-hidden">Forgot password?</span>
+            </a>
+          </p>
+        </form>
       </div>
 
-      <div class="member-field">
-        <label for="member-name">
-          <span class="lang-zh">名稱</span>
-          <span class="lang-en lang-hidden">Name</span>
-        </label>
-        <input id="member-name" name="name" type="text" autocomplete="name" required />
+      <!-- EXISTING REGISTER -->
+      <div id="panel-register-existing" hidden>
+        <p class="member-intro">
+          <span class="lang-zh">會員價只限持 Metal Pass 嘅舊會員。輸入 NA 開頭加 6 位數字嘅會員號碼，登記電子會員後就可以買會員價飛。</span>
+          <span class="lang-en lang-hidden">Member price is for existing Metal Pass holders only. Enter your NA + 6-digit member number to register as an e-member and buy member-price tickets.</span>
+        </p>
+        <form id="form-register-existing" class="member-form" autocomplete="on">
+          <div class="member-field">
+            <label for="ex-member-no">
+              <span class="lang-zh">會員號碼</span><span class="lang-en lang-hidden">Member no.</span>
+            </label>
+            <input id="ex-member-no" name="username" type="text" autocomplete="username"
+              autocapitalize="characters" spellcheck="false" required
+              data-ph-zh="例如 NA000123" data-ph-en="e.g. NA000123" placeholder="例如 NA000123" />
+            <p class="member-hint">
+              <span class="lang-zh">請輸入 NA 開頭加 6 位數字，例如 NA000123</span>
+              <span class="lang-en lang-hidden">NA followed by 6 digits, e.g. NA000123</span>
+            </p>
+          </div>
+          <div class="member-field">
+            <label for="ex-name"><span class="lang-zh">名稱</span><span class="lang-en lang-hidden">Name</span></label>
+            <input id="ex-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="member-field">
+            <label for="ex-phone"><span class="lang-zh">電話</span><span class="lang-en lang-hidden">Phone</span></label>
+            <input id="ex-phone" name="tel" type="tel" inputmode="numeric" autocomplete="tel-national"
+              maxlength="16" data-ph-zh="8 位數字" data-ph-en="8 digits" placeholder="8 位數字" required />
+          </div>
+          <div class="member-field">
+            <label for="ex-email"><span class="lang-zh">電郵</span><span class="lang-en lang-hidden">Email</span></label>
+            <input id="ex-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <label class="member-consent">
+            <input id="ex-consent" name="consent" type="checkbox" required />
+            <span>
+              <span class="lang-zh">我同意提供以上資料，只用於會員核實同購票相關聯絡。</span>
+              <span class="lang-en lang-hidden">I agree to provide the above details for membership verification and ticketing contact only.</span>
+            </span>
+          </label>
+          <button type="submit" class="member-submit">
+            <span class="lang-zh">提交登記</span><span class="lang-en lang-hidden">Submit registration</span>
+          </button>
+        </form>
       </div>
 
-      <div class="member-field">
-        <label for="member-phone">
-          <span class="lang-zh">電話</span>
-          <span class="lang-en lang-hidden">Phone</span>
-        </label>
-        <input id="member-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
-          maxlength="8" pattern="[0-9]{8}"
-          data-ph-zh="8 位數字" data-ph-en="8 digits" placeholder="8 位數字" required />
+      <!-- NEW REGISTER -->
+      <div id="panel-register-new" hidden>
+        <p class="member-intro">
+          <span class="lang-zh">未有會員號碼？填以下資料登記，批核後我哋會電郵通知你會員號碼。</span>
+          <span class="lang-en lang-hidden">No member number yet? Register below — once approved, we'll email you your member number.</span>
+        </p>
+        <form id="form-register-new" class="member-form" autocomplete="on">
+          <div class="member-field">
+            <label for="new-name"><span class="lang-zh">名稱</span><span class="lang-en lang-hidden">Name</span></label>
+            <input id="new-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="member-field">
+            <label for="new-phone"><span class="lang-zh">電話</span><span class="lang-en lang-hidden">Phone</span></label>
+            <input id="new-phone" name="tel" type="tel" inputmode="numeric" autocomplete="tel-national"
+              maxlength="16" data-ph-zh="8 位數字" data-ph-en="8 digits" placeholder="8 位數字" required />
+          </div>
+          <div class="member-field">
+            <label for="new-email"><span class="lang-zh">電郵</span><span class="lang-en lang-hidden">Email</span></label>
+            <input id="new-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <label class="member-consent">
+            <input id="new-consent" name="consent" type="checkbox" required />
+            <span>
+              <span class="lang-zh">我同意提供以上資料，只用於會員核實同購票相關聯絡。</span>
+              <span class="lang-en lang-hidden">I agree to provide the above details for membership verification and ticketing contact only.</span>
+            </span>
+          </label>
+          <button type="submit" class="member-submit">
+            <span class="lang-zh">提交登記</span><span class="lang-en lang-hidden">Submit registration</span>
+          </button>
+        </form>
       </div>
 
-      <div class="member-field">
-        <label for="member-email">
-          <span class="lang-zh">電郵</span>
-          <span class="lang-en lang-hidden">Email</span>
-        </label>
-        <input id="member-email" name="email" type="email" autocomplete="email" required />
+      <!-- FORGOT -->
+      <div id="panel-forgot" hidden>
+        <p class="member-intro">
+          <span class="lang-zh">輸入會員號碼，如果資料吻合，我哋會寄重設連結去你登記嘅電郵。</span>
+          <span class="lang-en lang-hidden">Enter your member number. If the details match, we'll email a reset link to your registered address.</span>
+        </p>
+        <form id="form-forgot" class="member-form" autocomplete="on">
+          <div class="member-field">
+            <label for="forgot-member-no">
+              <span class="lang-zh">會員號碼</span><span class="lang-en lang-hidden">Member no.</span>
+            </label>
+            <input id="forgot-member-no" name="username" type="text" autocomplete="username"
+              autocapitalize="characters" spellcheck="false"
+              data-ph-zh="例如 NA000123" data-ph-en="e.g. NA000123" placeholder="例如 NA000123" />
+          </div>
+          <button type="submit" class="member-submit" id="forgot-submit">
+            <span class="lang-zh">寄重設連結</span><span class="lang-en lang-hidden">Send reset link</span>
+          </button>
+          <p class="member-forgot">
+            <a href="#" id="link-back-login">
+              <span class="lang-zh">返回登入</span>
+              <span class="lang-en lang-hidden">Back to log in</span>
+            </a>
+          </p>
+        </form>
       </div>
+    </section>
 
-      <label class="member-consent">
-        <input id="member-consent" name="consent" type="checkbox" required />
-        <span>
-          <span class="lang-zh">我同意提供以上資料，只用於會員核實同購票相關聯絡。</span>
-          <span class="lang-en lang-hidden">I agree to provide the above details for membership verification and ticketing contact only.</span>
-        </span>
-      </label>
-
-      <button type="submit" class="member-submit" id="member-submit">
-        <span class="lang-zh">提交登記</span>
-        <span class="lang-en lang-hidden">Submit registration</span>
+    <!-- Post-registration CTA (shown under result) -->
+    <div id="post-reg-cta" class="post-reg-cta" hidden>
+      <button type="button" class="member-submit" id="post-reg-buy">
+        <span class="lang-zh">去購票</span><span class="lang-en lang-hidden">Buy tickets</span>
       </button>
-    </form>
-
-    <div class="member-result" id="member-result" role="status" aria-live="polite"></div>
+    </div>
 
     <p class="member-contact">
       <span class="lang-zh">查詢：</span><span class="lang-en lang-hidden">Contact: </span>
@@ -225,273 +516,14 @@
     </p>
   </main>
 
-  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+<footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
   </div>
 
+  
+  <script src="assets/member-centre.js?v=20260924-mc1"></script>
   <script>
-  (function () {
-    /* ===== IT狗 config — fill MEMBER_ENDPOINT when ready =====
-       POST MEMBER_ENDPOINT with:
-         headers: { 'Content-Type': 'text/plain;charset=utf-8' }  // no other headers
-         body JSON:
-           existing: { type:'existing', member_no, name, phone, email, consent, device_id }
-           new:      { type:'new', name, phone, email, consent, device_id }
-                     // omit member_no entirely for type 'new'
-       Expected JSON response:
-         { status: 'pending' | 'invalid' | 'locked' }
-       (All registrations are manually approved — there is no success status.)
-       Unknown/failed responses → neutral "try again later" message.
-    */
-    var MEMBER_ENDPOINT = null;
-
-    /* Exact member-number pattern (IT狗 confirmed). */
-    var MEMBER_NO_PATTERN = /^NA\d{6}$/;
-
-    var DEVICE_KEY = 'na_device_id';
-    var currentTab = 'existing'; /* 'existing' | 'new' */
-
-    var form = document.getElementById('member-form');
-    var resultEl = document.getElementById('member-result');
-    var memberNoInput = document.getElementById('member-no');
-    var memberNoField = document.getElementById('field-member-no');
-    var phoneInput = document.getElementById('member-phone');
-    var submitBtn = document.getElementById('member-submit');
-    var introExisting = document.getElementById('intro-existing');
-    var introNew = document.getElementById('intro-new');
-    var tabExisting = document.getElementById('tab-existing');
-    var tabNew = document.getElementById('tab-new');
-
-    var MESSAGES = {
-      pending: {
-        zh: '已收到，我哋核對後會電郵通知你',
-        en: "Received — we'll email you once it's verified",
-        cls: 'is-pending'
-      },
-      invalid: {
-        zh: '格式唔啱，請再填',
-        en: "Something's not in the right format, please check and try again",
-        cls: 'is-invalid'
-      },
-      locked: {
-        zh: '試太多次，請稍後再試',
-        en: 'Too many attempts, please try again later',
-        cls: 'is-locked'
-      },
-      soon: {
-        zh: '登記即將開放，請稍後再試。',
-        en: 'Registration opens soon — please check back later.',
-        cls: 'is-soon'
-      },
-      error: {
-        zh: '暫時未能提交，請稍後再試',
-        en: 'Unable to submit right now — please try again later',
-        cls: 'is-locked'
-      }
-    };
-
-    function showState(key, detailZh, detailEn) {
-      var msg = MESSAGES[key] || MESSAGES.error;
-      var zh = msg.zh;
-      var en = msg.en;
-      if (detailZh) zh = msg.zh + '（' + detailZh + '）';
-      if (detailEn) en = msg.en + ' (' + detailEn + ')';
-      resultEl.className = 'member-result is-on ' + msg.cls;
-      resultEl.innerHTML =
-        '<span class="lang-zh">' + zh + '</span>' +
-        '<span class="lang-en lang-hidden">' + en + '</span>';
-      syncLangIn(resultEl);
-    }
-
-    function clearResult() {
-      resultEl.className = 'member-result';
-      resultEl.innerHTML = '';
-    }
-
-    function syncLangIn(root) {
-      var lang = (document.documentElement.lang === 'en') ? 'en' : 'zh';
-      root.querySelectorAll('.lang-zh').forEach(function (el) {
-        el.classList.toggle('lang-hidden', lang === 'en');
-      });
-      root.querySelectorAll('.lang-en').forEach(function (el) {
-        el.classList.toggle('lang-hidden', lang === 'zh');
-      });
-    }
-
-    function applyPlaceholders() {
-      var lang = (document.documentElement.lang === 'en') ? 'en' : 'zh';
-      document.querySelectorAll('[data-ph-zh]').forEach(function (el) {
-        var ph = el.getAttribute(lang === 'en' ? 'data-ph-en' : 'data-ph-zh');
-        if (ph != null) el.setAttribute('placeholder', ph);
-      });
-    }
-
-    function getDeviceId() {
-      try {
-        var id = localStorage.getItem(DEVICE_KEY);
-        if (id && /^[0-9a-fA-F-]{16,}$/.test(id)) return id;
-        if (window.crypto && typeof crypto.randomUUID === 'function') {
-          id = crypto.randomUUID();
-        } else {
-          id = 'na-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
-        }
-        localStorage.setItem(DEVICE_KEY, id);
-        return id;
-      } catch (e) {
-        return 'na-anon-' + Date.now().toString(36);
-      }
-    }
-
-    function normalizeMemberNo(v) {
-      return String(v || '').replace(/\s+/g, '').toUpperCase();
-    }
-
-    memberNoInput.addEventListener('input', function () {
-      var start = memberNoInput.selectionStart;
-      memberNoInput.value = normalizeMemberNo(memberNoInput.value);
-      if (typeof start === 'number') {
-        try { memberNoInput.setSelectionRange(start, start); } catch (e) {}
-      }
-    });
-
-    phoneInput.addEventListener('input', function () {
-      phoneInput.value = phoneInput.value.replace(/\D+/g, '').slice(0, 8);
-    });
-
-    function setTab(tab) {
-      currentTab = tab === 'new' ? 'new' : 'existing';
-      var isNew = currentTab === 'new';
-      tabExisting.classList.toggle('is-active', !isNew);
-      tabNew.classList.toggle('is-active', isNew);
-      tabExisting.setAttribute('aria-selected', !isNew ? 'true' : 'false');
-      tabNew.setAttribute('aria-selected', isNew ? 'true' : 'false');
-      introExisting.classList.toggle('is-on', !isNew);
-      introNew.classList.toggle('is-on', isNew);
-      memberNoField.classList.toggle('is-hidden', isNew);
-      memberNoInput.required = !isNew;
-      if (isNew) {
-        memberNoInput.value = '';
-        memberNoInput.classList.remove('is-invalid');
-      }
-      clearResult();
-    }
-
-    tabExisting.addEventListener('click', function () { setTab('existing'); });
-    tabNew.addEventListener('click', function () { setTab('new'); });
-
-    function clientValidate() {
-      memberNoInput.classList.remove('is-invalid');
-      phoneInput.classList.remove('is-invalid');
-
-      var phone = phoneInput.value.trim();
-      if (!/^\d{8}$/.test(phone)) {
-        phoneInput.classList.add('is-invalid');
-        showState('invalid', '電話', 'phone');
-        return null;
-      }
-      if (!document.getElementById('member-consent').checked) {
-        showState('invalid', '私隱同意', 'consent');
-        return null;
-      }
-      var name = document.getElementById('member-name').value.trim();
-      var email = document.getElementById('member-email').value.trim();
-      if (!name) {
-        showState('invalid', '名稱', 'name');
-        return null;
-      }
-      if (!email) {
-        showState('invalid', '電郵', 'email');
-        return null;
-      }
-
-      var payload = {
-        type: currentTab === 'new' ? 'new' : 'existing',
-        name: name,
-        phone: phone,
-        email: email,
-        consent: true,
-        device_id: getDeviceId()
-      };
-
-      if (currentTab === 'existing') {
-        var no = normalizeMemberNo(memberNoInput.value);
-        memberNoInput.value = no;
-        if (!MEMBER_NO_PATTERN.test(no)) {
-          memberNoInput.classList.add('is-invalid');
-          showState('invalid', '會員號碼', 'member no.');
-          return null;
-        }
-        payload.member_no = no;
-      }
-      /* type 'new': omit member_no entirely */
-      return payload;
-    }
-
-    function resolveEndpoint() {
-      var host = location.hostname;
-      if (host === '127.0.0.1' || host === 'localhost') {
-        var ep = new URLSearchParams(location.search).get('endpoint');
-        if (ep) return ep;
-      }
-      return MEMBER_ENDPOINT;
-    }
-
-    async function submitToEndpoint(url, payload) {
-      var res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload),
-        redirect: 'follow'
-      });
-      var data = {};
-      try { data = await res.json(); } catch (e) { data = {}; }
-      var status = data && data.status;
-      if (status === 'pending' || status === 'invalid' || status === 'locked') {
-        showState(status);
-      } else {
-        showState('error');
-      }
-    }
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var payload = clientValidate();
-      if (!payload) return;
-
-      var endpoint = resolveEndpoint();
-      if (!endpoint) {
-        showState('soon');
-        return;
-      }
-      submitBtn.disabled = true;
-      submitToEndpoint(endpoint, payload).finally(function () {
-        submitBtn.disabled = false;
-      });
-    });
-
-    /* ?tab=new | ?state=pending|invalid|locked */
-    var params = new URLSearchParams(location.search);
-    var tabParam = params.get('tab');
-    setTab(tabParam === 'new' ? 'new' : 'existing');
-
-    var preview = params.get('state');
-    if (preview === 'success') preview = null;
-    if (preview && MESSAGES[preview]) showState(preview);
-
-    applyPlaceholders();
-
-    window.NOAHS_MEMBER = {
-      MEMBER_ENDPOINT: MEMBER_ENDPOINT,
-      MEMBER_NO_PATTERN: MEMBER_NO_PATTERN,
-      getDeviceId: getDeviceId,
-      showState: showState,
-      setTab: setTab,
-      applyPlaceholders: applyPlaceholders
-    };
-  })();
-
-
   let currentLang = 'zh';
   function toggleLang() {
     currentLang = currentLang === 'zh' ? 'en' : 'zh';

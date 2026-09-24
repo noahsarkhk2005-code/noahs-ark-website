@@ -175,6 +175,13 @@
       .ticket-pick__heading{ font-size:.72rem; letter-spacing:.28em; }
       .ticket-pick__hint{ font-size:.78rem; }
     }
+  
+    .member-session-bar{
+      text-align:center; margin:0 0 .65rem; padding:.55rem .7rem;
+      border:1px solid #3f3f46; border-radius:.65rem;
+      background:rgba(24,24,27,.9); font-size:.78rem; color:#e4e4e7;
+    }
+    .member-session-bar a{ color:#f87171; font-weight:700; text-decoration:underline; margin-left:.5rem; }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -304,10 +311,16 @@
         <span class="lang-zh">會員價（$350／$420）只限持 Metal Pass 嘅舊會員，整個活動限用一次。其他人請揀早鳥或預售。</span>
         <span class="lang-en lang-hidden">Member price ($350/$420) is for existing Metal Pass holders only, once per event. Everyone else: Early Bird or Presale.</span>
       </p>
-      <p class="ticket-pick__hint" style="margin-top:-.35rem">
+      <div id="member-session-bar" class="member-session-bar" hidden></div>
+      <p class="ticket-pick__hint" style="margin-top:-.35rem" id="member-guest-links">
         <a href="/member" style="color:#f87171;font-size:.72rem;font-weight:700;text-decoration:underline">
-          <span class="lang-zh">Metal Pass 會員？去登記電子會員</span>
-          <span class="lang-en lang-hidden">Metal Pass holder? Register as e-member</span>
+          <span class="lang-zh">會員登入</span>
+          <span class="lang-en lang-hidden">Member log in</span>
+        </a>
+        <span style="color:#52525b;margin:0 .35rem">·</span>
+        <a href="/member?tab=existing" style="color:#a1a1aa;font-size:.72rem;font-weight:600;text-decoration:underline">
+          <span class="lang-zh">Metal Pass 登記</span>
+          <span class="lang-en lang-hidden">Metal Pass register</span>
         </a>
       </p>
       <div class="ticket-pick__rail" role="listbox" aria-label="Ticket types">
@@ -418,7 +431,46 @@
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
 
-  <script src="assets/ticket-sale.js?v=20260924-phase"></script>
+  <script src="assets/ticket-sale.js?v=20260924-memberpref"></script>
+  <script>
+
+    (function () {
+      var bar = document.getElementById('member-session-bar');
+      var guest = document.getElementById('member-guest-links');
+      if (!bar) return;
+      var profile = null;
+      try {
+        var raw = sessionStorage.getItem('na_member');
+        if (raw) {
+          var s = JSON.parse(raw);
+          if (s && s.profile) profile = s.profile;
+        }
+      } catch (e) {}
+      if (!profile) {
+        bar.hidden = true;
+        if (guest) guest.hidden = false;
+        return;
+      }
+      bar.hidden = false;
+      if (guest) guest.hidden = true;
+      var no = profile.member_no || '';
+      var name = profile.name || '';
+      bar.innerHTML =
+        '<span class="lang-zh">已登入：' + no + (name ? (' ' + name) : '') + '</span>' +
+        '<span class="lang-en lang-hidden">Signed in: ' + no + (name ? (' ' + name) : '') + '</span>' +
+        '<a href="#" id="tickets-member-logout"><span class="lang-zh">登出</span><span class="lang-en lang-hidden">Log out</span></a>';
+      var lang = document.documentElement.lang === 'en' ? 'en' : 'zh';
+      bar.querySelectorAll('.lang-zh').forEach(function (el) { el.classList.toggle('lang-hidden', lang === 'en'); });
+      bar.querySelectorAll('.lang-en').forEach(function (el) { el.classList.toggle('lang-hidden', lang === 'zh'); });
+      var lo = document.getElementById('tickets-member-logout');
+      if (lo) lo.addEventListener('click', function (e) {
+        e.preventDefault();
+        try { sessionStorage.removeItem('na_member'); } catch (err) {}
+        location.reload();
+      });
+    })();
+
+  </script>
   <script src="https://tally.so/widgets/embed.js"></script>
   <script>
     if (typeof Tally !== 'undefined') {
