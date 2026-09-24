@@ -65,15 +65,23 @@
     }
     @media (min-width:640px){ .photo-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.65rem; } }
     @media (min-width:960px){ .photo-grid{ grid-template-columns:repeat(4, minmax(0, 1fr)); gap:.75rem; } }
+
     .photo-grid__item{
       display:block; overflow:hidden; border-radius:.75rem;
       border:1px solid #3f3f46; background:#18181b; aspect-ratio:3/2;
+      position:relative;
+      -webkit-user-select:none; user-select:none;
     }
-    .photo-grid__item img{
-      width:100%; height:100%; object-fit:cover; display:block;
+    .photo-grid__item .photo-bg{
+      position:absolute; inset:0;
+      background:#18181b center/cover no-repeat;
       transition:transform .35s ease;
     }
-    .photo-grid__item:hover img, .photo-grid__item:active img{ transform:scale(1.04); }
+    .photo-grid__item:hover .photo-bg, .photo-grid__item:active .photo-bg{ transform:scale(1.04); }
+    .photo-grid__item .photo-shield{
+      position:absolute; inset:0; z-index:2; background:transparent;
+    }
+
     .band-page-logo{
       width:min(220px, 55vw); margin:0 auto 1rem; display:block;
     }
@@ -102,6 +110,7 @@
       <div class="site-nav__desktop">
         <a href="/tickets" class="hover:text-red-500 transition"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
         <a href="/videos" class="hover:text-red-500 transition"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a href="/live" class="hover:text-red-500 transition"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
         <a href="/bands" class="text-red-500"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
         <a href="/events" class="hover:text-red-500 transition"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
         <a href="/merch" class="hover:text-red-500 transition"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
@@ -124,6 +133,7 @@
     <div class="site-nav__drawer" id="nav-drawer">
       <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
       <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/live" onclick="closeNav()"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
       <a href="/bands" class="is-active" onclick="closeNav()"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
       <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
       <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
@@ -150,66 +160,46 @@
     </header>
 
     <div class="photo-grid" aria-label="Cursed Eyes photos">
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-01.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-01.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-01.jpg" alt="Cursed Eyes LIVE 1" width="1200" height="800" loading="eager" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-02.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-02.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-02.jpg" alt="Cursed Eyes LIVE 2" width="1200" height="800" loading="eager" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-03.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-03.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-03.jpg" alt="Cursed Eyes LIVE 3" width="1200" height="800" loading="lazy" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-04.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-04.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-04.jpg" alt="Cursed Eyes LIVE 4" width="1200" height="800" loading="lazy" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-05.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-05.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-05.jpg" alt="Cursed Eyes LIVE 5" width="1200" height="800" loading="lazy" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-06.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-06.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-06.jpg" alt="Cursed Eyes LIVE 6" width="1200" height="800" loading="lazy" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-07.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-07.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-07.jpg" alt="Cursed Eyes LIVE 7" width="1200" height="800" loading="lazy" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-08.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-08.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-08.jpg" alt="Cursed Eyes LIVE 8" width="1200" height="800" loading="lazy" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-09.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-09.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-09.jpg" alt="Cursed Eyes LIVE 9" width="1200" height="800" loading="lazy" decoding="async" />
-        </picture>
-      </a>
-      <a class="photo-grid__item" href="../assets/bands/cursed-eyes/photos/photo-10.jpg" target="_blank" rel="noopener">
-        <picture>
-          <source srcset="../assets/bands/cursed-eyes/photos/photo-10.webp" type="image/webp" />
-          <img src="../assets/bands/cursed-eyes/photos/photo-10.jpg" alt="Cursed Eyes LIVE 10" width="1200" height="800" loading="lazy" decoding="async" />
-        </picture>
-      </a>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-01.webp)" role="img" aria-label="Cursed Eyes LIVE 1"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-02.webp)" role="img" aria-label="Cursed Eyes LIVE 2"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-03.webp)" role="img" aria-label="Cursed Eyes LIVE 3"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-04.webp)" role="img" aria-label="Cursed Eyes LIVE 4"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-05.webp)" role="img" aria-label="Cursed Eyes LIVE 5"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-06.webp)" role="img" aria-label="Cursed Eyes LIVE 6"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-07.webp)" role="img" aria-label="Cursed Eyes LIVE 7"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-08.webp)" role="img" aria-label="Cursed Eyes LIVE 8"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-09.webp)" role="img" aria-label="Cursed Eyes LIVE 9"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
+      <div class="photo-grid__item photo-protect">
+        <div class="photo-bg" style="background-image:url(../assets/bands/cursed-eyes/photos/photo-10.webp)" role="img" aria-label="Cursed Eyes LIVE 10"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
+      </div>
     </div>
 
     <p class="text-center text-zinc-600 text-xs mb-6">
@@ -254,6 +244,13 @@
       if (nav) nav.classList.remove('is-open');
       if (btn) btn.setAttribute('aria-expanded', 'false');
     }
+
+    document.addEventListener('contextmenu', function (e) {
+      if (e.target.closest('.photo-grid, .photo-protect')) e.preventDefault();
+    });
+    document.addEventListener('dragstart', function (e) {
+      if (e.target.closest('.photo-grid, .photo-protect')) e.preventDefault();
+    });
   </script>
   </div>
 </body>

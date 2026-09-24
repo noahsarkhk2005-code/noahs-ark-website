@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noah's Ark 2005｜相冊 · Noah's Live</title>
+  <meta name="description" content="Noah's Ark 2005 live photo gallery — photos coming soon." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/style.css?v=20260924-live" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/favicon-512.png" />
+  <meta property="og:title" content="Noah's Ark 2005｜相冊" />
+  <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/live-cover-2005.jpg" />
+  <style>
+    .live-hero{ padding:1.25rem 0 1rem; }
+    .live-hero__kicker{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin-bottom:.4rem; }
+    .live-hero h1{ font-size:1.55rem; font-weight:900; line-height:1.2; margin:0 0 .4rem; color:#fff; }
+    @media (min-width:640px){ .live-hero h1{ font-size:2rem; } }
+    .live-hero__sub{ color:#a1a1aa; font-size:.85rem; line-height:1.55; margin:0; max-width:36rem; }
+    .live-back{ display:inline-block; color:#a1a1aa; font-size:.8rem; font-weight:600; margin-bottom:.75rem; }
+    .live-back:hover{ color:#f87171; }
+    .ph-box{
+      margin:1.25rem 0 2.5rem; padding:2.5rem 1.25rem;
+      border:1px dashed #3f3f46; border-radius:1rem;
+      background:rgba(24,24,27,.55); text-align:center;
+    }
+    .ph-box__title{ font-size:1.05rem; font-weight:800; color:#e4e4e7; margin:0 0 .5rem; }
+    .ph-box__sub{ color:#71717a; font-size:.85rem; margin:0; line-height:1.5; }
+  </style>
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="/" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="../assets/logo-nav.webp" type="image/webp" />
+          <img src="../assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="/tickets" class="hover:text-red-500 transition"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a href="/videos" class="hover:text-red-500 transition"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a href="/live" class="text-red-500"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+        <a href="/bands" class="hover:text-red-500 transition"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+        <a href="/events" class="hover:text-red-500 transition"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a href="/merch" class="hover:text-red-500 transition"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="/#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Current event"><a class="site-nav__quick-title" href="/tickets" title="Noah's Ark X Protoss 20th Anniversary"><span class="site-nav__quick-full">Noah's Ark X Protoss 20th Anniversary</span><span class="site-nav__quick-short" aria-hidden="true">Noah's Ark × Protoss</span></a></nav>
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/live" class="is-active" onclick="closeNav()"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+      <a href="/bands" onclick="closeNav()"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+      <a href="/" onclick="closeNav()"><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-4 pb-10">
+    <header class="live-hero">
+      <a class="live-back" href="/live"><span class="lang-zh">← 現場</span><span class="lang-en lang-hidden">← Live</span></a>
+      <p class="live-hero__kicker">2005 · LIVE</p>
+      <h1>Noah's Ark 2005</h1>
+      <p class="live-hero__sub">
+        <span class="lang-zh">Hong Kong's Extreme 2005 — Live in Hong Kong. 相冊殼頁；相片即將上載。</span>
+        <span class="lang-en lang-hidden">Hong Kong's Extreme 2005 — Live in Hong Kong. Gallery shell; photos coming soon.</span>
+      </p>
+    </header>
+
+    <div class="ph-box" role="status">
+      <p class="ph-box__title"><span class="lang-zh">相片即將上載</span><span class="lang-en lang-hidden">Photos coming soon</span></p>
+      <p class="ph-box__sub">
+        <span class="lang-zh">2005 現場相片整理中，稍後於本頁發佈。</span>
+        <span class="lang-en lang-hidden">2005 live photos are being prepared and will appear here.</span>
+      </p>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+  </footer>
+  <script>
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
+      document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  </script>
+  </div>
+</body>
+</html>

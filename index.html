@@ -207,18 +207,34 @@
     }
     .price-card__amt span{ font-size:.78rem; color:#a1a1aa; font-weight:700; margin-right:.15rem; }
 
-    /* Why-go promo clip */
-    .promo-frame{
+    /* Noah's Live card — rotating photo stage (CSS bg, no bare <img>) */
+    .live-stage{
       position:relative;
       border-radius:1rem;
       overflow:hidden;
       border:1px solid #3f3f46;
       background:#09090b;
       aspect-ratio:16/9;
+      margin:.75rem 0 1rem;
+      -webkit-user-select:none; user-select:none;
     }
-    .promo-frame video{
-      width:100%; height:100%; object-fit:cover; display:block;
+    .live-stage__bg{
+      position:absolute; inset:0;
+      background:#09090b center/cover no-repeat;
+      transition:opacity .55s ease, transform 4.5s ease;
+      transform:scale(1.02);
     }
+    .live-stage__bg.is-in{ opacity:1; }
+    .live-stage__bg.is-out{ opacity:0; }
+    .live-stage__shield{
+      position:absolute; inset:0; z-index:3;
+      background:transparent;
+    }
+    .live-stage__fade{
+      position:absolute; inset:0; z-index:2; pointer-events:none;
+      background:linear-gradient(to top, rgba(0,0,0,.45), transparent 40%);
+    }
+    a.album-entry .live-stage{ pointer-events:none; }
     /* Video category strip */
     .vid-rail{
       display:flex; gap:.75rem;
@@ -292,7 +308,6 @@
     }
     a.album-entry:active{ transform:scale(.99); }
     a.album-entry:hover{ border-color:#7f1d1d; }
-    a.album-entry .promo-frame{ margin:.75rem 0 1rem; pointer-events:none; }
     a.album-entry .album-entry__cta{
       display:inline-flex; align-items:center; gap:.35rem;
       color:#f87171; font-size:.85rem; font-weight:800;
@@ -351,6 +366,7 @@
         <a class="hover:text-red-500 transition" href="/videos"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
         <a class="hover:text-red-500 transition" href="/events"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
         <a class="hover:text-red-500 transition" href="/merch"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="/live" class="hover:text-red-500 transition"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
         <a href="/bands" class="hover:text-red-500 transition"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
         <a href="#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
         <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="Instagram" aria-label="Instagram">
@@ -379,6 +395,7 @@
       <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
       <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
       <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/live" onclick="closeNav()"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
       <a href="/bands" onclick="closeNav()"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
       <a href="#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
       <a href="#actions" onclick="closeNav()"><span class="lang-zh">聯絡</span><span class="lang-en lang-hidden">Contact</span></a>
@@ -461,27 +478,19 @@
     </div>
 </section>
 
-  <!-- 3. Why go / LIVE bands entry → /bands -->
-  <section class="story-screen fade-in" id="why" aria-label="LIVE bands">
-    <a class="album-entry" href="/bands">
+  <!-- 3. Noah's Live → /live past events -->
+  <section class="story-screen fade-in" id="why" aria-label="Noah's Live">
+    <a class="album-entry" href="/live">
       <p class="story-kicker" style="margin-bottom:.35rem"><span class="lang-zh">現場／LIVE</span><span class="lang-en lang-hidden">LIVE</span></p>
-      <h2 class="story-title" style="margin-bottom:.35rem"><span class="lang-zh">Noah's Ark 2 演出樂隊</span><span class="lang-en lang-hidden">Noah's Ark 2 Bands</span></h2>
-      <p class="story-sub" style="margin-bottom:0"><span class="lang-zh">點解去 · 現場感覺 · 睇樂隊相冊</span><span class="lang-en lang-hidden">Why go · the live feel · band galleries</span></p>
-      <div class="promo-frame" id="promo-frame">
-        <video
-          id="promo-video"
-          poster="assets/gallery-noah2-1.jpg"
-          playsinline
-          muted
-          loop
-          autoplay
-          preload="metadata"
-          aria-hidden="true"
-        >
-          <source src="assets/tickets-bg-20.mp4" type="video/mp4" />
-        </video>
+      <h2 class="story-title" style="margin-bottom:.35rem">Noah's Live</h2>
+      <p class="story-sub" style="margin-bottom:0"><span class="lang-zh">過往活動 · 現場感覺 · 進入相冊</span><span class="lang-en lang-hidden">Past events · the live feel · enter galleries</span></p>
+      <div class="live-stage photo-protect" id="live-stage" aria-hidden="true">
+        <div class="live-stage__bg is-in" id="live-stage-a"></div>
+        <div class="live-stage__bg is-out" id="live-stage-b"></div>
+        <div class="live-stage__fade"></div>
+        <div class="live-stage__shield"></div>
       </div>
-      <span class="album-entry__cta"><span class="lang-zh">進入樂隊 →</span><span class="lang-en lang-hidden">Open bands →</span></span>
+      <span class="album-entry__cta"><span class="lang-zh">進入現場 →</span><span class="lang-en lang-hidden">Enter Live →</span></span>
     </a>
 </section>
 
@@ -578,6 +587,8 @@
       <span style="color:#3f3f46;margin:0 .5rem">·</span>
       <a href="/merch" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">商品 →</span><span class="lang-en lang-hidden">Shop →</span></a>
       <span style="color:#3f3f46;margin:0 .5rem">·</span>
+      <a href="/live" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">現場 →</span><span class="lang-en lang-hidden">Live →</span></a>
+      <span style="color:#3f3f46;margin:0 .5rem">·</span>
       <a href="/bands" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">樂隊 →</span><span class="lang-en lang-hidden">Bands →</span></a>
     </p>
 
@@ -649,11 +660,59 @@
 
   <script>
   (function () {
-    var video = document.getElementById('promo-video');
-    if (!video) return;
-    video.muted = true;
-    var p = video.play();
-    if (p && p.catch) p.catch(function () {});
+    var POOL = [
+      "assets/live-rotate/r01.webp","assets/live-rotate/r02.webp","assets/live-rotate/r03.webp",
+      "assets/live-rotate/r04.webp","assets/live-rotate/r05.webp","assets/live-rotate/r06.webp",
+      "assets/live-rotate/r07.webp","assets/live-rotate/r08.webp","assets/live-rotate/r09.webp",
+      "assets/live-rotate/r10.webp","assets/live-rotate/r11.webp","assets/live-rotate/r12.webp",
+      "assets/live-rotate/r13.webp","assets/live-rotate/r14.webp","assets/live-rotate/r15.webp",
+      "assets/live-rotate/r16.webp","assets/live-rotate/r17.webp","assets/live-rotate/r18.webp",
+      "assets/live-rotate/r19.webp","assets/live-rotate/r20.webp","assets/live-rotate/r21.webp",
+      "assets/live-rotate/r22.webp","assets/live-rotate/r23.webp","assets/live-rotate/r24.webp",
+      "assets/live-rotate/r25.webp","assets/live-rotate/r26.webp","assets/live-rotate/r27.webp"
+    ];
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+    var order = shuffle(POOL.slice());
+    var idx = 0;
+    var a = document.getElementById('live-stage-a');
+    var b = document.getElementById('live-stage-b');
+    if (!a || !b || !order.length) return;
+    function url(i) { return 'url("' + order[i % order.length] + '")'; }
+    a.style.backgroundImage = url(0);
+    a.classList.add('is-in'); a.classList.remove('is-out');
+    b.classList.add('is-out'); b.classList.remove('is-in');
+    var showA = true;
+    // preload next few
+    order.slice(0, 4).forEach(function (src) {
+      var img = new Image(); img.src = src;
+    });
+    setInterval(function () {
+      idx = (idx + 1) % order.length;
+      var next = showA ? b : a;
+      var cur = showA ? a : b;
+      next.style.backgroundImage = url(idx);
+      next.classList.add('is-in'); next.classList.remove('is-out');
+      cur.classList.add('is-out'); cur.classList.remove('is-in');
+      showA = !showA;
+      var preload = new Image();
+      preload.src = order[(idx + 1) % order.length];
+    }, 3200);
+  })();
+  </script>
+  <script>
+  (function () {
+    document.addEventListener('contextmenu', function (e) {
+      if (e.target.closest('.photo-protect, .live-stage')) e.preventDefault();
+    });
+    document.addEventListener('dragstart', function (e) {
+      if (e.target.closest('.photo-protect, .live-stage')) e.preventDefault();
+    });
   })();
   </script>
 

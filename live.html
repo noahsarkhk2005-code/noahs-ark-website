@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>現場｜Noah's Live · Past events</title>
+  <meta name="description" content="Noah's Live — past events. Noah's Ark 2005 and Noah's Ark 2 / 2026." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-live" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-512.png" />
+  <meta property="og:title" content="現場｜Noah's Live" />
+  <meta property="og:description" content="Past events — Noah's Ark 2005 and Noah's Ark 2." />
+  <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/live-cover-2026.jpg" />
+  <style>
+    .live-hero{ padding:1.25rem 0 1rem; }
+    .live-hero__kicker{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin-bottom:.4rem; }
+    .live-hero h1{ font-size:1.55rem; font-weight:900; line-height:1.2; margin:0 0 .4rem; color:#fff; }
+    @media (min-width:640px){ .live-hero h1{ font-size:2rem; } }
+    .live-hero__sub{ color:#a1a1aa; font-size:.85rem; line-height:1.55; margin:0; max-width:36rem; }
+    .live-grid{
+      display:grid; gap:.85rem; margin:1rem 0 2.5rem;
+      grid-template-columns:1fr;
+    }
+    @media (min-width:640px){ .live-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:1rem; } }
+    a.live-card{
+      display:flex; flex-direction:column;
+      border-radius:1rem; overflow:hidden;
+      border:1px solid #3f3f46; background:#121214;
+      text-decoration:none; color:inherit;
+      transition:border-color .2s ease, transform .15s ease;
+    }
+    a.live-card:hover, a.live-card:focus-visible{ border-color:#7f1d1d; }
+    a.live-card:active{ transform:scale(.99); }
+    .live-card__cover{
+      position:relative; aspect-ratio:3/4;
+      background:#0a0a0a center/cover no-repeat;
+      -webkit-user-select:none; user-select:none;
+    }
+    .live-card__cover::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.15) 45%, transparent 70%);
+      pointer-events:none;
+    }
+    .live-card__shield{
+      position:absolute; inset:0; z-index:2;
+      background:transparent;
+    }
+    .live-card__body{ padding:.9rem .95rem 1.05rem; }
+    .live-card__year{ color:#ef4444; font-size:.65rem; letter-spacing:.22em; font-weight:800; margin-bottom:.3rem; }
+    .live-card__title{ font-size:1.1rem; font-weight:900; color:#fff; margin:0 0 .4rem; line-height:1.25; }
+    .live-card__intro{ color:#a1a1aa; font-size:.8rem; line-height:1.5; margin:0 0 .75rem; }
+    .live-card__cta{ color:#f87171; font-size:.8rem; font-weight:800; }
+  </style>
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="/" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="/tickets" class="hover:text-red-500 transition"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a href="/videos" class="hover:text-red-500 transition"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a href="/live" class="text-red-500"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+        <a href="/bands" class="hover:text-red-500 transition"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+        <a href="/events" class="hover:text-red-500 transition"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a href="/merch" class="hover:text-red-500 transition"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="/#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Current event"><a class="site-nav__quick-title" href="/tickets" title="Noah's Ark X Protoss 20th Anniversary"><span class="site-nav__quick-full">Noah's Ark X Protoss 20th Anniversary</span><span class="site-nav__quick-short" aria-hidden="true">Noah's Ark × Protoss</span></a></nav>
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/live" class="is-active" onclick="closeNav()"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+      <a href="/bands" onclick="closeNav()"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+      <a href="/" onclick="closeNav()"><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-4 pb-10">
+    <header class="live-hero">
+      <p class="live-hero__kicker"><span class="lang-zh">現場／LIVE</span><span class="lang-en lang-hidden">LIVE</span></p>
+      <h1>Noah's Live</h1>
+      <p class="live-hero__sub">
+        <span class="lang-zh">過往活動相冊入口。點封面進入。</span>
+        <span class="lang-en lang-hidden">Past-event galleries. Tap a cover to enter.</span>
+      </p>
+    </header>
+
+    <div class="live-grid" aria-label="Past events">
+      <a class="live-card" href="/live/2005">
+        <div class="live-card__cover" style="background-image:url(assets/live-cover-2005.webp)" role="img" aria-label="Noah's Ark 2005">
+          <div class="live-card__shield" aria-hidden="true"></div>
+        </div>
+        <div class="live-card__body">
+          <p class="live-card__year">2005</p>
+          <h2 class="live-card__title">Noah's Ark 2005</h2>
+          <p class="live-card__intro">
+            <span class="lang-zh">Hong Kong's Extreme 2005 — 第一屆挪亞方舟極端金屬現場。簡介與相冊即將上載。</span>
+            <span class="lang-en lang-hidden">Hong Kong's Extreme 2005 — the first Noah's Ark extreme metal live. Intro and photos coming soon.</span>
+          </p>
+          <span class="live-card__cta"><span class="lang-zh">進入相冊 →</span><span class="lang-en lang-hidden">Open gallery →</span></span>
+        </div>
+      </a>
+
+      <a class="live-card" href="/bands">
+        <div class="live-card__cover" style="background-image:url(assets/live-cover-2026.webp)" role="img" aria-label="Noah's Ark 2026">
+          <div class="live-card__shield" aria-hidden="true"></div>
+        </div>
+        <div class="live-card__body">
+          <p class="live-card__year">2026 · NA2</p>
+          <h2 class="live-card__title">Noah's Ark 2026 / Noah's Ark 2</h2>
+          <p class="live-card__intro">
+            <span class="lang-zh">Noah's Ark X Protoss 20th · 五隊演出樂隊現場相冊與簡介。</span>
+            <span class="lang-en lang-hidden">Noah's Ark X Protoss 20th — five performing bands, live photos and intros.</span>
+          </p>
+          <span class="live-card__cta"><span class="lang-zh">進入樂隊 →</span><span class="lang-en lang-hidden">Open bands →</span></span>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+    <div class="flex items-center justify-center gap-4 mt-2">
+      <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">Instagram @noahs_ark_hk</a>
+      <span class="text-zinc-700">·</span>
+      <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">YouTube @noahsark_2005</a>
+    </div>
+  </footer>
+  <script>
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
+      document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+    document.addEventListener('contextmenu', function (e) {
+      if (e.target.closest('.live-card__cover, .photo-protect')) e.preventDefault();
+    });
+    document.addEventListener('dragstart', function (e) {
+      if (e.target.closest('.live-card__cover, .photo-protect')) e.preventDefault();
+    });
+  </script>
+  </div>
+</body>
+</html>
