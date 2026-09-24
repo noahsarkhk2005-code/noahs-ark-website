@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/style.css?v=20260924-storyscroll" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-paycard" />
   <style>
     /* Org identity hidden until confirmed. Add class="show-org" on <html> to publish. */
     html:not(.show-org) .org-public { display: none !important; }
@@ -43,6 +43,53 @@
     }
     @media (min-width:768px){
       .tickets-jump-payme{right:1.5rem;bottom:1.75rem;width:4.25rem;height:4.25rem;font-size:.78rem}
+    }
+
+    /* Payment CTA card — self-contained (do not rely on missing Tailwind utils) */
+    .tickets-pay-card{
+      display:block;
+      box-sizing:border-box;
+      width:100%;
+      max-width:100%;
+      margin:1.35rem 0 2rem;
+      padding:1.1rem 1rem 1.15rem;
+      border:1px solid #3f3f46;
+      border-radius:.85rem;
+      background:rgba(24,24,27,.92);
+    }
+    .tickets-pay-card__label{
+      color:#ef4444;
+      font-size:.68rem;
+      font-weight:800;
+      letter-spacing:.2em;
+      margin:0 0 .8rem;
+    }
+    .tickets-pay-card__btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-sizing:border-box;
+      width:100%;
+      min-height:52px;
+      padding:.9rem 1rem;
+      border-radius:.75rem;
+      background:#b91c1c;
+      color:#fff !important;
+      font-size:1.05rem;
+      font-weight:800;
+      line-height:1.2;
+      text-align:center;
+      text-decoration:none !important;
+      border:1px solid #991b1b;
+      -webkit-tap-highlight-color:transparent;
+      transition:background .15s ease;
+    }
+    .tickets-pay-card__btn:hover{ background:#dc2626; }
+    .tickets-pay-card__hint{
+      margin:.7rem 0 0;
+      color:#a1a1aa;
+      font-size:.8rem;
+      line-height:1.45;
     }
   
 
@@ -369,22 +416,22 @@
       </iframe>
     </div>
 
-    <p class="text-center text-xs text-zinc-500 mt-6">
+    <p class="text-center text-xs text-zinc-500 mt-6 mb-1">
       <span class="lang-zh">提交後資料會自動進入管理系統，審核通過後會通知你。</span>
       <span class="lang-en lang-hidden">After submission your order enters our system. You will be notified once verified.</span>
     </p>
 
-    <a id="payme" href="/pay?from=tickets" target="_blank" rel="opener" class="block bg-zinc-900/80 border border-zinc-700 hover:border-red-800 rounded-xl p-5 mb-8 text-sm space-y-2 scroll-mt-24 transition no-underline text-inherit">
-      <p class="text-xs tracking-[0.2em] font-bold text-red-500">PAYMENT · 付款</p>
-      <p class="text-zinc-100 font-semibold">
-        <span class="lang-zh">去付款 Pay now →</span>
-        <span class="lang-en lang-hidden">Pay now →</span>
-      </p>
-      <p class="text-zinc-400">
+    <div id="payme" class="tickets-pay-card scroll-mt-24">
+      <p class="tickets-pay-card__label">PAYMENT · 付款</p>
+      <a href="/pay?from=tickets" target="_blank" rel="opener" class="tickets-pay-card__btn" id="tickets-pay-cta">
+        <span class="lang-zh">去付款 Pay now</span>
+        <span class="lang-en lang-hidden">Pay now</span>
+      </a>
+      <p class="tickets-pay-card__hint">
         <span class="lang-zh">PayMe／恒生 FPS 詳情同 QR 喺付款頁。</span>
         <span class="lang-en lang-hidden">PayMe / Hang Seng FPS details and QR codes are on the payment page.</span>
       </p>
-    </a>
+    </div>
 
   </main>
 

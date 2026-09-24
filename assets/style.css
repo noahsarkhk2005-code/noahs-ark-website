@@ -865,3 +865,8 @@ h1,h2,h3,h4,
   justify-content:center;
   margin-top:1rem;
 }
+
+/* Missing utilities used by tickets/merch cards (compiled Tailwind omitted .block) */
+.block{display:block}
+.no-underline{text-decoration:none}
+.text-inherit{color:inherit}
