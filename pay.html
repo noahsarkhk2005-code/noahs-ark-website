@@ -20,6 +20,10 @@
     .pay-hero h1{ font-size:1.45rem; font-weight:900; line-height:1.2; margin:0 0 .35rem; color:#fff; }
     @media (min-width:640px){ .pay-hero h1{ font-size:1.9rem; } }
     .pay-hero__sub{ color:#a1a1aa; font-size:.82rem; line-height:1.5; margin:0; max-width:28rem; }
+    .pay-total-note{
+      margin:0 0 .95rem; padding:.7rem .85rem; border:1px solid #ef4444; border-radius:.75rem;
+      background:rgba(127,29,29,.35); color:#fff; font-size:.95rem; font-weight:800; line-height:1.45;
+    }
     .pay-stack{ display:flex; flex-direction:column; gap:.85rem; margin:0 0 1.5rem; }
     .pay-card{
       border:1px solid #3f3f46; background:#121214; border-radius:1rem;
@@ -148,6 +152,11 @@
         <span class="lang-en lang-hidden">Pay with PayMe or Hang Seng FPS. Account display name: Noahsark Metal.</span>
       </p>
     </header>
+
+    <p class="pay-total-note" id="pay-total-note" role="note">
+      <span class="lang-zh">請按表單「埋單 Total」金額付款</span>
+      <span class="lang-en lang-hidden">Pay the exact Total shown on the form</span>
+    </p>
 
     <ol class="pay-steps" aria-label="Payment steps">
       <li><span class="pay-steps__n">①</span><span class="lang-zh">付款</span><span class="lang-en lang-hidden">Pay</span></li>

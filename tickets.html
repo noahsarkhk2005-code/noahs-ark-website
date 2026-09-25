@@ -14,38 +14,13 @@
     html:not(.show-org) .org-public { display: none !important; }
     html.show-org .hide-when-org { display: none !important; }
   
-    .tickets-jump-payme{
-      position:fixed;
-      right:1rem;
-      bottom:1.25rem;
-      z-index:60;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:3.75rem;
-      height:3.75rem;
-      padding:0;
-      border-radius:50%;
-      background:#b91c1c;
-      color:#fff;
-      font-size:.72rem;
-      font-weight:700;
-      letter-spacing:.02em;
-      line-height:1.1;
-      text-align:center;
-      box-shadow:0 10px 28px rgba(0,0,0,.45);
-      border:1px solid rgba(255,255,255,.12);
-      transition:background .15s ease, transform .15s ease;
-    }
-    .tickets-jump-payme:hover{background:#dc2626;transform:translateY(-1px)}
-    .tickets-jump-payme.is-tucked{
-      opacity:0; pointer-events:none; transform:scale(.85);
-    }
-    @media (min-width:768px){
-      .tickets-jump-payme{right:1.5rem;bottom:1.75rem;width:4.25rem;height:4.25rem;font-size:.78rem}
+    /* Note right above the Tally embed */
+    .tickets-submit-note{
+      margin:0 0 .6rem; padding:0 .25rem; text-align:center;
+      font-size:.82rem; line-height:1.55; color:#d4d4d8;
     }
 
-    /* Low-key internal links under the pay card (below the form; never above it) */
+    /* Low-key internal links below the form (never above it) */
     .tickets-more{
       display:flex; flex-wrap:wrap; justify-content:center; align-items:baseline; gap:.35rem .9rem;
       margin:0 0 2.25rem; padding:0 4.5rem; font-size:.8rem; line-height:1.5; text-align:center;
@@ -54,52 +29,6 @@
     .tickets-more a:hover, .tickets-more a:focus-visible{ color:#f87171; text-decoration-color:#f87171; }
     @media (max-width:420px){ .tickets-more{ padding:0 3.5rem; } }
 
-    /* Payment CTA card — self-contained (do not rely on missing Tailwind utils) */
-    .tickets-pay-card{
-      display:block;
-      box-sizing:border-box;
-      width:100%;
-      max-width:100%;
-      margin:1.35rem 0 2rem;
-      padding:1.1rem 1rem 1.15rem;
-      border:1px solid #3f3f46;
-      border-radius:.85rem;
-      background:rgba(24,24,27,.92);
-    }
-    .tickets-pay-card__label{
-      color:#ef4444;
-      font-size:.68rem;
-      font-weight:800;
-      letter-spacing:.2em;
-      margin:0 0 .8rem;
-    }
-    .tickets-pay-card__btn{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-sizing:border-box;
-      width:100%;
-      min-height:52px;
-      padding:.9rem 1rem;
-      border-radius:.75rem;
-      background:#b91c1c;
-      color:#fff !important;
-      font-size:1.05rem;
-      font-weight:800;
-      line-height:1.2;
-      text-align:center;
-      text-decoration:none !important;
-      border:1px solid #991b1b;
-      -webkit-tap-highlight-color:transparent;
-      transition:background .15s ease;
-    }
-    .tickets-pay-card__btn:hover{ background:#dc2626; }
-    .tickets-pay-card__hint{
-      margin:.7rem 0 0;
-      color:#a1a1aa;
-      font-size:.8rem;
-      line-height:1.45;
-    }
   
 
     /* Ticket type picker cards (above Tally form) — 3 equal cols @390 */
@@ -227,6 +156,9 @@
     .ticket-pick__note-line{ display:block; text-wrap:balance; }
     .ticket-pick__nw{ white-space:nowrap; }
     #order-form{ scroll-margin-top:5.5rem; }
+    /* --na-header-h = live height of the sticky header, set by JS (Tally submit scroll).
+       Never less than the old 5.5rem, so card-click scrolling is unchanged. */
+    #order-form{ scroll-margin-top:max(5.5rem, calc(var(--na-header-h, 0px) + 8px)); }
     @media (min-width:480px){
       .ticket-pick__rail{ gap:.7rem; }
       .ticket-pick__card{ min-height:8.25rem; padding:.9rem .75rem .85rem; }
@@ -485,6 +417,10 @@
       </p>
     </div>
 
+    <p class="tickets-submit-note">
+      <span class="lang-zh">提交後我哋會人手核對付款，核對後會 email 電子飛俾你（通常當日內寄出，請睇埋垃圾郵件）。</span>
+      <span class="lang-en lang-hidden">After you submit, we check your payment by hand and email your e-ticket, usually the same day (check spam).</span>
+    </p>
     <div id="order-form" class="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-2 md:p-4">
       <iframe
         id="tally-embed"
@@ -499,23 +435,6 @@
       </iframe>
     </div>
 
-    <p class="text-center text-xs text-zinc-500 mt-6 mb-1">
-      <span class="lang-zh">提交後資料會自動進入管理系統，審核通過後會通知你。</span>
-      <span class="lang-en lang-hidden">After submission your order enters our system. You will be notified once verified.</span>
-    </p>
-
-    <div id="payme" class="tickets-pay-card scroll-mt-24">
-      <p class="tickets-pay-card__label">PAYMENT · 付款</p>
-      <a href="/pay?from=tickets" target="_blank" rel="opener" class="tickets-pay-card__btn" id="tickets-pay-cta">
-        <span class="lang-zh">去付款 Pay now</span>
-        <span class="lang-en lang-hidden">Pay now</span>
-      </a>
-      <p class="tickets-pay-card__hint">
-        <span class="lang-zh">PayMe／恒生 FPS 詳情同 QR 喺付款頁。</span>
-        <span class="lang-en lang-hidden">PayMe / Hang Seng FPS details and QR codes are on the payment page.</span>
-      </p>
-    </div>
-
     <p class="tickets-more">
       <a href="/bands"><span class="lang-zh">睇下演出樂隊 →</span><span class="lang-en lang-hidden">See the bands →</span></a>
       <a href="/live/2005"><span class="lang-zh">重溫 2005 現場 →</span><span class="lang-en lang-hidden">Relive Noah's Ark 2005 →</span></a>
@@ -527,7 +446,7 @@
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
 
-  <script src="assets/ticket-sale.js?v=20260925-bar-links"></script>
+  <script src="assets/ticket-sale.js?v=20260926-metal420"></script>
   <script src="https://tally.so/widgets/embed.js"></script>
   <script>
     if (typeof Tally !== 'undefined') {
@@ -639,8 +558,6 @@
     /* Scroll so Tally iframe bottom (proof upload + Submit) sits near viewport bottom.
        Retries briefly — Tally dynamicHeight may grow the iframe after first paint. */
     window.naScrollToProof = function () {
-      var jump = document.getElementById('jump-payme');
-      if (jump) jump.classList.add('is-tucked');
       try { window.focus(); } catch (e) {}
 
       function place(smooth) {
@@ -670,13 +587,84 @@
       if (typeof window.naScrollToProof === 'function') window.naScrollToProof();
     });
 
+    /* After the embedded Tally form is submitted it shows a short thank-you and the iframe
+       shrinks, leaving the page scrolled past it (thank-you hidden behind the sticky header).
+       On Tally.FormSubmitted (JSON string posted by the iframe, origin https://tally.so) put
+       the top of #order-form just below the header (height measured live), then keep it
+       there while the iframe resizes. Stops early if the user scrolls by hand. */
+    (function () {
+      var TALLY_ORIGIN = 'https://tally.so';
+      var GAP = 8;
+      var root = document.documentElement;
+
+      function headerHeight() {
+        var bar = document.querySelector('#site-nav .site-nav__bar') || document.getElementById('site-nav');
+        if (!bar) return 0;
+        /* sticky at top:0 while scrolled, so its height is what covers the page */
+        return Math.round(bar.getBoundingClientRect().height) + 1; /* + nav border-bottom */
+      }
+      function syncHeaderVar() {
+        var h = headerHeight();
+        if (h > 1) root.style.setProperty('--na-header-h', h + 'px');
+        return h;
+      }
+
+      function placeFormTop() {
+        var wrap = document.getElementById('order-form');
+        if (!wrap) return;
+        var h = syncHeaderVar();
+        var y = window.pageYOffset || window.scrollY || 0;
+        var target = Math.max(0, Math.round(wrap.getBoundingClientRect().top + y - h - GAP));
+        if (Math.abs(target - y) < 2) return;
+        try { window.scrollTo({ top: target, behavior: 'instant' }); }
+        catch (e) { window.scrollTo(0, target); }
+      }
+
+      var followUntil = 0, timers = [], ro = null;
+      function stopFollowing() {
+        followUntil = 0;
+        timers.forEach(clearTimeout); timers = [];
+        if (ro) { try { ro.disconnect(); } catch (e) {} ro = null; }
+        window.removeEventListener('touchstart', stopFollowing);
+        window.removeEventListener('wheel', stopFollowing);
+      }
+      function onSubmitted() {
+        stopFollowing();
+        followUntil = Date.now() + 2500;
+        placeFormTop();
+        [120, 350, 700, 1200, 2000].forEach(function (ms) {
+          timers.push(setTimeout(function () { if (Date.now() <= followUntil + 50) placeFormTop(); }, ms));
+        });
+        timers.push(setTimeout(stopFollowing, 2600));
+        var iframe = document.getElementById('tally-embed');
+        if (iframe && typeof ResizeObserver === 'function') {
+          ro = new ResizeObserver(function () { if (Date.now() <= followUntil) placeFormTop(); });
+          ro.observe(iframe);
+        }
+        window.addEventListener('touchstart', stopFollowing, { passive: true });
+        window.addEventListener('wheel', stopFollowing, { passive: true });
+      }
+
+      window.addEventListener('message', function (event) {
+        if (event.origin !== TALLY_ORIGIN) return;
+        var iframe = document.getElementById('tally-embed');
+        if (iframe && event.source && iframe.contentWindow && event.source !== iframe.contentWindow) return;
+        var msg = event.data;
+        if (typeof msg === 'string') {
+          if (msg.indexOf('Tally.FormSubmitted') === -1) return;
+          try { msg = JSON.parse(msg); } catch (e) { return; }
+        }
+        if (!msg || msg.event !== 'Tally.FormSubmitted') return;
+        onSubmitted();
+      });
+
+      syncHeaderVar();
+      window.addEventListener('resize', syncHeaderVar);
+    })();
+
   </script>
   </div><!-- /.site-content -->
 
-  <a href="/pay?from=tickets" id="jump-payme" class="tickets-jump-payme" target="_blank" rel="opener" aria-label="Pay">
-    <span class="lang-zh">付款</span>
-    <span class="lang-en lang-hidden">Pay</span>
-  </a>
 
 </body>
 </html>

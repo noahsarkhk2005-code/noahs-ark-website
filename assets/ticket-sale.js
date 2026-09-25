@@ -93,7 +93,7 @@ window.NOAHS_TICKET_SALE = (function () {
   var STICKY_TIERS = {
     metal:     { zh: 'Metal', en: 'Metal',      price: 350 },
     earlybird: { zh: '早鳥',  en: 'Early bird', price: 380 },
-    lastcall:  { zh: '會員',  en: 'Member',     price: 420 },
+    lastcall:  { zh: 'Metal', en: 'Metal',      price: 420 },  /* member/Metal tier after cutover */
     presale:   { zh: '預售',  en: 'Presale',    price: 450 }
   };
 
