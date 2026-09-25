@@ -18,7 +18,7 @@
  *   in the "視頻 / Videos" section at the bottom of /live/2005 instead. If a band page
  *   is added later (live/2005/<slug>.html + _redirects + tile), add its slug to BAND_PAGES.
  */
-window.NA_2005_BAND_PAGES = ['bereavement', 'hermetic-silence', 'deathguy', 'departing-cross', 'cadaver'];
+window.NA_2005_BAND_PAGES = ['bereavement', 'hermetic-silence', 'deathguy', 'departing-cross', 'cadaver', 'evocation'];
 window.NA_2005_VIDEOS = [
   /* "Noahs Ark 2005 11 02m41s" — belongs to no band: hero video at the top of /live/2005,
      and listed first on /videos. (hero: true → not tied to a band page) */
@@ -39,8 +39,7 @@ window.NA_2005_VIDEOS = [
   /* "Noahs Ark 2005 05 14m53s" */
   { band: 'bereavement', id: 'c3iM1PZqPgM',
     zh: "Bereavement｜Noah's Ark 2005", en: "Bereavement | Noah's Ark 2005" },
-  /* "Noahs Ark 2005 06 06m17s" — no 2005 band page/tile for Evocation (yet),
-     so it is listed in the "Videos" section at the bottom of /live/2005. */
+  /* "Noahs Ark 2005 06 06m17s" — 招魂 Evocation (/live/2005/evocation) */
   { band: 'evocation', id: 'Tx-59Kuqz2U',
     zh: "招魂 Evocation｜Noah's Ark 2005（一）", en: "Evocation | Noah's Ark 2005 Part 1" },
   /* "Noahs Ark 2005 07 06m57s" */

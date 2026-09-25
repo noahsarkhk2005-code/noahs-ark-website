@@ -30,7 +30,7 @@
       position:absolute; inset:0; background:#0a0a0a center/contain no-repeat;
     }
     .photo-shield{ position:absolute; inset:0; z-index:2; background:transparent; }
-    .band-detail__video{ margin-top:1.5rem; }
+    .band-detail__video{ margin:0 0 1.5rem; } /* videos first, photo after */
     .band-detail__video h2{
       color:#ef4444; font-size:.7rem; letter-spacing:.28em;
       font-weight:800; margin:0 0 .65rem;
@@ -95,14 +95,14 @@
     </header>
 
     <section class="band-detail" aria-label="Hermetic Silence">
-      <div class="band-detail__photo photo-protect">
-        <div class="photo-bg" style="background-image:url(../../assets/live-2005/hermetic-silence.webp)" role="img" aria-label="Hermetic Silence"></div>
-        <div class="photo-shield" aria-hidden="true"></div>
-      </div>
       <!-- Videos come from assets/na-2005-videos.js (add an entry there); hidden when this band has none. -->
       <div class="band-detail__video" data-na2005-band="hermetic-silence" hidden>
         <h2><span class="lang-zh">視頻</span><span class="lang-en lang-hidden">Video</span></h2>
         <div data-na2005-videos></div>
+      </div>
+      <div class="band-detail__photo photo-protect">
+        <div class="photo-bg" style="background-image:url(../../assets/live-2005/hermetic-silence.webp)" role="img" aria-label="Hermetic Silence"></div>
+        <div class="photo-shield" aria-hidden="true"></div>
       </div>
     </section>
   </main>
@@ -139,7 +139,7 @@
       if (e.target.closest('.photo-protect')) e.preventDefault();
     });
   </script>
-  <script src="../../assets/na-2005-videos.js?v=20260925-hs2005"></script>
+  <script src="../../assets/na-2005-videos.js?v=20260925-evo2005"></script>
   </div>
 </body>
 </html>

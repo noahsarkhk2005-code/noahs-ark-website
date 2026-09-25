@@ -26,7 +26,7 @@
       gap:.65rem; margin:1.25rem 0 2.5rem;
     }
     @media (min-width:640px){ .band-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:.85rem; } }
-    @media (min-width:960px){ .band-grid{ grid-template-columns:repeat(5,minmax(0,1fr)); } }
+    @media (min-width:960px){ .band-grid{ grid-template-columns:repeat(6,minmax(0,1fr)); } }
     a.band-card{
       display:flex; flex-direction:column; border-radius:.9rem; overflow:hidden;
       border:1px solid #3f3f46; background:#121214; color:inherit;
@@ -49,12 +49,15 @@
       text-align:center; line-height:1.3;
     }
     .photo-shield{ position:absolute; inset:0; z-index:2; background:transparent; }
+    /* ── TILE ORDER (change only these numbers to reorder the band tiles) ── */
+    .band-grid [data-na2005-tile="bereavement"]{ order:1; }
+    .band-grid [data-na2005-tile="deathguy"]{ order:2; }
+    .band-grid [data-na2005-tile="departing-cross"]{ order:3; }
+    .band-grid [data-na2005-tile="hermetic-silence"]{ order:4; }
+    .band-grid [data-na2005-tile="evocation"]{ order:5; }
+    .band-grid [data-na2005-tile="cadaver"]{ order:6; }
     .live-hero-video{ margin:.25rem 0 0; max-width:48rem; }
     .live-hero-video .na2005-video{ margin-bottom:.5rem; }
-    .live-videos{ margin:0 0 2.5rem; scroll-margin-top:5.5rem; }
-    .live-videos__head{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin:0 0 .65rem; }
-    .live-videos__grid{ display:grid; grid-template-columns:1fr; gap:0 1rem; }
-    @media (min-width:768px){ .live-videos__grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -145,13 +148,6 @@
         </div>
         <div class="band-card__name">Departing Cross</div>
       </a>
-      <a class="band-card" href="/live/2005/cadaver" data-na2005-tile="cadaver">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/cadaver.webp)" role="img" aria-label="Cadaver"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Cadaver</div>
-      </a>
       <a class="band-card" href="/live/2005/hermetic-silence" data-na2005-tile="hermetic-silence">
         <div class="band-card__logo photo-protect">
           <div class="photo-bg" style="background-image:url(../assets/live-2005/hermetic-silence.webp)" role="img" aria-label="Hermetic Silence"></div>
@@ -159,13 +155,22 @@
         </div>
         <div class="band-card__name">Hermetic Silence</div>
       </a>
+      <a class="band-card" href="/live/2005/evocation" data-na2005-tile="evocation">
+        <div class="band-card__logo photo-protect">
+          <div class="photo-bg" style="background-image:url(../assets/live-2005/evocation.webp)" role="img" aria-label="招魂 Evocation"></div>
+          <div class="photo-shield" aria-hidden="true"></div>
+        </div>
+        <div class="band-card__name">招魂 Evocation</div>
+      </a>
+      <a class="band-card" href="/live/2005/cadaver" data-na2005-tile="cadaver">
+        <div class="band-card__logo photo-protect">
+          <div class="photo-bg" style="background-image:url(../assets/live-2005/cadaver.webp)" role="img" aria-label="Cadaver"></div>
+          <div class="photo-shield" aria-hidden="true"></div>
+        </div>
+        <div class="band-card__name">Cadaver</div>
+      </a>
     </div>
 
-    <!-- Videos of 2005 bands that have no band tile/page here (from assets/na-2005-videos.js). -->
-    <section class="live-videos" id="videos" data-na2005-extra hidden>
-      <h2 class="live-videos__head"><span class="lang-zh">視頻</span><span class="lang-en lang-hidden">Videos</span></h2>
-      <div class="live-videos__grid" data-na2005-videos></div>
-    </section>
   </main>
 
   <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
@@ -200,7 +205,7 @@
       if (e.target.closest('.photo-protect')) e.preventDefault();
     });
   </script>
-  <script src="../assets/na-2005-videos.js?v=20260925-hs2005"></script>
+  <script src="../assets/na-2005-videos.js?v=20260925-evo2005"></script>
   </div>
 </body>
 </html>
