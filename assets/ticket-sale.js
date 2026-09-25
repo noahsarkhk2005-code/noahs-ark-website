@@ -156,6 +156,15 @@ window.NOAHS_TICKET_SALE = (function () {
       }
       syncLangVisibility(card);
     });
+    /* Phase-dependent copy (e.g. member note): data-phase-show="pre" visible
+       before PRESALE_START, "post" from PRESALE_START (honours ?now=). */
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[data-phase-show]'),
+      function (el) {
+        var phase = el.getAttribute('data-phase-show');
+        el.hidden = phase === 'post' ? !open : open;
+      }
+    );
   }
 
   /* ---- live phase watcher ---- */
