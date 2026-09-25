@@ -123,6 +123,11 @@ window.NOAHS_TICKET_SALE = (function () {
     Array.prototype.forEach.call(cards, function (card) {
       var key = card.getAttribute('data-ticket');
       var on = isSelectable(key, n);
+      /* Cards marked data-hide-until-presale are hidden before PRESALE_START
+         (absolute +08:00 instant; honours ?now= override). */
+      if (card.hasAttribute('data-hide-until-presale')) {
+        card.hidden = !open;
+      }
       card.classList.toggle('is-disabled', !on);
       card.classList.toggle('is-primary', open && key === 'presale');
       card.setAttribute('aria-disabled', on ? 'false' : 'true');
