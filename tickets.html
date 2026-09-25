@@ -157,12 +157,21 @@
       width:100%;
       word-break:break-word;
     }
-    .ticket-pick__amt{
+    /* Price + one small line pinned to the card bottom so every card in a row
+       shares the same price baseline (label → title → price → small line). */
+    .ticket-pick__foot{
       margin-top:auto; padding-top:.35rem;
-      font-size:1.22rem; font-weight:900; color:#fff;
-      font-variant-numeric:tabular-nums; line-height:1;
+      width:100%; min-width:0;
+      display:flex; flex-direction:column; align-items:flex-start;
     }
-    .ticket-pick__amt span{ font-size:.62rem; color:#a1a1aa; font-weight:700; margin-right:.1rem; }
+    .ticket-pick__amt{
+      display:flex; align-items:baseline; gap:.1rem;
+      margin:0; padding:0;
+      font-size:1.22rem; font-weight:900; color:#fff;
+      font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
+      line-height:1; white-space:nowrap;
+    }
+    .ticket-pick__amt span{ font-size:.62rem; color:#a1a1aa; font-weight:700; }
 
     .ticket-pick__card.is-disabled{
       opacity:.48;
@@ -203,8 +212,11 @@
       font-weight:700;
       color:#a1a1aa;
       line-height:1.2;
+      min-height:1.2em;           /* reserve exactly one line on every card */
       width:100%;
-      word-break:break-word;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
     #order-form{ scroll-margin-top:5.5rem; }
     @media (min-width:480px){
@@ -214,6 +226,7 @@
       .ticket-pick__name{ font-size:.9rem; min-height:2.5rem; }
       .ticket-pick__amt{ font-size:1.65rem; }
       .ticket-pick__amt span{ font-size:.78rem; }
+      .ticket-pick__elig{ font-size:.6rem; }
       .ticket-pick__heading{ font-size:.72rem; letter-spacing:.28em; }
       .ticket-pick__hint{ font-size:.78rem; }
     }
@@ -232,6 +245,11 @@
       muted
       loop
       playsinline
+      webkit-playsinline
+      disablepictureinpicture
+      disableremoteplayback
+      controlslist="nodownload nofullscreen noremoteplayback"
+      tabindex="-1"
       preload="auto"
       poster="assets/tickets-bg-20-poster.jpg"
     >
@@ -252,7 +270,22 @@
       height:100%;
       object-fit:cover;
       object-position:center center;
+      pointer-events:none;
+      transition:opacity .3s ease;
     }
+    /* iOS/Safari: never show the native start-playback (grey ▶) overlay on the
+       decorative background when autoplay is blocked (e.g. Low Power Mode). */
+    .tickets-art-bg__video::-webkit-media-controls,
+    .tickets-art-bg__video::-webkit-media-controls-panel,
+    .tickets-art-bg__video::-webkit-media-controls-overlay-play-button,
+    .tickets-art-bg__video::-webkit-media-controls-start-playback-button,
+    .tickets-art-bg__video::-webkit-media-controls-play-button{
+      display:none !important;
+      -webkit-appearance:none;
+      opacity:0 !important;
+    }
+    /* Autoplay refused → hide video; wrapper's poster background shows instead. */
+    .tickets-art-bg__video.is-blocked{ opacity:0; }
     .tickets-art-bg::after{
       content:"";
       position:absolute;
@@ -267,6 +300,32 @@
       .tickets-art-bg__video{ display:none; }
     }
   </style>
+  <script>
+    /* Background clip: if the browser refuses autoplay (iOS Low Power Mode etc.)
+       hide the <video> so no native ▶ overlay shows; the poster background stays.
+       Retry once on the first tap. */
+    (function () {
+      var v = document.querySelector('.tickets-art-bg__video');
+      if (!v) return;
+      v.muted = true; v.defaultMuted = true; v.controls = false;
+      function blocked() { v.classList.add('is-blocked'); }
+      v.addEventListener('playing', function () { v.classList.remove('is-blocked'); });
+      function tryPlay() {
+        var p;
+        try { p = v.play(); } catch (e) { blocked(); return; }
+        if (p && typeof p.catch === 'function') {
+          p.catch(function (err) { if (!err || err.name !== 'AbortError') blocked(); });
+        }
+      }
+      v.addEventListener('canplay', function () {
+        setTimeout(function () { if (v.paused) blocked(); }, 900);
+      }, { once: true });
+      tryPlay();
+      function retry() { if (v.paused) tryPlay(); }
+      document.addEventListener('touchstart', retry, { once: true, passive: true });
+      document.addEventListener('pointerdown', retry, { once: true, passive: true });
+    })();
+  </script>
 
   <div class="site-content">
   <nav class="site-nav" id="site-nav">
@@ -360,10 +419,13 @@
           <div class="ticket-pick__name">
             <span class="lang-zh">Metal Pass 會員 Member</span><span class="lang-en lang-hidden">Metal Pass Member</span>
           </div>
-          <div class="ticket-pick__amt"><span>HK$</span>350</div>
-          <div class="ticket-pick__elig">
-            <span class="lang-zh">只限舊 Metal Pass・限用一次</span>
-            <span class="lang-en lang-hidden">Existing Metal Pass only · once per event</span>
+          <div class="ticket-pick__foot">
+            <div class="ticket-pick__amt"><span>HK$</span>350</div>
+            <div class="ticket-pick__elig">
+              <span class="lang-zh">只限舊 Metal Pass・限用一次</span>
+              <span class="lang-en lang-hidden">Existing Metal Pass only · once</span>
+            </div>
+            <div class="ticket-pick__status" hidden></div>
           </div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
@@ -375,7 +437,14 @@
           <div class="ticket-pick__name">
             <span class="lang-zh">早鳥 Early Bird</span><span class="lang-en lang-hidden">Early Bird</span>
           </div>
-          <div class="ticket-pick__amt"><span>HK$</span>380</div>
+          <div class="ticket-pick__foot">
+            <div class="ticket-pick__amt"><span>HK$</span>380</div>
+            <div class="ticket-pick__elig">
+              <span class="lang-zh">11 月 20 日或之前</span>
+              <span class="lang-en lang-hidden">Until 20 Nov</span>
+            </div>
+            <div class="ticket-pick__status" hidden></div>
+          </div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
           data-ticket="lastcall" data-qty-param="qty_metal_lastcall" data-hide-until-presale hidden
@@ -386,10 +455,13 @@
           <div class="ticket-pick__name">
             <span class="lang-zh">Metal Pass 會員最後優惠 Member Last Call</span><span class="lang-en lang-hidden">Metal Pass Member Last Call</span>
           </div>
-          <div class="ticket-pick__amt"><span>HK$</span>420</div>
-          <div class="ticket-pick__elig">
-            <span class="lang-zh">只限舊 Metal Pass・限用一次</span>
-            <span class="lang-en lang-hidden">Existing Metal Pass only · once per event</span>
+          <div class="ticket-pick__foot">
+            <div class="ticket-pick__amt"><span>HK$</span>420</div>
+            <div class="ticket-pick__elig">
+              <span class="lang-zh">只限舊 Metal Pass・限用一次</span>
+              <span class="lang-en lang-hidden">Existing Metal Pass only · once</span>
+            </div>
+            <div class="ticket-pick__status" hidden></div>
           </div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
@@ -401,7 +473,14 @@
           <div class="ticket-pick__name">
             <span class="lang-zh">預售 Presale</span><span class="lang-en lang-hidden">Presale</span>
           </div>
-          <div class="ticket-pick__amt"><span>HK$</span>450</div>
+          <div class="ticket-pick__foot">
+            <div class="ticket-pick__amt"><span>HK$</span>450</div>
+            <div class="ticket-pick__elig">
+              <span class="lang-zh">11 月 21 日起</span>
+              <span class="lang-en lang-hidden">From 21 Nov</span>
+            </div>
+            <div class="ticket-pick__status" hidden></div>
+          </div>
         </button>
       </div>
     </div>
