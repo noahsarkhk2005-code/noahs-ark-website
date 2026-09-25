@@ -102,11 +102,18 @@
       font-weight:800;
       letter-spacing:.22em;
       text-transform:uppercase;
-      margin:0 0 .35rem;
+      margin:0 0 .45rem;
+      padding-left:.22em; /* balance trailing letter-spacing so it centres optically */
     }
-    .ticket-pick__hint{
-      text-align:center; color:#a1a1aa; font-size:.72rem; margin:0 0 .7rem; line-height:1.35;
+    /* Intro block: label → hint → member note share one centred column,
+       one font size and one spacing step; balanced wrapping, no orphans. */
+    .ticket-pick__hint,
+    .ticket-pick__member-note{
+      text-align:center; font-size:.74rem; line-height:1.5;
+      max-width:30rem; margin-left:auto; margin-right:auto;
+      text-wrap:balance;
     }
+    .ticket-pick__hint{ color:#d4d4d8; margin-top:0; margin-bottom:.45rem; }
     .ticket-pick__rail{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -131,6 +138,7 @@
       transition:border-color .15s ease, box-shadow .15s ease, background .15s ease, transform .12s ease;
       -webkit-tap-highlight-color:transparent;
       overflow:hidden;
+      position:relative;
     }
     .ticket-pick__card:hover{
       border-color:#71717a;
@@ -157,8 +165,8 @@
       width:100%;
       word-break:break-word;
     }
-    /* Price + one small line pinned to the card bottom so every card in a row
-       shares the same price baseline (label → title → price → small line). */
+    /* Price pinned to the card bottom so every card in a row shares the same
+       price baseline (label → title → price). */
     .ticket-pick__foot{
       margin-top:auto; padding-top:.35rem;
       width:100%; min-width:0;
@@ -188,36 +196,27 @@
       border-color:#ef4444;
       box-shadow:0 0 0 1px rgba(239,68,68,.35), 0 8px 22px rgba(127,29,29,.28);
     }
+    /* 已停售 / Sold out: small pill in the top-right corner, out of flow, so it
+       never moves the title or the price baseline. */
     .ticket-pick__status{
-      margin-top:.35rem;
-      font-size:.58rem;
-      font-weight:800;
-      letter-spacing:.04em;
-      color:#fca5a5;
-      line-height:1.25;
+      position:absolute; top:.55rem; right:.45rem;
+      padding:.12rem .4rem;
+      border:1px solid currentColor; border-radius:999px;
+      font-size:.55rem; font-weight:800; letter-spacing:.04em;
+      color:#fca5a5; line-height:1.2; white-space:nowrap;
+      background:rgba(9,9,11,.85);
     }
-    .ticket-pick__card.is-disabled .ticket-pick__status{ color:#a1a1aa; }
+    .ticket-pick__card.is-disabled .ticket-pick__status{ color:#d4d4d8; }
     /* Last Call / Presale stay hidden (no flash, no-JS safe) until ticket-sale.js
        reveals them at PRESALE_START (2026-11-21 00:00 HKT). */
     .ticket-pick__card[hidden]{ display:none !important; }
     /* Phase-dependent text: "pre" shown by default, "post" revealed at PRESALE_START. */
     [data-phase-show][hidden]{ display:none !important; }
 
-    .ticket-pick__member-note{
-      text-align:center; color:#d4d4d8; font-size:.62rem; margin:0 0 .65rem; line-height:1.4;
-    }
-    .ticket-pick__elig{
-      margin-top:.28rem;
-      font-size:.52rem;
-      font-weight:700;
-      color:#a1a1aa;
-      line-height:1.2;
-      min-height:1.2em;           /* reserve exactly one line on every card */
-      width:100%;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
+    .ticket-pick__member-note{ color:#a1a1aa; margin-top:0; margin-bottom:.9rem; }
+    /* Each sentence on its own line (break after 「一次。」 / "once per event."). */
+    .ticket-pick__note-line{ display:block; text-wrap:balance; }
+    .ticket-pick__nw{ white-space:nowrap; }
     #order-form{ scroll-margin-top:5.5rem; }
     @media (min-width:480px){
       .ticket-pick__rail{ gap:.7rem; }
@@ -226,9 +225,10 @@
       .ticket-pick__name{ font-size:.9rem; min-height:2.5rem; }
       .ticket-pick__amt{ font-size:1.65rem; }
       .ticket-pick__amt span{ font-size:.78rem; }
-      .ticket-pick__elig{ font-size:.6rem; }
-      .ticket-pick__heading{ font-size:.72rem; letter-spacing:.28em; }
-      .ticket-pick__hint{ font-size:.78rem; }
+      .ticket-pick__status{ top:.8rem; right:.7rem; font-size:.62rem; }
+      .ticket-pick__heading{ font-size:.72rem; letter-spacing:.28em; padding-left:.28em; }
+      .ticket-pick__hint,
+      .ticket-pick__member-note{ font-size:.8rem; }
     }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
@@ -401,12 +401,12 @@
       </p>
       <p class="ticket-pick__member-note">
         <span class="ticket-pick__phase-text" data-phase-show="pre">
-          <span class="lang-zh">會員價 $350 只限持 Metal Pass 嘅舊會員，整個活動限用一次。其他人請揀早鳥。</span>
-          <span class="lang-en lang-hidden">Member price $350 is for existing Metal Pass holders only, once per event. Everyone else: Early Bird.</span>
+          <span class="lang-zh"><span class="ticket-pick__note-line">會員價 $350 只限持 <span class="ticket-pick__nw">Metal Pass</span> 嘅舊會員，整個活動限用一次。</span><span class="ticket-pick__note-line">其他人請揀早鳥。</span></span>
+          <span class="lang-en lang-hidden"><span class="ticket-pick__note-line">Member price $350 is for existing <span class="ticket-pick__nw">Metal Pass</span> holders only, once per event.</span> <span class="ticket-pick__note-line">Everyone else: Early Bird.</span></span>
         </span>
         <span class="ticket-pick__phase-text" data-phase-show="post" hidden>
-          <span class="lang-zh">會員價（$350／$420）只限持 Metal Pass 嘅舊會員，整個活動限用一次。其他人請揀早鳥或預售。</span>
-          <span class="lang-en lang-hidden">Member price ($350/$420) is for existing Metal Pass holders only, once per event. Everyone else: Early Bird or Presale.</span>
+          <span class="lang-zh"><span class="ticket-pick__note-line">會員價（$350／$420）只限持 <span class="ticket-pick__nw">Metal Pass</span> 嘅舊會員，整個活動限用一次。</span><span class="ticket-pick__note-line">其他人請揀早鳥或預售。</span></span>
+          <span class="lang-en lang-hidden"><span class="ticket-pick__note-line">Member price ($350/$420) is for existing <span class="ticket-pick__nw">Metal Pass</span> holders only, once per event.</span> <span class="ticket-pick__note-line">Everyone else: Early Bird or Presale.</span></span>
         </span>
       </p>
       <div class="ticket-pick__rail" role="listbox" aria-label="Ticket types">
@@ -421,12 +421,8 @@
           </div>
           <div class="ticket-pick__foot">
             <div class="ticket-pick__amt"><span>HK$</span>350</div>
-            <div class="ticket-pick__elig">
-              <span class="lang-zh">只限舊 Metal Pass・限用一次</span>
-              <span class="lang-en lang-hidden">Existing Metal Pass only · once</span>
-            </div>
-            <div class="ticket-pick__status" hidden></div>
           </div>
+          <div class="ticket-pick__status" hidden></div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
           data-ticket="earlybird" data-qty-param="qty_earlybird"
@@ -439,12 +435,8 @@
           </div>
           <div class="ticket-pick__foot">
             <div class="ticket-pick__amt"><span>HK$</span>380</div>
-            <div class="ticket-pick__elig">
-              <span class="lang-zh">11 月 20 日或之前</span>
-              <span class="lang-en lang-hidden">Until 20 Nov</span>
-            </div>
-            <div class="ticket-pick__status" hidden></div>
           </div>
+          <div class="ticket-pick__status" hidden></div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
           data-ticket="lastcall" data-qty-param="qty_metal_lastcall" data-hide-until-presale hidden
@@ -457,12 +449,8 @@
           </div>
           <div class="ticket-pick__foot">
             <div class="ticket-pick__amt"><span>HK$</span>420</div>
-            <div class="ticket-pick__elig">
-              <span class="lang-zh">只限舊 Metal Pass・限用一次</span>
-              <span class="lang-en lang-hidden">Existing Metal Pass only · once</span>
-            </div>
-            <div class="ticket-pick__status" hidden></div>
           </div>
+          <div class="ticket-pick__status" hidden></div>
         </button>
         <button type="button" class="ticket-pick__card" role="option" aria-selected="false"
           data-ticket="presale" data-qty-param="qty_presale" data-hide-until-presale hidden
@@ -475,12 +463,8 @@
           </div>
           <div class="ticket-pick__foot">
             <div class="ticket-pick__amt"><span>HK$</span>450</div>
-            <div class="ticket-pick__elig">
-              <span class="lang-zh">11 月 21 日起</span>
-              <span class="lang-en lang-hidden">From 21 Nov</span>
-            </div>
-            <div class="ticket-pick__status" hidden></div>
           </div>
+          <div class="ticket-pick__status" hidden></div>
         </button>
       </div>
     </div>
