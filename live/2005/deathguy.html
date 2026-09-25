@@ -35,11 +35,6 @@
       color:#ef4444; font-size:.7rem; letter-spacing:.28em;
       font-weight:800; margin:0 0 .65rem;
     }
-    .video-slot{
-      border:1px dashed #3f3f46; border-radius:.75rem; background:rgba(24,24,27,.55);
-      color:#a1a1aa; font-size:.85rem; line-height:1.5; padding:1.25rem;
-      text-align:center;
-    }
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -104,12 +99,10 @@
         <div class="photo-bg" style="background-image:url(../../assets/live-2005/deathguy.webp)" role="img" aria-label="Deathguy"></div>
         <div class="photo-shield" aria-hidden="true"></div>
       </div>
-      <div class="band-detail__video">
+      <!-- Videos come from assets/na-2005-videos.js (add an entry there); hidden when this band has none. -->
+      <div class="band-detail__video" data-na2005-band="deathguy" hidden>
         <h2><span class="lang-zh">視頻</span><span class="lang-en lang-hidden">Video</span></h2>
-        <div class="video-slot" data-youtube="">
-          <span class="lang-zh">YouTube 連結稍後補上</span>
-          <span class="lang-en lang-hidden">Video link coming soon</span>
-        </div>
+        <div data-na2005-videos></div>
       </div>
     </section>
   </main>
@@ -146,6 +139,7 @@
       if (e.target.closest('.photo-protect')) e.preventDefault();
     });
   </script>
+  <script src="../../assets/na-2005-videos.js?v=20260925-hs2005"></script>
   </div>
 </body>
 </html>
