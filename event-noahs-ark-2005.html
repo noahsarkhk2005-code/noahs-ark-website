@@ -13,6 +13,31 @@
     /* Org identity hidden until confirmed. Add class="show-org" on <html> to publish. */
     html:not(.show-org) .org-public { display: none !important; }
     html.show-org .hide-when-org { display: none !important; }
+    /* 挪亞 1 / 挪亞 2 poster links (same posters + targets as the /live cards) */
+    .na-posters{ margin:0 0 1.25rem; }
+    .na-posters__label{ color:#ef4444; font-size:.65rem; font-weight:800; letter-spacing:.22em; margin:0 0 .5rem; }
+    .na-posters__grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; max-width:20.5rem; }
+    @media (min-width:768px){ .na-posters__grid{ max-width:26rem; gap:1rem; } }
+    a.na-poster{
+      display:flex; flex-direction:column; min-width:0; border-radius:.75rem; overflow:hidden;
+      border:1px solid #3f3f46; background:#121214; color:inherit; text-decoration:none;
+      transition:border-color .2s ease, transform .15s ease;
+    }
+    a.na-poster:hover, a.na-poster:focus-visible{ border-color:#7f1d1d; }
+    a.na-poster:active{ transform:scale(.99); }
+    .na-poster picture{ display:block; }
+    .na-poster img{ display:block; width:100%; height:auto; aspect-ratio:900/1254; object-fit:cover; background:#0a0a0a; }
+    .na-poster__title{
+      display:flex; justify-content:space-between; gap:.35rem; align-items:baseline;
+      padding:.45rem .6rem .5rem; font-size:.78rem; font-weight:800; color:#fff; line-height:1.25; white-space:nowrap;
+    }
+    .na-poster__title > span:first-child{ overflow:hidden; text-overflow:ellipsis; min-width:0; }
+    .na-poster__arrow{ color:#f87171; flex:none; }
+    @media (max-width:767px){ .na-posters{ padding:0 1rem; } }
+    @media (max-width:420px){
+      .na-poster__title{ font-size:.72rem; padding:.45rem .5rem .5rem; justify-content:center; }
+      .na-poster__arrow{ display:none; }
+    }
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -74,6 +99,26 @@
       <p class="text-zinc-200 font-semibold">Hong Kong's Extreme 2005</p>
       <p class="text-zinc-400 text-sm">Live in Hong Kong</p>
     </header>
+
+    <section class="na-posters" aria-labelledby="na-posters-label">
+      <p class="na-posters__label" id="na-posters-label"><span class="lang-zh">挪亞 1 · 2 海報</span><span class="lang-en lang-hidden">NOAH'S ARK I · II POSTERS</span></p>
+      <div class="na-posters__grid">
+        <a class="na-poster" href="/live/2005">
+          <picture>
+            <source srcset="assets/live-cover-2005.webp" type="image/webp" />
+            <img src="assets/live-cover-2005.jpg" alt="Noah's Ark 2005 poster" width="900" height="1242" loading="lazy" decoding="async" />
+          </picture>
+          <span class="na-poster__title"><span><span class="lang-zh">挪亞 1 · 2005</span><span class="lang-en lang-hidden">Noah's Ark I · 2005</span></span><span class="na-poster__arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="na-poster" href="/bands">
+          <picture>
+            <source srcset="assets/live-cover-2026.webp?v=na2poster" type="image/webp" />
+            <img src="assets/live-cover-2026.jpg?v=na2poster" alt="Noah's Ark II 2026 poster" width="900" height="1266" loading="lazy" decoding="async" />
+          </picture>
+          <span class="na-poster__title"><span><span class="lang-zh">挪亞 2 · 2026</span><span class="lang-en lang-hidden">Noah's Ark II · 2026</span></span><span class="na-poster__arrow" aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </section>
 
     <div class="event-page__layout">
       <div class="event-album" id="event-album" data-interval="4500">
@@ -284,7 +329,12 @@
         if (countEl) countEl.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
         restartBar();
         if (thumbs[i] && thumbsWrap) {
-          thumbs[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          /* Centre the active thumb by scrolling the strip only (never the page;
+             scrollIntoView used to pull the whole page down to the album). */
+          var tr = thumbs[i].getBoundingClientRect(), wr = thumbsWrap.getBoundingClientRect();
+          var left = thumbsWrap.scrollLeft + (tr.left - wr.left) - (wr.width - tr.width) / 2;
+          try { thumbsWrap.scrollTo({ left: Math.max(0, left), behavior: 'smooth' }); }
+          catch (e) { thumbsWrap.scrollLeft = Math.max(0, left); }
         }
       }
       function stop() {
