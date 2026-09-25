@@ -87,16 +87,24 @@ window.NOAHS_TICKET_SALE = (function () {
     return qs ? base + '&' + qs : base;
   }
 
+  /* Bottom bar (home) price line = the /tickets cards that are buyable right now
+     (same selectableKeys() as the cards, so it flips at PRESALE_START; honours ?now=).
+     Not-yet-on-sale / 已停售 tiers are never listed. */
+  var STICKY_TIERS = {
+    metal:     { zh: 'Metal', en: 'Metal',      price: 350 },
+    earlybird: { zh: '早鳥',  en: 'Early bird', price: 380 },
+    lastcall:  { zh: '會員',  en: 'Member',     price: 420 },
+    presale:   { zh: '預售',  en: 'Presale',    price: 450 }
+  };
+
   function stickyPricesHtml(now) {
-    if (isPresaleOpen(now)) {
-      return (
-        '<span class="lang-zh">會員 $420 · 預售 $450</span>' +
-        '<span class="lang-en lang-hidden">Member $420 · Presale $450</span>'
-      );
+    var keys = selectableKeys(now || getNow()).filter(function (k) { return STICKY_TIERS[k]; });
+    function line(lang) {
+      return keys.map(function (k) { return STICKY_TIERS[k][lang] + ' $' + STICKY_TIERS[k].price; }).join(' · ');
     }
     return (
-      '<span class="lang-zh">Metal $350 · 早鳥 $380 · 11/21 開售 $420／$450</span>' +
-      '<span class="lang-en lang-hidden">Metal $350 · Early bird $380 · On sale 21 Nov $420/$450</span>'
+      '<span class="lang-zh">' + line('zh') + '</span>' +
+      '<span class="lang-en lang-hidden">' + line('en') + '</span>'
     );
   }
 

@@ -45,6 +45,15 @@
       .tickets-jump-payme{right:1.5rem;bottom:1.75rem;width:4.25rem;height:4.25rem;font-size:.78rem}
     }
 
+    /* Low-key internal links under the pay card (below the form; never above it) */
+    .tickets-more{
+      display:flex; flex-wrap:wrap; justify-content:center; align-items:baseline; gap:.35rem .9rem;
+      margin:0 0 2.25rem; padding:0 4.5rem; font-size:.8rem; line-height:1.5; text-align:center;
+    }
+    .tickets-more a{ color:#a1a1aa; text-decoration:underline; text-decoration-color:#52525b; text-underline-offset:3px; }
+    .tickets-more a:hover, .tickets-more a:focus-visible{ color:#f87171; text-decoration-color:#f87171; }
+    @media (max-width:420px){ .tickets-more{ padding:0 3.5rem; } }
+
     /* Payment CTA card — self-contained (do not rely on missing Tailwind utils) */
     .tickets-pay-card{
       display:block;
@@ -507,13 +516,18 @@
       </p>
     </div>
 
+    <p class="tickets-more">
+      <a href="/bands"><span class="lang-zh">睇下演出樂隊 →</span><span class="lang-en lang-hidden">See the bands →</span></a>
+      <a href="/live/2005"><span class="lang-zh">重溫 2005 現場 →</span><span class="lang-en lang-hidden">Relive Noah's Ark 2005 →</span></a>
+    </p>
+
   </main>
 
   <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
 
-  <script src="assets/ticket-sale.js?v=20260925-member-note"></script>
+  <script src="assets/ticket-sale.js?v=20260925-bar-links"></script>
   <script src="https://tally.so/widgets/embed.js"></script>
   <script>
     if (typeof Tally !== 'undefined') {
