@@ -19,6 +19,37 @@
     }
     .na2005-group__link{ font-size:.75rem; font-weight:600; color:#f87171; }
     .na2005-group__link:hover{ color:#fca5a5; }
+    /* Noah's Ark 2005 videos: ONE horizontal swipe row (scroll-snap); ‹ › arrows at >=768px */
+    .na2005-group__head{ display:flex; align-items:center; gap:.75rem; margin:0 0 .85rem; }
+    .na2005-group__head .na2005-group__title{ margin:0; min-width:0; flex:1 1 auto; }
+    .na-row-nav{ display:none; flex:0 0 auto; gap:.4rem; }
+    .na-row-nav__btn{
+      width:2.1rem; height:2.1rem; border-radius:999px; border:1px solid #3f3f46; background:rgba(24,24,27,.9);
+      color:#fafafa; font-size:1.35rem; line-height:1; display:inline-flex; align-items:center; justify-content:center;
+      padding:0 0 .15rem; cursor:pointer; transition:border-color .15s ease,opacity .15s ease;
+    }
+    .na-row-nav__btn:hover:not(:disabled){ border-color:#b91c1c; color:#fca5a5; }
+    .na-row-nav__btn:focus-visible{ outline:2px solid #ef4444; outline-offset:2px; }
+    .na-row-nav__btn:disabled{ opacity:.35; cursor:default; }
+    .na-row{
+      display:flex; gap:1rem; overflow-x:auto; overflow-y:hidden;
+      scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
+      overscroll-behavior-x:contain; padding:0 0 .75rem;
+      scrollbar-width:thin; scrollbar-color:#52525b transparent;
+    }
+    .na-row::-webkit-scrollbar{ height:6px; }
+    .na-row::-webkit-scrollbar-track{ background:transparent; }
+    .na-row::-webkit-scrollbar-thumb{ background:#52525b; border-radius:999px; }
+    .na-row:focus-visible{ outline:2px solid #ef4444; outline-offset:4px; border-radius:.75rem; }
+    .na-row > .video-card{ flex:0 0 78%; min-width:0; scroll-snap-align:start; }
+    @media (min-width:768px){
+      .na-row-nav{ display:inline-flex; }
+      .na-row > .video-card{ flex-basis:calc((100% - 2rem) / 2.6); }
+    }
+    @media (min-width:1024px){
+      .na-row > .video-card{ flex-basis:calc((100% - 3rem) / 3.5); }
+    }
+    @media (prefers-reduced-motion:reduce){ .na-row{ scroll-behavior:auto; } }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -282,12 +313,19 @@
       <!-- Noah's Ark 2005 group: cards are generated from assets/na-2005-videos.js
            (add a video there, it appears here + on its /live/2005 band page). -->
       <div class="na2005-group" id="noahs-ark-2005" data-na2005-group hidden>
-        <h3 class="na2005-group__title">
-          <span class="lang-zh">Noah's Ark 2005 現場</span>
-          <span class="lang-en lang-hidden">Noah's Ark 2005 Live</span>
-          <a class="na2005-group__link" href="/live/2005"><span class="lang-zh">相冊 →</span><span class="lang-en lang-hidden">Photos →</span></a>
-        </h3>
-        <div class="video-grid" data-na2005-video-grid></div>
+        <div class="na2005-group__head">
+          <h3 class="na2005-group__title">
+            <span class="lang-zh">Noah's Ark 2005 現場</span>
+            <span class="lang-en lang-hidden">Noah's Ark 2005 Live</span>
+            <a class="na2005-group__link" href="/live/2005"><span class="lang-zh">相冊 →</span><span class="lang-en lang-hidden">Photos →</span></a>
+          </h3>
+          <div class="na-row-nav">
+            <button type="button" class="na-row-nav__btn" data-na-row-prev aria-controls="na2005-row" aria-label="上一條影片" data-aria-zh="上一條影片" data-aria-en="Previous video">&lsaquo;</button>
+            <button type="button" class="na-row-nav__btn" data-na-row-next aria-controls="na2005-row" aria-label="下一條影片" data-aria-zh="下一條影片" data-aria-en="Next video">&rsaquo;</button>
+          </div>
+        </div>
+        <!-- One swipeable row (scroll-snap). Cards still come from na-2005-videos.js. -->
+        <div class="na-row" id="na2005-row" data-na2005-video-grid tabindex="0" role="region" aria-label="Noah's Ark 2005 現場影片（左右滑動）" data-aria-zh="Noah's Ark 2005 現場影片（左右滑動）" data-aria-en="Noah's Ark 2005 live videos (swipe left/right)"></div>
       </div>
     </section>
 
@@ -420,6 +458,7 @@
       document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
       document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
       document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+      document.querySelectorAll('[data-aria-zh]').forEach(el => el.setAttribute('aria-label', el.getAttribute(currentLang === 'zh' ? 'data-aria-zh' : 'data-aria-en')));
     }
     function toggleNav() {
       var nav = document.getElementById('site-nav');
@@ -471,6 +510,33 @@
     })();
   </script>
   <script src="assets/na-2005-videos.js?v=20260925-evo2005"></script>
+  <script>
+    /* ‹ › arrows for the Noah's Ark 2005 row: scroll by one card; disabled at the ends. */
+    (function () {
+      var row = document.getElementById('na2005-row');
+      var prev = document.querySelector('[data-na-row-prev]');
+      var next = document.querySelector('[data-na-row-next]');
+      if (!row || !prev || !next) return;
+      function step() {
+        var c = row.querySelector('.video-card');
+        if (!c) return row.clientWidth;
+        var gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+        return c.getBoundingClientRect().width + gap;
+      }
+      function update() {
+        var max = row.scrollWidth - row.clientWidth - 2;
+        prev.disabled = row.scrollLeft <= 2;
+        next.disabled = row.scrollLeft >= max;
+      }
+      prev.addEventListener('click', function () { row.scrollBy({ left: -step(), behavior: 'smooth' }); });
+      next.addEventListener('click', function () { row.scrollBy({ left: step(), behavior: 'smooth' }); });
+      row.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(update, 0); });
+      else update();
+      window.addEventListener('load', update);
+    })();
+  </script>
   </div><!-- /.site-content -->
 </body>
 </html>
