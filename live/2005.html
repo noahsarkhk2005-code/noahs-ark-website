@@ -50,11 +50,11 @@
     }
     .photo-shield{ position:absolute; inset:0; z-index:2; background:transparent; }
     /* ── TILE ORDER (change only these numbers to reorder the band tiles) ── */
-    .band-grid [data-na2005-tile="bereavement"]{ order:1; }
-    .band-grid [data-na2005-tile="deathguy"]{ order:2; }
-    .band-grid [data-na2005-tile="departing-cross"]{ order:3; }
-    .band-grid [data-na2005-tile="hermetic-silence"]{ order:4; }
-    .band-grid [data-na2005-tile="evocation"]{ order:5; }
+    .band-grid [data-na2005-tile="evocation"]{ order:1; }
+    .band-grid [data-na2005-tile="bereavement"]{ order:2; }
+    .band-grid [data-na2005-tile="deathguy"]{ order:3; }
+    .band-grid [data-na2005-tile="departing-cross"]{ order:4; }
+    .band-grid [data-na2005-tile="hermetic-silence"]{ order:5; }
     .band-grid [data-na2005-tile="cadaver"]{ order:6; }
     .live-hero-video{ margin:.25rem 0 0; max-width:48rem; }
     .live-hero-video .na2005-video{ margin-bottom:.5rem; }
@@ -127,6 +127,13 @@
     </section>
 
     <div class="band-grid" aria-label="Noah's Ark 2005 bands">
+      <a class="band-card" href="/live/2005/evocation" data-na2005-tile="evocation">
+        <div class="band-card__logo photo-protect">
+          <div class="photo-bg" style="background-image:url(../assets/live-2005/evocation.webp)" role="img" aria-label="招魂 Evocation"></div>
+          <div class="photo-shield" aria-hidden="true"></div>
+        </div>
+        <div class="band-card__name">招魂 Evocation</div>
+      </a>
       <a class="band-card" href="/live/2005/bereavement" data-na2005-tile="bereavement">
         <div class="band-card__logo photo-protect">
           <div class="photo-bg" style="background-image:url(../assets/live-2005/bereavement.webp)" role="img" aria-label="Bereavement"></div>
@@ -154,13 +161,6 @@
           <div class="photo-shield" aria-hidden="true"></div>
         </div>
         <div class="band-card__name">Hermetic Silence</div>
-      </a>
-      <a class="band-card" href="/live/2005/evocation" data-na2005-tile="evocation">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/evocation.webp)" role="img" aria-label="招魂 Evocation"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">招魂 Evocation</div>
       </a>
       <a class="band-card" href="/live/2005/cadaver" data-na2005-tile="cadaver">
         <div class="band-card__logo photo-protect">
