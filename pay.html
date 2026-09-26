@@ -15,11 +15,21 @@
   <meta property="og:description" content="PayMe / Hang Seng FPS — Noahsark Metal · 164005613" />
   <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/payme-qr.jpg" />
   <style>
+    /* iPhone sideways cut-off fix: the fixed .site-bg__glow layer is inset:-10% and pulses with
+       transform:scale(1.06), i.e. ~10% wider than the screen on both sides. iOS Safari does not
+       reliably clip that animated layer inside the fixed overflow:hidden .site-bg, so /pay could be
+       panned sideways (content cut on both edges). Keep the glow inside the viewport, pulse with
+       opacity only, hard-clip the background, and never allow horizontal overflow on this page. */
+    .site-bg{ clip-path:inset(0); contain:paint; }
+    .site-bg__glow{ inset:0; animation-name:payGlowPulse; }
+    @keyframes payGlowPulse{ 0%{ opacity:.75; } 100%{ opacity:1; } }
+    html, body{ max-width:100%; }
+    body{ overflow-x:hidden; }
+    @supports (overflow:clip){ html, body{ overflow-x:clip; } }
     .pay-hero{ padding:1.15rem 0 .85rem; }
     .pay-hero__kicker{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin-bottom:.35rem; }
     .pay-hero h1{ font-size:1.45rem; font-weight:900; line-height:1.2; margin:0 0 .35rem; color:#fff; }
     @media (min-width:640px){ .pay-hero h1{ font-size:1.9rem; } }
-    .pay-hero__sub{ color:#a1a1aa; font-size:.82rem; line-height:1.5; margin:0; max-width:28rem; }
     .pay-total-note{
       margin:0 0 .95rem; padding:.7rem .85rem; border:1px solid #ef4444; border-radius:.75rem;
       background:rgba(127,29,29,.35); color:#fff; font-size:.95rem; font-weight:800; line-height:1.45;
@@ -58,16 +68,6 @@
       box-sizing:border-box;
     }
     .pay-qr img{ display:block; width:100%; height:auto; border-radius:.35rem; }
-    .pay-steps{
-      list-style:none; margin:.15rem 0 1rem; padding:.7rem .75rem;
-      border:1px solid #3f3f46; background:rgba(24,24,27,.75); border-radius:.85rem;
-      display:flex; flex-direction:column; gap:.35rem;
-    }
-    .pay-steps li{
-      color:#e4e4e7; font-size:.78rem; line-height:1.35; font-weight:600;
-      display:flex; gap:.45rem; align-items:baseline;
-    }
-    .pay-steps__n{ color:#ef4444; font-weight:900; letter-spacing:.02em; flex:none; }
     .pay-hint{
       border:1px solid #3f3f46; background:rgba(24,24,27,.88); border-radius:.9rem;
       padding:.85rem .9rem; margin:0 0 1.25rem;
@@ -147,22 +147,12 @@
     <header class="pay-hero">
       <p class="pay-hero__kicker"><span class="lang-zh">付款／PAY</span><span class="lang-en lang-hidden">PAY</span></p>
       <h1><span class="lang-zh">即刻買飛 · 付款</span><span class="lang-en lang-hidden">Pay for tickets</span></h1>
-      <p class="pay-hero__sub">
-        <span class="lang-zh">用 PayMe 或者恒生 FPS 俾錢。戶口顯示名：Noahsark Metal。</span>
-        <span class="lang-en lang-hidden">Pay with PayMe or Hang Seng FPS. Account display name: Noahsark Metal.</span>
-      </p>
     </header>
 
     <p class="pay-total-note" id="pay-total-note" role="note">
       <span class="lang-zh">請按表單「埋單 Total」金額付款</span>
       <span class="lang-en lang-hidden">Pay the exact Total shown on the form</span>
     </p>
-
-    <ol class="pay-steps" aria-label="Payment steps">
-      <li><span class="pay-steps__n">①</span><span class="lang-zh">付款</span><span class="lang-en lang-hidden">Pay</span></li>
-      <li><span class="pay-steps__n">②</span><span class="lang-zh">截圖收據</span><span class="lang-en lang-hidden">Screenshot receipt</span></li>
-      <li><span class="pay-steps__n">③</span><span class="lang-zh">返回上載，提交</span><span class="lang-en lang-hidden">Back to upload &amp; submit</span></li>
-    </ol>
 
     <div class="pay-stack">
       <section class="pay-card" aria-labelledby="payme-heading">
