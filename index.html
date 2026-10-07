@@ -260,6 +260,38 @@
       color:#f87171; font-size:.85rem; font-weight:800;
     }
 
+    /* 樂隊招募 / Band Call teaser — small version of the /band-call look (IG story v10b):
+       black strip with the NOAHS ARK 2.5 wordmark, torn edge, blood-red halftone body */
+    a.bc-teaser{
+      display:block; position:relative; overflow:hidden; text-decoration:none; color:#fff;
+      background:#be181c; border:2px solid #000; border-radius:.35rem; text-align:center;
+      transition:transform .2s;
+    }
+    a.bc-teaser::before{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background-image:radial-gradient(circle at center, rgba(0,0,0,.6) 0 1.4px, transparent 1.8px),
+                       radial-gradient(circle at center, rgba(0,0,0,.6) 0 1.4px, transparent 1.8px);
+      background-size:8px 8px, 8px 8px; background-position:0 0, 4px 4px;
+      -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 55%, rgba(0,0,0,.2) 30%, #000 95%);
+              mask-image:radial-gradient(ellipse 80% 70% at 50% 55%, rgba(0,0,0,.2) 30%, #000 95%);
+    }
+    a.bc-teaser > *{ position:relative; }
+    a.bc-teaser:active{ transform:scale(.99); }
+    .bc-teaser__top{ display:block; background:#000; padding:.7rem .9rem .6rem; }
+    .bc-teaser__top::after{
+      content:""; position:absolute; left:0; right:0; top:100%; height:.6rem;
+      background:url(assets/band-call/bc-torn.svg?v=20261007-bc10) center top/100% 100% no-repeat;
+    }
+    .bc-teaser__logo{ display:block; width:min(78%, 17rem); height:auto; margin:0 auto; }
+    .bc-teaser__body{ display:block; padding:1rem .9rem .95rem; }
+    .bc-teaser__kicker{ display:inline-block; background:#000; color:#be181c; font-family:var(--font-display); font-size:.72rem; font-weight:700; letter-spacing:.22em; padding:.2rem .55rem; }
+    .bc-teaser__title{
+      display:block; margin:.45rem 0 .45rem; font-family:var(--font-display); font-weight:700; color:#fff; line-height:1.05;
+      font-size:clamp(1.6rem, 8vw, 2.1rem); letter-spacing:.03em; text-shadow:3px 3px 0 #000;
+    }
+    .bc-teaser__meta{ display:block; color:#fff; font-size:.85rem; font-weight:800; margin-bottom:.55rem; text-shadow:1px 1px 0 #000; }
+    .bc-teaser__cta{ display:inline-flex; background:#000; color:#fff; font-size:.82rem; font-weight:800; padding:.4rem .8rem; border-radius:.3rem; }
+
     /* Sticky thin bar after hero */
     .sticky-bar{
       position:fixed; left:0; right:0; bottom:0; z-index:180;
@@ -310,6 +342,7 @@
       </a>
       <div class="site-nav__desktop">
         <a class="hover:text-red-500 transition" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a class="hover:text-red-500 transition" href="/band-call"><span class="lang-zh">樂隊招募</span><span class="lang-en lang-hidden">Band Call</span></a>
         <a class="hover:text-red-500 transition" href="/videos"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
         <a class="hover:text-red-500 transition" href="/events"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
         <a class="hover:text-red-500 transition" href="/merch"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
@@ -339,6 +372,7 @@
     </div>
     <div class="site-nav__drawer" id="nav-drawer">
       <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/band-call" onclick="closeNav()"><span class="lang-zh">樂隊招募</span><span class="lang-en lang-hidden">Band Call</span></a>
       <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
       <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
       <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
@@ -392,6 +426,19 @@
         </div>
       </div>
 </div>
+  </section>
+
+  <!-- 1b. 樂隊招募 / Band Call teaser → /band-call -->
+  <section class="story-screen fade-in" id="band-call-teaser" aria-label="Band Call">
+    <a class="bc-teaser" href="/band-call">
+      <span class="bc-teaser__top"><img class="bc-teaser__logo" src="assets/band-call/bc-title.png?v=20261007-bc10" alt="NOAHS ARK 2.5" width="1000" height="244" loading="lazy" decoding="async" /></span>
+      <span class="bc-teaser__body">
+        <span class="bc-teaser__kicker">BAND CALL · 樂隊招募</span>
+        <span class="bc-teaser__title">METAL BANDS WANTED</span>
+        <span class="bc-teaser__meta"><span class="lang-zh">本地金屬樂隊招募</span><span class="lang-en lang-hidden">Local metal bands wanted</span></span>
+        <span class="bc-teaser__cta"><span class="lang-zh">睇詳情・報名 →</span><span class="lang-en lang-hidden">Details · apply →</span></span>
+      </span>
+    </a>
   </section>
 
   <!-- #show (本場 price rail) removed — tickets live on /tickets -->
@@ -500,6 +547,8 @@
       <a href="/live" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">現場 →</span><span class="lang-en lang-hidden">Live →</span></a>
       <span style="color:#3f3f46;margin:0 .5rem">·</span>
       <a href="/bands" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">樂隊 →</span><span class="lang-en lang-hidden">Bands →</span></a>
+      <span style="color:#3f3f46;margin:0 .5rem">·</span>
+      <a href="/band-call" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">樂隊招募 →</span><span class="lang-en lang-hidden">Band Call →</span></a>
     </p>
 
 

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <!-- 樂隊招募 / Band Call page (approved by Shears 2026-10-07) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>METAL BANDS WANTED｜樂隊招募 Band Call · Noah's Ark</title>
+  <meta name="description" content="METAL BANDS WANTED · 樂隊招募：挪亞方舟 2.5 搵緊本地金屬樂隊。Band Call: Noah's Ark 2.5 wants local metal bands." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-tidyprices" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-512.png" />
+  <meta property="og:title" content="METAL BANDS WANTED｜樂隊招募 Band Call · Noah's Ark" />
+  <meta property="og:description" content="挪亞方舟 2.5 本地金屬樂隊招募 / Noah's Ark 2.5: local metal bands wanted" />
+  <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/og-image.jpg" />
+  <style>
+    /* ===== 樂隊招募 / Band Call — v9 poster look: black / bone white / blood red ===== */
+    :root{
+      --bc-blood:#be181c; --bc-blood-dk:#57080a; --bc-bone:#f0f0f0; --bc-black:#000;
+      --bc-anton:"Anton","Oswald",Impact,"Arial Narrow",sans-serif;
+      --bc-cjk:"Noto Sans TC","PingFang HK","Microsoft JhengHei",sans-serif;
+    }
+    html, body{ max-width:100%; }
+    body{ overflow-x:hidden; background:#000 !important; }
+    @supports (overflow:clip){ html, body{ overflow-x:clip; } }
+
+    /* ===== Look of IG story v10b 「血紅單色海報」 (Shears' reference): black torn slab with the
+       NOAHS ARK 2.5 wordmark -> blood-red halftone field with a huge black N&A silhouette ===== */
+    .bc{ position:relative; overflow:hidden; color:#fff; background:var(--bc-blood); }
+    /* 45deg halftone dot screen (CSS only), denser toward the edges like the print */
+    .bc::before{
+      content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+      background-image:
+        radial-gradient(circle at center, rgba(0,0,0,.62) 0 1.5px, transparent 1.9px),
+        radial-gradient(circle at center, rgba(0,0,0,.62) 0 1.5px, transparent 1.9px);
+      background-size:8px 8px, 8px 8px; background-position:0 0, 4px 4px;
+      -webkit-mask-image:radial-gradient(ellipse 75% 60% at 50% 45%, rgba(0,0,0,.18) 30%, #000 95%);
+              mask-image:radial-gradient(ellipse 75% 60% at 50% 45%, rgba(0,0,0,.18) 30%, #000 95%);
+    }
+    /* huge black N&A silhouette with dark-red misregistration (generated from the v10 toolchain) */
+    .bc::after{
+      content:""; position:absolute; z-index:0; pointer-events:none;
+      left:50%; top:4.5rem; width:min(118vw, 46rem); aspect-ratio:527/906; transform:translateX(-50%);
+      background:url(assets/band-call/bc-sil.png?v=20261007-bc10) center top/contain no-repeat;
+      opacity:.9;
+    }
+    .bc > *{ position:relative; z-index:1; }
+    .bc-wrap{ max-width:34rem; margin:0 auto; padding:0 1rem; }
+    .bc-nw{ display:inline-block; }
+
+    /* black slab on top carrying the wordmark, torn bottom edge into the red */
+    .bc-top{ background:#000; padding:1.5rem 1rem 1.1rem; text-align:center; }
+    .bc-top::after{
+      content:""; position:absolute; left:0; right:0; top:100%; height:1.1rem;
+      background:url(assets/band-call/bc-torn.svg?v=20261007-bc10) center top/100% 100% no-repeat;
+    }
+    .bc-title{ display:block; width:min(100%, 32rem); margin:0 auto; }
+    .bc-title img{ display:block; width:100%; height:auto; }
+
+    /* huge white distressed 樂隊招募 + small BAND CALL line */
+    .bc-head{ text-align:center; padding:2rem 0 0; }
+    .bc-h1{ margin:0; line-height:1; }
+    .bc-h1__zh{
+      display:block; font-family:var(--bc-cjk); font-weight:900; color:#fff;
+      font-size:clamp(3.6rem, 19vw, 7rem); letter-spacing:.04em; padding-left:.04em; line-height:1.05;
+      text-shadow:.07em .07em 0 #000;
+      -webkit-mask-image:url(assets/band-call/bc-distress.png?v=20261007-bc10); -webkit-mask-size:240px 120px;
+              mask-image:url(assets/band-call/bc-distress.png?v=20261007-bc10);         mask-size:240px 120px;
+    }
+    .bc-h1__en{
+      display:inline-block; margin-top:.55rem; padding:.28rem .7rem .3rem; background:#000; color:var(--bc-blood);
+      font-family:var(--bc-anton); font-weight:400; font-size:1.05rem; letter-spacing:.24em; padding-right:.46rem;
+    }
+
+    /* slim black scratched band (poster's date-bar texture, no text) as a divider under the heading */
+    .bc-divider{
+      height:1rem; margin:1.4rem 0 0;
+      background:url(assets/band-call/bc-scratch.png?v=20261007-bc10) 0 0/240px 60px repeat, #000;
+    }
+
+    .bc-intro{ padding:1.5rem 0 0; text-align:center; scroll-margin-top:3.6rem; }
+    .bc-lead{ color:#fff; font-size:1.02rem; line-height:1.55; font-weight:900; margin:0 0 .75rem; text-shadow:2px 2px 0 #000; }
+    .bc-form-fallback{ text-align:center; margin:0 0 .85rem; font-size:.82rem; font-weight:800; }
+    .bc-form-fallback a{
+      display:inline-flex; align-items:center; justify-content:center; min-height:2.4rem; padding:.4rem .9rem;
+      color:#fff; background:#000; border:1px solid #000; border-radius:.4rem; text-decoration:none;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .bc-form-fallback a:hover{ color:#fecaca; }
+
+    /* Tally form in a black panel styled like the poster's dashed box. The form's own background is
+       #000 (checked: rgb(0,0,0)), so the panel is #000 and the two blend.
+       --na-header-h = live height of the sticky header, set by JS (Tally submit scroll), as on /tickets */
+    .bc-form{
+      position:relative; background:#000; border:3px dashed #f0f0f0; border-radius:1.25rem;
+      padding:.6rem .35rem .3rem; box-shadow:0 0 0 6px #000;
+      scroll-margin-top:max(5.5rem, calc(var(--na-header-h, 0px) + 8px));
+    }
+    .bc-form iframe{ display:block; width:100%; border:0; background:#000; border-radius:.9rem; }
+
+    .bc-contact{ text-align:center; color:#fff; font-size:.85rem; font-weight:700; line-height:1.6; margin:1.6rem 0 0; padding-bottom:2.4rem; text-shadow:1px 1px 0 #000; }
+    .bc-contact a{ color:#fff; font-weight:900; text-decoration:underline; text-underline-offset:2px; word-break:break-word; }
+    .bc-contact a:hover{ color:#000; text-shadow:none; }
+
+
+    @media (min-width:768px){
+      .bc-top{ padding:2rem 1rem 1.4rem; }
+      .bc::after{ top:6rem; }
+    }
+  </style>
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a href="/" class="site-nav__logo" aria-label="Noah's Ark home">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a href="/tickets" class="hover:text-red-500 transition"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a href="/band-call" class="text-red-500 transition" aria-current="page"><span class="lang-zh">樂隊招募</span><span class="lang-en lang-hidden">Band Call</span></a>
+        <a href="/videos" class="hover:text-red-500 transition"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a href="/live" class="hover:text-red-500 transition"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+        <a href="/bands" class="hover:text-red-500 transition"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+        <a href="/events" class="hover:text-red-500 transition"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a href="/merch" class="hover:text-red-500 transition"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a href="/#who" class="hover:text-red-500 transition"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Current page"><a class="site-nav__quick-title" href="/band-call" title="METAL BANDS WANTED · 樂隊招募"><span class="site-nav__quick-full">Noah's Ark 2.5 · Band Call</span><span class="site-nav__quick-short" aria-hidden="true">Noah's Ark 2.5</span></a></nav>
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/band-call" class="is-active" aria-current="page" onclick="closeNav()"><span class="lang-zh">樂隊招募</span><span class="lang-en lang-hidden">Band Call</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/live" onclick="closeNav()"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+      <a href="/bands" onclick="closeNav()"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+      <a href="/" onclick="closeNav()"><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+    </div>
+  </nav>
+
+  <main class="bc">
+    <!-- Look follows IG story v10b; the Tally form shows its own
+         title (METAL BANDS WANTED), so the page does not repeat it. -->
+    <div class="bc-top">
+      <picture class="bc-title">
+        <img src="assets/band-call/bc-title.png?v=20261007-bc10" alt="NOAHS ARK 2.5 · 挪亞方舟 2.5" width="1000" height="244" decoding="async" fetchpriority="high" />
+      </picture>
+    </div>
+
+    <header class="bc-head">
+      <h1 class="bc-h1"><span class="bc-h1__zh">樂隊招募</span><span class="bc-h1__en">BAND CALL</span></h1>
+      <div class="bc-divider" aria-hidden="true"></div>
+    </header>
+
+    <div class="bc-wrap">
+      <section class="bc-intro" id="apply" aria-label="Intro">
+        <p class="bc-lead">
+          <span class="lang-zh"><span class="bc-nw">挪亞方舟 2.5 搵緊本地金屬樂隊上船。</span><span class="bc-nw">夠重、夠狠？即刻報名！</span></span>
+          <span class="lang-en lang-hidden"><span class="bc-nw">Noah's Ark 2.5 wants local metal bands on board.</span> <span class="bc-nw">Heavy enough? Apply below!</span></span>
+        </p>
+        <p class="bc-form-fallback">
+          <a href="https://tally.so/r/KYqODV" target="_blank" rel="noopener">
+            <span class="lang-zh">表格載入唔到？按呢度開 ↗</span>
+            <span class="lang-en lang-hidden">Form not loading? Open it here ↗</span>
+          </a>
+        </p>
+      </section>
+
+      <!-- Tally form KYqODV (IT狗's final embed; same loader as /tickets, dynamicHeight on).
+           The form has its own black (#000) background, so this area is #000 with no border. -->
+      <div id="band-form" class="bc-form">
+        <iframe data-tally-src="https://tally.so/embed/KYqODV?alignLeft=1&dynamicHeight=1" loading="lazy" width="100%" height="1355" frameborder="0" marginheight="0" marginwidth="0" title="METAL BANDS WANTED" id="tally-band-embed"></iframe>
+      </div>
+
+      <p class="bc-contact">
+        <span class="lang-zh">有問題？電郵</span><span class="lang-en lang-hidden">Questions? Email</span>
+        <a href="mailto:noahsarkhk2005@gmail.com">noahsarkhk2005@gmail.com</a>
+        <span class="lang-zh">或 IG DM</span><span class="lang-en lang-hidden">or DM us on IG</span>
+        <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener">@noahs_ark_hk</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+    <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-2 px-4" style="gap:.4rem .75rem">
+      <a href="mailto:noahsarkhk2005@gmail.com" class="text-zinc-500 hover:text-red-500 transition">noahsarkhk2005@gmail.com</a>
+      <span class="text-zinc-700">·</span>
+      <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">Instagram @noahs_ark_hk</a>
+    </div>
+  </footer>
+
+  <script>
+    let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'en'));
+      document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', currentLang === 'zh'));
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  </script>
+  <script src="https://tally.so/widgets/embed.js"></script>
+  <script>
+    if (typeof Tally !== 'undefined') {
+      Tally.loadEmbeds();
+    } else {
+      document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(iframe => {
+        iframe.src = iframe.dataset.tallySrc;
+      });
+    }
+    /* Same post-submit scroll fix as /tickets, scoped to this page: after the embedded Tally form is
+       submitted it shows a short thank-you and the iframe shrinks, leaving the page scrolled past it
+       (thank-you hidden behind the sticky header). On Tally.FormSubmitted (JSON string posted by the
+       iframe, origin https://tally.so) put the top of #band-form just below the header (height measured
+       live), then keep it there while the iframe resizes. Stops early if the user scrolls by hand. */
+    (function () {
+      var TALLY_ORIGIN = 'https://tally.so';
+      var GAP = 8;
+      var root = document.documentElement;
+
+      function headerHeight() {
+        var bar = document.querySelector('#site-nav .site-nav__bar') || document.getElementById('site-nav');
+        if (!bar) return 0;
+        return Math.round(bar.getBoundingClientRect().height) + 1; /* + nav border-bottom */
+      }
+      function syncHeaderVar() {
+        var h = headerHeight();
+        if (h > 1) root.style.setProperty('--na-header-h', h + 'px');
+        return h;
+      }
+      function placeFormTop() {
+        var wrap = document.getElementById('band-form');
+        if (!wrap) return;
+        var h = syncHeaderVar();
+        var y = window.pageYOffset || window.scrollY || 0;
+        var target = Math.max(0, Math.round(wrap.getBoundingClientRect().top + y - h - GAP));
+        if (Math.abs(target - y) < 2) return;
+        try { window.scrollTo({ top: target, behavior: 'instant' }); }
+        catch (e) { window.scrollTo(0, target); }
+      }
+
+      var followUntil = 0, timers = [], ro = null;
+      function stopFollowing() {
+        followUntil = 0;
+        timers.forEach(clearTimeout); timers = [];
+        if (ro) { try { ro.disconnect(); } catch (e) {} ro = null; }
+        window.removeEventListener('touchstart', stopFollowing);
+        window.removeEventListener('wheel', stopFollowing);
+      }
+      function onSubmitted() {
+        stopFollowing();
+        followUntil = Date.now() + 2500;
+        placeFormTop();
+        [120, 350, 700, 1200, 2000].forEach(function (ms) {
+          timers.push(setTimeout(function () { if (Date.now() <= followUntil + 50) placeFormTop(); }, ms));
+        });
+        timers.push(setTimeout(stopFollowing, 2600));
+        var iframe = document.getElementById('tally-band-embed');
+        if (iframe && typeof ResizeObserver === 'function') {
+          ro = new ResizeObserver(function () { if (Date.now() <= followUntil) placeFormTop(); });
+          ro.observe(iframe);
+        }
+        window.addEventListener('touchstart', stopFollowing, { passive: true });
+        window.addEventListener('wheel', stopFollowing, { passive: true });
+      }
+
+      window.addEventListener('message', function (event) {
+        if (event.origin !== TALLY_ORIGIN) return;
+        var iframe = document.getElementById('tally-band-embed');
+        if (iframe && event.source && iframe.contentWindow && event.source !== iframe.contentWindow) return;
+        var msg = event.data;
+        if (typeof msg === 'string') {
+          if (msg.indexOf('Tally.FormSubmitted') === -1) return;
+          try { msg = JSON.parse(msg); } catch (e) { return; }
+        }
+        if (!msg || msg.event !== 'Tally.FormSubmitted') return;
+        onSubmitted();
+      });
+
+      syncHeaderVar();
+      window.addEventListener('resize', syncHeaderVar);
+    })();
+  </script>
+  </div>
+</body>
+</html>
