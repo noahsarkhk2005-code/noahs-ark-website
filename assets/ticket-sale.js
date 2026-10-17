@@ -1,6 +1,6 @@
 /* Ticket sale window — edit constants below (Asia/Hong_Kong wall time). */
 window.NOAHS_TICKET_SALE = (function () {
-  /* Flip Metal/早鳥 → Last Call/預售 at this instant. */
+  /* Flip Metal + earlybird tier → Last Call/預售 at this instant. */
   var PRESALE_START = '2026-11-21T00:00:00+08:00';
   /* After the flip, embed this Tally form ID. null = keep current form. */
   var TALLY_FORM_AFTER = null;
@@ -92,7 +92,7 @@ window.NOAHS_TICKET_SALE = (function () {
      Not-yet-on-sale / 已停售 tiers are never listed. */
   var STICKY_TIERS = {
     metal:     { zh: 'Metal', en: 'Metal',      price: 350 },
-    earlybird: { zh: '早鳥',  en: 'Early bird', price: 380 },
+    earlybird: { zh: '預售',  en: 'Presale',    price: 380 },
     lastcall:  { zh: 'Metal', en: 'Metal',      price: 420 },  /* member/Metal tier after cutover */
     presale:   { zh: '預售',  en: 'Presale',    price: 380 }
   };
