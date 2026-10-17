@@ -94,7 +94,7 @@ window.NOAHS_TICKET_SALE = (function () {
     metal:     { zh: 'Metal', en: 'Metal',      price: 350 },
     earlybird: { zh: '早鳥',  en: 'Early bird', price: 380 },
     lastcall:  { zh: 'Metal', en: 'Metal',      price: 420 },  /* member/Metal tier after cutover */
-    presale:   { zh: '預售',  en: 'Presale',    price: 450 }
+    presale:   { zh: '預售',  en: 'Presale',    price: 380 }
   };
 
   function stickyPricesHtml(now) {
