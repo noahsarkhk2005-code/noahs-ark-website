@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>團體優惠 | Group Tickets · Noah's Ark X Protoss 20th</title>
+  <meta name="description" content="Group ticket packages for Noah's Ark X Protoss 20th Anniversary — 05/12/2026 MOM Livehouse Hong Kong. Package A HK$760 for 3 tickets; Package B HK$1140 for 5 tickets." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css?v=20260924-paycard" />
+  <style>
+    .tickets-submit-note{
+      margin:0 0 .6rem; padding:0 .25rem; text-align:center;
+      font-size:.82rem; line-height:1.55; color:#d4d4d8;
+    }
+    .tickets-more{
+      display:flex; flex-wrap:wrap; justify-content:center; align-items:baseline; gap:.35rem .9rem;
+      margin:0 0 2.25rem; padding:0 4.5rem; font-size:.8rem; line-height:1.5; text-align:center;
+    }
+    .tickets-more a{ color:#a1a1aa; text-decoration:underline; text-decoration-color:#52525b; text-underline-offset:3px; }
+    .tickets-more a:hover, .tickets-more a:focus-visible{ color:#f87171; text-decoration-color:#f87171; }
+    @media (max-width:420px){ .tickets-more{ padding:0 3.5rem; } }
+
+    .ticket-pick{ margin:0 0 1.15rem; }
+    .ticket-pick__heading{
+      text-align:center;
+      color:#ef4444;
+      font-size:.68rem;
+      font-weight:800;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      margin:0 0 .45rem;
+      padding-left:.22em;
+    }
+    .ticket-pick__hint{
+      text-align:center; font-size:.74rem; line-height:1.5;
+      max-width:30rem; margin-left:auto; margin-right:auto;
+      text-wrap:balance;
+      color:#d4d4d8; margin-top:0; margin-bottom:.9rem;
+    }
+    .ticket-pick__rail{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:.5rem;
+      width:100%;
+    }
+    .ticket-pick__card{
+      box-sizing:border-box;
+      width:100%;
+      min-width:0;
+      min-height:7.1rem;
+      border:1px solid #3f3f46;
+      border-radius:.85rem;
+      background:rgba(24,24,27,.88);
+      padding:.7rem .4rem .65rem;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      text-align:left;
+      color:inherit;
+      overflow:hidden;
+      position:relative;
+    }
+    .ticket-pick__card.is-primary{
+      border-color:#ef4444;
+      box-shadow:0 0 0 1px rgba(239,68,68,.35), 0 8px 22px rgba(127,29,29,.28);
+    }
+    .ticket-pick__label{
+      color:#ef4444; font-size:.55rem; font-weight:800; letter-spacing:.08em;
+      text-transform:uppercase; margin:0 0 .3rem; line-height:1.15;
+      width:100%;
+      word-break:break-word;
+    }
+    .ticket-pick__name{
+      font-weight:800; color:#fff; font-size:.72rem; margin:0;
+      line-height:1.25; min-height:2.55rem;
+      width:100%;
+      word-break:break-word;
+    }
+    .ticket-pick__foot{
+      margin-top:auto; padding-top:.35rem;
+      width:100%; min-width:0;
+      display:flex; flex-direction:column; align-items:flex-start;
+    }
+    .ticket-pick__amt{
+      display:flex; align-items:baseline; gap:.1rem;
+      margin:0; padding:0;
+      font-size:1.22rem; font-weight:900; color:#fff;
+      font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
+      line-height:1; white-space:nowrap;
+    }
+    .ticket-pick__amt span{ font-size:.62rem; color:#a1a1aa; font-weight:700; }
+    .ticket-pick__per{
+      margin-top:.25rem; font-size:.62rem; color:#a1a1aa; line-height:1.3;
+    }
+    .group-open-banner{
+      margin:0 0 1.1rem; padding:.75rem 1rem;
+      border:1px solid #7f1d1d;
+      border-radius:.85rem;
+      background:rgba(69,10,10,.45);
+      text-align:center;
+      font-size:.82rem; line-height:1.55; color:#fecaca;
+    }
+    .group-rules{
+      background:rgba(24,24,27,.88);
+      border:1px solid #3f3f46;
+      border-radius:.85rem;
+      padding:1rem 1.1rem;
+      margin:0 0 1.15rem;
+      font-size:.82rem; line-height:1.6; color:#d4d4d8;
+    }
+    .group-rules ul{ margin:.4rem 0 0; padding-left:1.1rem; }
+    .group-rules li{ margin:.25rem 0; }
+    .group-rules a{ color:#f87171; text-decoration:underline; text-underline-offset:3px; }
+    .group-rules a:hover{ color:#fca5a5; }
+    #order-form{ scroll-margin-top:5.5rem; }
+    @media (min-width:480px){
+      .ticket-pick__rail{ gap:.7rem; }
+      .ticket-pick__card{ min-height:8.25rem; padding:.9rem .75rem .85rem; }
+      .ticket-pick__label{ font-size:.65rem; letter-spacing:.14em; }
+      .ticket-pick__name{ font-size:.9rem; min-height:2.5rem; }
+      .ticket-pick__amt{ font-size:1.65rem; }
+      .ticket-pick__amt span{ font-size:.78rem; }
+      .ticket-pick__per{ font-size:.72rem; }
+      .ticket-pick__heading{ font-size:.72rem; letter-spacing:.28em; padding-left:.28em; }
+      .ticket-pick__hint{ font-size:.8rem; }
+    }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-512.png" />
+  <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/protoss-poster.jpg?v=20260924-poster3" />
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+
+  <!-- Original Protoss 20 clip as looping background (unedited) -->
+  <div class="site-bg site-bg--video tickets-art-bg" aria-hidden="true">
+    <video
+      class="tickets-art-bg__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      webkit-playsinline
+      disablepictureinpicture
+      disableremoteplayback
+      controlslist="nodownload nofullscreen noremoteplayback"
+      tabindex="-1"
+      preload="auto"
+      poster="assets/tickets-bg-20-poster.jpg"
+    >
+      <source src="assets/tickets-bg-20.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <style>
+    .tickets-art-bg{
+      background-color:#050203;
+      background-image:url("assets/tickets-bg-20-poster.jpg");
+      background-size:cover;
+      background-position:center center;
+    }
+    .tickets-art-bg__video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center center;
+      pointer-events:none;
+      transition:opacity .3s ease;
+    }
+    .tickets-art-bg__video::-webkit-media-controls,
+    .tickets-art-bg__video::-webkit-media-controls-panel,
+    .tickets-art-bg__video::-webkit-media-controls-overlay-play-button,
+    .tickets-art-bg__video::-webkit-media-controls-start-playback-button,
+    .tickets-art-bg__video::-webkit-media-controls-play-button{
+      display:none !important;
+      -webkit-appearance:none;
+      opacity:0 !important;
+    }
+    .tickets-art-bg__video.is-blocked{ opacity:0; }
+    .tickets-art-bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      background:
+        linear-gradient(180deg,rgba(0,0,0,.50) 0%,rgba(0,0,0,.32) 40%,rgba(0,0,0,.68) 100%),
+        radial-gradient(ellipse 80% 70% at 50% 40%,rgba(80,8,8,.16) 0%,transparent 70%);
+    }
+    @media (prefers-reduced-motion: reduce){
+      .tickets-art-bg__video{ display:none; }
+    }
+  </style>
+  <script>
+    (function () {
+      var v = document.querySelector('.tickets-art-bg__video');
+      if (!v) return;
+      v.muted = true; v.defaultMuted = true; v.controls = false;
+      function blocked() { v.classList.add('is-blocked'); }
+      v.addEventListener('playing', function () { v.classList.remove('is-blocked'); });
+      function tryPlay() {
+        var p;
+        try { p = v.play(); } catch (e) { blocked(); return; }
+        if (p && typeof p.catch === 'function') {
+          p.catch(function (err) { if (!err || err.name !== 'AbortError') blocked(); });
+        }
+      }
+      v.addEventListener('canplay', function () {
+        setTimeout(function () { if (v.paused) blocked(); }, 900);
+      }, { once: true });
+      tryPlay();
+      function retry() { if (v.paused) tryPlay(); }
+      document.addEventListener('touchstart', retry, { once: true, passive: true });
+      document.addEventListener('pointerdown', retry, { once: true, passive: true });
+    })();
+  </script>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a aria-label='Noah&#39;s Ark home' class='site-nav__logo' href='/'>
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a class='text-red-500' href='/tickets'><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a class='hover:text-red-500 transition' href='/videos'><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a class='hover:text-red-500 transition' href='/merch'><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Merch</span></a>
+        <a class='hover:text-red-500 transition' href='/events'><span class="lang-zh">過往活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a class='hover:text-red-500 transition' href='/#mission'>宗旨 Mission</a>
+        <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="Instagram" aria-label="Instagram">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="YouTube" aria-label="YouTube">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Current event"><a class='site-nav__quick-title' href='/tickets' title='Noah&#39;s Ark X Protoss 20th Anniversary'><span class="site-nav__quick-full">Noah's Ark X Protoss 20th Anniversary</span><span class="site-nav__quick-short" aria-hidden="true">Noah's Ark × Protoss</span></a></nav>
+
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a class='is-active' href='/tickets' onclick='closeNav()'><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href='/group-tickets' onclick='closeNav()'><span class="lang-zh">團體優惠</span><span class="lang-en lang-hidden">Group Tickets</span></a>
+      <a href='/videos' onclick='closeNav()'><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href='/merch' onclick='closeNav()'><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Merch</span></a>
+      <a href='/events' onclick='closeNav()'><span class="lang-zh">過往活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href='/' onclick='closeNav()'><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+      <div class="site-nav__drawer-row">
+        <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" aria-label="Instagram" onclick="closeNav()">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" aria-label="YouTube" onclick="closeNav()">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-4 py-10">
+    <div class="mb-8 text-center">
+      <div class="event-logo">
+        <img src="assets/protoss-wordmark.png?v=20260921-white" alt="PROTOSS" width="1360" height="686" class="event-logo__word" decoding="async" />
+        <img src="assets/protoss-20th.png?v=20260921-white" alt="20th Anniversary" width="859" height="770" class="event-logo__anniv" decoding="async" />
+      </div>
+      <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">GROUP · 團體優惠</p>
+      <h1 class="text-3xl md:text-4xl font-black mb-2">Noah's Ark X Protoss 20th Anniversary</h1>
+      <p class="text-zinc-300 text-sm mb-1">05/12/2026 · MOM Livehouse Hong Kong</p>
+    </div>
+
+    <div class="group-open-banner" role="status">
+      <span class="lang-zh">團體表單 2026-11-11 開放（香港時間）。而家表單仍關閉。</span>
+      <span class="lang-en lang-hidden">Group form opens 2026-11-11 (HKT). Form currently closed.</span>
+    </div>
+
+    <div class="ticket-pick" id="group-pick">
+      <p class="ticket-pick__heading">
+        <span class="lang-zh">限時團體套票</span><span class="lang-en lang-hidden">Limited Group Packages</span>
+      </p>
+      <p class="ticket-pick__hint">
+        <span class="lang-zh">揀方案 → 喺下方表單落單（同一訂單、同一付款人）</span>
+        <span class="lang-en lang-hidden">Pick a package → order in the form below (same order, same payer)</span>
+      </p>
+      <div class="ticket-pick__rail" role="list">
+        <div class="ticket-pick__card is-primary" role="listitem" aria-label="方案 A Package A HK$760 for 3 tickets">
+          <div class="ticket-pick__label">
+            <span class="lang-zh">方案 A</span><span class="lang-en lang-hidden">Package A</span>
+          </div>
+          <div class="ticket-pick__name">
+            <span class="lang-zh">付 HK$760 得 3 張</span><span class="lang-en lang-hidden">Pay HK$760 · get 3 tickets</span>
+          </div>
+          <div class="ticket-pick__foot">
+            <div class="ticket-pick__amt"><span>HK$</span>760</div>
+            <div class="ticket-pick__per">
+              <span class="lang-zh">約 $253／張 · 3 tickets</span>
+              <span class="lang-en lang-hidden">≈ $253 each · 3 tickets</span>
+            </div>
+          </div>
+        </div>
+        <div class="ticket-pick__card is-primary" role="listitem" aria-label="方案 B Package B HK$1140 for 5 tickets">
+          <div class="ticket-pick__label">
+            <span class="lang-zh">方案 B</span><span class="lang-en lang-hidden">Package B</span>
+          </div>
+          <div class="ticket-pick__name">
+            <span class="lang-zh">付 HK$1140 得 5 張</span><span class="lang-en lang-hidden">Pay HK$1140 · get 5 tickets</span>
+          </div>
+          <div class="ticket-pick__foot">
+            <div class="ticket-pick__amt"><span>HK$</span>1140</div>
+            <div class="ticket-pick__per">
+              <span class="lang-zh">約 $228／張 · 5 tickets</span>
+              <span class="lang-en lang-hidden">≈ $228 each · 5 tickets</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-rules">
+      <p class="font-bold text-white mb-1">
+        <span class="lang-zh">規則 Rules</span>
+        <span class="lang-en lang-hidden">Rules</span>
+      </p>
+      <ul>
+        <li>
+          <span class="lang-zh">同一訂單、同一付款人。</span>
+          <span class="lang-en lang-hidden">Same order, same payer.</span>
+        </li>
+        <li>
+          <span class="lang-zh">請用 FPS 或 PayMe 付款後上傳截圖；我哋會人手核款。</span>
+          <span class="lang-en lang-hidden">Pay via FPS or PayMe, then upload a screenshot; we verify manually.</span>
+        </li>
+        <li>
+          <span class="lang-zh">唔疊加 Metal Pass 會員價 $350。</span>
+          <span class="lang-en lang-hidden">Does not stack with Metal Pass member price $350.</span>
+        </li>
+        <li>
+          <span class="lang-zh">單張預售／Metal Pass 請返 <a href="/tickets">購票頁</a>。</span>
+          <span class="lang-en lang-hidden">For single Presale / Metal Pass, go to the <a href="/tickets">Tickets page</a>.</span>
+        </li>
+      </ul>
+    </div>
+
+    <p class="tickets-submit-note">
+      <span class="lang-zh">提交後我哋會人手核對付款，核對後會 email 電子飛俾你（通常當日內寄出，請睇埋垃圾郵件）。</span>
+      <span class="lang-en lang-hidden">After you submit, we check your payment by hand and email your e-ticket, usually the same day (check spam).</span>
+    </p>
+    <div id="order-form" class="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-2 md:p-4">
+      <iframe
+        id="tally-embed"
+        data-tally-src="https://tally.so/embed/kbbM4r?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy"
+        width="100%"
+        height="2229"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="Protoss 20th｜限時團體優惠">
+      </iframe>
+    </div>
+
+    <p class="tickets-more">
+      <a href="/tickets"><span class="lang-zh">單張購票（預售／Metal Pass）→</span><span class="lang-en lang-hidden">Single tickets (Presale / Metal Pass) →</span></a>
+      <a href="/bands"><span class="lang-zh">睇下演出樂隊 →</span><span class="lang-en lang-hidden">See the bands →</span></a>
+    </p>
+
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+  </footer>
+
+  <script src="https://tally.so/widgets/embed.js"></script>
+  <script>
+    if (typeof Tally !== 'undefined') {
+      Tally.loadEmbeds();
+    } else {
+      document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (iframe) {
+        iframe.src = iframe.dataset.tallySrc;
+      });
+    }
+
+    var currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(function (el) {
+        el.classList.toggle('lang-hidden', currentLang === 'en');
+      });
+      document.querySelectorAll('.lang-en').forEach(function (el) {
+        el.classList.toggle('lang-hidden', currentLang === 'zh');
+      });
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  </script>
+  </div><!-- /.site-content -->
+
+</body>
+</html>
