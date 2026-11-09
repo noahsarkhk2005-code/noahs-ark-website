@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Noah's Ark | 挪亞方舟</title>
-  <meta name="description" content="Noah's Ark - Hong Kong Band Culture Platform. Noah's Ark X Protoss 20th Anniversary — 05/12/2026 MOM Livehouse Hong Kong. Instagram @noahs_ark_hk · YouTube @noahsark_2005" />
+  <meta name="description" content="Noah's Ark - Hong Kong Band Culture Platform. Noah's Ark X Protoss 20th Anniversary — 05/12/2026 19:00 HKT (晚上 7 點) MOM Livehouse Hong Kong. Instagram @noahs_ark_hk · YouTube @noahsark_2005" />
   <link rel="preload" as="image" href="assets/protoss-poster.webp?v=20260924-poster3" type="image/webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -107,6 +107,13 @@
       letter-spacing:.12em;
       color:#fff;
       margin:.35rem 0 .15rem;
+    }
+    .open-time{
+      color:#fecaca;
+      font-weight:800;
+      font-size:.95rem;
+      letter-spacing:.06em;
+      margin:0 0 .25rem;
     }
     .open-venue{
       color:#e4e4e7;
@@ -403,7 +410,7 @@
       <div class="open-hero__shade" aria-hidden="true"></div>
       <div class="open-hero__content fade-in">
         <p class="story-kicker">HONG KONG LIVE</p>
-        <div id="event-countdown" data-target="2026-12-05T20:00:00+08:00" aria-live="polite">
+        <div id="event-countdown" data-target="2026-12-05T19:00:00+08:00" aria-live="polite">
           <span class="hf-countdown" data-cd-units>
             <span class="hf-countdown__unit"><span class="hf-countdown__num" data-cd="d">--</span><span class="hf-countdown__label"><span class="lang-zh">天</span><span class="lang-en lang-hidden">Days</span></span></span>
             <span class="hf-countdown__sep" aria-hidden="true">:</span>
@@ -419,6 +426,10 @@
           </span>
         </div>
         <p class="open-date">12.05 · MOM</p>
+        <p class="open-time">
+          <span class="lang-zh">晚上 7 點 · 19:00 HKT</span>
+          <span class="lang-en lang-hidden">7:00 PM · 19:00 HKT</span>
+        </p>
         <p class="open-venue">Protoss 20th · MOM Livehouse</p>
         <div class="cta-row">
           <a class="cta-primary" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Buy tickets</span></a>
@@ -682,7 +693,7 @@
 
   <script>
   (function () {
-    var TARGET_FALLBACK = '2026-12-05T20:00:00+08:00';
+    var TARGET_FALLBACK = '2026-12-05T19:00:00+08:00';
     function pad(n) { return String(n).padStart(2, '0'); }
     function parseTarget(el) {
       var raw = (el && el.getAttribute('data-target')) || TARGET_FALLBACK;
