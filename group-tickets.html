@@ -18,78 +18,6 @@
     .tickets-more a:hover, .tickets-more a:focus-visible{ color:#f87171; text-decoration-color:#f87171; }
     @media (max-width:420px){ .tickets-more{ padding:0 3.5rem; } }
 
-    .ticket-pick{ margin:0 0 1.15rem; }
-    .ticket-pick__heading{
-      text-align:center;
-      color:#ef4444;
-      font-size:.68rem;
-      font-weight:800;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      margin:0 0 .45rem;
-      padding-left:.22em;
-    }
-    .ticket-pick__hint{
-      text-align:center; font-size:.74rem; line-height:1.5;
-      max-width:30rem; margin-left:auto; margin-right:auto;
-      text-wrap:balance;
-      color:#d4d4d8; margin-top:0; margin-bottom:.9rem;
-    }
-    .ticket-pick__rail{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:.5rem;
-      width:100%;
-    }
-    .ticket-pick__card{
-      box-sizing:border-box;
-      width:100%;
-      min-width:0;
-      min-height:7.1rem;
-      border:1px solid #3f3f46;
-      border-radius:.85rem;
-      background:rgba(24,24,27,.88);
-      padding:.7rem .4rem .65rem;
-      display:flex;
-      flex-direction:column;
-      align-items:flex-start;
-      text-align:left;
-      color:inherit;
-      overflow:hidden;
-      position:relative;
-    }
-    .ticket-pick__card.is-primary{
-      border-color:#ef4444;
-      box-shadow:0 0 0 1px rgba(239,68,68,.35), 0 8px 22px rgba(127,29,29,.28);
-    }
-    .ticket-pick__label{
-      color:#ef4444; font-size:.55rem; font-weight:800; letter-spacing:.08em;
-      text-transform:uppercase; margin:0 0 .3rem; line-height:1.15;
-      width:100%;
-      word-break:break-word;
-    }
-    .ticket-pick__name{
-      font-weight:800; color:#fff; font-size:.72rem; margin:0;
-      line-height:1.25; min-height:2.55rem;
-      width:100%;
-      word-break:break-word;
-    }
-    .ticket-pick__foot{
-      margin-top:auto; padding-top:.35rem;
-      width:100%; min-width:0;
-      display:flex; flex-direction:column; align-items:flex-start;
-    }
-    .ticket-pick__amt{
-      display:flex; align-items:baseline; gap:.1rem;
-      margin:0; padding:0;
-      font-size:1.22rem; font-weight:900; color:#fff;
-      font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
-      line-height:1; white-space:nowrap;
-    }
-    .ticket-pick__amt span{ font-size:.62rem; color:#a1a1aa; font-weight:700; }
-    .ticket-pick__per{
-      margin-top:.25rem; font-size:.62rem; color:#a1a1aa; line-height:1.3;
-    }
     .group-open-banner{
       margin:0 0 1.1rem; padding:.7rem 1rem;
       border:1px solid #ef4444;
@@ -111,17 +39,6 @@
     .group-rules ul{ margin:.4rem 0 0; padding-left:1.1rem; }
     .group-rules li{ margin:.2rem 0; }
     #order-form{ scroll-margin-top:5.5rem; }
-    @media (min-width:480px){
-      .ticket-pick__rail{ gap:.7rem; }
-      .ticket-pick__card{ min-height:8.25rem; padding:.9rem .75rem .85rem; }
-      .ticket-pick__label{ font-size:.65rem; letter-spacing:.14em; }
-      .ticket-pick__name{ font-size:.9rem; min-height:2.5rem; }
-      .ticket-pick__amt{ font-size:1.65rem; }
-      .ticket-pick__amt span{ font-size:.78rem; }
-      .ticket-pick__per{ font-size:.72rem; }
-      .ticket-pick__heading{ font-size:.72rem; letter-spacing:.28em; padding-left:.28em; }
-      .ticket-pick__hint{ font-size:.8rem; }
-    }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -284,48 +201,6 @@
     <div class="group-open-banner" role="status">
       <span class="lang-zh">團體套票現正發售</span>
       <span class="lang-en lang-hidden">Group packages on sale now</span>
-    </div>
-
-    <div class="ticket-pick" id="group-pick">
-      <p class="ticket-pick__heading">
-        <span class="lang-zh">限時團體套票</span><span class="lang-en lang-hidden">Limited Group Packages</span>
-      </p>
-      <p class="ticket-pick__hint">
-        <span class="lang-zh">揀 A 或 B → 填資料 → 上傳付款截圖</span>
-        <span class="lang-en lang-hidden">Choose A or B → fill in your details → upload a payment screenshot</span>
-      </p>
-      <div class="ticket-pick__rail" role="list">
-        <div class="ticket-pick__card is-primary" role="listitem" aria-label="方案 A Package A HK$760 for 3 tickets">
-          <div class="ticket-pick__label">
-            <span class="lang-zh">方案 A</span><span class="lang-en lang-hidden">Package A</span>
-          </div>
-          <div class="ticket-pick__name">
-            <span class="lang-zh">付 HK$760 得 3 張</span><span class="lang-en lang-hidden">Pay HK$760 · get 3 tickets</span>
-          </div>
-          <div class="ticket-pick__foot">
-            <div class="ticket-pick__amt"><span>HK$</span>760</div>
-            <div class="ticket-pick__per">
-              <span class="lang-zh">約 $253／張 · 3 tickets</span>
-              <span class="lang-en lang-hidden">≈ $253 each · 3 tickets</span>
-            </div>
-          </div>
-        </div>
-        <div class="ticket-pick__card is-primary" role="listitem" aria-label="方案 B Package B HK$1140 for 5 tickets">
-          <div class="ticket-pick__label">
-            <span class="lang-zh">方案 B</span><span class="lang-en lang-hidden">Package B</span>
-          </div>
-          <div class="ticket-pick__name">
-            <span class="lang-zh">付 HK$1140 得 5 張</span><span class="lang-en lang-hidden">Pay HK$1140 · get 5 tickets</span>
-          </div>
-          <div class="ticket-pick__foot">
-            <div class="ticket-pick__amt"><span>HK$</span>1140</div>
-            <div class="ticket-pick__per">
-              <span class="lang-zh">約 $228／張 · 5 tickets</span>
-              <span class="lang-en lang-hidden">≈ $228 each · 5 tickets</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="group-rules">
