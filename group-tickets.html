@@ -10,10 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/style.css?v=20260924-paycard" />
   <style>
-    .tickets-submit-note{
-      margin:0 0 .6rem; padding:0 .25rem; text-align:center;
-      font-size:.82rem; line-height:1.55; color:#d4d4d8;
-    }
     .tickets-more{
       display:flex; flex-wrap:wrap; justify-content:center; align-items:baseline; gap:.35rem .9rem;
       margin:0 0 2.25rem; padding:0 4.5rem; font-size:.8rem; line-height:1.5; text-align:center;
@@ -95,12 +91,14 @@
       margin-top:.25rem; font-size:.62rem; color:#a1a1aa; line-height:1.3;
     }
     .group-open-banner{
-      margin:0 0 1.1rem; padding:.75rem 1rem;
-      border:1px solid #7f1d1d;
+      margin:0 0 1.1rem; padding:.7rem 1rem;
+      border:1px solid #ef4444;
       border-radius:.85rem;
-      background:rgba(69,10,10,.45);
+      background:rgba(24,24,27,.88);
+      box-shadow:0 0 0 1px rgba(239,68,68,.28);
       text-align:center;
-      font-size:.82rem; line-height:1.55; color:#fecaca;
+      font-size:.92rem; font-weight:800; letter-spacing:.06em;
+      line-height:1.4; color:#fff;
     }
     .group-rules{
       background:rgba(24,24,27,.88);
@@ -111,9 +109,7 @@
       font-size:.82rem; line-height:1.6; color:#d4d4d8;
     }
     .group-rules ul{ margin:.4rem 0 0; padding-left:1.1rem; }
-    .group-rules li{ margin:.25rem 0; }
-    .group-rules a{ color:#f87171; text-decoration:underline; text-underline-offset:3px; }
-    .group-rules a:hover{ color:#fca5a5; }
+    .group-rules li{ margin:.2rem 0; }
     #order-form{ scroll-margin-top:5.5rem; }
     @media (min-width:480px){
       .ticket-pick__rail{ gap:.7rem; }
@@ -286,8 +282,8 @@
     </div>
 
     <div class="group-open-banner" role="status">
-      <span class="lang-zh">團體表單 2026-11-11 開放（香港時間）。而家表單仍關閉。</span>
-      <span class="lang-en lang-hidden">Group form opens 2026-11-11 (HKT). Form currently closed.</span>
+      <span class="lang-zh">團體套票現正發售</span>
+      <span class="lang-en lang-hidden">Group packages on sale now</span>
     </div>
 
     <div class="ticket-pick" id="group-pick">
@@ -295,8 +291,8 @@
         <span class="lang-zh">限時團體套票</span><span class="lang-en lang-hidden">Limited Group Packages</span>
       </p>
       <p class="ticket-pick__hint">
-        <span class="lang-zh">揀方案 → 喺下方表單落單（同一訂單、同一付款人）</span>
-        <span class="lang-en lang-hidden">Pick a package → order in the form below (same order, same payer)</span>
+        <span class="lang-zh">揀 A 或 B → 填資料 → 上傳付款截圖</span>
+        <span class="lang-en lang-hidden">Choose A or B → fill in your details → upload a payment screenshot</span>
       </p>
       <div class="ticket-pick__rail" role="list">
         <div class="ticket-pick__card is-primary" role="listitem" aria-label="方案 A Package A HK$760 for 3 tickets">
@@ -343,24 +339,19 @@
           <span class="lang-en lang-hidden">Same order, same payer.</span>
         </li>
         <li>
-          <span class="lang-zh">請用 FPS 或 PayMe 付款後上傳截圖；我哋會人手核款。</span>
-          <span class="lang-en lang-hidden">Pay via FPS or PayMe, then upload a screenshot; we verify manually.</span>
+          <span class="lang-zh">FPS 或 PayMe。</span>
+          <span class="lang-en lang-hidden">FPS or PayMe.</span>
         </li>
         <li>
-          <span class="lang-zh">唔疊加 Metal Pass 會員價 $350。</span>
-          <span class="lang-en lang-hidden">Does not stack with Metal Pass member price $350.</span>
+          <span class="lang-zh">唔疊加 Metal Pass。</span>
+          <span class="lang-en lang-hidden">Does not stack with Metal Pass.</span>
         </li>
         <li>
-          <span class="lang-zh">單張預售／Metal Pass 請返 <a href="/tickets">購票頁</a>。</span>
-          <span class="lang-en lang-hidden">For single Presale / Metal Pass, go to the <a href="/tickets">Tickets page</a>.</span>
+          <span class="lang-zh">核對付款後會 email 電子飛。</span>
+          <span class="lang-en lang-hidden">E-ticket emailed after payment is checked.</span>
         </li>
       </ul>
     </div>
-
-    <p class="tickets-submit-note">
-      <span class="lang-zh">提交後我哋會人手核對付款，核對後會 email 電子飛俾你（通常當日內寄出，請睇埋垃圾郵件）。</span>
-      <span class="lang-en lang-hidden">After you submit, we check your payment by hand and email your e-ticket, usually the same day (check spam).</span>
-    </p>
     <div id="order-form" class="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-2 md:p-4">
       <iframe
         id="tally-embed"
