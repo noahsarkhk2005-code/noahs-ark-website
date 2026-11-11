@@ -39,6 +39,131 @@
     .group-rules ul{ margin:.4rem 0 0; padding-left:1.1rem; }
     .group-rules li{ margin:.2rem 0; }
     #order-form{ scroll-margin-top:5.5rem; }
+
+    .group-pay{
+      background:rgba(24,24,27,.88);
+      border:1px solid #3f3f46;
+      border-radius:.85rem;
+      padding:1rem 1.1rem 1.05rem;
+      margin:0 0 1.15rem;
+    }
+    .group-pay__title{
+      margin:0 0 .35rem;
+      font-size:.92rem;
+      font-weight:800;
+      color:#fff;
+    }
+    .group-pay__lead{
+      margin:0 0 .85rem;
+      font-size:.82rem;
+      line-height:1.6;
+      color:#d4d4d8;
+    }
+    .group-pay__grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:.75rem;
+    }
+    @media (min-width:640px){
+      .group-pay__grid{ grid-template-columns:1fr 1fr; align-items:start; }
+    }
+    .group-pay__card{
+      border:1px solid #3f3f46;
+      background:#121214;
+      border-radius:.9rem;
+      padding:.85rem .8rem .95rem;
+    }
+    .group-pay__label{
+      margin:0 0 .3rem;
+      color:#ef4444;
+      font-size:.65rem;
+      letter-spacing:.22em;
+      font-weight:800;
+    }
+    .group-pay__name{
+      margin:0 0 .35rem;
+      color:#fff;
+      font-size:1rem;
+      font-weight:800;
+    }
+    .group-pay__meta{
+      margin:0 0 .65rem;
+      color:#a1a1aa;
+      font-size:.8rem;
+      line-height:1.45;
+    }
+    .group-pay__meta .mono{
+      color:#e4e4e7;
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+      font-weight:700;
+    }
+    .group-pay__btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      min-height:2.75rem;
+      padding:.65rem 1rem;
+      border-radius:.75rem;
+      border:1px solid transparent;
+      font-family:inherit;
+      font-size:.92rem;
+      font-weight:800;
+      text-decoration:none;
+      cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .group-pay__btn--payme{ background:#b91c1c; color:#fff; border-color:#991b1b; }
+    .group-pay__btn--payme:hover{ background:#dc2626; }
+    .group-pay__btn--fps{ background:#16a34a; color:#fff; border-color:#15803d; }
+    .group-pay__btn--fps:hover{ background:#22c55e; border-color:#16a34a; }
+    .group-pay__btn--fps.is-copied,
+    .group-pay__btn--fps:disabled{
+      background:#52525b;
+      border-color:#3f3f46;
+      color:#e4e4e7;
+      cursor:default;
+    }
+    .group-pay__status{
+      min-height:1rem;
+      margin:.45rem 0 .15rem;
+      color:#a1a1aa;
+      font-size:.72rem;
+    }
+    .group-pay__qr{
+      display:block;
+      width:100%;
+      max-width:12.5rem;
+      margin:.75rem auto 0;
+      padding:.4rem;
+      box-sizing:border-box;
+      border-radius:.65rem;
+      background:#fff;
+    }
+    .group-pay__qr img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:.35rem;
+    }
+    .group-pay__more{
+      margin:.85rem 0 0;
+      text-align:center;
+      font-size:.78rem;
+      font-weight:700;
+    }
+    .group-pay__more a{
+      color:#a1a1aa;
+      text-decoration:underline;
+      text-underline-offset:3px;
+    }
+    .group-pay__more a:hover,
+    .group-pay__more a:focus-visible{ color:#f87171; }
+    .group-pay__btn:focus-visible,
+    .group-pay__qr:focus-visible{
+      outline:2px solid #f87171;
+      outline-offset:2px;
+    }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -227,6 +352,59 @@
         </li>
       </ul>
     </div>
+
+    <section class="group-pay" aria-labelledby="group-pay-heading">
+      <h2 id="group-pay-heading" class="group-pay__title">
+        <span class="lang-zh">付款 Pay</span>
+        <span class="lang-en lang-hidden">Pay</span>
+      </h2>
+      <p class="group-pay__lead">
+        <span class="lang-zh">先用 PayMe 或 FPS 付套票金額（A HK$760／B HK$1,140），然後喺下面表格上載付款截圖。</span>
+        <span class="lang-en lang-hidden">Pay the exact package amount first (A HK$760 / B HK$1,140) via PayMe or FPS, then upload the screenshot in the form below.</span>
+      </p>
+      <div class="group-pay__grid">
+        <article class="group-pay__card">
+          <p class="group-pay__label">PAYME</p>
+          <p class="group-pay__name">Noahsark Metal</p>
+          <a class="group-pay__btn group-pay__btn--payme" href="https://payme.hsbc/noahsark2005" target="_blank" rel="noopener">
+            <span class="lang-zh">開 PayMe 付款</span>
+            <span class="lang-en lang-hidden">Open PayMe</span>
+          </a>
+          <a class="group-pay__qr" href="https://payme.hsbc/noahsark2005" target="_blank" rel="noopener" title="PayMe · Noahsark Metal">
+            <picture>
+              <source srcset="assets/payme-qr.webp" type="image/webp" />
+              <img src="assets/payme-qr.jpg" alt="PayMe QR · Noahsark Metal" width="800" height="900" decoding="async" />
+            </picture>
+          </a>
+        </article>
+        <article class="group-pay__card">
+          <p class="group-pay__label">HANG SENG · FPS</p>
+          <p class="group-pay__name">
+            <span class="lang-zh">轉數快 FPS</span>
+            <span class="lang-en lang-hidden">FPS</span>
+          </p>
+          <p class="group-pay__meta">
+            <span class="lang-zh">恒生 FPS ID：<span class="mono">164005613</span></span>
+            <span class="lang-en lang-hidden">Hang Seng FPS ID: <span class="mono">164005613</span></span>
+          </p>
+          <button type="button" id="group-fps-copy" data-fps-id="164005613" class="group-pay__btn group-pay__btn--fps" aria-pressed="false">
+            <span class="lang-zh">複製 FPS ID</span>
+            <span class="lang-en lang-hidden">Copy FPS ID</span>
+          </button>
+          <p id="group-fps-status" class="group-pay__status" aria-live="polite"></p>
+          <div class="group-pay__qr">
+            <img src="assets/fps-qr.png" alt="Hang Seng FPS QR · 164005613" width="512" height="512" decoding="async" />
+          </div>
+        </article>
+      </div>
+      <p class="group-pay__more">
+        <a href="/pay?from=group-tickets">
+          <span class="lang-zh">完整付款頁 →</span>
+          <span class="lang-en lang-hidden">Full payment page →</span>
+        </a>
+      </p>
+    </section>
+
     <div id="order-form" class="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-2 md:p-4">
       <iframe
         id="tally-embed"
@@ -285,6 +463,93 @@
       var btn = document.getElementById('nav-toggle');
       if (nav) nav.classList.remove('is-open');
       if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+
+    (function () {
+      var btn = document.getElementById('group-fps-copy');
+      var status = document.getElementById('group-fps-status');
+      if (!btn) return;
+      var statusPair = null;
+      function msg(zh, en) {
+        statusPair = [zh, en];
+        if (!status) return;
+        status.textContent = currentLang === 'en' ? en : zh;
+      }
+      var baseToggle = toggleLang;
+      toggleLang = function () {
+        baseToggle();
+        if (statusPair && status) status.textContent = currentLang === 'en' ? statusPair[1] : statusPair[0];
+      };
+      function legacyCopy(id) {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = id;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.top = '0';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          var done = document.execCommand('copy');
+          document.body.removeChild(ta);
+          return !!done;
+        } catch (e) { return false; }
+      }
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-fps-id') || '164005613';
+        function ok() {
+          msg('已複製 FPS ID：' + id, 'Copied FPS ID: ' + id);
+          btn.classList.add('is-copied');
+          btn.setAttribute('aria-pressed', 'true');
+        }
+        function fail() { msg('請手動輸入 FPS ID：' + id, 'Please enter FPS ID: ' + id); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(id).then(ok).catch(function () {
+            if (legacyCopy(id)) ok(); else fail();
+          });
+        } else if (legacyCopy(id)) ok();
+        else fail();
+      });
+    })();
+
+    /* Same return target /pay uses: scroll the screenshot upload (iframe bottom) into view. */
+    window.naScrollToProof = function () {
+      try { window.focus(); } catch (e) {}
+      function place(smooth) {
+        var iframe = document.getElementById('tally-embed');
+        if (!iframe) return;
+        var rect = iframe.getBoundingClientRect();
+        var iframeBottomDoc = rect.bottom + (window.pageYOffset || window.scrollY || 0);
+        var bottomGap = 24;
+        var target = iframeBottomDoc - window.innerHeight + bottomGap;
+        if (target < 0) target = 0;
+        try {
+          window.scrollTo({ top: target, behavior: smooth ? 'smooth' : 'auto' });
+        } catch (e2) {
+          window.scrollTo(0, target);
+        }
+      }
+      place(true);
+      setTimeout(function () { place(true); }, 200);
+      setTimeout(function () { place(false); }, 600);
+    };
+    window.addEventListener('message', function (event) {
+      if (event.origin !== location.origin) return;
+      var data = event.data;
+      if (!data || data.type !== 'na-scroll-proof') return;
+      if (typeof window.naScrollToProof === 'function') window.naScrollToProof();
+    });
+    window.addEventListener('pageshow', function () {
+      var flag = '';
+      try { flag = sessionStorage.getItem('na-return-proof') || ''; } catch (e) {}
+      if (flag !== '1') return;
+      try { sessionStorage.removeItem('na-return-proof'); } catch (e2) {}
+      window.naScrollToProof();
+    });
+    if (location.hash === '#order-form') {
+      function bootProofScroll() { window.naScrollToProof(); }
+      if (document.readyState === 'complete') bootProofScroll();
+      else window.addEventListener('load', bootProofScroll);
     }
   </script>
   </div><!-- /.site-content -->
