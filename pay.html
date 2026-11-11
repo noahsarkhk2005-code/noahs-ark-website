@@ -280,35 +280,71 @@
     })();
 
     (function () {
-      function isFromForm() {
+      var GROUP_RETURN = '/group-tickets#order-form';
+      function isGroupReferrer(ref) {
+        return /\/group-tickets(?:\.html)?(?:[/?#]|$)/i.test(ref || '');
+      }
+      /* 'group' | 'tickets' | ''. Query wins over referrer when both are set. */
+      function payOrigin() {
+        var fromReferrer = '';
         try {
           var ref = document.referrer || '';
-          if (/tally\.so/i.test(ref)) return true;
-          if (/noahsarkhk2005\.netlify\.app\/tickets/i.test(ref)) return true;
+          if (isGroupReferrer(ref)) fromReferrer = 'group';
+          else if (/tally\.so/i.test(ref)) fromReferrer = 'tickets';
+          else if (/noahsarkhk2005\.netlify\.app\/tickets/i.test(ref)) fromReferrer = 'tickets';
         } catch (e) {}
         try {
           var q = new URLSearchParams(window.location.search || '');
           var from = (q.get('from') || '').toLowerCase();
-          if (from === 'tally' || from === 'tickets') return true;
+          if (from === 'group-tickets') return 'group';
+          if (from === 'tally' || from === 'tickets') return 'tickets';
         } catch (e2) {}
+        if (fromReferrer) return fromReferrer;
         try {
-          if (window.opener) return true;
+          if (window.opener) return 'tickets';
         } catch (e3) {}
-        return false;
+        return '';
       }
 
+      var origin = payOrigin();
       var ticketsLink = document.getElementById('pay-tickets-link');
-      if (ticketsLink && !isFromForm()) {
+      var ticketsAnchor = ticketsLink ? ticketsLink.querySelector('a') : null;
+      if (origin === 'group' && ticketsAnchor) {
+        ticketsAnchor.setAttribute('href', GROUP_RETURN);
+        var zh = ticketsAnchor.querySelector('.lang-zh');
+        var en = ticketsAnchor.querySelector('.lang-en');
+        if (zh) zh.textContent = '未填團體表格？去團體優惠頁';
+        if (en) en.textContent = "Haven't filled the form? Go to group tickets";
+      }
+      if (ticketsLink && !origin) {
         ticketsLink.classList.add('is-visible');
+      }
+
+      function returnToGroupForm() {
+        try { sessionStorage.setItem('na-return-proof', '1'); } catch (eFlag) {}
+        var ref = '';
+        try { ref = document.referrer || ''; } catch (e) {}
+        if (isGroupReferrer(ref) && window.history.length > 1) {
+          var left = false;
+          window.addEventListener('pagehide', function () { left = true; }, { once: true });
+          history.back();
+          setTimeout(function () {
+            if (!left && !document.hidden) window.location.assign(GROUP_RETURN);
+          }, 400);
+          return;
+        }
+        window.location.assign(GROUP_RETURN);
       }
 
       var closeBtn = document.getElementById('pay-close-btn');
       var fallback = document.getElementById('pay-close-fallback');
       if (!closeBtn) return;
       closeBtn.addEventListener('click', function () {
-        /* Ask /tickets (opener or opener.top) to scroll to proof upload. */
+        /* Ask the opener form (tickets or group-tickets) to scroll to proof upload. */
+        var handedToOpener = false;
         try {
           if (window.opener && !window.opener.closed) {
+            handedToOpener = true;
             try {
               var topWin = window.opener.top || window.opener;
               topWin.postMessage({ type: 'na-scroll-proof' }, location.origin);
@@ -329,9 +365,13 @@
         } catch (eOp) {}
         try { window.close(); } catch (eClose) {}
         setTimeout(function () {
-          if (!document.hidden && fallback) {
-            fallback.classList.add('is-visible');
+          if (document.hidden) return;
+          if (origin === 'group' && !handedToOpener) {
+            returnToGroupForm();
+            return;
           }
+          if (origin === 'group' && ticketsLink) ticketsLink.classList.add('is-visible');
+          if (fallback) fallback.classList.add('is-visible');
         }, 300);
       });
     })();
