@@ -298,6 +298,9 @@
     /* Avoid black voids from opacity:0 fade-in before IO fires */
     .fade-in{ opacity:1; transform:none; }
     .fade-in.visible{ opacity:1; transform:none; }
+    @media (min-width:768px) and (max-width:1100px){
+      .site-nav__desktop{ gap:.6rem; font-size:.8rem; }
+    }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -317,6 +320,7 @@
       </a>
       <div class="site-nav__desktop">
         <a class="hover:text-red-500 transition" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a class="hover:text-red-500 transition" href="/tickets-noahs-ark-2-5"><span class="lang-zh">2.5 會員</span><span class="lang-en lang-hidden">2.5 Tickets</span></a>
         <a class="hover:text-red-500 transition" href="/videos"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
         <a class="hover:text-red-500 transition" href="/events"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
         <a class="hover:text-red-500 transition" href="/merch"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
@@ -346,6 +350,7 @@
     </div>
     <div class="site-nav__drawer" id="nav-drawer">
       <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a href="/tickets-noahs-ark-2-5" onclick="closeNav()"><span class="lang-zh">2.5 會員</span><span class="lang-en lang-hidden">2.5 Tickets</span></a>
       <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
       <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
       <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
@@ -403,6 +408,23 @@
         </div>
       </div>
 </div>
+  </section>
+
+  <section class="story-screen fade-in" id="na25-tickets" aria-label="Noah's Ark 2.5 member tickets">
+    <a class="album-entry" href="/tickets-noahs-ark-2-5">
+      <p class="story-kicker" style="margin-bottom:.35rem"><span class="lang-zh">會員飛／MEMBER</span><span class="lang-en lang-hidden">MEMBER TICKETS</span></p>
+      <h2 class="story-title" style="margin-bottom:.35rem"><span class="lang-zh">挪亞方舟 2.5</span><span class="lang-en lang-hidden">Noah's Ark 2.5</span></h2>
+      <p class="story-sub" style="margin-bottom:.45rem">
+        <span class="lang-zh">2027-01-09 · 星期六晚上 · 鑽石山／新蒲崗 · <span style="white-space:nowrap">只限會員</span></span>
+        <span class="lang-en lang-hidden">Saturday 9 January 2027 · evening · San Po Kong / Diamond Hill · <span style="white-space:nowrap">members only</span></span>
+      </p>
+      <p class="story-parallel" style="margin-bottom:.75rem">
+        <span><span class="lang-zh">舊會員 HK$140</span><span class="lang-en lang-hidden">Old member HK$140</span></span>
+        <span class="sep">·</span>
+        <span><span class="lang-zh">新會員 HK$180</span><span class="lang-en lang-hidden">New member HK$180</span></span>
+      </p>
+      <span class="album-entry__cta"><span class="lang-zh">會員購票 →</span><span class="lang-en lang-hidden">Member tickets →</span></span>
+    </a>
   </section>
 
   <!-- #show (本場 price rail) removed — tickets live on /tickets -->
@@ -504,6 +526,8 @@
 </section>
 
   <p style="margin:0 auto 2rem;text-align:center;max-width:28rem;padding:0 1rem">
+      <a href="/tickets-noahs-ark-2-5" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">2.5 會員飛 →</span><span class="lang-en lang-hidden">2.5 tickets →</span></a>
+      <span style="color:#3f3f46;margin:0 .5rem">·</span>
       <a href="/events" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">過往活動 →</span><span class="lang-en lang-hidden">Past events →</span></a>
       <span style="color:#3f3f46;margin:0 .5rem">·</span>
       <a href="/merch" style="color:#71717a;font-size:.8rem;font-weight:600"><span class="lang-zh">商品 →</span><span class="lang-en lang-hidden">Shop →</span></a>
@@ -521,6 +545,7 @@
            class="h-8 w-auto mx-auto mb-4 opacity-60 object-contain site-nav__logo-img" loading="lazy" decoding="async" style="opacity:.6!important;margin:0 auto 1rem;height:2rem" />
     </picture>
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+    <p class="mb-3"><a href="/tickets-noahs-ark-2-5" class="text-zinc-500 hover:text-red-500 transition"><span class="lang-zh">挪亞方舟 2.5 會員飛</span><span class="lang-en lang-hidden">Noah's Ark 2.5 member tickets</span></a></p>
     <div class="flex items-center justify-center gap-4">
       <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="text-zinc-500 hover:text-red-500 transition">
         Instagram @noahs_ark_hk
