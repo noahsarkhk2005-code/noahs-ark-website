@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>挪亞方舟 2.5｜Member Tickets</title>
-  <meta name="description" content="挪亞方舟 2.5｜Member Tickets" />
+  <meta name="description" content="挪亞方舟 2.5｜Member Tickets. 2027-01-09 · 17:30. Iconic Music，鑽石山／新蒲崗，四美街 23 至 25 號利森工業中心一樓. ARKM, Putrescent Carcass, Amnesia, Reverse The Skies, Eclipsion, Searchlight." />
   <link rel="canonical" href="https://noahsarkhk2005.netlify.app/tickets-noahs-ark-2-5" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,11 +15,33 @@
       .site-nav__desktop{ gap:.6rem; font-size:.8rem; }
     }
     #order-form{ scroll-margin-top:5.5rem; }
+    .na25-head{ text-align:center; margin:0 auto 1.25rem; max-width:40rem; }
+    .na25-mark{
+      display:block; width:auto; height:9rem;
+      margin:0 auto .85rem; object-fit:contain;
+    }
+    .na25-facts{
+      margin:1rem auto 0; max-width:36rem;
+      color:#d4d4d8; font-size:.92rem; line-height:1.55;
+    }
+    .na25-facts p{ margin:0 0 .55rem; }
+    .na25-venue{ color:#fff; font-weight:700; letter-spacing:.03em; }
+    .na25-bands{
+      display:flex; flex-wrap:wrap; justify-content:center;
+      gap:.15rem .2rem; list-style:none; margin:.15rem 0 0; padding:0;
+      color:#fafafa; font-weight:700;
+    }
+    .na25-bands li:not(:last-child)::after{
+      content:" · "; color:#71717a; font-weight:500;
+    }
+    @media (min-width:768px){
+      .na25-mark{ height:11rem; }
+    }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
   <meta property="og:title" content="挪亞方舟 2.5｜Member Tickets" />
-  <meta property="og:description" content="挪亞方舟 2.5｜Member Tickets" />
+  <meta property="og:description" content="挪亞方舟 2.5｜Member Tickets. 2027-01-09 · 17:30. Iconic Music，鑽石山／新蒲崗，四美街 23 至 25 號利森工業中心一樓. ARKM, Putrescent Carcass, Amnesia, Reverse The Skies, Eclipsion, Searchlight." />
   <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/og-image.jpg" />
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -91,7 +113,36 @@
   </nav>
 
   <main class="max-w-3xl mx-auto px-4 py-8">
-    <h1 class="text-center text-2xl font-black mb-6">挪亞方舟 2.5｜Member Tickets</h1>
+    <div class="na25-head">
+      <picture>
+        <source srcset="assets/logo-hero.webp" type="image/webp" />
+        <img class="na25-mark" src="assets/logo-hero.png" alt="Noah's Ark" width="365" height="640" decoding="async" />
+      </picture>
+      <h1 class="text-center text-2xl font-black">挪亞方舟 2.5｜Member Tickets</h1>
+      <div class="na25-facts">
+        <p>
+          <span class="lang-zh">2027-01-09 · 星期六 · 下午 5:30（17:30）</span>
+          <span class="lang-en lang-hidden">Saturday 9 January 2027 · 5:30pm (17:30)</span>
+        </p>
+        <p>
+          <span class="na25-venue">Iconic Music</span><br />
+          <span class="lang-zh">鑽石山／新蒲崗，四美街 23 至 25 號利森工業中心一樓</span>
+          <span class="lang-en lang-hidden">1/F, Lee Sun Industrial Building, 23–25 Sze Mei Street, Diamond Hill / San Po Kong</span>
+        </p>
+        <p>
+          <span class="lang-zh">今場共有 6 隊演出樂隊</span>
+          <span class="lang-en lang-hidden">Six bands on the bill</span>
+        </p>
+        <ol class="na25-bands">
+          <li>ARKM</li>
+          <li>Putrescent Carcass</li>
+          <li>Amnesia</li>
+          <li>Reverse The Skies</li>
+          <li>Eclipsion</li>
+          <li>Searchlight</li>
+        </ol>
+      </div>
+    </div>
     <div id="order-form" class="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-2 md:p-4">
       <iframe
         id="tally-embed"
