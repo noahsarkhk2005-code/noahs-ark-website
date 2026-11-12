@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>挪亞方舟 2.5｜Member Tickets</title>
+  <meta name="description" content="挪亞方舟 2.5 member tickets. Saturday 9 January 2027, evening (2027-01-09). 鑽石山／新蒲崗，四美街 23 至 25 號利森工業中心一樓. Members only. Old member HK$140. New member HK$180." />
+  <link rel="canonical" href="https://noahsarkhk2005.netlify.app/tickets-noahs-ark-2-5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css?v=20261112-na25" />
+  <style>
+    @media (min-width:768px) and (max-width:1100px){
+      .site-nav__desktop{ gap:.6rem; font-size:.8rem; }
+    }
+    .na25-banner{
+      margin:0 0 1.1rem; padding:.7rem 1rem;
+      border:1px solid #ef4444;
+      border-radius:.85rem;
+      background:rgba(24,24,27,.88);
+      box-shadow:0 0 0 1px rgba(239,68,68,.28);
+      text-align:center;
+      font-size:.92rem; font-weight:800; letter-spacing:.04em;
+      line-height:1.45; color:#fff;
+    }
+    .na25-prices{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:.65rem;
+      margin:0 0 1.15rem;
+    }
+    .na25-price{
+      border:1px solid #3f3f46;
+      background:rgba(24,24,27,.88);
+      border-radius:.85rem;
+      padding:.85rem .75rem .9rem;
+      min-width:0;
+    }
+    .na25-price__label{
+      margin:0 0 .3rem;
+      color:#ef4444;
+      font-size:.62rem;
+      letter-spacing:.18em;
+      font-weight:800;
+    }
+    .na25-price__name{
+      margin:0;
+      color:#fff;
+      font-size:.95rem;
+      font-weight:800;
+      line-height:1.3;
+    }
+    .na25-price__amt{
+      display:flex; align-items:baseline; gap:.15rem;
+      margin:.35rem 0 0;
+      color:#fff;
+      font-size:1.65rem;
+      font-weight:900;
+      font-variant-numeric:tabular-nums;
+      line-height:1;
+    }
+    .na25-price__amt span{ font-size:.72rem; color:#a1a1aa; font-weight:700; }
+    .na25-price__meta{
+      margin:.45rem 0 0;
+      color:#a1a1aa;
+      font-size:.72rem;
+      line-height:1.45;
+    }
+    .na25-rules{
+      background:rgba(24,24,27,.88);
+      border:1px solid #3f3f46;
+      border-radius:.85rem;
+      padding:1rem 1.1rem;
+      margin:0 0 1.15rem;
+      font-size:.82rem; line-height:1.6; color:#d4d4d8;
+    }
+    .na25-rules ul{ margin:.4rem 0 0; padding-left:1.1rem; }
+    .na25-rules li{ margin:.35rem 0; }
+    .na25-pay{
+      background:rgba(24,24,27,.88);
+      border:1px solid #3f3f46;
+      border-radius:.85rem;
+      padding:1rem 1.1rem 1.05rem;
+      margin:0 0 1.15rem;
+    }
+    .na25-pay__title{
+      margin:0 0 .35rem;
+      font-size:.92rem;
+      font-weight:800;
+      color:#fff;
+    }
+    .na25-pay__lead{
+      margin:0 0 .85rem;
+      font-size:.82rem;
+      line-height:1.6;
+      color:#d4d4d8;
+    }
+    .na25-pay__grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:.75rem;
+    }
+    @media (min-width:640px){
+      .na25-pay__grid{ grid-template-columns:1fr 1fr; align-items:start; }
+    }
+    .na25-pay__card{
+      border:1px solid #3f3f46;
+      background:#121214;
+      border-radius:.9rem;
+      padding:.85rem .8rem .95rem;
+    }
+    .na25-pay__label{
+      margin:0 0 .3rem;
+      color:#ef4444;
+      font-size:.65rem;
+      letter-spacing:.22em;
+      font-weight:800;
+    }
+    .na25-pay__name{
+      margin:0 0 .35rem;
+      color:#fff;
+      font-size:1rem;
+      font-weight:800;
+    }
+    .na25-pay__meta{
+      margin:0 0 .65rem;
+      color:#a1a1aa;
+      font-size:.8rem;
+      line-height:1.45;
+    }
+    .na25-pay__meta .mono{
+      color:#e4e4e7;
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+      font-weight:700;
+    }
+    .na25-pay__btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      min-height:2.75rem;
+      padding:.65rem 1rem;
+      border-radius:.75rem;
+      border:1px solid transparent;
+      font-family:inherit;
+      font-size:.92rem;
+      font-weight:800;
+      text-decoration:none;
+      cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .na25-pay__btn--payme{ background:#b91c1c; color:#fff; border-color:#991b1b; }
+    .na25-pay__btn--payme:hover{ background:#dc2626; }
+    .na25-pay__btn--fps{ background:#16a34a; color:#fff; border-color:#15803d; }
+    .na25-pay__btn--fps:hover{ background:#22c55e; border-color:#16a34a; }
+    .na25-pay__btn--fps.is-copied,
+    .na25-pay__btn--fps:disabled{
+      background:#52525b;
+      border-color:#3f3f46;
+      color:#e4e4e7;
+      cursor:default;
+    }
+    .na25-pay__status{
+      min-height:1rem;
+      margin:.45rem 0 .15rem;
+      color:#a1a1aa;
+      font-size:.72rem;
+    }
+    .na25-pay__qr{
+      display:block;
+      width:100%;
+      max-width:12.5rem;
+      margin:.75rem auto 0;
+      padding:.4rem;
+      box-sizing:border-box;
+      border-radius:.65rem;
+      background:#fff;
+    }
+    .na25-pay__qr img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:.35rem;
+    }
+    .na25-pay__btn:focus-visible,
+    .na25-pay__qr:focus-visible{
+      outline:2px solid #f87171;
+      outline-offset:2px;
+    }
+    .na25-form-note{
+      margin:0 0 .6rem; padding:0 .25rem; text-align:center;
+      font-size:.82rem; line-height:1.55; color:#d4d4d8;
+    }
+    #order-form{ scroll-margin-top:5.5rem; }
+    .na25-venue{ color:#e4e4e7; font-size:.92rem; line-height:1.55; margin:0; }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-512.png" />
+  <meta property="og:title" content="挪亞方舟 2.5｜Member Tickets" />
+  <meta property="og:description" content="2027-01-09 evening. Members only. Old member HK$140. New member HK$180." />
+  <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/og-image.jpg" />
+</head>
+<body class="bg-metal-950 text-zinc-200 min-h-screen">
+
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__glow"></div>
+    <div class="site-bg__grain"></div>
+    <div class="site-bg__vignette"></div>
+  </div>
+
+  <div class="site-content">
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav__bar">
+      <a aria-label="Noah's Ark home" class="site-nav__logo" href="/">
+        <picture>
+          <source srcset="assets/logo-nav.webp" type="image/webp" />
+          <img src="assets/logo-nav-white.png" alt="Noah's Ark" width="213" height="120" class="site-nav__logo-img" decoding="async" />
+        </picture>
+      </a>
+      <div class="site-nav__desktop">
+        <a class="hover:text-red-500 transition" href="/tickets"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+        <a class="text-red-500" href="/tickets-noahs-ark-2-5"><span class="lang-zh">2.5 會員</span><span class="lang-en lang-hidden">2.5 Tickets</span></a>
+        <a class="hover:text-red-500 transition" href="/videos"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+        <a class="hover:text-red-500 transition" href="/events"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+        <a class="hover:text-red-500 transition" href="/merch"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+        <a class="hover:text-red-500 transition" href="/live"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+        <a class="hover:text-red-500 transition" href="/bands"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+        <a class="hover:text-red-500 transition" href="/#who"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+        <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="Instagram" aria-label="Instagram">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" class="hover:text-red-500 transition" title="YouTube" aria-label="YouTube">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <button type="button" onclick="toggleLang()" class="px-3 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+      </div>
+      <nav class="site-nav__quick" aria-label="Noah's Ark 2.5"><a class="site-nav__quick-title" href="/tickets-noahs-ark-2-5" title="挪亞方舟 2.5｜Member Tickets"><span class="site-nav__quick-full"><span class="lang-zh">挪亞方舟 2.5</span><span class="lang-en lang-hidden">Noah's Ark 2.5</span></span><span class="site-nav__quick-short" aria-hidden="true"><span class="lang-zh">2.5 會員飛</span><span class="lang-en lang-hidden">2.5 Tickets</span></span></a></nav>
+
+      <div class="site-nav__mobile-actions">
+        <button type="button" onclick="toggleLang()" class="px-2.5 py-1 border border-zinc-700 rounded text-xs hover:border-red-600 transition" aria-label="Language">
+          <span class="lang-zh">EN</span><span class="lang-en lang-hidden">中文</span>
+        </button>
+        <button type="button" class="site-nav__burger" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Menu" onclick="toggleNav()">
+          <svg class="site-nav__burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="site-nav__drawer" id="nav-drawer">
+      <a href="/tickets" onclick="closeNav()"><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
+      <a class="is-active" href="/tickets-noahs-ark-2-5" onclick="closeNav()"><span class="lang-zh">2.5 會員</span><span class="lang-en lang-hidden">2.5 Tickets</span></a>
+      <a href="/videos" onclick="closeNav()"><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
+      <a href="/events" onclick="closeNav()"><span class="lang-zh">活動</span><span class="lang-en lang-hidden">Events</span></a>
+      <a href="/merch" onclick="closeNav()"><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Shop</span></a>
+      <a href="/live" onclick="closeNav()"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
+      <a href="/bands" onclick="closeNav()"><span class="lang-zh">樂隊</span><span class="lang-en lang-hidden">Bands</span></a>
+      <a href="/#who" onclick="closeNav()"><span class="lang-zh">關於</span><span class="lang-en lang-hidden">About</span></a>
+      <a href="/" onclick="closeNav()"><span class="lang-zh">首頁</span><span class="lang-en lang-hidden">Home</span></a>
+      <div class="site-nav__drawer-row">
+        <a href="https://www.instagram.com/noahs_ark_hk/" target="_blank" rel="noopener" aria-label="Instagram" onclick="closeNav()">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@noahsark_2005" target="_blank" rel="noopener" aria-label="YouTube" onclick="closeNav()">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-4 py-10">
+    <div class="mb-8 text-center">
+      <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">
+        <span class="lang-zh">MEMBER · 會員飛</span>
+        <span class="lang-en lang-hidden">MEMBER TICKETS</span>
+      </p>
+      <h1 class="text-3xl md:text-4xl font-black mb-2">
+        <span class="lang-zh">挪亞方舟 2.5</span>
+        <span class="lang-en lang-hidden">Noah's Ark 2.5</span>
+      </h1>
+      <p class="text-zinc-400 text-sm mb-3">挪亞方舟 2.5｜Member Tickets</p>
+      <p class="text-zinc-300 text-sm mb-2">
+        <span class="lang-zh">2027-01-09 · 星期六晚上</span>
+        <span class="lang-en lang-hidden">Saturday 9 January 2027 · evening</span>
+      </p>
+      <p class="na25-venue">
+        <span class="lang-zh">鑽石山／新蒲崗，四美街 23 至 25 號利森工業中心一樓</span>
+        <span class="lang-en lang-hidden">1/F, Lee Sun Industrial Building, 23–25 Sze Mei Street, San Po Kong / Diamond Hill</span>
+      </p>
+    </div>
+
+    <div class="na25-banner" role="status">
+      <span class="lang-zh">只限會員 · 冇散飛</span>
+      <span class="lang-en lang-hidden">Members only · no general admission</span>
+    </div>
+
+    <div class="na25-prices">
+      <article class="na25-price">
+        <p class="na25-price__label">OLD</p>
+        <p class="na25-price__name">
+          <span class="lang-zh">舊會員</span>
+          <span class="lang-en lang-hidden">Old member</span>
+        </p>
+        <p class="na25-price__amt"><span>HK$</span>140</p>
+        <p class="na25-price__meta">
+          <span class="lang-zh">編號可選填。每個編號限一張。</span>
+          <span class="lang-en lang-hidden">Number optional. One ticket per number.</span>
+        </p>
+      </article>
+      <article class="na25-price">
+        <p class="na25-price__label">NEW</p>
+        <p class="na25-price__name">
+          <span class="lang-zh">新會員</span>
+          <span class="lang-en lang-hidden">New member</span>
+        </p>
+        <p class="na25-price__amt"><span>HK$</span>180</p>
+        <p class="na25-price__meta">
+          <span class="lang-zh">入場派 Metal Pass，唔可以自選編號。</span>
+          <span class="lang-en lang-hidden">Metal Pass at the door. No choosing a number.</span>
+        </p>
+      </article>
+    </div>
+
+    <div class="na25-rules">
+      <p class="font-bold text-white mb-1">
+        <span class="lang-zh">規則 Rules</span>
+        <span class="lang-en lang-hidden">Rules</span>
+      </p>
+      <ul>
+        <li>
+          <span class="lang-zh">只限會員。冇非會員票，冇散飛。</span>
+          <span class="lang-en lang-hidden">Members only. No non-member or general-admission tickets.</span>
+        </li>
+        <li>
+          <span class="lang-zh">舊會員 HK$140。表格可選填 Metal Pass 編號，唔使填。每個編號只可以買一張。</span>
+          <span class="lang-en lang-hidden">Old member HK$140. You may enter a Metal Pass number on the form; it is not required. Each number can buy only one ticket.</span>
+        </li>
+        <li>
+          <span class="lang-zh">新會員 HK$180。入場時派一張挪亞方舟 Metal Pass。編號按入場次序，唔可以自選。</span>
+          <span class="lang-en lang-hidden">New member HK$180. One Noah's Ark Metal Pass at the door. Numbers are issued in entry order. Buyers cannot choose a number.</span>
+        </li>
+      </ul>
+    </div>
+
+    <section class="na25-pay" aria-labelledby="na25-pay-heading">
+      <h2 id="na25-pay-heading" class="na25-pay__title">
+        <span class="lang-zh">付款 Pay</span>
+        <span class="lang-en lang-hidden">Pay</span>
+      </h2>
+      <p class="na25-pay__lead">
+        <span class="lang-zh">先用 PayMe 或恒生 FPS 付款，然後喺下面表格上載付款截圖。</span>
+        <span class="lang-en lang-hidden">Pay first with PayMe or Hang Seng FPS, then upload a payment screenshot on the form.</span>
+      </p>
+      <div class="na25-pay__grid">
+        <article class="na25-pay__card">
+          <p class="na25-pay__label">PAYME</p>
+          <p class="na25-pay__name">Noahsark Metal</p>
+          <a class="na25-pay__btn na25-pay__btn--payme" href="https://payme.hsbc/noahsark2005" target="_blank" rel="noopener">
+            <span class="lang-zh">開 PayMe 付款</span>
+            <span class="lang-en lang-hidden">Open PayMe</span>
+          </a>
+          <a class="na25-pay__qr" href="https://payme.hsbc/noahsark2005" target="_blank" rel="noopener" title="PayMe · Noahsark Metal">
+            <picture>
+              <source srcset="assets/payme-qr.webp" type="image/webp" />
+              <img src="assets/payme-qr.jpg" alt="PayMe QR · Noahsark Metal" width="800" height="900" decoding="async" />
+            </picture>
+          </a>
+        </article>
+        <article class="na25-pay__card">
+          <p class="na25-pay__label">HANG SENG · FPS</p>
+          <p class="na25-pay__name">
+            <span class="lang-zh">轉數快 FPS</span>
+            <span class="lang-en lang-hidden">FPS</span>
+          </p>
+          <p class="na25-pay__meta">
+            <span class="lang-zh">恒生 FPS ID：<span class="mono">164005613</span></span>
+            <span class="lang-en lang-hidden">Hang Seng FPS ID: <span class="mono">164005613</span></span>
+          </p>
+          <button type="button" id="na25-fps-copy" data-fps-id="164005613" class="na25-pay__btn na25-pay__btn--fps" aria-pressed="false">
+            <span class="lang-zh">複製 FPS ID</span>
+            <span class="lang-en lang-hidden">Copy FPS ID</span>
+          </button>
+          <p id="na25-fps-status" class="na25-pay__status" aria-live="polite"></p>
+          <div class="na25-pay__qr">
+            <img src="assets/fps-qr.png" alt="Hang Seng FPS QR · 164005613" width="512" height="512" decoding="async" />
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <p class="na25-form-note">
+      <span class="lang-zh">付完款，喺表格上載付款截圖。</span>
+      <span class="lang-en lang-hidden">After you pay, upload the payment screenshot in the form.</span>
+    </p>
+    <div id="order-form" class="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-2 md:p-4">
+      <iframe
+        id="tally-embed"
+        data-tally-src="https://tally.so/embed/o9edpe?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
+        loading="lazy"
+        width="100%"
+        height="1100"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="挪亞方舟 2.5｜Member Tickets">
+      </iframe>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
+    <p class="mt-2"><a href="mailto:noahsarkhk2005@gmail.com" class="text-zinc-500 hover:text-red-500 transition">noahsarkhk2005@gmail.com</a></p>
+  </footer>
+
+  <script src="https://tally.so/widgets/embed.js"></script>
+  <script>
+    if (typeof Tally !== 'undefined') {
+      Tally.loadEmbeds();
+    } else {
+      document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (iframe) {
+        iframe.src = iframe.dataset.tallySrc;
+      });
+    }
+
+    var currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.querySelectorAll('.lang-zh').forEach(function (el) {
+        el.classList.toggle('lang-hidden', currentLang === 'en');
+      });
+      document.querySelectorAll('.lang-en').forEach(function (el) {
+        el.classList.toggle('lang-hidden', currentLang === 'zh');
+      });
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-HK' : 'en';
+    }
+    function toggleNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (!nav) return;
+      var open = nav.classList.toggle('is-open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var btn = document.getElementById('nav-toggle');
+      if (nav) nav.classList.remove('is-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+
+    (function () {
+      var btn = document.getElementById('na25-fps-copy');
+      var status = document.getElementById('na25-fps-status');
+      if (!btn) return;
+      var statusPair = null;
+      function msg(zh, en) {
+        statusPair = [zh, en];
+        if (!status) return;
+        status.textContent = currentLang === 'en' ? en : zh;
+      }
+      var baseToggle = toggleLang;
+      toggleLang = function () {
+        baseToggle();
+        if (statusPair && status) status.textContent = currentLang === 'en' ? statusPair[1] : statusPair[0];
+      };
+      function legacyCopy(id) {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = id;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.top = '0';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          var done = document.execCommand('copy');
+          document.body.removeChild(ta);
+          return !!done;
+        } catch (e) { return false; }
+      }
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-fps-id') || '164005613';
+        function ok() {
+          msg('已複製 FPS ID：' + id, 'Copied FPS ID: ' + id);
+          btn.classList.add('is-copied');
+          btn.setAttribute('aria-pressed', 'true');
+        }
+        function fail() { msg('請手動輸入 FPS ID：' + id, 'Please enter FPS ID: ' + id); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(id).then(ok).catch(function () {
+            if (legacyCopy(id)) ok(); else fail();
+          });
+        } else if (legacyCopy(id)) ok();
+        else fail();
+      });
+    })();
+  </script>
+  </div>
+
+</body>
+</html>

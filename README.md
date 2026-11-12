@@ -17,6 +17,7 @@
 ## 頁面
 - `index.html` — 首頁
 - `tickets.html` — `/tickets` · Noah's Ark X Protoss 20th Anniversary 購票 (舊 `/tickets-noah-2-5` 301 → `/tickets`)
+- `tickets-noahs-ark-2-5.html` — `/tickets-noahs-ark-2-5` · 挪亞方舟 2.5 member tickets（2027-01-09，只限會員）
 - `merch.html` — 商品頁
 
 ## 本地預覽
