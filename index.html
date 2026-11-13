@@ -266,6 +266,28 @@
       display:inline-flex; align-items:center; gap:.35rem;
       color:#f87171; font-size:.85rem; font-weight:800;
     }
+    .na25-teaser-poster{
+      display:block;
+      width:12rem;
+      max-width:100%;
+      height:auto;
+      margin:0 auto .75rem;
+      border:1px solid #3f3f46;
+      border-radius:.85rem;
+      background:#050505;
+    }
+    @media (min-width:768px){
+      a.na25-entry{
+        display:grid;
+        grid-template-columns:12.5rem minmax(0,1fr);
+        column-gap:1rem;
+        align-items:start;
+      }
+      a.na25-entry .na25-teaser-poster{
+        width:100%;
+        margin:0;
+      }
+    }
 
     /* Sticky thin bar after hero */
     .sticky-bar{
@@ -411,7 +433,9 @@
   </section>
 
   <section class="story-screen fade-in" id="na25-tickets" aria-label="Noah's Ark 2.5 member tickets">
-    <a class="album-entry" href="/tickets-noahs-ark-2-5">
+    <a class="album-entry na25-entry" href="/tickets-noahs-ark-2-5">
+      <img class="na25-teaser-poster" src="assets/noahs-ark-2-5-poster.jpg" alt="挪亞方舟 2.5 海報｜Noah's Ark 2.5 poster" width="850" height="1062" decoding="async" loading="lazy" />
+      <div>
       <p class="story-kicker" style="margin-bottom:.35rem"><span class="lang-zh">會員飛／MEMBER</span><span class="lang-en lang-hidden">MEMBER TICKETS</span></p>
       <h2 class="story-title" style="margin-bottom:.35rem"><span class="lang-zh">挪亞方舟 2.5</span><span class="lang-en lang-hidden">Noah's Ark 2.5</span></h2>
       <p class="story-sub" style="margin-bottom:.35rem">
@@ -432,6 +456,7 @@
         <span><span class="lang-zh">新會員 HK$180</span><span class="lang-en lang-hidden">New member HK$180</span></span>
       </p>
       <span class="album-entry__cta"><span class="lang-zh">會員購票 →</span><span class="lang-en lang-hidden">Member tickets →</span></span>
+      </div>
     </a>
   </section>
 
