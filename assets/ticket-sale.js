@@ -1,6 +1,11 @@
 /* Ticket sale window — edit constants below (Asia/Hong_Kong wall time). */
 window.NOAHS_TICKET_SALE = (function () {
-  /* Flip Metal + earlybird tier → Last Call/預售 at this instant. */
+  /* Last Call (HK$420) cutover is cancelled. Buyable tiers stay:
+     Metal Pass 會員 / Member HK$350 (key metal / qty_metal) and
+     預售 / Presale HK$380 (key earlybird / qty_earlybird).
+     LAST_CALL_CANCELLED keeps the 2026-11-21 00:00 HKT flip from marking
+     those tiers sold out or revealing lastcall, including via ?now=. */
+  var LAST_CALL_CANCELLED = true;
   var PRESALE_START = '2026-11-21T00:00:00+08:00';
   /* After the flip, embed this Tally form ID. null = keep current form. */
   var TALLY_FORM_AFTER = null;
@@ -37,11 +42,13 @@ window.NOAHS_TICKET_SALE = (function () {
   }
 
   function isPresaleOpen(now) {
+    if (LAST_CALL_CANCELLED) return false;
     var n = now || getNow();
     return n.getTime() >= getPresaleStart().getTime();
   }
 
   function selectableKeys(now) {
+    if (LAST_CALL_CANCELLED) return ['metal', 'earlybird'];
     return isPresaleOpen(now)
       ? ['lastcall', 'presale']
       : ['metal', 'earlybird'];
@@ -93,7 +100,7 @@ window.NOAHS_TICKET_SALE = (function () {
   var STICKY_TIERS = {
     metal:     { zh: 'Metal', en: 'Metal',      price: 350 },
     earlybird: { zh: '預售',  en: 'Presale',    price: 380 },
-    lastcall:  { zh: 'Metal', en: 'Metal',      price: 420 },  /* member/Metal tier after cutover */
+    lastcall:  { zh: 'Metal', en: 'Metal',      price: 420 },  /* unused while LAST_CALL_CANCELLED */
     presale:   { zh: '預售',  en: 'Presale',    price: 380 }
   };
 
@@ -134,7 +141,7 @@ window.NOAHS_TICKET_SALE = (function () {
       /* Cards marked data-hide-until-presale are hidden before PRESALE_START
          (absolute +08:00 instant; honours ?now= override). */
       if (card.hasAttribute('data-hide-until-presale')) {
-        card.hidden = !open;
+        card.hidden = LAST_CALL_CANCELLED ? true : !open;
       }
       card.classList.toggle('is-disabled', !on);
       card.classList.toggle('is-primary', open && key === 'presale');
@@ -170,7 +177,9 @@ window.NOAHS_TICKET_SALE = (function () {
       document.querySelectorAll('[data-phase-show]'),
       function (el) {
         var phase = el.getAttribute('data-phase-show');
-        el.hidden = phase === 'post' ? !open : open;
+        el.hidden = LAST_CALL_CANCELLED
+          ? phase === 'post'
+          : (phase === 'post' ? !open : open);
       }
     );
   }

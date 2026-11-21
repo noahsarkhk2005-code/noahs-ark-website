@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>團體優惠 | Group Tickets · Noah's Ark X Protoss 20th</title>
-  <meta name="description" content="Group ticket packages for Noah's Ark X Protoss 20th Anniversary — 05/12/2026 19:00 HKT (晚上 7 點), MOM Livehouse Hong Kong. Package A HK$760 for 3 tickets; Package B HK$1140 for 5 tickets." />
+  <title>團體優惠已結束 | Group tickets closed · Noah's Ark X Protoss 20th</title>
+  <meta name="description" content="團體優惠已經結束。單張門票請到購票頁。The group-ticket offer has closed. Single tickets are on the tickets page." />
+  <meta name="robots" content="noindex, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -18,152 +19,20 @@
     .tickets-more a:hover, .tickets-more a:focus-visible{ color:#f87171; text-decoration-color:#f87171; }
     @media (max-width:420px){ .tickets-more{ padding:0 3.5rem; } }
 
-    .group-open-banner{
-      margin:0 0 1.1rem; padding:.7rem 1rem;
-      border:1px solid #ef4444;
-      border-radius:.85rem;
+    .group-closed{
+      margin:0 auto 2rem; max-width:32rem; padding:1.15rem 1.2rem 1.25rem;
+      border:1px solid #3f3f46; border-radius:.85rem;
       background:rgba(24,24,27,.88);
-      box-shadow:0 0 0 1px rgba(239,68,68,.28);
-      text-align:center;
-      font-size:.92rem; font-weight:800; letter-spacing:.06em;
-      line-height:1.4; color:#fff;
+      text-align:center; font-size:.95rem; line-height:1.6; color:#d4d4d8;
     }
-    .group-rules{
-      background:rgba(24,24,27,.88);
-      border:1px solid #3f3f46;
-      border-radius:.85rem;
-      padding:1rem 1.1rem;
-      margin:0 0 1.15rem;
-      font-size:.82rem; line-height:1.6; color:#d4d4d8;
+    .group-closed p{ margin:0 0 .75rem; }
+    .group-closed__cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      margin-top:.35rem; min-height:2.75rem; padding:.65rem 1.25rem;
+      border-radius:.75rem; background:#b91c1c; color:#fff;
+      font-weight:800; text-decoration:none;
     }
-    .group-rules ul{ margin:.4rem 0 0; padding-left:1.1rem; }
-    .group-rules li{ margin:.2rem 0; }
-    #order-form{ scroll-margin-top:5.5rem; }
-
-    .group-pay{
-      background:rgba(24,24,27,.88);
-      border:1px solid #3f3f46;
-      border-radius:.85rem;
-      padding:1rem 1.1rem 1.05rem;
-      margin:0 0 1.15rem;
-    }
-    .group-pay__title{
-      margin:0 0 .35rem;
-      font-size:.92rem;
-      font-weight:800;
-      color:#fff;
-    }
-    .group-pay__lead{
-      margin:0 0 .85rem;
-      font-size:.82rem;
-      line-height:1.6;
-      color:#d4d4d8;
-    }
-    .group-pay__grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:.75rem;
-    }
-    @media (min-width:640px){
-      .group-pay__grid{ grid-template-columns:1fr 1fr; align-items:start; }
-    }
-    .group-pay__card{
-      border:1px solid #3f3f46;
-      background:#121214;
-      border-radius:.9rem;
-      padding:.85rem .8rem .95rem;
-    }
-    .group-pay__label{
-      margin:0 0 .3rem;
-      color:#ef4444;
-      font-size:.65rem;
-      letter-spacing:.22em;
-      font-weight:800;
-    }
-    .group-pay__name{
-      margin:0 0 .35rem;
-      color:#fff;
-      font-size:1rem;
-      font-weight:800;
-    }
-    .group-pay__meta{
-      margin:0 0 .65rem;
-      color:#a1a1aa;
-      font-size:.8rem;
-      line-height:1.45;
-    }
-    .group-pay__meta .mono{
-      color:#e4e4e7;
-      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-      font-weight:700;
-    }
-    .group-pay__btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:100%;
-      min-height:2.75rem;
-      padding:.65rem 1rem;
-      border-radius:.75rem;
-      border:1px solid transparent;
-      font-family:inherit;
-      font-size:.92rem;
-      font-weight:800;
-      text-decoration:none;
-      cursor:pointer;
-      -webkit-tap-highlight-color:transparent;
-    }
-    .group-pay__btn--payme{ background:#b91c1c; color:#fff; border-color:#991b1b; }
-    .group-pay__btn--payme:hover{ background:#dc2626; }
-    .group-pay__btn--fps{ background:#16a34a; color:#fff; border-color:#15803d; }
-    .group-pay__btn--fps:hover{ background:#22c55e; border-color:#16a34a; }
-    .group-pay__btn--fps.is-copied,
-    .group-pay__btn--fps:disabled{
-      background:#52525b;
-      border-color:#3f3f46;
-      color:#e4e4e7;
-      cursor:default;
-    }
-    .group-pay__status{
-      min-height:1rem;
-      margin:.45rem 0 .15rem;
-      color:#a1a1aa;
-      font-size:.72rem;
-    }
-    .group-pay__qr{
-      display:block;
-      width:100%;
-      max-width:12.5rem;
-      margin:.75rem auto 0;
-      padding:.4rem;
-      box-sizing:border-box;
-      border-radius:.65rem;
-      background:#fff;
-    }
-    .group-pay__qr img{
-      display:block;
-      width:100%;
-      height:auto;
-      border-radius:.35rem;
-    }
-    .group-pay__more{
-      margin:.85rem 0 0;
-      text-align:center;
-      font-size:.78rem;
-      font-weight:700;
-    }
-    .group-pay__more a{
-      color:#a1a1aa;
-      text-decoration:underline;
-      text-underline-offset:3px;
-    }
-    .group-pay__more a:hover,
-    .group-pay__more a:focus-visible{ color:#f87171; }
-    .group-pay__btn:focus-visible,
-    .group-pay__qr:focus-visible{
-      outline:2px solid #f87171;
-      outline-offset:2px;
-    }
+    .group-closed__cta:hover, .group-closed__cta:focus-visible{ background:#dc2626; }
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -293,7 +162,6 @@
     </div>
     <div class="site-nav__drawer" id="nav-drawer">
       <a class='is-active' href='/tickets' onclick='closeNav()'><span class="lang-zh">購票</span><span class="lang-en lang-hidden">Tickets</span></a>
-      <a href='/group-tickets' onclick='closeNav()'><span class="lang-zh">團體優惠</span><span class="lang-en lang-hidden">Group Tickets</span></a>
       <a href='/videos' onclick='closeNav()'><span class="lang-zh">影音</span><span class="lang-en lang-hidden">Media</span></a>
       <a href='/merch' onclick='closeNav()'><span class="lang-zh">商品</span><span class="lang-en lang-hidden">Merch</span></a>
       <a href='/events' onclick='closeNav()'><span class="lang-zh">過往活動</span><span class="lang-en lang-hidden">Events</span></a>
@@ -316,107 +184,29 @@
         <img src="assets/protoss-20th.png?v=20260921-white" alt="20th Anniversary" width="859" height="770" class="event-logo__anniv" decoding="async" />
       </div>
       <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">GROUP · 團體優惠</p>
-      <h1 class="text-3xl md:text-4xl font-black mb-2">Noah's Ark X Protoss 20th Anniversary</h1>
+      <h1 class="text-3xl md:text-4xl font-black mb-2">
+        <span class="lang-zh">團體優惠已結束</span>
+        <span class="lang-en lang-hidden">Group tickets closed</span>
+      </h1>
       <p class="text-zinc-300 text-sm mb-1">
         <span class="lang-zh">05/12/2026 · 晚上 7 點（19:00 HKT）· MOM Livehouse Hong Kong</span>
         <span class="lang-en lang-hidden">05/12/2026 · 7:00 PM (19:00 HKT) · MOM Livehouse Hong Kong</span>
       </p>
     </div>
 
-    <div class="group-open-banner" role="status">
-      <span class="lang-zh">團體套票現正發售</span>
-      <span class="lang-en lang-hidden">Group packages on sale now</span>
-    </div>
-
-    <div class="group-rules">
-      <p class="font-bold text-white mb-1">
-        <span class="lang-zh">規則 Rules</span>
-        <span class="lang-en lang-hidden">Rules</span>
+    <div class="group-closed" role="status">
+      <p>
+        <span class="lang-zh">團體優惠已經結束，唔再接受團體套票訂單。</span>
+        <span class="lang-en lang-hidden">The group-ticket offer has closed. Group packages are no longer on sale.</span>
       </p>
-      <ul>
-        <li>
-          <span class="lang-zh">同一訂單、同一付款人。</span>
-          <span class="lang-en lang-hidden">Same order, same payer.</span>
-        </li>
-        <li>
-          <span class="lang-zh">FPS 或 PayMe。</span>
-          <span class="lang-en lang-hidden">FPS or PayMe.</span>
-        </li>
-        <li>
-          <span class="lang-zh">唔疊加 Metal Pass。</span>
-          <span class="lang-en lang-hidden">Does not stack with Metal Pass.</span>
-        </li>
-        <li>
-          <span class="lang-zh">核對付款後會 email 電子飛。</span>
-          <span class="lang-en lang-hidden">E-ticket emailed after payment is checked.</span>
-        </li>
-      </ul>
-    </div>
-
-    <section class="group-pay" aria-labelledby="group-pay-heading">
-      <h2 id="group-pay-heading" class="group-pay__title">
-        <span class="lang-zh">付款 Pay</span>
-        <span class="lang-en lang-hidden">Pay</span>
-      </h2>
-      <p class="group-pay__lead">
-        <span class="lang-zh">先用 PayMe 或 FPS 付套票金額（A HK$760／B HK$1,140），然後喺下面表格上載付款截圖。</span>
-        <span class="lang-en lang-hidden">Pay the exact package amount first (A HK$760 / B HK$1,140) via PayMe or FPS, then upload the screenshot in the form below.</span>
+      <p>
+        <span class="lang-zh">單張門票仍然可以喺購票頁買。</span>
+        <span class="lang-en lang-hidden">Single tickets are still available on the tickets page.</span>
       </p>
-      <div class="group-pay__grid">
-        <article class="group-pay__card">
-          <p class="group-pay__label">PAYME</p>
-          <p class="group-pay__name">Noahsark Metal</p>
-          <a class="group-pay__btn group-pay__btn--payme" href="https://payme.hsbc/noahsark2005" target="_blank" rel="noopener">
-            <span class="lang-zh">開 PayMe 付款</span>
-            <span class="lang-en lang-hidden">Open PayMe</span>
-          </a>
-          <a class="group-pay__qr" href="https://payme.hsbc/noahsark2005" target="_blank" rel="noopener" title="PayMe · Noahsark Metal">
-            <picture>
-              <source srcset="assets/payme-qr.webp" type="image/webp" />
-              <img src="assets/payme-qr.jpg" alt="PayMe QR · Noahsark Metal" width="800" height="900" decoding="async" />
-            </picture>
-          </a>
-        </article>
-        <article class="group-pay__card">
-          <p class="group-pay__label">HANG SENG · FPS</p>
-          <p class="group-pay__name">
-            <span class="lang-zh">轉數快 FPS</span>
-            <span class="lang-en lang-hidden">FPS</span>
-          </p>
-          <p class="group-pay__meta">
-            <span class="lang-zh">恒生 FPS ID：<span class="mono">164005613</span></span>
-            <span class="lang-en lang-hidden">Hang Seng FPS ID: <span class="mono">164005613</span></span>
-          </p>
-          <button type="button" id="group-fps-copy" data-fps-id="164005613" class="group-pay__btn group-pay__btn--fps" aria-pressed="false">
-            <span class="lang-zh">複製 FPS ID</span>
-            <span class="lang-en lang-hidden">Copy FPS ID</span>
-          </button>
-          <p id="group-fps-status" class="group-pay__status" aria-live="polite"></p>
-          <div class="group-pay__qr">
-            <img src="assets/fps-qr.png" alt="Hang Seng FPS QR · 164005613" width="512" height="512" decoding="async" />
-          </div>
-        </article>
-      </div>
-      <p class="group-pay__more">
-        <a href="/pay?from=group-tickets">
-          <span class="lang-zh">完整付款頁 →</span>
-          <span class="lang-en lang-hidden">Full payment page →</span>
-        </a>
-      </p>
-    </section>
-
-    <div id="order-form" class="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-2 md:p-4">
-      <iframe
-        id="tally-embed"
-        data-tally-src="https://tally.so/embed/kbbM4r?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-        loading="lazy"
-        width="100%"
-        height="2229"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        title="Protoss 20th｜限時團體優惠">
-      </iframe>
+      <a class="group-closed__cta" href="/tickets">
+        <span class="lang-zh">去購票頁</span>
+        <span class="lang-en lang-hidden">Go to tickets</span>
+      </a>
     </div>
 
     <p class="tickets-more">
@@ -430,16 +220,7 @@
     <p class="mb-1">© 2026 挪亞方舟文化傳播有限公司 / Noah's Ark Culture Communication Company Limited</p>
   </footer>
 
-  <script src="https://tally.so/widgets/embed.js"></script>
   <script>
-    if (typeof Tally !== 'undefined') {
-      Tally.loadEmbeds();
-    } else {
-      document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (iframe) {
-        iframe.src = iframe.dataset.tallySrc;
-      });
-    }
-
     var currentLang = 'zh';
     function toggleLang() {
       currentLang = currentLang === 'zh' ? 'en' : 'zh';
@@ -463,93 +244,6 @@
       var btn = document.getElementById('nav-toggle');
       if (nav) nav.classList.remove('is-open');
       if (btn) btn.setAttribute('aria-expanded', 'false');
-    }
-
-    (function () {
-      var btn = document.getElementById('group-fps-copy');
-      var status = document.getElementById('group-fps-status');
-      if (!btn) return;
-      var statusPair = null;
-      function msg(zh, en) {
-        statusPair = [zh, en];
-        if (!status) return;
-        status.textContent = currentLang === 'en' ? en : zh;
-      }
-      var baseToggle = toggleLang;
-      toggleLang = function () {
-        baseToggle();
-        if (statusPair && status) status.textContent = currentLang === 'en' ? statusPair[1] : statusPair[0];
-      };
-      function legacyCopy(id) {
-        try {
-          var ta = document.createElement('textarea');
-          ta.value = id;
-          ta.setAttribute('readonly', '');
-          ta.style.position = 'fixed';
-          ta.style.top = '0';
-          ta.style.left = '-9999px';
-          document.body.appendChild(ta);
-          ta.select();
-          var done = document.execCommand('copy');
-          document.body.removeChild(ta);
-          return !!done;
-        } catch (e) { return false; }
-      }
-      btn.addEventListener('click', function () {
-        var id = btn.getAttribute('data-fps-id') || '164005613';
-        function ok() {
-          msg('已複製 FPS ID：' + id, 'Copied FPS ID: ' + id);
-          btn.classList.add('is-copied');
-          btn.setAttribute('aria-pressed', 'true');
-        }
-        function fail() { msg('請手動輸入 FPS ID：' + id, 'Please enter FPS ID: ' + id); }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(id).then(ok).catch(function () {
-            if (legacyCopy(id)) ok(); else fail();
-          });
-        } else if (legacyCopy(id)) ok();
-        else fail();
-      });
-    })();
-
-    /* Same return target /pay uses: scroll the screenshot upload (iframe bottom) into view. */
-    window.naScrollToProof = function () {
-      try { window.focus(); } catch (e) {}
-      function place(smooth) {
-        var iframe = document.getElementById('tally-embed');
-        if (!iframe) return;
-        var rect = iframe.getBoundingClientRect();
-        var iframeBottomDoc = rect.bottom + (window.pageYOffset || window.scrollY || 0);
-        var bottomGap = 24;
-        var target = iframeBottomDoc - window.innerHeight + bottomGap;
-        if (target < 0) target = 0;
-        try {
-          window.scrollTo({ top: target, behavior: smooth ? 'smooth' : 'auto' });
-        } catch (e2) {
-          window.scrollTo(0, target);
-        }
-      }
-      place(true);
-      setTimeout(function () { place(true); }, 200);
-      setTimeout(function () { place(false); }, 600);
-    };
-    window.addEventListener('message', function (event) {
-      if (event.origin !== location.origin) return;
-      var data = event.data;
-      if (!data || data.type !== 'na-scroll-proof') return;
-      if (typeof window.naScrollToProof === 'function') window.naScrollToProof();
-    });
-    window.addEventListener('pageshow', function () {
-      var flag = '';
-      try { flag = sessionStorage.getItem('na-return-proof') || ''; } catch (e) {}
-      if (flag !== '1') return;
-      try { sessionStorage.removeItem('na-return-proof'); } catch (e2) {}
-      window.naScrollToProof();
-    });
-    if (location.hash === '#order-form') {
-      function bootProofScroll() { window.naScrollToProof(); }
-      if (document.readyState === 'complete') bootProofScroll();
-      else window.addEventListener('load', bootProofScroll);
     }
   </script>
   </div><!-- /.site-content -->
