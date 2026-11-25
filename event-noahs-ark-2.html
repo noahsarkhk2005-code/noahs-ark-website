@@ -13,6 +13,33 @@
     /* Org identity hidden until confirmed. Add class="show-org" on <html> to publish. */
     html:not(.show-org) .org-public { display: none !important; }
     html.show-org .hide-when-org { display: none !important; }
+    .noah2-videos { margin-top: 3rem; margin-bottom: 3rem; scroll-margin-top: 6rem; }
+    .noah2-videos__nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin: 0 0 1.75rem;
+    }
+    .noah2-videos__nav a {
+      display: inline-block;
+      padding: .4rem .85rem;
+      border: 1px solid rgb(63 63 70);
+      border-radius: 999px;
+      font-size: .75rem;
+      color: #d4d4d8;
+      text-decoration: none;
+    }
+    .noah2-videos__nav a:hover,
+    .noah2-videos__nav a:focus-visible {
+      border-color: #dc2626;
+      color: #fff;
+    }
+    .noah2-videos__group { scroll-margin-top: 6rem; }
+    .noah2-videos__group + .noah2-videos__group {
+      margin-top: 2.75rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid rgb(39 39 42);
+    }
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -108,7 +135,7 @@
       </div>
     </div>
 
-    <section class="mt-12" aria-labelledby="noah2-videos-heading">
+    <section class="noah2-videos" id="noah2-videos" aria-labelledby="noah2-videos-heading">
       <h2 id="noah2-videos-heading" class="text-xs tracking-[0.25em] font-bold text-red-500 mb-4">
         <span class="lang-zh">影片</span>
         <span class="lang-en lang-hidden">VIDEOS</span>
@@ -116,7 +143,23 @@
       <p class="text-sm mb-4">
         <a class="text-red-500 hover:text-red-400" href="https://www.youtube.com/playlist?list=PLTbpBZOLiVnc" target="_blank" rel="noopener">Noah's Ark II 挪亞方舟 香港金屬音樂節</a>
       </p>
-      <div class="video-grid">
+      <nav class="noah2-videos__nav" aria-label="Video sections">
+        <a href="#noah2-performing-bands">
+          <span class="lang-zh">演出樂隊</span>
+          <span class="lang-en lang-hidden">Performing Bands</span>
+        </a>
+        <a href="#noah2-promos">
+          <span class="lang-zh">宣傳片</span>
+          <span class="lang-en lang-hidden">Promotional Videos</span>
+        </a>
+      </nav>
+
+      <section class="noah2-videos__group" id="noah2-performing-bands" aria-labelledby="noah2-bands-heading">
+        <h3 id="noah2-bands-heading" class="text-xs tracking-[0.25em] font-bold text-red-500 mb-4">
+          <span class="lang-zh">演出樂隊</span>
+          <span class="lang-en lang-hidden">PERFORMING BANDS</span>
+        </h3>
+        <div class="video-grid">
         <article class="video-card" id="v-MSui6OOH76w">
           <div class="video-card__embed">
             <iframe
@@ -165,6 +208,15 @@
             <p class="video-card__meta"><a class="text-red-400 hover:text-red-300" href="https://www.youtube.com/watch?v=wkPxsAiA6wE" target="_blank" rel="noopener">YouTube</a></p>
           </div>
         </article>
+        </div>
+      </section>
+
+      <section class="noah2-videos__group" id="noah2-promos" aria-labelledby="noah2-promos-heading">
+        <h3 id="noah2-promos-heading" class="text-xs tracking-[0.25em] font-bold text-red-500 mb-4">
+          <span class="lang-zh">宣傳片</span>
+          <span class="lang-en lang-hidden">PROMOTIONAL VIDEOS</span>
+        </h3>
+        <div class="video-grid">
         <article class="video-card" id="v-cl42-wtbnow">
           <div class="video-card__embed">
             <iframe
@@ -277,7 +329,8 @@
             <p class="video-card__meta"><a class="text-red-400 hover:text-red-300" href="https://www.youtube.com/watch?v=LgcMVBFgA9Y" target="_blank" rel="noopener">YouTube</a></p>
           </div>
         </article>
-      </div>
+        </div>
+      </section>
     </section>
 
     <section class="mt-12 mb-4" aria-labelledby="noah2-gallery-heading">
