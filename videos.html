@@ -50,6 +50,23 @@
       .na-row > .video-card{ flex-basis:calc((100% - 3rem) / 3.5); }
     }
     @media (prefers-reduced-motion:reduce){ .na-row{ scroll-behavior:auto; } }
+    .short-film-index{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.75rem}
+    .short-film-index a{
+      display:flex;align-items:center;gap:.85rem;
+      padding:.55rem .8rem .55rem .55rem;
+      border:1px solid #3f3f46;border-radius:.75rem;
+      background:rgba(24,24,27,.8);color:#f4f4f5;text-decoration:none;
+      transition:border-color .15s ease;
+    }
+    .short-film-index a:hover{border-color:#b91c1c}
+    .short-film-index__thumb{
+      flex:0 0 7.5rem;aspect-ratio:16/9;border-radius:.45rem;
+      background:#000 center/cover no-repeat;
+    }
+    .short-film-index__text{min-width:0;display:flex;flex-direction:column;gap:.2rem}
+    .short-film-index__n{color:#ef4444;font-size:.68rem;font-weight:700;letter-spacing:.14em;font-family:var(--font-display)}
+    .short-film-index__title{font-family:var(--font-display);font-weight:600;font-size:.92rem;line-height:1.35}
+    .short-films-cta{justify-content:flex-start;margin-top:0;margin-bottom:1rem}
   </style>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="assets/favicon-512.png" />
@@ -235,7 +252,7 @@
 
   <main class="max-w-6xl mx-auto px-4 pt-4 pb-10">
     <nav class="video-toc" aria-label="Media sections">
-      <a href="#short-films"><span class="lang-zh">微電影</span><span class="lang-en lang-hidden">Short Films</span></a>
+      <a href="/short-films"><span class="lang-zh">微電影</span><span class="lang-en lang-hidden">Short Films</span></a>
       <a href="#live"><span class="lang-zh">現場</span><span class="lang-en lang-hidden">Live</span></a>
       <a href="#interviews"><span class="lang-zh">訪問</span><span class="lang-en lang-hidden">Interviews</span></a>
       <a href="#promos"><span class="lang-zh">活動宣傳</span><span class="lang-en lang-hidden">Event Promos</span></a>
@@ -250,54 +267,20 @@
           <span class="lang-en lang-hidden">Short Films</span>
         </h2>
       </div>
-      <div class="video-grid">
-        <article class="video-card">
-          <div class="video-card__embed">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/qAAniW4SpSI"
-              title="【第一集】家法"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <div class="video-card__body">
-            <h3 class="video-card__title">
-              <span class="lang-zh">【第一集】家法</span>
-              <span class="lang-en lang-hidden">Episode 1 · Family Code (家法)</span>
-            </h3>
-            <p class="video-card__meta">
-              <span class="lang-zh">微電影第一集 · 純屬虛構</span>
-              <span class="lang-en lang-hidden">Short film series · Work of fiction</span>
-              · <a class="text-red-400 hover:text-red-300" href="https://www.youtube.com/watch?v=qAAniW4SpSI" target="_blank" rel="noopener">YouTube</a>
-            </p>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card__embed">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/o7K8x8DYVWk"
-              title="【第二集】二五仔"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <div class="video-card__body">
-            <h3 class="video-card__title">
-              <span class="lang-zh">【第二集】二五仔</span>
-              <span class="lang-en lang-hidden">Episode 2 · Traitor (二五仔)</span>
-            </h3>
-            <p class="video-card__meta">
-              <span class="lang-zh">微電影第二集 · 純屬虛構</span>
-              <span class="lang-en lang-hidden">Short film series · Work of fiction</span>
-              · <a class="text-red-400 hover:text-red-300" href="https://www.youtube.com/watch?v=o7K8x8DYVWk" target="_blank" rel="noopener">YouTube</a>
-            </p>
-          </div>
-        </article>
+      <div class="media-cta-row short-films-cta">
+        <a class="media-cta media-cta--yt" href="/short-films">
+          <span class="lang-zh">睇全部微電影</span>
+          <span class="lang-en lang-hidden">All short films</span>
+        </a>
       </div>
+      <ol class="short-film-index">
+        <li><a href="/short-films#ep-1"><span class="short-film-index__thumb" style="background-image:url(https://i.ytimg.com/vi/qAAniW4SpSI/hqdefault.jpg)" aria-hidden="true"></span><span class="short-film-index__text"><span class="short-film-index__n">01</span><span class="short-film-index__title">Protoss神族 20周年宣傳片【第一集 】家法</span></span></a></li>
+        <li><a href="/short-films#ep-2"><span class="short-film-index__thumb" style="background-image:url(https://i.ytimg.com/vi/o7K8x8DYVWk/hqdefault.jpg)" aria-hidden="true"></span><span class="short-film-index__text"><span class="short-film-index__n">02</span><span class="short-film-index__title">Protoss神族 20周年宣傳片【第二集 】二五仔</span></span></a></li>
+        <li><a href="/short-films#ep-3"><span class="short-film-index__thumb" style="background-image:url(https://i.ytimg.com/vi/o4k_m3k1ass/hqdefault.jpg)" aria-hidden="true"></span><span class="short-film-index__text"><span class="short-film-index__n">03</span><span class="short-film-index__title">Protoss神族 20周年宣傳片【第三集 】20周年</span></span></a></li>
+        <li><a href="/short-films#ep-4"><span class="short-film-index__thumb" style="background-image:url(https://i.ytimg.com/vi/-xQkg90b5TU/hqdefault.jpg)" aria-hidden="true"></span><span class="short-film-index__text"><span class="short-film-index__n">04</span><span class="short-film-index__title">Protoss神族 20周年宣傳片【第四集 】同門</span></span></a></li>
+        <li><a href="/short-films#ep-5"><span class="short-film-index__thumb" style="background-image:url(https://i.ytimg.com/vi/hAMBzAXzTHg/hqdefault.jpg)" aria-hidden="true"></span><span class="short-film-index__text"><span class="short-film-index__n">05</span><span class="short-film-index__title">Protoss神族 20周年宣傳片【第五集 】食滑佢 !</span></span></a></li>
+        <li><a href="/short-films#ep-6"><span class="short-film-index__thumb" style="background-image:url(https://i.ytimg.com/vi/m9MWZ5JGJdU/hqdefault.jpg)" aria-hidden="true"></span><span class="short-film-index__text"><span class="short-film-index__n">06</span><span class="short-film-index__title">Protoss神族 20周年宣傳片【第六集 】陰曹地府 !</span></span></a></li>
+      </ol>
     </section>
 
     <!-- 乙 樂隊現場 -->
