@@ -12,6 +12,9 @@
 /media               /videos.html            200
 /live                /live.html              200
 /live/2005           /live/2005.html         200
+/event-noahs-ark-2005       /live/2005  301
+/event-noahs-ark-2005/      /live/2005  301
+/event-noahs-ark-2005.html  /live/2005  301
 /live/2005/bereavement  /live/2005/bereavement.html  200
 /live/2005/deathguy  /live/2005/deathguy.html  200
 /live/2005/departing-cross  /live/2005/departing-cross.html  200

@@ -3,27 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Noah's Ark 2005｜相冊 · Noah's Live</title>
-  <meta name="description" content="Noah's Ark 2005 — Hong Kong's Extreme 2005 bands, live photos and videos." />
+  <title>Noah's Ark — Hong Kong's Extreme 2005 | 過往活動</title>
+  <meta name="description" content="Noah's Ark Hong Kong's Extreme 2005 — Live in Hong Kong. The first Noah's Ark extreme metal event." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../assets/style.css?v=20260924-live" />
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="../assets/favicon-512.png" />
-  <meta property="og:title" content="Noah's Ark 2005｜相冊" />
+  <meta property="og:title" content="Noah's Ark — Hong Kong's Extreme 2005" />
   <meta property="og:image" content="https://noahsarkhk2005.netlify.app/assets/live-cover-2005.jpg" />
   <style>
-    .live-hero{ padding:1.25rem 0 1rem; }
-    .live-hero__kicker{ color:#ef4444; font-size:.7rem; letter-spacing:.28em; font-weight:800; margin-bottom:.4rem; }
-    .live-hero h1{ font-size:1.55rem; font-weight:900; line-height:1.2; margin:0 0 .4rem; color:#fff; }
-    @media (min-width:640px){ .live-hero h1{ font-size:2rem; } }
-    .live-hero__sub{ color:#a1a1aa; font-size:.85rem; line-height:1.55; margin:0; max-width:36rem; }
-    .live-back{ display:inline-block; color:#a1a1aa; font-size:.8rem; font-weight:600; margin-bottom:.75rem; }
-    .live-back:hover{ color:#f87171; }
+    .live-hero-video{ margin:1.75rem 0 0; max-width:48rem; }
+    .live-hero-video .na2005-video{ margin-bottom:.5rem; }
+    .na2005-galleries{ margin-top:1.75rem; }
+    .event-lineup a{ color:inherit; }
+    .event-lineup a:hover,
+    .event-lineup a:focus-visible{ color:#f87171; }
     .band-grid{
       display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:.65rem; margin:1.25rem 0 2.5rem;
+      gap:.65rem; margin:0 0 2.5rem;
     }
     @media (min-width:640px){ .band-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:.85rem; } }
     @media (min-width:960px){ .band-grid{ grid-template-columns:repeat(6,minmax(0,1fr)); } }
@@ -56,8 +55,10 @@
     .band-grid [data-na2005-tile="departing-cross"]{ order:4; }
     .band-grid [data-na2005-tile="hermetic-silence"]{ order:5; }
     .band-grid [data-na2005-tile="cadaver"]{ order:6; }
-    .live-hero-video{ margin:.25rem 0 0; max-width:48rem; }
-    .live-hero-video .na2005-video{ margin-bottom:.5rem; }
+    @media (max-width:767px){
+      .live-hero-video,
+      .na2005-galleries{ padding:0 1rem; }
+    }
   </style>
 </head>
 <body class="bg-metal-950 text-zinc-200 min-h-screen">
@@ -112,67 +113,186 @@
     </div>
   </nav>
 
-  <main class="max-w-5xl mx-auto px-4 pb-10">
-    <header class="live-hero">
-      <a class="live-back" href="/live"><span class="lang-zh">← 現場</span><span class="lang-en lang-hidden">← Live</span></a>
-      <p class="live-hero__kicker">2005 · LIVE</p>
-      <h1>Noah's Ark 2005</h1>
-      <p class="live-hero__sub">
-        <span class="lang-zh">Hong Kong's Extreme 2005 — Live in Hong Kong. 撳樂隊睇現場相同視頻。</span>
-        <span class="lang-en lang-hidden">Hong Kong's Extreme 2005 — Live in Hong Kong. Tap a band for photos and video.</span>
+  <main class="event-page">
+    <header class="event-page__head">
+      <p class="text-sm mb-3">
+        <a href="/events" class="text-red-500 hover:text-red-400">
+          <span class="lang-zh">← 過往活動</span>
+          <span class="lang-en lang-hidden">← Past events</span>
+        </a>
       </p>
+      <p class="text-red-600 text-xs tracking-[0.3em] font-bold mb-2">2005 · LIVE</p>
+      <h1 class="text-3xl md:text-4xl font-black mb-1">Noah's Ark</h1>
+      <p class="text-zinc-200 font-semibold">Hong Kong's Extreme 2005</p>
+      <p class="text-zinc-400 text-sm">Live in Hong Kong</p>
     </header>
+
+    <div class="event-page__layout">
+      <div class="event-album" id="event-album" data-interval="4500">
+        <div class="event-album__stage" id="album-stage">
+          <div class="event-album__slide is-on">
+            <picture>
+              <source srcset="../assets/gallery-2005-3.webp" type="image/webp" />
+              <img src="../assets/gallery-2005-3.jpg" alt="Evocation" width="1600" height="2352" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="../assets/gallery-2005-5.webp" type="image/webp" />
+              <img src="../assets/gallery-2005-5.jpg" alt="Bereavement" width="1600" height="2373" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="../assets/gallery-2005-6.webp" type="image/webp" />
+              <img src="../assets/gallery-2005-6.jpg" alt="Hermetic Silence" width="1600" height="2350" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="../assets/gallery-2005-7.webp" type="image/webp" />
+              <img src="../assets/gallery-2005-7.jpg" alt="Deathguy" width="1600" height="2219" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="../assets/gallery-2005-1.webp" type="image/webp" />
+              <img src="../assets/gallery-2005-1.jpg" alt="Departing Cross" width="1600" height="2529" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="../assets/gallery-2005-2.webp" type="image/webp" />
+              <img src="../assets/gallery-2005-2.jpg" alt="Cadaver" width="1600" height="2436" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__slide">
+            <picture>
+              <source srcset="../assets/gallery-2005-4.webp" type="image/webp" />
+              <img src="../assets/gallery-2005-4.jpg" alt="Line-up" width="1600" height="2473" decoding="async" />
+            </picture>
+          </div>
+          <div class="event-album__caption">
+            <span class="event-album__kicker">2005 · Band</span>
+            <span class="event-album__name" id="album-name">Evocation</span>
+          </div>
+          <div class="event-album__progress" aria-hidden="true"><i id="album-bar"></i></div>
+          <button type="button" class="event-album__nav event-album__prev" id="album-prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button type="button" class="event-album__nav event-album__next" id="album-next" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div class="event-album__thumbs" id="album-thumbs" aria-label="Thumbnails"></div>
+        <div class="event-album__bar">
+          <div class="event-album__dots" id="album-dots"></div>
+          <span class="event-album__count" id="album-count">01 / 07</span>
+          <button type="button" class="event-album__play" id="album-play" aria-pressed="true">
+            <span class="lang-zh">暫停</span>
+            <span class="lang-en lang-hidden">Pause</span>
+          </button>
+        </div>
+      </div>
+
+      <aside class="event-page__copy">
+        <div class="event-page__poster mb-5">
+          <picture>
+            <source srcset="../assets/poster-2005.webp" type="image/webp" />
+            <img src="../assets/poster-2005.jpg" alt="Noah's Ark Hong Kong's Extreme 2005 poster" width="1400" height="1932" decoding="async" />
+          </picture>
+        </div>
+        <div class="text-sm text-zinc-300 space-y-3 leading-relaxed">
+          <p class="lang-zh">
+            2005 年，活動品牌 Noah's Ark 以 Hong Kong's Extreme 之名舉辦本地極限金屬現場，是挪亞方舟系列活動的起點。
+          </p>
+          <p class="lang-en lang-hidden">
+            In 2005 the event brand Noah's Ark presented Hong Kong's Extreme — a live extreme-metal night that started the series.
+          </p>
+          <p class="lang-zh">
+            二十年後，這個名字以 Noah's Ark II 香港金屬音樂節回歸。
+          </p>
+          <p class="lang-en lang-hidden">
+            Twenty years later the name returned as Noah's Ark II Hong Kong Metal Fest.
+          </p>
+        </div>
+        <h2 class="text-xs tracking-[0.2em] font-bold text-red-500 mt-6 mb-3">LINE-UP</h2>
+        <ul class="event-lineup text-sm text-zinc-200 space-y-1.5">
+          <li><a href="/live/2005/evocation">Evocation</a></li>
+          <li><a href="/live/2005/bereavement">Bereavement</a></li>
+          <li><a href="/live/2005/deathguy">Deathguy</a></li>
+          <li><a href="/live/2005/departing-cross">Departing Cross</a></li>
+          <li><a href="/live/2005/cadaver">Cadaver</a></li>
+          <li><a href="/live/2005/hermetic-silence">Hermetic Silence</a></li>
+        </ul>
+        <p class="mt-6">
+          <a href="/event-noahs-ark-2.html" class="text-sm text-red-500 hover:text-red-400">
+            <span class="lang-zh">下一場：Noah's Ark II →</span>
+            <span class="lang-en lang-hidden">Next: Noah's Ark II →</span>
+          </a>
+        </p>
+      </aside>
+    </div>
 
     <!-- Event-wide hero video (entries with hero:true in assets/na-2005-videos.js). -->
     <section class="live-hero-video" data-na2005-hero hidden>
       <div data-na2005-videos></div>
     </section>
 
-    <div class="band-grid" aria-label="Noah's Ark 2005 bands">
-      <a class="band-card" href="/live/2005/evocation" data-na2005-tile="evocation">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/evocation.webp)" role="img" aria-label="招魂 Evocation"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">招魂 Evocation</div>
-      </a>
-      <a class="band-card" href="/live/2005/bereavement" data-na2005-tile="bereavement">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/bereavement.webp)" role="img" aria-label="Bereavement"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Bereavement</div>
-      </a>
-      <a class="band-card" href="/live/2005/deathguy" data-na2005-tile="deathguy">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/deathguy.webp)" role="img" aria-label="Deathguy"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Deathguy</div>
-      </a>
-      <a class="band-card" href="/live/2005/departing-cross" data-na2005-tile="departing-cross">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/departing-cross.webp)" role="img" aria-label="Departing Cross"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Departing Cross</div>
-      </a>
-      <a class="band-card" href="/live/2005/hermetic-silence" data-na2005-tile="hermetic-silence">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/hermetic-silence.webp)" role="img" aria-label="Hermetic Silence"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Hermetic Silence</div>
-      </a>
-      <a class="band-card" href="/live/2005/cadaver" data-na2005-tile="cadaver">
-        <div class="band-card__logo photo-protect">
-          <div class="photo-bg" style="background-image:url(../assets/live-2005/cadaver.webp)" role="img" aria-label="Cadaver"></div>
-          <div class="photo-shield" aria-hidden="true"></div>
-        </div>
-        <div class="band-card__name">Cadaver</div>
-      </a>
-    </div>
-
+    <section class="na2005-galleries" aria-labelledby="na2005-galleries-heading">
+      <h2 id="na2005-galleries-heading" class="text-xs tracking-[0.2em] font-bold text-red-500 mb-2">
+        <span class="lang-zh">相冊</span>
+        <span class="lang-en lang-hidden">PHOTOS</span>
+      </h2>
+      <p class="text-sm text-zinc-400 mb-3">
+        <span class="lang-zh">撳樂隊睇現場相同視頻。</span>
+        <span class="lang-en lang-hidden">Tap a band for photos and video.</span>
+      </p>
+      <div class="band-grid" aria-label="Noah's Ark 2005 bands">
+        <a class="band-card" href="/live/2005/evocation" data-na2005-tile="evocation">
+          <div class="band-card__logo photo-protect">
+            <div class="photo-bg" style="background-image:url(../assets/live-2005/evocation.webp)" role="img" aria-label="招魂 Evocation"></div>
+            <div class="photo-shield" aria-hidden="true"></div>
+          </div>
+          <div class="band-card__name">招魂 Evocation</div>
+        </a>
+        <a class="band-card" href="/live/2005/bereavement" data-na2005-tile="bereavement">
+          <div class="band-card__logo photo-protect">
+            <div class="photo-bg" style="background-image:url(../assets/live-2005/bereavement.webp)" role="img" aria-label="Bereavement"></div>
+            <div class="photo-shield" aria-hidden="true"></div>
+          </div>
+          <div class="band-card__name">Bereavement</div>
+        </a>
+        <a class="band-card" href="/live/2005/deathguy" data-na2005-tile="deathguy">
+          <div class="band-card__logo photo-protect">
+            <div class="photo-bg" style="background-image:url(../assets/live-2005/deathguy.webp)" role="img" aria-label="Deathguy"></div>
+            <div class="photo-shield" aria-hidden="true"></div>
+          </div>
+          <div class="band-card__name">Deathguy</div>
+        </a>
+        <a class="band-card" href="/live/2005/departing-cross" data-na2005-tile="departing-cross">
+          <div class="band-card__logo photo-protect">
+            <div class="photo-bg" style="background-image:url(../assets/live-2005/departing-cross.webp)" role="img" aria-label="Departing Cross"></div>
+            <div class="photo-shield" aria-hidden="true"></div>
+          </div>
+          <div class="band-card__name">Departing Cross</div>
+        </a>
+        <a class="band-card" href="/live/2005/hermetic-silence" data-na2005-tile="hermetic-silence">
+          <div class="band-card__logo photo-protect">
+            <div class="photo-bg" style="background-image:url(../assets/live-2005/hermetic-silence.webp)" role="img" aria-label="Hermetic Silence"></div>
+            <div class="photo-shield" aria-hidden="true"></div>
+          </div>
+          <div class="band-card__name">Hermetic Silence</div>
+        </a>
+        <a class="band-card" href="/live/2005/cadaver" data-na2005-tile="cadaver">
+          <div class="band-card__logo photo-protect">
+            <div class="photo-bg" style="background-image:url(../assets/live-2005/cadaver.webp)" role="img" aria-label="Cadaver"></div>
+            <div class="photo-shield" aria-hidden="true"></div>
+          </div>
+          <div class="band-card__name">Cadaver</div>
+        </a>
+      </div>
+    </section>
   </main>
 
   <footer class="border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
@@ -200,6 +320,134 @@
       if (nav) nav.classList.remove('is-open');
       if (btn) btn.setAttribute('aria-expanded', 'false');
     }
+    (function () {
+      var root = document.getElementById('event-album');
+      if (!root) return;
+      var slides = Array.prototype.slice.call(root.querySelectorAll('.event-album__slide'));
+      var dotsWrap = document.getElementById('album-dots');
+      var thumbsWrap = document.getElementById('album-thumbs');
+      var countEl = document.getElementById('album-count');
+      var playBtn = document.getElementById('album-play');
+      var stage = document.getElementById('album-stage');
+      var nameEl = document.getElementById('album-name');
+      var bar = document.getElementById('album-bar');
+      var n = slides.length;
+      var i = 0;
+      var timer = null;
+      var playing = true;
+      var ms = parseInt(root.getAttribute('data-interval'), 10) || 4500;
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) playing = false;
+      } catch (e) {}
+
+      slides.forEach(function (slide, idx) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'event-album__dot' + (idx === 0 ? ' is-on' : '');
+        b.setAttribute('aria-label', 'Photo ' + (idx + 1));
+        b.addEventListener('click', function () { go(idx, true); });
+        dotsWrap.appendChild(b);
+        var src = slide.querySelector('img');
+        if (thumbsWrap && src) {
+          var t = document.createElement('button');
+          t.type = 'button';
+          t.className = idx === 0 ? 'is-on' : '';
+          t.setAttribute('aria-label', 'Go to photo ' + (idx + 1));
+          t.innerHTML = '<img src="' + (src.currentSrc || src.src) + '" alt="">';
+          t.addEventListener('click', function () { go(idx, true); });
+          thumbsWrap.appendChild(t);
+        }
+      });
+      var dots = Array.prototype.slice.call(dotsWrap.children);
+      var thumbs = thumbsWrap ? Array.prototype.slice.call(thumbsWrap.children) : [];
+
+      function labelPlay() {
+        if (!playBtn) return;
+        playBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+        playBtn.innerHTML = playing
+          ? '<span class="lang-zh">暫停</span><span class="lang-en lang-hidden">Pause</span>'
+          : '<span class="lang-zh">播放</span><span class="lang-en lang-hidden">Play</span>';
+        if (typeof currentLang !== 'undefined') {
+          playBtn.querySelectorAll('.lang-zh').forEach(function (el) {
+            el.classList.toggle('lang-hidden', currentLang === 'en');
+          });
+          playBtn.querySelectorAll('.lang-en').forEach(function (el) {
+            el.classList.toggle('lang-hidden', currentLang === 'zh');
+          });
+        }
+      }
+      function restartBar() {
+        if (!bar) return;
+        bar.style.animation = 'none';
+        void bar.offsetWidth;
+        if (playing) {
+          root.classList.add('is-playing');
+          bar.style.animation = 'albumBar ' + ms + 'ms linear forwards';
+        } else {
+          root.classList.remove('is-playing');
+        }
+      }
+      function show(idx) {
+        i = (idx + n) % n;
+        slides.forEach(function (s, k) { s.classList.toggle('is-on', k === i); });
+        dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
+        thumbs.forEach(function (t, k) { t.classList.toggle('is-on', k === i); });
+        var cap = slides[i].querySelector('img');
+        if (nameEl && cap) nameEl.textContent = cap.getAttribute('alt') || '';
+        if (countEl) countEl.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
+        restartBar();
+        if (thumbs[i] && thumbsWrap) {
+          /* Centre the active thumb by scrolling the strip only (never the page;
+             scrollIntoView used to pull the whole page down to the album). */
+          var tr = thumbs[i].getBoundingClientRect(), wr = thumbsWrap.getBoundingClientRect();
+          var left = thumbsWrap.scrollLeft + (tr.left - wr.left) - (wr.width - tr.width) / 2;
+          try { thumbsWrap.scrollTo({ left: Math.max(0, left), behavior: 'smooth' }); }
+          catch (e) { thumbsWrap.scrollLeft = Math.max(0, left); }
+        }
+      }
+      function stop() {
+        if (timer) { clearInterval(timer); timer = null; }
+        root.classList.remove('is-playing');
+      }
+      function start() {
+        stop();
+        if (!playing) return;
+        restartBar();
+        timer = setInterval(function () { show(i + 1); }, ms);
+      }
+      function go(idx, fromUser) {
+        show(idx);
+        if (fromUser) start();
+      }
+      document.getElementById('album-prev').addEventListener('click', function () { go(i - 1, true); });
+      document.getElementById('album-next').addEventListener('click', function () { go(i + 1, true); });
+      if (playBtn) {
+        playBtn.addEventListener('click', function () {
+          playing = !playing;
+          labelPlay();
+          if (playing) start(); else stop();
+        });
+      }
+      var sx = 0;
+      if (stage) {
+        stage.addEventListener('touchstart', function (e) {
+          if (e.changedTouches && e.changedTouches[0]) sx = e.changedTouches[0].clientX;
+        }, { passive: true });
+        stage.addEventListener('touchend', function (e) {
+          if (!e.changedTouches || !e.changedTouches[0]) return;
+          var dx = e.changedTouches[0].clientX - sx;
+          if (dx > 40) go(i - 1, true);
+          else if (dx < -40) go(i + 1, true);
+        }, { passive: true });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') go(i - 1, true);
+        if (e.key === 'ArrowRight') go(i + 1, true);
+      });
+      labelPlay();
+      show(0);
+      start();
+    })();
 
     document.addEventListener('contextmenu', function (e) {
       if (e.target.closest('.photo-protect')) e.preventDefault();
